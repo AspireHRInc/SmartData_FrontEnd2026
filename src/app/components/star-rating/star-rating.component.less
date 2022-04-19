@@ -1,0 +1,44 @@
+:host {
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1rem;
+  border: 2px solid white;
+
+  .rating {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .stars {
+      display: flex;
+      align-items: center;
+      top: -1px;
+      position: relative;
+
+      .fa-star {
+        font-size: 0.65rem;
+        margin: 0 0.1rem;
+      }
+      .checked {
+        color: var(--accent-color-6);
+      }
+    }
+
+    .number {
+      font-size: 12px;
+    }
+
+    &.left {
+      justify-content: flex-start;
+    }
+    &.center {
+      justify-content: center;
+    }
+    &.right {
+      justify-content: flex-end;
+    }
+  }
+}

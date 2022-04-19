@@ -1,0 +1,70 @@
+<section class="splash">
+  <ss-icon-logo-dark></ss-icon-logo-dark>
+  <div class="logo"></div>
+  <div class="panel">
+    <h1 class="title">
+      <em>Unlock more Possibility</em>
+      to your business with SmartSuite
+    </h1>
+
+    <p class="detail">
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+      standard dummy text ev
+    </p>
+    <div class="ratings">
+      <div class="users">
+        <div class="user-badges">
+          <ss-user-badges [users]="usersObjects" size="60px"></ss-user-badges>
+        </div>
+      </div>
+      <div class="happy-customers">
+        <h2 class="number">{{ loginService.numberOfHappyCustomers | number }}</h2>
+        <p>Happy Customers</p>
+      </div>
+      <div class="vertical-divider"></div>
+      <div class="star-rating">
+        <h2 class="number">{{ loginService.userRating }}/5</h2>
+        <rr-star-rating [rating]="loginService.userRating" [showRatingNumber]="false"></rr-star-rating>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="splash login-splash">
+  <div class="login" [formGroup]="signInFormGroup">
+    <div class="panel">
+      <h2 class="title">Sign In</h2>
+      <div class="sign-in-form">
+        <div class="step" *ngIf="step === 0" [@inOutAnimation]>
+          <kendo-formfield>
+            <kendo-floatinglabel text="Email">
+              <input kendoTextBox type="email" formControlName="email" required email />
+            </kendo-floatinglabel>
+            <kendo-formerror>Error: Email is required</kendo-formerror>
+          </kendo-formfield>
+          <button class="primary" (click)="next()" [class.disabled]="email!.invalid" [disabled]="email!.invalid">
+            Next
+          </button>
+        </div>
+
+        <div class="step" *ngIf="step === 1" [@inOutAnimation]>
+          <kendo-formfield>
+            <kendo-floatinglabel text="Password">
+              <input kendoTextBox type="password" formControlName="password" (focus)="messages = ''" />
+            </kendo-floatinglabel>
+            <kendo-formerror>Error: Password is required</kendo-formerror>
+          </kendo-formfield>
+          <kendo-formerror>{{ messages }}</kendo-formerror>
+          <button
+            class="primary"
+            (click)="signin()"
+            type="submit"
+            [class.disabled]="signInFormGroup.status !== 'VALID'"
+            [disabled]="signInFormGroup.status !== 'VALID'"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

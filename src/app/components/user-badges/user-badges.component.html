@@ -1,0 +1,20 @@
+<ng-container *ngIf="truncateAt === 0">
+  <ss-user-badge
+    *ngFor="let user of users"
+    [user]="user"
+    class="user-badge"
+    [size]="size"
+    [class.stacked]="stacked"
+  ></ss-user-badge>
+</ng-container>
+
+<ng-container *ngIf="truncateAt > 0">
+  <ss-user-badge
+    *ngFor="let user of users | slice: 0:truncateAt"
+    [user]="user"
+    class="user-badge"
+    [size]="size"
+    [class.stacked]="stacked"
+  ></ss-user-badge>
+  <p *ngIf="users.length > truncateAt">&nbsp;+{{ users.length - truncateAt }}</p>
+</ng-container>

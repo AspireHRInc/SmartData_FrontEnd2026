@@ -1,0 +1,63 @@
+:host {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  // background: var(--color-cta-gradient) ;
+  background-image: url('../../../assets/images/backgrounds/logo-background-gray.png'), var(--color-cta-gradient);
+  background-blend-mode: soft-light;
+  background-repeat: no-repeat;
+  background-position: 100% 10%;
+  background-size: 40%, 100%;
+  padding: 1rem;
+
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .content-wrapper {
+      display: flex;
+      justify-content: center;
+      max-width: 90em;
+      width: 100%;
+      flex: 1 100%;
+      position: relative;
+
+      ss-icon-logo-light {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .text {
+        max-width: 70em;
+        width: 100%;
+        padding: 2rem 0 2rem;
+
+        .title {
+          font-weight: 800;
+          font-size: 2.75rem;
+          line-height: 60px;
+          margin: 0;
+        }
+
+        .subtitle {
+          font-weight: 400;
+          font-size: 2.3125rem;
+          line-height: 60px;
+          margin: 0;
+        }
+      }
+      .user-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+
+  h1,
+  h2 {
+    color: var(--color-background-primary);
+  }
+}

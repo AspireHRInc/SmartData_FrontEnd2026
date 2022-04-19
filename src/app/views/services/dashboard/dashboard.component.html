@@ -1,0 +1,39 @@
+<ss-header headerTitle="Hello." headerSubtitle="Select Your Process" [headerUserObject]="loggedInUserObj"></ss-header>
+
+<main class="dashboard">
+  <div class="controls">
+    <kendo-buttongroup class="filters" selection="single">
+      <button
+        kendoButton
+        *ngFor="let filter of filters"
+        [toggleable]="true"
+        [selected]="filter === activeFilter"
+        (click)="selectedFilter(filter)"
+      >
+        {{ filter }}
+      </button>
+    </kendo-buttongroup>
+    <div class="spacer"></div>
+
+    <kendo-autocomplete
+      [data]="searchSource"
+      [filterable]="true"
+      (filterChange)="handleFilter($event)"
+      placeholder="Search services"
+      class="search"
+      rounded="full"
+    ></kendo-autocomplete>
+    <button class="k-button">View History</button>
+  </div>
+  <ss-tiles-section
+    [data]="category"
+    *ngFor="let category of servicesService.services"
+    [largerTiles]="category.featured"
+  >
+    <ss-tiles-tile
+      *ngFor="let service of category.services"
+      [service]="service"
+      [larger]="category.featured"
+    ></ss-tiles-tile>
+  </ss-tiles-section>
+</main>

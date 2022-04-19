@@ -1,0 +1,18 @@
+<div
+  class="rating"
+  [class.left]="align === 'left'"
+  [class.center]="align === 'center'"
+  [class.right]="align === 'right'"
+>
+  <div class="stars">
+    <ss-icon-star class="fa fa-star {{ rating >= 1 ? 'checked' : '' }}"></ss-icon-star>
+    <ss-icon-star class="fa fa-star {{ rating >= 2 ? 'checked' : '' }}"></ss-icon-star>
+    <ss-icon-star class="fa fa-star {{ rating >= 3 ? 'checked' : '' }}"></ss-icon-star>
+    <ss-icon-star class="fa fa-star {{ rating >= 4 ? 'checked' : '' }}"></ss-icon-star>
+    <ss-icon-star class="fa fa-star {{ rating >= 5 ? 'checked' : '' }}"></ss-icon-star>
+  </div>
+
+  <p class="number" *ngIf="showRatingNumber" [ngStyle]="{ 'flex-basis': wrapTotal === true ? '100%' : 'auto' }">
+    ({{ rating | number: '1.0-0' }})
+  </p>
+</div>

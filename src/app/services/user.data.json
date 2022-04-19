@@ -1,0 +1,99 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "Esther",
+      "lastName": "Neal",
+      "phone": "123-456-7810",
+      "email": "esther.neal@company.com",
+      "permission": "lorum ipsum",
+      "roles": ["Outlet Administrator", "Order Guides"],
+      "profilePic": "/assets/users/esther-neal.jpg"
+    },
+    {
+      "id": 2,
+      "firstName": "Jesse",
+      "lastName": "West",
+      "phone": "123-456-7811",
+      "email": "jesse.west@company.com",
+      "permission": "lorum ipsum",
+      "roles": ["Item Administrator"],
+      "profilePic": "/assets/users/jesse-west.jpg"
+    },
+    {
+      "id": 3,
+      "firstName": "Brittany",
+      "lastName": "Watts",
+      "phone": "123-456-7812",
+      "email": "brittany.watts@company.com",
+      "permission": "lorum ipsum",
+      "roles": ["Outlet Clerk"],
+      "profilePic": "/assets/users/brittany-watts.jpg"
+    },
+    {
+      "id": 4,
+      "firstName": "Christian",
+      "lastName": "Lee",
+      "phone": "123-456-7813",
+      "email": "christian.lee@company.com",
+      "permission": "lorum ipsum",
+      "roles": ["Outlet Administrator", "Order Guides"],
+      "profilePic": "/assets/users/christian-lee.jpg"
+    },
+    {
+      "id": 5,
+      "firstName": "Steven",
+      "lastName": "Fuller",
+      "phone": "123-456-7814",
+      "email": "steven.fuller@company.com",
+      "permission": "lorum ipsum",
+      "roles": ["Order Guides"],
+      "profilePic": "/assets/users/steven-fuller.jpg"
+    },
+    {
+      "id": 6,
+      "firstName": "Roberta",
+      "lastName": "Hicks",
+      "phone": "123-456-7815",
+      "email": "roberta.hicks@company.com",
+      "permission": "lorum ipsum",
+      "roles": ["Item Administrator"]
+    },
+    {
+      "id": 7,
+      "firstName": "Lily",
+      "lastName": "Wade",
+      "phone": "123-456-7816",
+      "email": "lily.wade@company.com",
+      "permission": "lorum ipsum",
+      "roles": ["Item Administrator"]
+    },
+    {
+      "id": 8,
+      "firstName": "Allen",
+      "lastName": "Nichols",
+      "phone": "123-456-7817",
+      "email": "allen.nichols@company.com",
+      "permission": "lorum ipsum",
+      "roles": ["Help Desk", "System Administrator"]
+    },
+    {
+      "id": 9,
+      "firstName": "Marian",
+      "lastName": "Lee",
+      "phone": "123-456-7818",
+      "email": "marian.lee@company.com",
+      "permission": "lorum ipsum",
+      "roles": ["Outlet Clerk"]
+    },
+    {
+      "id": 10,
+      "firstName": "Beth",
+      "lastName": "Andrews",
+      "phone": "123-456-7819",
+      "email": "beth.andrews@company.com",
+      "permission": "lorum ipsum",
+      "roles": ["Outlet Clerk"]
+    }
+  ]
+}
