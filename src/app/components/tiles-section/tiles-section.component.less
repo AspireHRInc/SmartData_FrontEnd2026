@@ -1,0 +1,13 @@
+:host {
+  display: block;
+
+  .tiles {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5em;
+
+    &.larger-tiles {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}

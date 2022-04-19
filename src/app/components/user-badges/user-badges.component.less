@@ -1,0 +1,18 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+
+  .user-badge {
+    &.stacked {
+      &:not(:first-of-type) {
+        position: relative;
+        margin-left: -0.5rem;
+      }
+    }
+
+    &.small {
+      max-width: 2rem;
+      max-height: 2rem;
+    }
+  }
+}

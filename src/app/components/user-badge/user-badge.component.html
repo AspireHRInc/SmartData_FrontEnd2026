@@ -1,0 +1,9 @@
+<ng-container *ngIf="user.profilePic !== '' && user.profilePic !== undefined">
+  <img class="profile-pic" [src]="user.profilePic" [alt]="user.firstName + ' ' + user.lastName" />
+</ng-container>
+
+<ng-container *ngIf="user.profilePic === '' || user.profilePic === undefined">
+  <p class="initials" [ngStyle]="{ 'background-color': this.bgColor }" [style.font-size]="fontSize">
+    {{ user.firstName | slice: 0:1 }}{{ user.lastName | slice: 0:1 }}
+  </p>
+</ng-container>

@@ -1,0 +1,35 @@
+// forms
+
+input.k-input {
+  padding: 1rem 1rem 0 1rem;
+}
+
+.k-floating-label-container.k-state-empty > .k-label,
+.k-floating-label-container.k-empty > .k-label {
+  top: 2.2rem;
+  left: 1rem;
+  transform: scale(1);
+  font-size: 14px;
+}
+
+.k-floating-label-container > .k-label,
+.k-floating-label-container.k-state-focused > .k-label,
+.k-floating-label-container.k-focus > .k-label {
+  top: 1.5rem;
+  left: 1rem;
+  transform: scale(0.8);
+}
+
+.k-form-error,
+.k-text-error,
+.k-form-field-error .k-label {
+  color: var(--color-accent-3);
+  position: absolute;
+  top: 4.2rem;
+}
+
+.k-input.k-invalid,
+.k-input.ng-invalid.ng-touched,
+.k-input.ng-invalid.ng-dirty {
+  border-color: rgba(var(--color-accent-3-rgb), 0.5);
+}
