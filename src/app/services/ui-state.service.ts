@@ -1,9 +1,28 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UiStateService {
+  private serviceDetailOpen = new BehaviorSubject<boolean>(true);
+  serviceDetailOpen$ = this.serviceDetailOpen.asObservable();
 
-  constructor() { }
+  private serviceDetailId = new BehaviorSubject<string>('');
+  serviceDetailId$ = this.serviceDetailId.asObservable();
+
+  constructor() {}
+
+  showServiceDetail() {
+    this.serviceDetailOpen.next(true);
+  }
+
+  hideServiceDetail() {
+    this.serviceDetailOpen.next(false);
+  }
+
+  setIdServiceDetailId(id: string) {
+    console.log('set detail id', id);
+    this.serviceDetailId.next(id);
+  }
 }

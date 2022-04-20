@@ -1,6 +1,31 @@
 :host {
   display: block;
 
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      font-weight: 700;
+      font-size: 1.5625rem;
+      line-height: 125%;
+    }
+
+    .view-all {
+      border: none;
+      background: transparent;
+      color: var(--color-cta-lighter);
+      text-transform: uppercase;
+      box-shadow: none;
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 125%;
+      padding: 0;
+      height: 1rem;
+    }
+  }
+
   .tiles {
     display: grid;
     // grid-template-columns: repeat(auto-fill, 335px);

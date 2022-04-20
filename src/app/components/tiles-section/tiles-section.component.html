@@ -1,4 +1,8 @@
-<h3 class="title">{{ data.name }}</h3>
+<header class="header">
+  <h3 class="title">{{ data.name }}</h3>
+  <button class="view-all" *ngIf="showViewAll" (click)="onViewAll()">View All</button>
+</header>
+
 <div class="tiles" [class.larger-tiles]="largerTiles">
   <ng-content></ng-content>
 </div>

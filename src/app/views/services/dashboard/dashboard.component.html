@@ -23,17 +23,30 @@
       class="search"
       rounded="full"
     ></kendo-autocomplete>
-    <button class="k-button">View History</button>
+    <button class="k-button primary history" routerLink="/services/history">View History</button>
   </div>
+
   <ss-tiles-section
     [data]="category"
-    *ngFor="let category of servicesService.services"
+    *ngFor="let category of services"
     [largerTiles]="category.featured"
+    [showViewAll]="category.defaultMaxTiles < category.services.length + 1"
+    (viewAll)="onViewAll(category.id)"
   >
-    <ss-tiles-tile
-      *ngFor="let service of category.services"
-      [service]="service"
-      [larger]="category.featured"
-    ></ss-tiles-tile>
+    <ng-container *ngFor="let service of category.services; let i = index">
+      <ss-tiles-tile
+        *ngIf="category.defaultMaxTiles === 0 || i < category.defaultMaxTiles"
+        [service]="service"
+        [larger]="category.featured"
+        [class.subscribed]="service.subscribed"
+        [class.featured]="category.featured"
+        (toggleFavorite)="onFavorite(category.id, service.id, $event)"
+        (openInfo)="openInfo(category.id, service.id)"
+      >
+        <button class="k-button primary request" *ngIf="!service.subscribed" (click)="requestService(service.id)">
+          Request
+        </button>
+      </ss-tiles-tile>
+    </ng-container>
   </ss-tiles-section>
 </main>
