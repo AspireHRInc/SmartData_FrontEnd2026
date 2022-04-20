@@ -10,7 +10,7 @@
   <!-- <kendo-chiplist selection="multiple">
     <kendo-chip *ngFor="let tag of service.tags" [label]="tag"></kendo-chip>
   </kendo-chiplist> -->
-  <ss-badge-list [badges]="service.tags"></ss-badge-list>
+  <ss-badge-list [badges]="service.displayTags"></ss-badge-list>
 
   <h4 class="title">{{ service.name }}</h4>
   <p class="description">{{ service.description | slice: 0:75 }}</p>
