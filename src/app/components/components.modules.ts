@@ -17,8 +17,8 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
 import { HeaderComponent } from './header/header.component';
 import { TilesTileComponent } from './tiles-tile/tiles-tile.component';
 import { TilesSectionComponent } from './tiles-section/tiles-section.component';
-import { BadgeComponent } from './badge/badge.component';
-import { BadgeListComponent } from './badge-list/badge-list.component';
+
+import { StatusBadgeComponent } from './status-badge/status-badge.component';
 
 @NgModule({
   imports: [CommonModule, BrowserAnimationsModule, RouterModule, KendoModule, IconsModule],
@@ -29,8 +29,7 @@ import { BadgeListComponent } from './badge-list/badge-list.component';
     HeaderComponent,
     TilesTileComponent,
     TilesSectionComponent,
-    BadgeComponent,
-    BadgeListComponent,
+    StatusBadgeComponent,
   ],
   exports: [
     KendoModule,
@@ -41,8 +40,7 @@ import { BadgeListComponent } from './badge-list/badge-list.component';
     HeaderComponent,
     TilesTileComponent,
     TilesSectionComponent,
-    BadgeComponent,
-    BadgeListComponent,
+    StatusBadgeComponent,
   ],
 })
 export class ComponentsModules {}

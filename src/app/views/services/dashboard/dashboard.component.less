@@ -17,6 +17,32 @@
     .controls {
       display: flex;
 
+      .filters {
+        display: flex;
+        gap: 1rem;
+
+        .filter {
+          background: var(--color-background-primary);
+          border-radius: 6.25rem;
+          border: 2px solid var(--color-cta-lighter);
+          color: var(--color-cta-lighter);
+          padding: 0.5rem 1rem;
+          align-self: center;
+          box-shadow: none;
+          text-transform: uppercase;
+          font-weight: 700;
+          font-size: 0.75rem;
+          line-height: 0.875rem;
+          transition: 150ms;
+
+          &.selected {
+            background-color: var(--color-cta-lighter);
+            color: var(--color-background-primary);
+            transition: 150ms;
+          }
+        }
+      }
+
       .search,
       .k-searchbar {
         margin-left: auto;

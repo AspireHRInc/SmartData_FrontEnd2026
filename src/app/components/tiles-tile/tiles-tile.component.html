@@ -1,15 +1,22 @@
 <div class="image-wrapper">
-  <img class="image" [src]="service.imagePath" [alt]="service.name + ' tile image'" />
+  <img class="image" [src]="data.imagePath" [alt]="data.name + ' tile image'" />
   <br />
-  <button class="k-button button favorite" [class.favorited]="service.favorite" (click)="onFavorite($event)">
+  <button class="k-button button favorite" [class.favorited]="data.favorite" (click)="onFavorite($event)">
     &#9829;
   </button>
   <button class="k-button button info" (click)="onInfo($event)">i</button>
 </div>
 <div class="text">
-  <ss-badge-list [badges]="service.displayTags"></ss-badge-list>
+  <div class="status-badges">
+    <ss-status-badge
+      *ngFor="let tag of data.displayTags"
+      [title]="tag"
+      [colorFromString]="true"
+      [rounded]="true"
+    ></ss-status-badge>
+  </div>
 
-  <h4 class="title">{{ service.name }}</h4>
-  <p class="description">{{ service.description | slice: 0:75 }}</p>
+  <h4 class="title">{{ data.name }}</h4>
+  <p class="description">{{ data.shortDescription | slice: 0:75 }}</p>
   <ng-content></ng-content>
 </div>

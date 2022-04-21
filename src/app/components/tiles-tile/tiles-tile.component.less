@@ -2,6 +2,7 @@
   display: block;
   box-shadow: var(--drop-shadow);
   border-radius: 1em;
+  box-shadow: 0px 4px 12px var(--color-shadow);
 
   &.subscribed {
     cursor: pointer;
@@ -10,7 +11,7 @@
   .image-wrapper {
     position: relative;
     height: 9.875em;
-    border-radius: 1rem 0 0;
+    border-radius: 1rem 1rem 0 0;
     overflow: hidden;
 
     .image {
@@ -64,9 +65,22 @@
       align-self: flex-start;
     }
 
+    .description {
+      margin-bottom: 1rem;
+    }
+
+    .status-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
     .title {
       color: var(--color-cta-lighter);
       margin: 0.5rem 0;
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
     }
   }
 
@@ -84,6 +98,10 @@
     .text {
       flex: 1 55%;
       order: 1;
+
+      .title {
+        margin-top: 0;
+      }
     }
   }
 }

@@ -32,7 +32,23 @@ export class DashboardComponent implements OnInit {
   }
 
   selectedFilter(filter: string): void {
-    this.activeFilter = filter;
+    console.log(this.activeFilter, filter);
+    if (this.activeFilter !== filter) {
+      this.activeFilter = filter;
+    } else {
+      this.activeFilter = '';
+    }
+
+    if (this.activeFilter.toLocaleLowerCase() === 'all') {
+      this.services = this.servicesService.allServices;
+    } else if (this.activeFilter.toLocaleLowerCase() === 'favorites') {
+      this.services = this.servicesService.favoriteServices;
+    } else if (this.activeFilter.toLocaleLowerCase() === 'filters') {
+      this.uiState.showServiceFilters();
+      // this.services = this.servicesService.favoriteServices;
+    } else {
+      this.services = this.servicesService.services;
+    }
   }
 
   handleFilter(value: string) {

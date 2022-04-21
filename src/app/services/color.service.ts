@@ -7,13 +7,15 @@ export interface HSPResult {
 
 export enum AccentColor {
   none = '',
-  red = 'var(--primary-cta)',
-  blue = 'var(--accent-color-1)',
-  violet = 'var(--accent-color-2)',
+  blue = 'var(--color-cta)',
+  blueLight = 'var(--color-cta-light)',
+  yellow = 'var(--color-accent-1)',
+  orange = 'var(--color-accent-2)',
+  redOrange = 'var(--color-accent-3)',
+  pink = 'var(--color-accent-4)',
   green = 'var(--accent-color-3)',
-  orange = 'var(--accent-color-4)',
-  purple = 'var(--accent-color-5)',
-  yellow = 'var(--accent-color-6)',
+  aqua = 'var(--color-accent-6)',
+  red = 'var(--color-accent-7)',
 }
 
 @Injectable({
@@ -27,14 +29,20 @@ export class ColorService {
   // Value should be a larger string that can be used to generate a hash from.
   // Default saturation and lightness values can be tweaked to make color pastel
   // or brighter, etc.
-  static StringToHslColor(value: String, saturation = 70, lightness = 60) {
+  static StringToHslColor(value: String, saturation = 80, lightness = 45) {
     let hash = 0;
     for (let i = 0; i < value.length; i++) {
       hash = value.charCodeAt(i) + ((hash << 5) - hash);
     }
-
     let hue = hash % 360;
-    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    // let hue = (hash * value.length) % 360;
+    // console.log(value, Math.abs(hue), saturation, lightness);
+    // if ((40 > hue && hue < 80) || (125 > hue && hue > 195)) {
+    //   console.log('light color');
+    //   return `hsl(${Math.abs(hue)}, ${saturation}%, ${lightness - 20}%)`;
+    // }
+
+    return `hsl(${Math.abs(hue)}, ${saturation}%, ${lightness}%)`;
   }
 
   // Color should be a hex string value like #FF00FF

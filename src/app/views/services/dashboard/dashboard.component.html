@@ -7,10 +7,13 @@
         kendoButton
         *ngFor="let filter of filters"
         [toggleable]="true"
-        [selected]="filter === activeFilter"
+        [selected]="activeFilter === filter"
+        [class.selected]="activeFilter === filter"
         (click)="selectedFilter(filter)"
+        class="filter"
       >
         {{ filter }}
+        <!-- {{ activeFilter }}{{ filter === activeFilter }} -->
       </button>
     </kendo-buttongroup>
     <div class="spacer"></div>
@@ -36,7 +39,7 @@
     <ng-container *ngFor="let service of category.services; let i = index">
       <ss-tiles-tile
         *ngIf="category.defaultMaxTiles === 0 || i < category.defaultMaxTiles"
-        [service]="service"
+        [data]="service"
         [larger]="category.featured"
         [class.subscribed]="service.subscribed"
         [class.featured]="category.featured"

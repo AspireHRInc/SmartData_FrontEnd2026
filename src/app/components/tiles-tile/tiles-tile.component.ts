@@ -8,13 +8,13 @@ import { Service } from 'src/app/services/services.service';
   host: { class: 'tile' },
 })
 export class TilesTileComponent implements OnInit {
-  @Input() service: Service = new Service();
+  @Input() data: Service = new Service();
   @Input() larger = false;
   @Output() toggleFavorite = new EventEmitter<boolean>();
   @Output() openInfo = new EventEmitter<void>();
 
   @HostListener('click', ['this.service.name']) click(event: string) {
-    if (this.service.subscribed) {
+    if (this.data.subscribed) {
       console.log(event);
     }
   }
@@ -24,8 +24,8 @@ export class TilesTileComponent implements OnInit {
 
   onFavorite(event: Event) {
     event.stopPropagation();
-    this.service.favorite = !this.service.favorite;
-    this.toggleFavorite.emit(this.service.favorite);
+    this.data.favorite = !this.data.favorite;
+    this.toggleFavorite.emit(this.data.favorite);
   }
 
   onInfo(event: Event) {
