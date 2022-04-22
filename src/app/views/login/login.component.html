@@ -37,7 +37,14 @@
         <div class="step" *ngIf="step === 0" [@inOutAnimation]>
           <kendo-formfield>
             <kendo-floatinglabel text="Email">
-              <input kendoTextBox type="email" formControlName="email" required email />
+              <input
+                kendoTextBox
+                type="email"
+                formControlName="email"
+                required
+                email
+                (keydown)="emailNextOnEnter($event)"
+              />
             </kendo-floatinglabel>
             <kendo-formerror>Error: Email is required</kendo-formerror>
           </kendo-formfield>
@@ -49,7 +56,13 @@
         <div class="step" *ngIf="step === 1" [@inOutAnimation]>
           <kendo-formfield>
             <kendo-floatinglabel text="Password">
-              <input kendoTextBox type="password" formControlName="password" (focus)="messages = ''" />
+              <input
+                kendoTextBox
+                type="password"
+                formControlName="password"
+                (focus)="messages = ''"
+                (keydown)="passwordSinginOnEnter($event)"
+              />
             </kendo-floatinglabel>
             <kendo-formerror>Error: Password is required</kendo-formerror>
           </kendo-formfield>

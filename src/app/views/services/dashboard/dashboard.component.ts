@@ -1,23 +1,45 @@
 import { Component, OnInit } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
 import { UserService, User } from 'src/app/services/user.service';
 import { ServicesService, ServiceCategory } from 'src/app/services/services.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
-import { HighlightSpanKind } from 'typescript';
+
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'ss-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.less'],
+  animations: [
+    trigger('tileInOutAnimation', [
+      transition(':enter', [
+        style({ transform: 'scale(0.5)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'scale(1)', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ transform: 'scale(1)', opacity: 1 }),
+        animate('300ms ease-in', style({ transform: 'scale(0.5)', opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class DashboardComponent implements OnInit {
   loggedInUserObj = new User();
   services: ServiceCategory[] = [];
+  allServices: ServiceCategory[] = [];
 
   filters = ['All', 'Filters', 'Favorites'];
   activeFilter = '';
+  searchField = '';
+  currentSearch: string[] = [];
 
-  searchSource: Array<string> = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan'];
+  searchSource: Array<string> = [];
   searchData: string[] = [];
+
+  modelChanged: Subject<string> = new Subject<string>();
+  searchFieldUpdate = new Subject<string>();
 
   constructor(
     public userService: UserService,
@@ -27,45 +49,34 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUserObj = this.userService.loggedInUserObj!;
-    this.services = this.servicesService.services;
-    this.searchData = this.searchSource.slice();
+
+    this.services = [...this.servicesService.getServices('default')];
+
+    this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
+      console.log(value);
+      this.services = this.servicesService.onServiceSearch(value);
+    });
   }
 
   selectedFilter(filter: string): void {
-    console.log(this.activeFilter, filter);
     if (this.activeFilter !== filter) {
       this.activeFilter = filter;
     } else {
       this.activeFilter = '';
     }
 
-    if (this.activeFilter.toLocaleLowerCase() === 'all') {
-      this.services = this.servicesService.allServices;
-    } else if (this.activeFilter.toLocaleLowerCase() === 'favorites') {
-      this.services = this.servicesService.favoriteServices;
-    } else if (this.activeFilter.toLocaleLowerCase() === 'filters') {
-      this.uiState.showServiceFilters();
-      // this.services = this.servicesService.favoriteServices;
-    } else {
-      this.services = this.servicesService.services;
-    }
-  }
-
-  handleFilter(value: string) {
-    this.searchData = this.searchSource.filter(s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+    this.services = [...this.servicesService.getServices(this.activeFilter.toLocaleLowerCase())];
   }
 
   requestService(serviceId: string) {
     console.log('request service ' + serviceId);
   }
 
-  onViewAll(categoryId: string) {
-    console.log(categoryId);
-    console.log(this.servicesService.services);
+  onCatgoryViewAll(categoryId: string) {
     this.services.find(service => service.id === categoryId)!.defaultMaxTiles = 0;
   }
 
-  onFavorite(categoryId: string, serviceId: string, favorited: boolean) {
+  onToggleFavorite(categoryId: string, serviceId: string, favorited: boolean) {
     this.servicesService.onUpdateFavoriteStatus(categoryId, serviceId, favorited);
   }
 
@@ -73,5 +84,11 @@ export class DashboardComponent implements OnInit {
     // TODO: connect to UiStatService and detail modal
     this.uiState.setIdServiceDetailId(categoryId + '-' + serviceId);
     this.uiState.showServiceDetail();
+  }
+
+  onServiceSearch(event: any) {
+    if (event.key === 'Enter' || event.type === 'click') {
+      this.services = this.servicesService.onServiceSearch(this.searchField);
+    }
   }
 }

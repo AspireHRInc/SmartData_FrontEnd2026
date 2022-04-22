@@ -16,7 +16,7 @@ const routes: Routes = [
   // { path: 'one', component: PageOneComponent },
   // { path: 'two', component: PageTwoComponent },
   // { path: 'three', component: PageThreeComponent },
-
+  { path: 'services', redirectTo: 'services/dashboard', pathMatch: 'full' },
   {
     path: 'services',
     component: ServicesComponent,

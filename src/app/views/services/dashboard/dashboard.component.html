@@ -13,19 +13,21 @@
         class="filter"
       >
         {{ filter }}
-        <!-- {{ activeFilter }}{{ filter === activeFilter }} -->
       </button>
     </kendo-buttongroup>
     <div class="spacer"></div>
+    <div class="search">
+      <input
+        placeholder="Search services"
+        class="k-input field"
+        (keyup)="onServiceSearch($event)"
+        [(ngModel)]="searchField"
+        (focus)="onServiceSearch($event)"
+        (ngModelChange)="this.searchFieldUpdate.next($event)"
+      />
+      <button kendoButton icon="search" (click)="onServiceSearch($event)"></button>
+    </div>
 
-    <kendo-autocomplete
-      [data]="searchSource"
-      [filterable]="true"
-      (filterChange)="handleFilter($event)"
-      placeholder="Search services"
-      class="search"
-      rounded="full"
-    ></kendo-autocomplete>
     <button class="k-button primary history" routerLink="/services/history">View History</button>
   </div>
 
@@ -34,7 +36,7 @@
     *ngFor="let category of services"
     [largerTiles]="category.featured"
     [showViewAll]="category.defaultMaxTiles < category.services.length + 1"
-    (viewAll)="onViewAll(category.id)"
+    (viewAll)="onCatgoryViewAll(category.id)"
   >
     <ng-container *ngFor="let service of category.services; let i = index">
       <ss-tiles-tile
@@ -43,11 +45,12 @@
         [larger]="category.featured"
         [class.subscribed]="service.subscribed"
         [class.featured]="category.featured"
-        (toggleFavorite)="onFavorite(category.id, service.id, $event)"
+        (toggleFavorite)="onToggleFavorite(category.id, service.id, $event)"
         (openInfo)="openInfo(category.id, service.id)"
+        [@tileInOutAnimation]
       >
         <button class="k-button primary request" *ngIf="!service.subscribed" (click)="requestService(service.id)">
-          Request
+          Learn More
         </button>
       </ss-tiles-tile>
     </ng-container>

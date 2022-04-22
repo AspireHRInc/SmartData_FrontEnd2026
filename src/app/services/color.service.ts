@@ -29,20 +29,18 @@ export class ColorService {
   // Value should be a larger string that can be used to generate a hash from.
   // Default saturation and lightness values can be tweaked to make color pastel
   // or brighter, etc.
-  static StringToHslColor(value: String, saturation = 80, lightness = 45) {
+  static StringToHslColor(value: String, saturation = 100, lightness = 50) {
     let hash = 0;
     for (let i = 0; i < value.length; i++) {
       hash = value.charCodeAt(i) + ((hash << 5) - hash);
     }
-    let hue = hash % 360;
-    // let hue = (hash * value.length) % 360;
-    // console.log(value, Math.abs(hue), saturation, lightness);
-    // if ((40 > hue && hue < 80) || (125 > hue && hue > 195)) {
-    //   console.log('light color');
-    //   return `hsl(${Math.abs(hue)}, ${saturation}%, ${lightness - 20}%)`;
-    // }
 
-    return `hsl(${Math.abs(hue)}, ${saturation}%, ${lightness}%)`;
+    let hue = Math.abs(hash % 360);
+    if (hue < 195 && hue > 40) {
+      return `hsl(${hue}, ${saturation}%, ${lightness - 15}%)`;
+    } else {
+      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    }
   }
 
   // Color should be a hex string value like #FF00FF

@@ -21,9 +21,9 @@
     }
 
     .button {
-      background-color: rgba(var(--color-background-primary-rgb), 0.5);
+      background-color: rgba(var(--color-text-secondary-rgb), 0.5);
       border: none;
-      color: white;
+      color: var(--color-background-primary);
       width: 2rem;
       height: 2rem;
       border-radius: 50%;
@@ -31,6 +31,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 1px solid rgba(var(--color-background-primary-rgb), 0.8);
 
       &.info {
         position: absolute;
@@ -87,6 +88,8 @@
   &.featured {
     display: flex;
     height: 16.25em;
+    // border: 1px solid rgba(155, 155, 155, 0.5);
+    // background-color: rgba(var(--color-cta-lighter-rgb), 0.2);
 
     .image-wrapper {
       flex: 1 45%;

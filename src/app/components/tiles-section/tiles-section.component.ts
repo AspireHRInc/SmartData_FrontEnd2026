@@ -18,6 +18,7 @@ export class TilesSectionComponent implements OnInit {
   ngOnInit(): void {}
 
   onViewAll() {
+    this.showViewAll = false;
     this.viewAll.emit();
   }
 }

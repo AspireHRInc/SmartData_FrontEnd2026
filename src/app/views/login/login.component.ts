@@ -83,11 +83,23 @@ export class LoginComponent implements OnInit {
     if (this.auth.authenticate(this.signInFormGroup.value.email, this.signInFormGroup.value.password)) {
       this.router.navigateByUrl('/services/dashboard');
     } else {
-      this.messages = `{Login error message}:Invalid username or password.`;
+      this.messages = `Invalid username or password.`;
     }
   }
 
   clearMessages() {
     this.messages = '';
+  }
+
+  emailNextOnEnter(event: KeyboardEvent) {
+    if (event.key === 'Enter' && this.signInFormGroup.controls['email'].status === 'VALID') {
+      this.next();
+    }
+  }
+
+  passwordSinginOnEnter(event: KeyboardEvent) {
+    if (event.key === 'Enter' && this.signInFormGroup.controls['password'].status === 'VALID') {
+      this.signin();
+    }
   }
 }

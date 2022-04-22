@@ -43,6 +43,26 @@ export class ServiceCategory {
   providedIn: 'root',
 })
 export class ServicesService {
+  getServices(filter: string) {
+    // console.log(this.allServices[0].services);
+    if (filter === 'default') {
+      return this.services;
+    } else if (filter === 'all') {
+      return JSON.parse(JSON.stringify(this.allServices));
+    } else if (filter === 'favorites') {
+      return this.favoriteServices;
+    } else {
+      let noService: ServiceCategory[] = [
+        { id: '0', name: 'No Services Returned', featured: false, defaultMaxTiles: 0, services: [] },
+      ];
+      return noService;
+    }
+  }
+
+  // allServiceNames = ['Employee Data Scrambling', 'Mass Requisition Upload', 'Talent Pool Assignment'];
+
+  // allServiceTags = ['Human Resources', 'Mass Upload', 'Reconciliation'];
+
   services: ServiceCategory[] = [
     {
       id: '1',
@@ -82,7 +102,7 @@ export class ServicesService {
           imagePath: 'assets/images/services/card-images/service-2.jpg',
           favorite: true,
           subscribed: true,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources'], ServiceTag['Payroll']],
+          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
           metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
@@ -677,7 +697,7 @@ export class ServicesService {
       services: [
         {
           id: '1',
-          name: 'Mass Requisition Upload',
+          name: 'Mass Requisition Upload 1',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: true,
@@ -703,7 +723,7 @@ export class ServicesService {
         },
         {
           id: '2',
-          name: 'Employee Data Scrambling',
+          name: 'Employee Data Scrambling 2',
           imagePath: 'assets/images/services/card-images/service-2.jpg',
           favorite: true,
           subscribed: true,
@@ -729,7 +749,7 @@ export class ServicesService {
         },
         {
           id: '3',
-          name: 'Talent Pool Assignment',
+          name: 'Talent Pool Assignment 3',
           imagePath: 'assets/images/services/card-images/service-3.png',
           favorite: false,
           subscribed: true,
@@ -755,7 +775,7 @@ export class ServicesService {
         },
         {
           id: '4',
-          name: 'Mass Requisition Upload',
+          name: 'Mass Requisition Upload 4',
           imagePath: 'assets/images/services/card-images/service-6.jpg',
           favorite: false,
           subscribed: true,
@@ -781,7 +801,7 @@ export class ServicesService {
         },
         {
           id: '5',
-          name: 'Employee Data Scrambling',
+          name: 'Employee Data Scrambling 5',
           imagePath: 'assets/images/services/card-images/service-2.png',
           favorite: true,
           subscribed: true,
@@ -807,7 +827,7 @@ export class ServicesService {
         },
         {
           id: '6',
-          name: 'Talent Pool Assignment',
+          name: 'Talent Pool Assignment 6',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: true,
@@ -833,7 +853,7 @@ export class ServicesService {
         },
         {
           id: '7',
-          name: 'Talent Pool Assignment',
+          name: 'Talent Pool Assignment 7',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: true,
@@ -859,7 +879,7 @@ export class ServicesService {
         },
         {
           id: '8',
-          name: 'Mass Requisition Upload',
+          name: 'Mass Requisition Upload 8',
           imagePath: 'assets/images/services/card-images/service-1-featured.jpg',
           favorite: false,
           subscribed: false,
@@ -885,7 +905,7 @@ export class ServicesService {
         },
         {
           id: '9',
-          name: 'Employee Data Scrambling',
+          name: 'Employee Data Scrambling 9',
           imagePath: 'assets/images/services/card-images/service-2-featured.jpg',
           favorite: true,
           subscribed: false,
@@ -911,7 +931,7 @@ export class ServicesService {
         },
         {
           id: '10',
-          name: 'Talent Pool Assignment',
+          name: 'Talent Pool Assignment 10',
           imagePath: 'assets/images/services/card-images/service-3.png',
           favorite: false,
           subscribed: false,
@@ -937,7 +957,7 @@ export class ServicesService {
         },
         {
           id: '11',
-          name: 'Mass Requisition Upload',
+          name: 'Mass Requisition Upload 11',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: false,
@@ -963,7 +983,7 @@ export class ServicesService {
         },
         {
           id: '12',
-          name: 'Employee Data Scrambling',
+          name: 'Employee Data Scrambling 12',
           imagePath: 'assets/images/services/card-images/service-2.png',
           favorite: false,
           subscribed: false,
@@ -989,7 +1009,7 @@ export class ServicesService {
         },
         {
           id: '13',
-          name: 'Talent Pool Assignment',
+          name: 'Talent Pool Assignment 13',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: false,
@@ -1015,7 +1035,7 @@ export class ServicesService {
         },
         {
           id: '14',
-          name: 'Mass Requisition Upload',
+          name: 'Mass Requisition Upload 14',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: false,
@@ -1041,7 +1061,7 @@ export class ServicesService {
         },
         {
           id: '15',
-          name: 'Employee Data Scrambling',
+          name: 'Employee Data Scrambling 15',
           imagePath: 'assets/images/services/card-images/service-2.png',
           favorite: true,
           subscribed: false,
@@ -1067,7 +1087,7 @@ export class ServicesService {
         },
         {
           id: '16',
-          name: 'Talent Pool Assignment',
+          name: 'Talent Pool Assignment 16',
           imagePath: 'assets/images/services/card-images/service-3.png',
           favorite: false,
           subscribed: false,
@@ -1093,7 +1113,7 @@ export class ServicesService {
         },
         {
           id: '17',
-          name: 'Mass Requisition Upload',
+          name: 'Mass Requisition Upload 17',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: false,
@@ -1119,7 +1139,7 @@ export class ServicesService {
         },
         {
           id: '18',
-          name: 'Employee Data Scrambling',
+          name: 'Employee Data Scrambling 18',
           imagePath: 'assets/images/services/card-images/service-2.png',
           favorite: true,
           subscribed: false,
@@ -1145,7 +1165,7 @@ export class ServicesService {
         },
         {
           id: '19',
-          name: 'Talent Pool Assignment',
+          name: 'Talent Pool Assignment 19',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: false,
@@ -1171,7 +1191,7 @@ export class ServicesService {
         },
         {
           id: '20',
-          name: 'Talent Pool Assignment',
+          name: 'Talent Pool Assignment 20',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: false,
@@ -1197,7 +1217,7 @@ export class ServicesService {
         },
         {
           id: '21',
-          name: 'Talent Pool Assignment',
+          name: 'Talent Pool Assignment 21',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: false,
@@ -1223,7 +1243,7 @@ export class ServicesService {
         },
         {
           id: '22',
-          name: 'Talent Pool Assignment',
+          name: 'Talent Pool Assignment 22',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: false,
@@ -1249,7 +1269,7 @@ export class ServicesService {
         },
         {
           id: '23',
-          name: 'Talent Pool Assignment',
+          name: 'Talent Pool Assignment 23',
           imagePath: 'assets/images/services/card-images/service-0.png',
           favorite: false,
           subscribed: false,
@@ -1427,5 +1447,36 @@ export class ServicesService {
   onUpdateFavoriteStatus(categoryId: string, serviceId: string, favorited: boolean) {
     // TODO update favorited status
     console.log('update favorited ', categoryId, serviceId, favorited);
+  }
+
+  onServiceSearch(searchField: string): ServiceCategory[] {
+    let filteredServices!: ServiceCategory[];
+    if (searchField !== '') {
+      if (filteredServices === undefined) {
+        filteredServices = this.getServices('all');
+        filteredServices[0].name = 'Search Results';
+      }
+      let searchFieldArr: string[] = searchField.toLocaleLowerCase().split(' ');
+
+      filteredServices[0].services = filteredServices[0].services.filter(service => {
+        return searchFieldArr.every(
+          searchWord =>
+            service.name.toLocaleLowerCase().includes(searchWord) ||
+            service.metaTags.toString().toLowerCase().includes(searchWord) ||
+            service.description.toLowerCase().includes(searchWord)
+        );
+      });
+      return filteredServices;
+    } else {
+      filteredServices = this.services = this.getServices('all');
+      filteredServices[0].name = 'Search Results';
+      return filteredServices;
+    }
+  }
+
+  get favoritedServices() {
+    return this.allServices[0].services.filter(service => {
+      return service.favorite === true;
+    });
   }
 }
