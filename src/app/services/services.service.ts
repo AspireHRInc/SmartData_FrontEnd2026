@@ -43,27 +43,9 @@ export class ServiceCategory {
   providedIn: 'root',
 })
 export class ServicesService {
-  getServices(filter: string) {
-    // console.log(this.allServices[0].services);
-    if (filter === 'default') {
-      return this.services;
-    } else if (filter === 'all') {
-      return JSON.parse(JSON.stringify(this.allServices));
-    } else if (filter === 'favorites') {
-      return this.favoriteServices;
-    } else {
-      let noService: ServiceCategory[] = [
-        { id: '0', name: 'No Services Returned', featured: false, defaultMaxTiles: 0, services: [] },
-      ];
-      return noService;
-    }
-  }
+  currentServices: ServiceCategory[] = [];
 
-  // allServiceNames = ['Employee Data Scrambling', 'Mass Requisition Upload', 'Talent Pool Assignment'];
-
-  // allServiceTags = ['Human Resources', 'Mass Upload', 'Reconciliation'];
-
-  services: ServiceCategory[] = [
+  defaultServices: ServiceCategory[] = [
     {
       id: '1',
       name: 'Your Smart Suite',
@@ -1297,150 +1279,23 @@ export class ServicesService {
     },
   ];
 
-  favoriteServices: ServiceCategory[] = [
-    {
-      id: '1',
-      name: 'Favorites',
-      featured: false,
-      defaultMaxTiles: 0,
-      services: [
-        {
-          id: '2',
-          name: 'Employee Data Scrambling',
-          imagePath: 'assets/images/services/card-images/service-2.jpg',
-          favorite: true,
-          subscribed: true,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-          description:
-            'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-          templates: [
-            {
-              id: '1',
-              title: 'User File',
-              fileName: 'user-file.xls',
-              filePath: '/src/assets/templates/',
-            },
-            {
-              id: '2',
-              title: 'User File',
-              fileName: 'user-file.xls',
-              filePath: '/src/assets/templates/',
-            },
-          ],
-        },
+  currentFilter = '';
 
-        {
-          id: '5',
-          name: 'Employee Data Scrambling',
-          imagePath: 'assets/images/services/card-images/service-2.png',
-          favorite: true,
-          subscribed: true,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-          description:
-            'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-          templates: [
-            {
-              id: '1',
-              title: 'User File',
-              fileName: 'user-file.xls',
-              filePath: '/src/assets/templates/',
-            },
-            {
-              id: '2',
-              title: 'User File',
-              fileName: 'user-file.xls',
-              filePath: '/src/assets/templates/',
-            },
-          ],
-        },
-
-        {
-          id: '9',
-          name: 'Employee Data Scrambling',
-          imagePath: 'assets/images/services/card-images/service-2-featured.jpg',
-          favorite: true,
-          subscribed: false,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-          description:
-            'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-          templates: [
-            {
-              id: '1',
-              title: 'User File',
-              fileName: 'user-file.xls',
-              filePath: '/src/assets/templates/',
-            },
-            {
-              id: '2',
-              title: 'User File',
-              fileName: 'user-file.xls',
-              filePath: '/src/assets/templates/',
-            },
-          ],
-        },
-
-        {
-          id: '15',
-          name: 'Employee Data Scrambling',
-          imagePath: 'assets/images/services/card-images/service-2.png',
-          favorite: true,
-          subscribed: false,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-          description:
-            'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-          templates: [
-            {
-              id: '1',
-              title: 'User File',
-              fileName: 'user-file.xls',
-              filePath: '/src/assets/templates/',
-            },
-            {
-              id: '2',
-              title: 'User File',
-              fileName: 'user-file.xls',
-              filePath: '/src/assets/templates/',
-            },
-          ],
-        },
-
-        {
-          id: '18',
-          name: 'Employee Data Scrambling',
-          imagePath: 'assets/images/services/card-images/service-2.png',
-          favorite: true,
-          subscribed: false,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-          description:
-            'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-          templates: [
-            {
-              id: '1',
-              title: 'User File',
-              fileName: 'user-file.xls',
-              filePath: '/src/assets/templates/',
-            },
-            {
-              id: '2',
-              title: 'User File',
-              fileName: 'user-file.xls',
-              filePath: '/src/assets/templates/',
-            },
-          ],
-        },
-      ],
-    },
-  ];
+  getServices(filter: string) {
+    this.currentFilter = filter;
+    if (filter === 'default') {
+      return this.defaultServices;
+    } else if (filter === 'all') {
+      return JSON.parse(JSON.stringify(this.allServices));
+    } else if (filter === 'favorites') {
+      return this.favoritedServices();
+    } else {
+      let noService: ServiceCategory[] = [
+        { id: '0', name: 'No Services Returned', featured: false, defaultMaxTiles: 0, services: [] },
+      ];
+      return noService;
+    }
+  }
 
   constructor() {}
 
@@ -1449,34 +1304,88 @@ export class ServicesService {
     console.log('update favorited ', categoryId, serviceId, favorited);
   }
 
-  onServiceSearch(searchField: string): ServiceCategory[] {
-    let filteredServices!: ServiceCategory[];
-    if (searchField !== '') {
-      if (filteredServices === undefined) {
-        filteredServices = this.getServices('all');
-        filteredServices[0].name = 'Search Results';
-      }
-      let searchFieldArr: string[] = searchField.toLocaleLowerCase().split(' ');
+  // onServiceSearch(searchField: string): ServiceCategory[] {
 
-      filteredServices[0].services = filteredServices[0].services.filter(service => {
-        return searchFieldArr.every(
-          searchWord =>
-            service.name.toLocaleLowerCase().includes(searchWord) ||
-            service.metaTags.toString().toLowerCase().includes(searchWord) ||
-            service.description.toLowerCase().includes(searchWord)
-        );
-      });
-      return filteredServices;
+  //   let filteredServices!: ServiceCategory[];
+  //   if (searchField !== '') {
+  //     if (filteredServices === undefined) {
+  //       filteredServices = this.getServices('all');
+  //       filteredServices[0].name = 'Search Results';
+  //     }
+  //     let searchFieldArr: string[] = searchField.toLocaleLowerCase().split(' ');
+
+  //     filteredServices[0].services = filteredServices[0].services.filter(service => {
+  //       return searchFieldArr.every(
+  //         searchWord =>
+  //           service.name.toLocaleLowerCase().includes(searchWord) ||
+  //           service.metaTags.toString().toLowerCase().includes(searchWord) ||
+  //           service.description.toLowerCase().includes(searchWord)
+  //       );
+  //     });
+  //     return filteredServices;
+  //   } else {
+  //     filteredServices = this.getServices('all');
+  //     filteredServices[0].name = 'Search Results';
+  //     return filteredServices;
+  //   }
+  // }
+
+  onServiceSearch(searchField: string): ServiceCategory[] {
+    console.log('current filter ', this.currentFilter);
+
+    if (this.currentFilter === 'default') {
+      if (searchField !== '') {
+        this.currentServices = this.allServices;
+        this.currentServices[0].name = 'Search Results';
+
+        let searchFieldArr: string[] = searchField.toLocaleLowerCase().split(' ');
+
+        this.currentServices[0].services = this.currentServices[0].services.filter(service => {
+          return searchFieldArr.every(
+            searchWord =>
+              service.name.toLocaleLowerCase().includes(searchWord) ||
+              service.metaTags.toString().toLowerCase().includes(searchWord) ||
+              service.description.toLowerCase().includes(searchWord)
+          );
+        });
+        return this.currentServices;
+      } else {
+        this.currentServices = this.allServices;
+        this.currentServices[0].name = 'Search Results';
+        return this.currentServices;
+      }
     } else {
-      filteredServices = this.services = this.getServices('all');
-      filteredServices[0].name = 'Search Results';
-      return filteredServices;
+      if (searchField !== '') {
+        this.currentServices[0].name =
+          this.currentFilter.charAt(0).toUpperCase() + this.currentFilter.slice(1) + ' Search Results';
+
+        let searchFieldArr: string[] = searchField.toLocaleLowerCase().split(' ');
+
+        this.currentServices[0].services = this.currentServices[0].services.filter(service => {
+          return searchFieldArr.every(
+            searchWord =>
+              service.name.toLocaleLowerCase().includes(searchWord) ||
+              service.metaTags.toString().toLowerCase().includes(searchWord) ||
+              service.description.toLowerCase().includes(searchWord)
+          );
+        });
+        return this.currentServices;
+      } else {
+        this.currentServices = this.allServices;
+        this.currentServices[0].name = 'Search Results';
+        return this.currentServices;
+      }
     }
   }
 
-  get favoritedServices() {
-    return this.allServices[0].services.filter(service => {
+  favoritedServices() {
+    this.currentServices = [new ServiceCategory()];
+    this.currentServices[0].name = 'Favorite Services';
+    this.currentServices[0].defaultMaxTiles = 0;
+    this.currentServices[0].services = this.allServices[0].services.filter(service => {
       return service.favorite === true;
     });
+
+    return this.currentServices;
   }
 }

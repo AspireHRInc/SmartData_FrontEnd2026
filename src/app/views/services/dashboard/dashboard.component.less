@@ -19,6 +19,7 @@
       display: flex;
       gap: 1rem;
       align-items: center;
+      flex-wrap: wrap;
 
       .filters {
         display: flex;
@@ -61,6 +62,9 @@
         display: flex;
         height: 2.3125rem;
         flex: 1 50%;
+        max-width: 25rem;
+        min-width: 15rem;
+
         .field {
           display: flex;
           height: 100%;
@@ -69,18 +73,6 @@
           border-color: var(--color-cta-lighter);
           border-width: 2px;
           padding-top: 0;
-
-          // ::ng-deep {
-          //   .k-searchbar {
-          //     input {
-          //       height: 2.3125rem;
-          //     }
-
-          //     .k-input-md .k-input-inner {
-          //       height: 2rem;
-          //     }
-          //   }
-          // }
         }
         .k-icon-button.k-button-md {
           background-color: var(--color-cta-lighter);

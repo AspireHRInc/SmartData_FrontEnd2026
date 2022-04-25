@@ -59,10 +59,12 @@ export class DashboardComponent implements OnInit {
   }
 
   selectedFilter(filter: string): void {
+    console.log('filter ', filter);
+    console.log('active filter ', this.activeFilter);
     if (this.activeFilter !== filter) {
       this.activeFilter = filter;
     } else {
-      this.activeFilter = '';
+      this.activeFilter = 'default';
     }
 
     this.services = [...this.servicesService.getServices(this.activeFilter.toLocaleLowerCase())];

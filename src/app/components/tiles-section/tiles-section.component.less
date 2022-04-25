@@ -36,7 +36,11 @@
     gap: 1.5em;
 
     &.larger-tiles {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
+
+      @media screen and (min-width: 40em) {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   }
 }
