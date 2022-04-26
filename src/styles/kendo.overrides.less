@@ -33,3 +33,61 @@ input.k-input {
 .k-input.ng-invalid.ng-dirty {
   border-color: rgba(var(--color-accent-3-rgb), 0.5);
 }
+
+.k-checkbox:checked,
+.k-checkbox.k-checked {
+  border-color: var(--color-cta-lighter);
+  color: var(--color-background-primary);
+  background-color: var(--color-cta-lighter);
+}
+
+// switch
+
+.k-switch-off .k-switch-track {
+  border-color: rgba(var(--color-text-primary-rgb), 0.5);
+  color: rgba(var(--color-text-primary-rgb), 0.5);
+  background-color: rgba(var(--color-text-primary-rgb), 0.5);
+}
+
+.k-switch-on .k-switch-track {
+  border-color: var(--color-cta-lighter);
+  color: var(--color-background-primary);
+  background-color: var(--color-cta-lighter);
+}
+
+.k-switch-on:focus .k-switch-track,
+.k-switch-on.k-focus .k-switch-track {
+  outline: 2px solid rgba(var(--color-cta-lighter-rgb), 0.25);
+}
+
+// buttons
+
+.k-button-solid-base {
+  border-color: var(--color-cta-lighter);
+  color: var(--color-cta-lighter);
+  background-color: var(--color-background-primary);
+  // background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02));
+  background-image: none;
+}
+
+.k-button-solid-primary {
+  border-color: var(--color-cta-lighter);
+  color: var(--color-background-primary);
+  background-color: var(--color-cta-lighter);
+  // background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02));
+  background-image: none;
+}
+
+// window/dialog
+
+.k-window {
+  border-color: var(--color-text-primary);
+  color: var(--color-text-primary);
+  background-color: var(--color-background-primary);
+  box-shadow: var(--drop-shadow);
+
+  .k-window-titlebar.k-dialog-titlebar {
+    background-color: var(--color-background-primary);
+    color: var(--color-text-primary);
+  }
+}

@@ -6,10 +6,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { DialogsModule } from '@progress/kendo-angular-dialog';
 
 @NgModule({
-  imports: [CommonModule, BrowserModule, BrowserAnimationsModule, InputsModule, LabelModule, ButtonsModule],
-  exports: [InputsModule, LabelModule, ButtonsModule],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    InputsModule,
+    LabelModule,
+    ButtonsModule,
+    DropDownsModule,
+    DialogsModule,
+  ],
+  exports: [InputsModule, LabelModule, ButtonsModule, DropDownsModule, DialogsModule],
   declarations: [],
 })
 export class KendoModule {}

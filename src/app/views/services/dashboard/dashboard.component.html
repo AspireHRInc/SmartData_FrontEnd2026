@@ -1,5 +1,5 @@
 <ss-header headerTitle="Hello." headerSubtitle="Select Your Process" [headerUserObject]="loggedInUserObj"></ss-header>
-
+<ss-filters [data]="servicesService.filters"></ss-filters>
 <main class="dashboard">
   <div class="controls">
     <kendo-buttongroup class="filters" selection="single">
@@ -15,7 +15,6 @@
         {{ filter }}
       </button>
     </kendo-buttongroup>
-    <!-- <div class="spacer"></div> -->
     <div class="search">
       <input
         placeholder="Search services"

@@ -8,7 +8,7 @@ export class UiStateService {
   private serviceDetailOpen = new BehaviorSubject<boolean>(true);
   serviceDetailOpen$ = this.serviceDetailOpen.asObservable();
 
-  private serviceFiltersOpen = new BehaviorSubject<boolean>(true);
+  private serviceFiltersOpen = new BehaviorSubject<boolean>(false);
   serviceFiltersOpen$ = this.serviceFiltersOpen.asObservable();
 
   private serviceDetailId = new BehaviorSubject<string>('');
@@ -36,6 +36,6 @@ export class UiStateService {
   }
 
   hideServiceFilters() {
-    this.serviceDetailOpen.next(false);
+    this.serviceFiltersOpen.next(false);
   }
 }

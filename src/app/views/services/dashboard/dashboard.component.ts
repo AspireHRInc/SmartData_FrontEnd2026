@@ -67,7 +67,11 @@ export class DashboardComponent implements OnInit {
       this.activeFilter = 'default';
     }
 
-    this.services = [...this.servicesService.getServices(this.activeFilter.toLocaleLowerCase())];
+    if (filter !== 'Filters') {
+      this.services = [...this.servicesService.getServices(this.activeFilter.toLocaleLowerCase())];
+    } else {
+      this.uiState.showServiceFilters();
+    }
   }
 
   requestService(serviceId: string) {

@@ -19,6 +19,7 @@ import { TilesTileComponent } from './tiles-tile/tiles-tile.component';
 import { TilesSectionComponent } from './tiles-section/tiles-section.component';
 
 import { StatusBadgeComponent } from './status-badge/status-badge.component';
+import { FiltersComponent } from './filters/filters.component';
 
 @NgModule({
   imports: [CommonModule, BrowserAnimationsModule, RouterModule, KendoModule, IconsModule],
@@ -30,6 +31,7 @@ import { StatusBadgeComponent } from './status-badge/status-badge.component';
     TilesTileComponent,
     TilesSectionComponent,
     StatusBadgeComponent,
+    FiltersComponent,
   ],
   exports: [
     KendoModule,
@@ -41,6 +43,7 @@ import { StatusBadgeComponent } from './status-badge/status-badge.component';
     TilesTileComponent,
     TilesSectionComponent,
     StatusBadgeComponent,
+    FiltersComponent,
   ],
 })
 export class ComponentsModules {}
