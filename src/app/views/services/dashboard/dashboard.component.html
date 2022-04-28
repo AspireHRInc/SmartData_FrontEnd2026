@@ -1,5 +1,5 @@
 <ss-header headerTitle="Hello." headerSubtitle="Select Your Process" [headerUserObject]="loggedInUserObj"></ss-header>
-<ss-filters [data]="servicesService.filters"></ss-filters>
+<ss-filters [data]="servicesService.allTags" (selectedFilters)="onFiltersSelected($event)"></ss-filters>
 <main class="dashboard">
   <div class="controls">
     <kendo-buttongroup class="filters" selection="single">
@@ -7,8 +7,8 @@
         kendoButton
         *ngFor="let filter of filters"
         [toggleable]="true"
-        [selected]="activeFilter === filter"
-        [class.selected]="activeFilter === filter"
+        [selected]="servicesService.currentFilter === filter"
+        [class.selected]="servicesService.currentFilter === filter"
         (click)="selectedFilter(filter)"
         class="filter"
       >
@@ -34,7 +34,7 @@
     [data]="category"
     *ngFor="let category of services"
     [largerTiles]="category.featured"
-    [showViewAll]="category.defaultMaxTiles < category.services.length + 1"
+    [showViewAll]="category.defaultMaxTiles < category.services.length + 1 && category.defaultMaxTiles !== 0"
     (viewAll)="onCatgoryViewAll(category.id)"
   >
     <ng-container *ngFor="let service of category.services; let i = index">
@@ -44,7 +44,7 @@
         [larger]="category.featured"
         [class.subscribed]="service.subscribed"
         [class.featured]="category.featured"
-        (toggleFavorite)="onToggleFavorite(category.id, service.id, $event)"
+        (toggleFavorite)="onToggleFavorite(service.id, $event)"
         (openInfo)="openInfo(category.id, service.id)"
         [@tileInOutAnimation]
       >

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { UserService, User } from 'src/app/services/user.service';
-import { ServicesService, ServiceCategory } from 'src/app/services/services.service';
+import { ServicesService, ServiceCategory, Tag } from 'src/app/services/services.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
 
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
   services: ServiceCategory[] = [];
   allServices: ServiceCategory[] = [];
 
-  filters = ['All', 'Filters', 'Favorites'];
+  filters = ['all', 'filters', 'favorites'];
   activeFilter = '';
   searchField = '';
   currentSearch: string[] = [];
@@ -50,25 +50,26 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUserObj = this.userService.loggedInUserObj!;
 
-    this.services = [...this.servicesService.getServices('default')];
+    this.services = [...this.servicesService.getServices()];
 
     this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
-      console.log(value);
+      // console.log(value);
       this.services = this.servicesService.onServiceSearch(value);
     });
   }
 
   selectedFilter(filter: string): void {
-    console.log('filter ', filter);
-    console.log('active filter ', this.activeFilter);
-    if (this.activeFilter !== filter) {
-      this.activeFilter = filter;
+    console.log(filter);
+    this.searchField = '';
+    if (this.servicesService.currentFilter !== filter) {
+      this.servicesService.currentFilter = filter;
     } else {
-      this.activeFilter = 'default';
+      this.servicesService.currentFilter = '';
     }
 
-    if (filter !== 'Filters') {
-      this.services = [...this.servicesService.getServices(this.activeFilter.toLocaleLowerCase())];
+    if (filter !== 'filters') {
+      this.uiState.hideServiceFilters();
+      this.services = [...this.servicesService.getServices()];
     } else {
       this.uiState.showServiceFilters();
     }
@@ -82,8 +83,8 @@ export class DashboardComponent implements OnInit {
     this.services.find(service => service.id === categoryId)!.defaultMaxTiles = 0;
   }
 
-  onToggleFavorite(categoryId: string, serviceId: string, favorited: boolean) {
-    this.servicesService.onUpdateFavoriteStatus(categoryId, serviceId, favorited);
+  onToggleFavorite(serviceId: string, metaTags: Tag[]) {
+    this.servicesService.toggleFavorite(serviceId, metaTags);
   }
 
   openInfo(categoryId: string, serviceId: string) {
@@ -96,5 +97,10 @@ export class DashboardComponent implements OnInit {
     if (event.key === 'Enter' || event.type === 'click') {
       this.services = this.servicesService.onServiceSearch(this.searchField);
     }
+  }
+
+  onFiltersSelected(filtersArr: string[]) {
+    this.servicesService.currentFilters = filtersArr;
+    this.services = this.servicesService.onServiceSearch(this.searchField);
   }
 }

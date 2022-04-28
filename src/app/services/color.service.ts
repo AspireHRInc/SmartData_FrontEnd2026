@@ -89,4 +89,14 @@ export class ColorService {
     const out = ColorService.HexToRGBString(hex);
     return `${out}, ${isFinite(opacity) ? opacity : 1}`;
   }
+
+  static NumberToHSL(number: number, saturation = 100, lightness = 50) {
+    const hue = number * 137.508;
+
+    if (hue < 195 && hue > 40) {
+      return `hsl(${hue}, ${saturation}%, ${lightness - 15}%)`;
+    } else {
+      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    }
+  }
 }

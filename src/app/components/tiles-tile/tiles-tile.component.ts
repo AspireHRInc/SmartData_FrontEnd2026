@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
-import { Service } from 'src/app/services/services.service';
+import { Service, Tag } from 'src/app/services/services.service';
 
 @Component({
   selector: 'ss-tiles-tile',
@@ -10,7 +10,7 @@ import { Service } from 'src/app/services/services.service';
 export class TilesTileComponent implements OnInit {
   @Input() data: Service = new Service();
   @Input() larger = false;
-  @Output() toggleFavorite = new EventEmitter<boolean>();
+  @Output() toggleFavorite = new EventEmitter<Tag[]>();
   @Output() openInfo = new EventEmitter<void>();
 
   @HostListener('click', ['this.service.name']) click(event: string) {
@@ -18,14 +18,24 @@ export class TilesTileComponent implements OnInit {
       console.log(event);
     }
   }
+
+  favorite = false;
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.favorite = this.data.metaTags.find(tag => tag.name === 'Favorites') === undefined ? false : true;
+  }
 
   onFavorite(event: Event) {
     event.stopPropagation();
-    this.data.favorite = !this.data.favorite;
-    this.toggleFavorite.emit(this.data.favorite);
+
+    if (!this.favorite) {
+      this.favorite = true;
+    } else {
+      this.favorite = false;
+    }
+    this.toggleFavorite.emit(this.data.metaTags);
   }
 
   onInfo(event: Event) {

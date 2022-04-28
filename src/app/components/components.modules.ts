@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // KENDO WIDGETS - these are all collected into their own imports.
 import { KendoModule } from './kendo.module';
@@ -22,7 +23,15 @@ import { StatusBadgeComponent } from './status-badge/status-badge.component';
 import { FiltersComponent } from './filters/filters.component';
 
 @NgModule({
-  imports: [CommonModule, BrowserAnimationsModule, RouterModule, KendoModule, IconsModule],
+  imports: [
+    CommonModule,
+    BrowserAnimationsModule,
+    RouterModule,
+    KendoModule,
+    IconsModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   declarations: [
     UserBadgeComponent,
     UserBadgesComponent,

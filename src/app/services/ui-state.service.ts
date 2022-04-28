@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,9 @@ export class UiStateService {
 
   private serviceDetailId = new BehaviorSubject<string>('');
   serviceDetailId$ = this.serviceDetailId.asObservable();
+
+  // private serviceSearchString = new BehaviorSubject<string>('');
+  // serviceSearchString$ = this.serviceSearchString.asObservable();
 
   constructor() {}
 
@@ -30,12 +34,15 @@ export class UiStateService {
   }
 
   showServiceFilters() {
-    // TODO: Show service filter modal
-    console.log('service filters open');
     this.serviceFiltersOpen.next(true);
   }
 
   hideServiceFilters() {
     this.serviceFiltersOpen.next(false);
   }
+
+  // setServiceSearchString(searchString: string) {
+  //   console.log('set service search string', searchString);
+  //   this.serviceSearchString.next(searchString);
+  // }
 }

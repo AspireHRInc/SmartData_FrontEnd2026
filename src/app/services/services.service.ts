@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
-enum ServiceTag {
+export enum ServiceTag {
+  'Favorites' = 'Favorites',
   'Mass Upload' = 'Mass Upload',
   'Reconciliation' = 'Reconciliation',
   'Human Resources' = 'Human Resources',
@@ -20,10 +21,9 @@ export class Service {
   name = '';
   imagePath = '';
   weighting = 0;
-  favorite = false;
   subscribed = false;
-  displayTags: ServiceTag[] = [];
-  metaTags: ServiceTag[] = [];
+  displayTags: Tag[] = [];
+  metaTags: Tag[] = [];
   shortDescription = '';
   description = '';
   templates?: Template[] = [];
@@ -40,16 +40,16 @@ export class ServiceCategory {
   constructor() {}
 }
 
-export class FilterCategory {
+export class TagCategory {
   id = '0';
   name = '';
-  filters: Filter[] = [];
+  tags: Tag[] = [];
 }
 
-export class Filter {
+export class Tag {
   id = '0';
   name = '';
-  subscribed = '';
+  subscribed? = '';
 }
 
 @Injectable({
@@ -70,10 +70,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: true,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -97,10 +108,36 @@ export class ServicesService {
           name: 'Employee Data Scrambling',
           imagePath: 'assets/images/services/card-images/service-2.jpg',
           weighting: 0,
-          favorite: true,
           subscribed: true,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+            {
+              id: '3-1',
+              name: 'Favorites',
+              subscribed: '',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -124,10 +161,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment',
           imagePath: 'assets/images/services/card-images/service-3.png',
           weighting: 0,
-          favorite: false,
           subscribed: true,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -151,10 +199,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload',
           imagePath: 'assets/images/services/card-images/service-6.jpg',
           weighting: 0,
-          favorite: false,
           subscribed: true,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -178,10 +237,36 @@ export class ServicesService {
           name: 'Employee Data Scrambling',
           imagePath: 'assets/images/services/card-images/service-2.png',
           weighting: 0,
-          favorite: true,
           subscribed: true,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+            {
+              id: '3-1',
+              name: 'Favorites',
+              subscribed: '',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -205,10 +290,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: true,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -232,10 +328,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: true,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -267,10 +374,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload',
           imagePath: 'assets/images/services/card-images/service-1-featured.jpg',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -294,10 +412,36 @@ export class ServicesService {
           name: 'Employee Data Scrambling',
           imagePath: 'assets/images/services/card-images/service-2-featured.jpg',
           weighting: 0,
-          favorite: true,
           subscribed: false,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+            {
+              id: '3-1',
+              name: 'Favorites',
+              subscribed: '',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -321,10 +465,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment',
           imagePath: 'assets/images/services/card-images/service-3.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -348,10 +503,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -375,10 +541,31 @@ export class ServicesService {
           name: 'Employee Data Scrambling',
           imagePath: 'assets/images/services/card-images/service-2.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -402,10 +589,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -437,10 +635,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -464,10 +673,36 @@ export class ServicesService {
           name: 'Employee Data Scrambling',
           imagePath: 'assets/images/services/card-images/service-2.png',
           weighting: 0,
-          favorite: true,
           subscribed: false,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+            {
+              id: '3-1',
+              name: 'Favorites',
+              subscribed: '',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -491,10 +726,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment',
           imagePath: 'assets/images/services/card-images/service-3.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -518,10 +764,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -545,10 +802,36 @@ export class ServicesService {
           name: 'Employee Data Scrambling',
           imagePath: 'assets/images/services/card-images/service-2.png',
           weighting: 0,
-          favorite: true,
           subscribed: false,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+            {
+              id: '3-1',
+              name: 'Favorites',
+              subscribed: '',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -572,10 +855,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -599,10 +893,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -626,10 +931,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -653,10 +969,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -680,10 +1007,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -718,10 +1056,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload 1',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: true,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -745,10 +1094,36 @@ export class ServicesService {
           name: 'Employee Data Scrambling 2',
           imagePath: 'assets/images/services/card-images/service-2.jpg',
           weighting: 0,
-          favorite: true,
           subscribed: true,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+            {
+              id: '3-1',
+              name: 'Favorites',
+              subscribed: '',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -772,10 +1147,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment 3',
           imagePath: 'assets/images/services/card-images/service-3.png',
           weighting: 0,
-          favorite: false,
           subscribed: true,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -799,10 +1185,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload 4',
           imagePath: 'assets/images/services/card-images/service-6.jpg',
           weighting: 0,
-          favorite: false,
           subscribed: true,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -826,10 +1223,36 @@ export class ServicesService {
           name: 'Employee Data Scrambling 5',
           imagePath: 'assets/images/services/card-images/service-2.png',
           weighting: 0,
-          favorite: true,
           subscribed: true,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+            {
+              id: '3-1',
+              name: 'Favorites',
+              subscribed: '',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -853,10 +1276,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment 6',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: true,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -880,10 +1314,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment 7',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: true,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -907,10 +1352,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload 8',
           imagePath: 'assets/images/services/card-images/service-1-featured.jpg',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -934,10 +1390,36 @@ export class ServicesService {
           name: 'Employee Data Scrambling 9',
           imagePath: 'assets/images/services/card-images/service-2-featured.jpg',
           weighting: 0,
-          favorite: true,
           subscribed: false,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+            {
+              id: '3-1',
+              name: 'Favorites',
+              subscribed: '',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -961,10 +1443,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment 10',
           imagePath: 'assets/images/services/card-images/service-3.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -988,10 +1481,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload 11',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1015,10 +1519,31 @@ export class ServicesService {
           name: 'Employee Data Scrambling 12',
           imagePath: 'assets/images/services/card-images/service-2.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1042,10 +1567,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment 13',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1069,10 +1605,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload 14',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1096,10 +1643,36 @@ export class ServicesService {
           name: 'Employee Data Scrambling 15',
           imagePath: 'assets/images/services/card-images/service-2.png',
           weighting: 0,
-          favorite: true,
           subscribed: false,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+            {
+              id: '3-1',
+              name: 'Favorites',
+              subscribed: '',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1123,10 +1696,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment 16',
           imagePath: 'assets/images/services/card-images/service-3.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1150,10 +1734,21 @@ export class ServicesService {
           name: 'Mass Requisition Upload 17',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1177,10 +1772,36 @@ export class ServicesService {
           name: 'Employee Data Scrambling 18',
           imagePath: 'assets/images/services/card-images/service-2.png',
           weighting: 0,
-          favorite: true,
           subscribed: false,
-          displayTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
-          metaTags: [ServiceTag['Reconciliation'], ServiceTag['Human Resources']],
+          displayTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-1',
+              name: 'Reconciliation',
+              subscribed: '1',
+            },
+            {
+              id: '1-2',
+              name: 'Human Resources',
+              subscribed: '1',
+            },
+            {
+              id: '3-1',
+              name: 'Favorites',
+              subscribed: '',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1204,10 +1825,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment 19',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1231,10 +1863,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment 20',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1258,10 +1901,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment 21',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1285,10 +1939,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment 22',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1312,10 +1977,21 @@ export class ServicesService {
           name: 'Talent Pool Assignment 23',
           imagePath: 'assets/images/services/card-images/service-0.png',
           weighting: 0,
-          favorite: false,
           subscribed: false,
-          displayTags: [ServiceTag['Mass Upload']],
-          metaTags: [ServiceTag['Mass Upload']],
+          displayTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
+          metaTags: [
+            {
+              id: '2-4',
+              name: 'Mass Upload',
+              subscribed: '0',
+            },
+          ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
             'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -1338,55 +2014,54 @@ export class ServicesService {
     },
   ];
 
-  currentFilter = '';
-
-  filters: FilterCategory[] = [
+  allTags: TagCategory[] = [
     {
       id: '1',
       name: 'Functional',
-      filters: [
+      tags: [
         {
-          id: '1',
+          id: '1-1',
           name: 'Recruiting',
           subscribed: '2',
         },
         {
-          id: '2',
+          id: '1-2',
+
           name: 'Human Resources',
           subscribed: '1',
         },
         {
-          id: '3',
+          id: '1-3',
           name: 'Payroll',
           subscribed: '10',
         },
         {
-          id: '4',
+          id: '1-4',
           name: 'Benefits',
           subscribed: '12',
         },
         {
-          id: '5',
+          id: '1-5',
           name: 'Onboarding',
           subscribed: '4',
         },
         {
-          id: '6',
+          id: '1-6',
           name: 'Succession Managements',
           subscribed: '0',
         },
         {
-          id: '7',
+          id: '1-7',
           name: 'Compensation',
           subscribed: '0',
         },
         {
-          id: '8',
+          id: '1-8',
           name: 'General File Comparison',
           subscribed: '0',
         },
         {
-          id: '9',
+          id: '1-9',
           name: 'Time Managements',
           subscribed: '7',
         },
@@ -1395,44 +2070,60 @@ export class ServicesService {
     {
       id: '2',
       name: 'Purpose',
-      filters: [
+      tags: [
         {
-          id: '1',
+          id: '2-1',
+
           name: 'Reconciliation',
           subscribed: '1',
         },
         {
-          id: '2',
+          id: '2-2',
           name: 'Process Automation',
           subscribed: '0',
         },
         {
-          id: '3',
+          id: '2-3',
           name: 'Health Checks',
           subscribed: '4',
         },
         {
-          id: '4',
+          id: '2-4',
           name: 'Mass Upload',
           subscribed: '0',
         },
         {
-          id: '5',
+          id: '2-5',
           name: 'Reporting',
           subscribed: '0',
         },
       ],
     },
+    {
+      id: '3',
+      name: 'Meta',
+      tags: [
+        {
+          id: '3-1',
+          name: 'Favorites',
+          subscribed: '',
+        },
+      ],
+    },
   ];
 
-  getServices(filter: string) {
-    this.currentFilter = filter;
-    if (filter === 'default') {
+  currentFilter = '';
+
+  currentFilters: string[] = [];
+
+  getServices() {
+    let filter = this.currentFilter.toLocaleLowerCase();
+    if (filter === '') {
       return this.defaultServices;
     } else if (filter === 'all') {
       return JSON.parse(JSON.stringify(this.allServices));
     } else if (filter === 'favorites') {
-      return this.favoritedServices();
+      return this.filterServices([filter]);
     } else {
       let noService: ServiceCategory[] = [
         { id: '0', name: 'No Services Returned', featured: false, defaultMaxTiles: 0, services: [] },
@@ -1441,69 +2132,118 @@ export class ServicesService {
     }
   }
 
-  constructor() {}
+  filterServices(filters: string[]) {
+    this.currentServices = [...JSON.parse(JSON.stringify(this.allServices))];
+    this.currentServices[0].name = filters.toString().charAt(0).toUpperCase() + filters.toString().slice(1);
 
-  onUpdateFavoriteStatus(categoryId: string, serviceId: string, favorited: boolean) {
-    // TODO update favorited status
-    console.log('update favorited ', categoryId, serviceId, favorited);
+    this.currentServices[0].services = [
+      ...this.currentServices[0].services.filter(service => {
+        return filters.every(filter => {
+          return service.metaTags
+            .map(tag => tag.name)
+            .toString()
+            .toLowerCase()
+            .includes(filter);
+        });
+      }),
+    ];
+
+    return this.currentServices;
   }
 
+  filterServicesByTag() {
+    this.currentServices = [...JSON.parse(JSON.stringify(this.allServices))];
+    this.currentServices[0].name = this.currentFilters.join(' ');
+    console.log(this.currentFilters);
+
+    this.currentServices[0].services = [
+      ...this.currentServices[0].services.filter(service => {
+        return this.currentFilters.every(filter => {
+          return service.metaTags
+            .map(tag => tag.name)
+            .toString()
+            .toLowerCase()
+            .includes(filter);
+        });
+      }),
+    ];
+
+    console.log(this.currentServices);
+
+    return this.currentServices;
+  }
+
+  constructor() {}
+
   onServiceSearch(searchField: string): ServiceCategory[] {
-    if (this.currentFilter === 'default') {
-      // For case where default view is being dispayed, search all
-      if (searchField !== '') {
-        this.currentServices = this.allServices;
-        this.currentServices[0].name = 'Search Results';
-
-        let searchFieldArr: string[] = searchField.toLocaleLowerCase().split(' ');
-
-        this.currentServices[0].services = this.currentServices[0].services.filter(service => {
-          return searchFieldArr.every(
-            searchWord =>
-              service.name.toLocaleLowerCase().includes(searchWord) ||
-              service.metaTags.toString().toLowerCase().includes(searchWord) ||
-              service.description.toLowerCase().includes(searchWord)
-          );
-        });
-        return this.currentServices;
-      } else {
-        this.currentServices = this.allServices;
-        this.currentServices[0].name = 'Search Results';
-        return this.currentServices;
-      }
+    if (this.currentFilter === '') {
+      this.currentFilter = 'all';
+      return this.serviceSearch(searchField, this.currentFilter);
     } else {
-      // for case where filtered view is being displayed, search current view
-      if (searchField !== '') {
-        this.currentServices[0].name =
-          this.currentFilter.charAt(0).toUpperCase() + this.currentFilter.slice(1) + ' Search Results';
-
-        let searchFieldArr: string[] = searchField.toLocaleLowerCase().split(' ');
-
-        this.currentServices[0].services = this.currentServices[0].services.filter(service => {
-          return searchFieldArr.every(
-            searchWord =>
-              service.name.toLocaleLowerCase().includes(searchWord) ||
-              service.metaTags.toString().toLowerCase().includes(searchWord) ||
-              service.description.toLowerCase().includes(searchWord)
-          );
-        });
-        return this.currentServices;
-      } else {
-        this.currentServices = this.allServices;
-        this.currentServices[0].name = 'Search Results';
-        return this.currentServices;
-      }
+      this.currentServices = [...this.getServices()];
+      return this.serviceSearch(searchField, this.currentFilter);
     }
   }
 
-  favoritedServices() {
-    this.currentServices = [new ServiceCategory()];
-    this.currentServices[0].name = 'Favorite Services';
-    this.currentServices[0].defaultMaxTiles = 0;
-    this.currentServices[0].services = this.allServices[0].services.filter(service => {
-      return service.favorite === true;
-    });
+  serviceSearch(searchString: string, searchTitle: string) {
+    if (searchString !== '' || this.currentFilters.length > 0) {
+      this.currentServices = [...this.getServices()];
 
-    return this.currentServices;
+      this.currentServices[0].name =
+        'Search Results' +
+        ((this.currentFilter === '' ? '' : ' in "' + this.currentFilter.charAt(0).toUpperCase()) +
+          this.currentFilter.slice(1) +
+          '"') +
+        ((this.currentFilters.length === 0 ? '' : ' filtered by "' + this.currentFilters.join(', ')) + '"');
+
+      let searchStringArr: string[] = searchString.toLocaleLowerCase().split(' ');
+      let searchTagArray: string[] = this.currentFilters
+        .map(filter => filter.split(' ').map(string => string.toLowerCase()))
+        .flat();
+      searchStringArr.unshift(...searchTagArray);
+
+      console.log(searchStringArr);
+
+      this.currentServices[0].services = [
+        ...this.currentServices[0].services.filter(service => {
+          let tags = service.metaTags.map(tag => tag.name);
+          return searchStringArr.every(
+            searchWord =>
+              service.name.toLocaleLowerCase().includes(searchWord) ||
+              service.metaTags.toString().toLowerCase().includes(searchWord) ||
+              service.description.toLowerCase().includes(searchWord) ||
+              service.metaTags
+                .map(tag => tag.name)
+                .toString()
+                .toLowerCase()
+                .includes(searchWord)
+          );
+        }),
+      ];
+      return [...this.currentServices];
+    } else {
+      console.log('else');
+      this.currentServices = [...this.getServices()];
+      return this.currentServices;
+    }
+  }
+
+  toggleFavorite(serviceId: string, tags: Tag[]) {
+    let favorite = tags.find(tag => tag.name === 'Favorites') === undefined ? false : true;
+
+    if (!favorite) {
+      favorite = true;
+      tags.push({
+        id: '3-1',
+        name: 'Favorites',
+      });
+    } else {
+      favorite = false;
+      tags = tags.filter(tag => {
+        return tag.name !== 'Favorites';
+      });
+    }
+
+    // TODO: write tags with favorite back to service
   }
 }

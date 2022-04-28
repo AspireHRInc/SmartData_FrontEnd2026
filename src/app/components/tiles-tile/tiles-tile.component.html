@@ -1,16 +1,14 @@
 <div class="image-wrapper">
   <img class="image" [src]="data.imagePath" [alt]="data.name + ' tile image'" />
   <br />
-  <button class="k-button button favorite" [class.favorited]="data.favorite" (click)="onFavorite($event)">
-    &#9829;
-  </button>
+  <button class="k-button button favorite" [class.favorited]="favorite" (click)="onFavorite($event)">&#9829;</button>
   <button class="k-button button info" (click)="onInfo($event)">i</button>
 </div>
 <div class="text">
   <div class="status-badges">
     <ss-status-badge
       *ngFor="let tag of data.displayTags"
-      [title]="tag"
+      [title]="tag.name.toString()"
       [colorFromString]="true"
       [rounded]="true"
     ></ss-status-badge>
