@@ -1,6 +1,6 @@
 <section class="splash">
   <ss-icon-logo-dark></ss-icon-logo-dark>
-  <div class="logo"></div>
+  <ss-icon-logo-dark class="logo"></ss-icon-logo-dark>
   <div class="panel">
     <h1 class="title">
       <em>Unlock more Possibility</em>
@@ -30,6 +30,9 @@
   </div>
 </section>
 <section class="splash login-splash">
+  <div class="background">
+    <ss-icon-logo-light class="background"></ss-icon-logo-light>
+  </div>
   <div class="login" [formGroup]="signInFormGroup">
     <div class="panel">
       <h2 class="title">Sign In</h2>
@@ -37,7 +40,14 @@
         <div class="step" *ngIf="step === 0" [@inOutAnimation]>
           <kendo-formfield>
             <kendo-floatinglabel text="Email">
-              <input kendoTextBox type="email" formControlName="email" required email />
+              <input
+                kendoTextBox
+                type="email"
+                formControlName="email"
+                required
+                email
+                (keydown)="emailNextOnEnter($event)"
+              />
             </kendo-floatinglabel>
             <kendo-formerror>Error: Email is required</kendo-formerror>
           </kendo-formfield>
@@ -49,7 +59,13 @@
         <div class="step" *ngIf="step === 1" [@inOutAnimation]>
           <kendo-formfield>
             <kendo-floatinglabel text="Password">
-              <input kendoTextBox type="password" formControlName="password" (focus)="messages = ''" />
+              <input
+                kendoTextBox
+                type="password"
+                formControlName="password"
+                (focus)="messages = ''"
+                (keydown)="passwordSinginOnEnter($event)"
+              />
             </kendo-floatinglabel>
             <kendo-formerror>Error: Password is required</kendo-formerror>
           </kendo-formfield>

@@ -1,0 +1,47 @@
+<kendo-window
+  title="Filters"
+  *ngIf="this.uiState.serviceFiltersOpen$ | async"
+  (close)="close()"
+  [width]="width"
+  [top]="top"
+  [left]="left"
+  [draggable]="false"
+  [@slideInOut]
+  class="window"
+>
+  <kendo-window-titlebar>
+    <div class="k-window-title"><h2 class="title">Filters</h2></div>
+    <button kendoWindowCloseAction></button>
+  </kendo-window-titlebar>
+
+  <form class="k-form form" [formGroup]="filters">
+    <fieldset class="fieldset subscribed">
+      <label class="k-form-field">
+        <kendo-switch
+          [checked]="subscribedVisible"
+          (valueChange)="subscribedVisible = !subscribedVisible"
+          onLabel=" "
+          offLabel=" "
+        ></kendo-switch>
+        <h5 class="title">Subscribed</h5>
+      </label>
+    </fieldset>
+    <fieldset *ngFor="let category of data" class="fieldset category">
+      <legend class="name">{{ category.name }}</legend>
+
+      <label class="k-form-field label" *ngFor="let filter of category.tags">
+        <input type="checkbox" #notification kendoCheckBox class="checkbox" [formControlName]="filter.name" />
+        <span>
+          {{ filter.name }}
+          <span class="subscribed" *ngIf="subscribedVisible">({{ filter.subscribed }})</span>
+        </span>
+      </label>
+    </fieldset>
+  </form>
+  <div class="k-actions k-actions-end buttons">
+    <button kendoButton type="button" class="button reset" (click)="reset()">Reset</button>
+    <button kendoButton themeColor="primary" type="button" class="button submit" (click)="submit()">
+      Show Results
+    </button>
+  </div>
+</kendo-window>

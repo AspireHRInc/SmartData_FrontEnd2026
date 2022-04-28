@@ -8,7 +8,7 @@ h4,
 h5,
 h6,
 p,
-button,
+button:not(.k-button),
 input,
 textarea {
   font-family: var(--font);
@@ -64,4 +64,11 @@ input {
 
 .spacer {
   width: 100%;
+}
+
+// forms
+
+fieldset {
+  border: none;
+  border-bottom: 1px solid gainsboro;
 }

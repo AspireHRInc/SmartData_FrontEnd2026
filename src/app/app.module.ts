@@ -19,11 +19,9 @@ import { LoginComponent } from './views/login/login.component';
 import { ServicesComponent } from './views/services/services.component';
 import { SetupComponent } from './views/services/detail/setup/setup.component';
 import { ConfirmComponent } from './views/services/detail/confirm/confirm.component';
-import { HistoryComponent } from './views/services/detail/history/history.component';
+import { HistoryComponent } from './views/shared/history/history.component';
 import { DetailComponent } from './views/services/detail/detail.component';
 import { DashboardComponent } from './views/services/dashboard/dashboard.component';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-
 
 @NgModule({
   declarations: [
@@ -44,7 +42,6 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    DropDownsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

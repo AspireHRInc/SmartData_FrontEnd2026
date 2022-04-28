@@ -6,7 +6,7 @@ import { ServicesComponent } from './views/services/services.component';
 import { SetupComponent } from './views/services/detail/setup/setup.component';
 import { DetailComponent } from './views/services/detail/detail.component';
 import { ConfirmComponent } from './views/services/detail/confirm/confirm.component';
-import { HistoryComponent } from './views/services/detail/history/history.component';
+import { HistoryComponent } from './views/shared/history/history.component';
 import { DashboardComponent } from './views/services/dashboard/dashboard.component';
 
 import { AuthGuard } from './services/auth-guard.service';
@@ -16,13 +16,14 @@ const routes: Routes = [
   // { path: 'one', component: PageOneComponent },
   // { path: 'two', component: PageTwoComponent },
   // { path: 'three', component: PageThreeComponent },
-
+  { path: 'services', redirectTo: 'services/dashboard', pathMatch: 'full' },
   {
     path: 'services',
     component: ServicesComponent,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     children: [
+      { path: 'history', component: HistoryComponent },
       {
         path: ':id/detail',
         component: DetailComponent,
