@@ -59,7 +59,6 @@ export class DashboardComponent implements OnInit {
   }
 
   selectedFilter(filter: string): void {
-    console.log(filter);
     this.searchField = '';
     if (this.servicesService.currentFilter !== filter) {
       this.servicesService.currentFilter = filter;
