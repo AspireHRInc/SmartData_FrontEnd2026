@@ -53,6 +53,21 @@ button {
     padding: 0.8rem;
     border: none;
   }
+
+  &.medium {
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 18px;
+    text-transform: uppercase;
+    border-radius: 6px;
+    padding: 0.5rem 0.8rem;
+    border-radius: 3px;
+
+    &.outline {
+      border: 1px solid var(--color-text-secondary);
+      background-color: transparent;
+    }
+  }
 }
 
 input {
@@ -71,4 +86,29 @@ input {
 fieldset {
   border: none;
   border-bottom: 1px solid gainsboro;
+}
+
+// searchbar
+
+.search {
+  display: flex;
+  height: 2.3125rem;
+  flex: 1 50%;
+  min-width: 15rem;
+
+  .field {
+    display: flex;
+    height: 100%;
+    flex: 1 50%;
+    border-radius: 2rem 0 0 2rem;
+    border-color: var(--color-cta-lighter);
+    border-width: 2px;
+    padding-top: 0;
+  }
+  .k-icon-button.k-button-md {
+    background-color: var(--color-cta-lighter);
+    color: var(--color-background-primary);
+    border-radius: 0 2rem 2rem 0;
+    padding: 0.7rem;
+  }
 }

@@ -22,6 +22,9 @@ import { ConfirmComponent } from './views/services/detail/confirm/confirm.compon
 import { HistoryComponent } from './views/shared/history/history.component';
 import { DetailComponent } from './views/services/detail/detail.component';
 import { DashboardComponent } from './views/services/dashboard/dashboard.component';
+import { ListViewModule } from '@progress/kendo-angular-listview';
+import { ProgressBarModule } from '@progress/kendo-angular-progressbar';
+
 
 @NgModule({
   declarations: [
@@ -42,6 +45,8 @@ import { DashboardComponent } from './views/services/dashboard/dashboard.compone
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ListViewModule,
+    ProgressBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -96,6 +96,21 @@ input.k-input {
   }
 }
 
+.k-button-outline-base:hover,
+.k-button-outline-base.k-hover {
+  border-color: #424242;
+  color: white;
+  background-color: #424242;
+}
+
+// progress bar
+
+.k-progressbar .k-state-selected {
+  border-color: var(--color-background-primary);
+  color: var(--color-background-primary);
+  background-color: var(--color-accent-2);
+}
+
 // window/dialog
 
 .k-window {
@@ -112,5 +127,14 @@ input.k-input {
   .k-i-close::before {
     color: rgba(var(--color-text-primary-rgb), 0.5);
     font-size: 1.5rem;
+  }
+}
+
+// list view
+
+.k-listview {
+  border: none;
+  .k-listview-content {
+    padding-bottom: 1rem;
   }
 }

@@ -21,6 +21,11 @@ import { TilesSectionComponent } from './tiles-section/tiles-section.component';
 
 import { StatusBadgeComponent } from './status-badge/status-badge.component';
 import { FiltersComponent } from './filters/filters.component';
+import { NavigationButtonsComponent } from './navigation-buttons/navigation-buttons.component';
+import { NavigationButtonComponent } from './navigation-button/navigation-button.component';
+import { StatusDotComponent } from './status-dot/status-dot.component';
+import { StatusProgressBarComponent } from './status-progress-bar/status-progress-bar.component';
+import { ListItemServiceRunComponent } from './list-item-service-run/list-item-service-run.component';
 
 @NgModule({
   imports: [
@@ -41,6 +46,11 @@ import { FiltersComponent } from './filters/filters.component';
     TilesSectionComponent,
     StatusBadgeComponent,
     FiltersComponent,
+    NavigationButtonsComponent,
+    NavigationButtonComponent,
+    StatusDotComponent,
+    StatusProgressBarComponent,
+    ListItemServiceRunComponent,
   ],
   exports: [
     KendoModule,
@@ -53,6 +63,11 @@ import { FiltersComponent } from './filters/filters.component';
     TilesSectionComponent,
     StatusBadgeComponent,
     FiltersComponent,
+    NavigationButtonsComponent,
+    NavigationButtonComponent,
+    StatusDotComponent,
+    StatusProgressBarComponent,
+    ListItemServiceRunComponent,
   ],
 })
 export class ComponentsModules {}
