@@ -12,9 +12,14 @@
   text-transform: none;
   position: relative;
   display: block;
-  background-color: var(--primary-background-color);
+  background-color: var(--color-background-primary);
   z-index: 1;
   min-width: 4rem;
+  line-height: 1;
+
+  &.outlined {
+    border: 1px solid va(--color-text-secondary);
+  }
 
   .bold& {
     color: var(--primary-background-color);

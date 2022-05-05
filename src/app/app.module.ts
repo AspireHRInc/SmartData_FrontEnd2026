@@ -24,6 +24,10 @@ import { DetailComponent } from './views/services/detail/detail.component';
 import { DashboardComponent } from './views/services/dashboard/dashboard.component';
 import { ListViewModule } from '@progress/kendo-angular-listview';
 import { ProgressBarModule } from '@progress/kendo-angular-progressbar';
+import { PopupModule } from '@progress/kendo-angular-popup';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+
+
 
 
 @NgModule({
@@ -47,6 +51,8 @@ import { ProgressBarModule } from '@progress/kendo-angular-progressbar';
     HttpClientModule,
     ListViewModule,
     ProgressBarModule,
+    PopupModule,
+    DateInputsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

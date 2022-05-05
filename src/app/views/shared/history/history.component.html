@@ -10,40 +10,86 @@
     <input
       placeholder="Search comment, service, name...etc."
       class="k-input field"
-      (keyup)="onServiceSearch($event)"
+      (keyup)="onServiceFilter($event)"
       [(ngModel)]="searchField"
-      (focus)="onServiceSearch($event)"
+      (focus)="onServiceFilter($event)"
       (ngModelChange)="this.searchFieldUpdate.next($event)"
     />
-    <button kendoButton icon="search" (click)="onServiceSearch($event)"></button>
+    <button kendoButton icon="search" (click)="onServiceFilter($event)"></button>
   </div>
 </div>
 
 <ss-navigation-buttons>
-  <ss-navigation-button label="Create New Run"></ss-navigation-button>
+  <ss-navigation-button label="Create New Run" class="secondary"></ss-navigation-button>
   <ss-navigation-button label="History of Runs"></ss-navigation-button>
 </ss-navigation-buttons>
 
 <div class="content-wrapper">
-  <div class="filters">
-    <kendo-dropdownbutton
-      *ngFor="let filterGroup of filters"
-      [data]="filterGroup.filters"
-      rounded="full"
-      fillMode="outline"
-    >
-      {{ filterGroup.name }} &#9660;
-    </kendo-dropdownbutton>
+  <div class="filters" [formGroup]="filtersFormGroup">
+    <ng-container *ngFor="let filterGroup of filters; let i = index">
+      <button kendoButton rounded="full" fillMode="outline" #anchor (click)="showFilterPopup(i)" class="filter-button">
+        <span class="name">{{ filterGroup.name }}</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+
+      <kendo-popup
+        #popup
+        [anchor]="anchor"
+        *ngIf="showFilterPopupIndex === i"
+        (blur)="filterListBlur()"
+        class="filter-popup"
+      >
+        <div class="content" [formGroupName]="filterGroup.name">
+          <ul class="filter-list" *ngIf="filterGroup.name !== 'Date Range'">
+            <ng-container *ngFor="let filter of filterGroup.filters">
+              <li class="filter-item">
+                <label class="k-checkbox-label">
+                  <input type="checkbox" kendoCheckBox [formControlName]="filter" />
+                  {{ filter }}
+                </label>
+              </li>
+            </ng-container>
+          </ul>
+
+          <ng-container *ngIf="filterGroup.name === 'Date Range'">
+            <kendo-popup #popup [anchor]="anchor" *ngIf="showFilterPopupIndex === i" (blur)="filterListBlur()">
+              <div class="content" [formGroupName]="filterGroup.name">
+                <kendo-multiviewcalendar
+                  kendoDateRangeSelection
+                  [selectionRange]="selectedDateRangeFilter"
+                  (selectionRangeChange)="onDateRangeValueChange($event)"
+                ></kendo-multiviewcalendar>
+              </div>
+            </kendo-popup>
+          </ng-container>
+        </div>
+      </kendo-popup>
+    </ng-container>
   </div>
 
   <div class="history-header">
     <div class="icon"></div>
     <div class="info"></div>
-    <div class="status">Status</div>
+    <div class="status">
+      <button class="button" (click)="toggleSort('status')">
+        Status
+        <span class="arrow">&#8597;</span>
+      </button>
+    </div>
     <div class="actions"></div>
-    <div class="date">Submitted Date</div>
-    <div class="duration"></div>
-    <div class="comment">Comment</div>
+    <div class="date">
+      <button class="button" (click)="toggleSort('date')">
+        Submitted Date
+        <span class="arrow">&#8597;</span>
+      </button>
+    </div>
+    <div class="duration">
+      <button class="button" (click)="toggleSort('duration')">
+        Duration
+        <span class="arrow">&#8597;</span>
+      </button>
+    </div>
+    <div class="comment"></div>
     <div class="info"></div>
   </div>
 
@@ -112,20 +158,20 @@
           </button>
           <button
             (click)="details(dataItem.id)"
-            class="button medium action primary"
+            class="button medium action primary complete"
             *ngIf="dataItem.statusString === 'Completed'"
           >
             Get Results
           </button>
           <button
             (click)="details(dataItem.id)"
-            class="button medium action primary"
+            class="button medium action primary complete"
             *ngIf="dataItem.statusString === 'Processed with Errors'"
           >
             Details
           </button>
         </div>
-        <p class="date">{{ dataItem.submittedDate | date: "MMM, d, h:mm aaaaa'm'" }}</p>
+        <p class="date">{{ dataItem.submittedDate | date: "MMM d, h:mm aaaaa'm'" }}</p>
         <div class="duration">
           {{ dataItem.durationString }}
         </div>

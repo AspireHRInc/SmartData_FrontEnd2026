@@ -15,6 +15,7 @@ export class StatusBadgeComponent implements OnInit {
   @Input() bold = false;
   @Input() rounded = false;
   @Input() button = false;
+  @Input() outline = true;
 
   colorFromStringColor = '';
 

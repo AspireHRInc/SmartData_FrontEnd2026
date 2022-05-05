@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -15,6 +16,8 @@ import {
 } from 'src/app/services/service-run.service';
 import { DateTimeService } from 'src/app/services/date-time.service';
 import { AccentColor } from 'src/app/services/color.service';
+
+import { SelectionRange } from '@progress/kendo-angular-dateinputs';
 
 export class ServiceRunExtended extends ServiceRun {
   userObject: User = new User();
@@ -42,6 +45,23 @@ export class ServiceRunExtended extends ServiceRun {
   ],
 })
 export class HistoryComponent implements OnInit {
+  // @ViewChild("anchor") public anchor!: ElementRef;
+  // @ViewChild("popup", { read: ElementRef }) public popup!: ElementRef;
+
+  // @HostListener("document:click", ["$event"])
+  // documentClick(event: KeyboardEvent): void {
+  //   if (!this.contains(event.target!)) {
+  //     this.toggle(false);
+  //   }
+  // }
+
+  // private contains(target: EventTarget): boolean {
+  //   return (
+  //     this.anchor.nativeElement.contains(target) ||
+  //     (this.popup ? this.popup.nativeElement.contains(target) : false)
+  //   );
+  // }
+
   loggedInUserObj = new User();
 
   serviceRuns: ServiceRunExtended[] = [];
@@ -54,9 +74,20 @@ export class HistoryComponent implements OnInit {
 
   statusBadgeColor = AccentColor.gray;
 
+  showFilterPopupIndex = -1;
+
   filters: any[] = [];
 
-  constructor(public userService: UserService, public serviceRunService: ServiceRunService) {}
+  filtersFormGroup = this.fb.group({
+    Status: this.fb.group({}),
+    // users: this.fb.group({}),
+    // dateRange: this.fb.group({}),
+    // statuses: this.fb.group({}),
+  });
+
+  selectedDateRangeFilter = { start: new Date(), end: new Date() };
+
+  constructor(public userService: UserService, public serviceRunService: ServiceRunService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.loggedInUserObj = this.userService.loggedInUserObj!;
@@ -90,12 +121,79 @@ export class HistoryComponent implements OnInit {
     });
 
     this.animateProcessingStatusBar();
+
+    // console.log(this.filters);
+
+    // this.filtersFormGroup.valueChanges.subscribe(x => {
+    //   console.log('form value changed');
+    //   console.log(x);
+    //   // let filterList = x.map((filter: any) => filter === true);
+    //   // console.log(filterList);
+    // });
+
+    this.filters.forEach(filterCategory => {
+      this.filtersFormGroup.addControl(filterCategory.name, this.fb.group({}));
+
+      filterCategory.filters.forEach((filter: any) => {
+        // this.filtersFormGroup.addControl(filter, new FormControl(false));
+        (this.filtersFormGroup.get(filterCategory.name) as FormGroup).addControl(filter, new FormControl(false));
+      });
+    });
+
+    console.log(this.filtersFormGroup.controls);
   }
 
-  onServiceSearch(event: any) {
-    if (event.key === 'Enter' || event.type === 'click') {
-      // this.services = this.servicesService.onServiceSearch(this.searchField);
-    }
+  ngAfterViewInit() {
+    this.filtersFormGroup.valueChanges.subscribe(filterValues => {
+      console.log('form value changed');
+      // console.log(filterValues);
+      // let filterList = x.map((filter: any) => filter === true);
+      // console.log(filterList);
+      this.updateFilterValues(filterValues);
+    });
+  }
+
+  updateFilterValues(filterValuesForm: any) {
+    let filterValuesArr = Object.keys(filterValuesForm).map(key => [String(key), filterValuesForm[key]]);
+    console.log(filterValuesArr);
+    filterValuesArr = filterValuesArr.map(category => {
+      return { ...category };
+    });
+    // filterValuesForm.forEach((filterCategory: any) => {
+    //   console.log(filterCategory);
+    // });
+  }
+
+  onServiceFilter(event: any) {
+    console.log(event.target.value);
+    // if (event.key === 'Enter' || event.type === 'click') {
+    //   // this.services = this.servicesService.onServiceSearch(this.searchField);
+    //   this.serviceRuns = this.getExtendedServices(this.serviceRunService.filterServiceRuns(event));
+    // }
+
+    this.serviceRuns = this.getExtendedServices(this.serviceRunService.filterServiceRuns(event.target.value));
+  }
+
+  getExtendedServices(services: ServiceRun[]): ServiceRunExtended[] {
+    let serviceRunExtended: ServiceRunExtended[] = services.map(serviceRun => {
+      return {
+        ...serviceRun,
+        status: serviceRun.status.filter(status => status !== ServiceRunStatus.Scheduled),
+        statusString: serviceRun.status.filter(status => status !== ServiceRunStatus.Scheduled).toString(),
+        comment: serviceRun.comment.slice(0, 60),
+        userObject: this.userService.getUserById(serviceRun.userId)!,
+        scheduled: serviceRun.status.includes(ServiceRunStatus.Scheduled),
+        statusColor: serviceRun.status.includes(ServiceRunStatus.Completed)
+          ? 'var(--color-cta)'
+          : serviceRun.status.includes(ServiceRunStatus.Processing)
+          ? 'var(--color-accent-6)'
+          : serviceRun.status.includes(ServiceRunStatus['Processed with Errors'])
+          ? 'var(--color-accent-2)'
+          : '',
+        durationString: DateTimeService.hoursToGreatesUnit(serviceRun.durationHours),
+      };
+    });
+    return serviceRunExtended;
   }
 
   animateProcessingStatusBar() {
@@ -114,5 +212,55 @@ export class HistoryComponent implements OnInit {
 
   details(id: string) {
     alert('details for item with id: ' + id);
+  }
+
+  onFilterClick(event: any) {
+    console.log(event);
+  }
+
+  filterListBlur() {
+    console.log('blur');
+    this.showFilterPopupIndex = -1;
+  }
+
+  showFilterPopup(i: number) {
+    if (this.showFilterPopupIndex === i) {
+      this.showFilterPopupIndex = -1;
+    } else {
+      this.showFilterPopupIndex = i;
+    }
+  }
+
+  onDateRangeValueChange(range: SelectionRange) {
+    console.log(range);
+    // console.log(this.selectedDateRangeFilter);
+  }
+  previousType = '';
+  toggleSort(type: string) {
+    if (type === 'status' && this.previousType !== 'status') {
+      this.previousType = 'status';
+      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (a.statusString > b.statusString ? 1 : -1)));
+    } else if (type === 'status' && this.previousType === 'status') {
+      this.previousType = '';
+      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (b.statusString > a.statusString ? 1 : -1)));
+    } else if (type === 'date' && this.previousType !== 'date') {
+      this.previousType = 'date';
+      return (this.serviceRuns = this.serviceRuns
+        .slice()
+        .sort((a, b) => b.submittedDate.getTime() - a.submittedDate.getTime()));
+    } else if (type === 'date' && this.previousType === 'date') {
+      this.previousType = '';
+      return (this.serviceRuns = this.serviceRuns
+        .slice()
+        .sort((a, b) => a.submittedDate.getTime() - b.submittedDate.getTime()));
+    } else if (type === 'duration' && this.previousType !== 'duration') {
+      this.previousType = 'duration';
+      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (a.durationHours > b.durationHours ? 1 : -1)));
+    } else if (type === 'duration' && this.previousType === 'duration') {
+      this.previousType = '';
+      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (b.durationHours > a.durationHours ? 1 : -1)));
+    }
+
+    return this.serviceRuns;
   }
 }

@@ -12,6 +12,7 @@ export enum ServiceRunStatus {
 export class ServiceRun {
   id = '0';
   userId = 0;
+  userName = '';
   processCode = '';
   targetSystemId = '';
   serviceId = '';
@@ -56,6 +57,7 @@ export class FilterGroup {
 }
 
 export class Filter {
+  value?: string | number;
   name = '';
 }
 
@@ -67,6 +69,7 @@ export class ServiceRunService {
     {
       id: '0',
       userId: 2,
+      userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
       targetSystemId: 'Ingles Development SSO',
       serviceId: '2',
@@ -94,7 +97,8 @@ export class ServiceRunService {
     },
     {
       id: '0',
-      userId: 2,
+      userId: 5,
+      userName: 'Steven Fuller',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
       targetSystemId: 'Ingles Development SSO',
       serviceId: '2',
@@ -105,8 +109,7 @@ export class ServiceRunService {
       endDate: new Date('May 03, 2022 11:00:00'),
       durationHours: 0,
       newlyCompleted: false,
-      comment:
-        'Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam quis ostrum exercitationem ullam corporis suscipit laboriosam nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel ilium qui dolorem eum fugiat quo voluptas nulla pariatur?',
+      comment: 'Grapefruit',
       type: 'SuccessFactors Comma Delimited File (Double Header)',
       parameters: [
         {
@@ -123,6 +126,7 @@ export class ServiceRunService {
     {
       id: '0',
       userId: 2,
+      userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
       targetSystemId: 'Ingles Development SSO',
       serviceId: '2',
@@ -167,6 +171,7 @@ export class ServiceRunService {
     {
       id: '0',
       userId: 2,
+      userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
       targetSystemId: 'Ingles Development SSO',
       serviceId: '2',
@@ -211,6 +216,7 @@ export class ServiceRunService {
     {
       id: '0',
       userId: 2,
+      userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
       targetSystemId: 'Ingles Development SSO',
       serviceId: '2',
@@ -255,6 +261,7 @@ export class ServiceRunService {
     {
       id: '0',
       userId: 2,
+      userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
       targetSystemId: 'Ingles Development SSO',
       serviceId: '3',
@@ -299,6 +306,7 @@ export class ServiceRunService {
     {
       id: '0',
       userId: 2,
+      userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
       targetSystemId: 'Ingles Development SSO',
       serviceId: '1',
@@ -361,20 +369,20 @@ export class ServiceRunService {
       name: 'Requester',
       filters: [
         {
-          name: '1',
+          name: 'Esther Neal',
         },
         {
-          name: '2',
+          name: 'Jesse West',
         },
         {
-          name: '3',
+          name: 'Brittany Watts',
         },
       ],
     },
 
     {
       name: 'Date Range',
-      filters: [],
+      filters: [{ name: 'Date Range' }],
     },
     {
       name: 'Service',
@@ -382,9 +390,70 @@ export class ServiceRunService {
         {
           name: 'Employee Data Scrambling',
         },
+        {
+          name: 'Talent Pool Assignment',
+        },
       ],
     },
   ];
 
   constructor() {}
+
+  currentServicesRuns: ServiceRun[] = [];
+
+  currentFilters: string[] = [];
+
+  filterServiceRuns(searchString?: string, dateRange?: { start: Date; end: Date }, statuses?: [], servicesNames?: []) {
+    if (statuses !== undefined) {
+      this.currentServicesRuns = [
+        ...this.currentServicesRuns.filter(run => {
+          return statuses.every(status => run.status.includes(status));
+        }),
+      ];
+    }
+
+    if (servicesNames !== undefined) {
+      this.currentServicesRuns = [
+        ...this.currentServicesRuns.filter(run => {
+          return servicesNames.every(serviceName => run.serviceName.includes(serviceName));
+        }),
+      ];
+    }
+
+    if (dateRange !== undefined) {
+      this.currentServicesRuns = [
+        ...this.currentServicesRuns.filter(run => {
+          return (
+            run.submittedDate.getTime() > dateRange.start.getTime() &&
+            run.submittedDate.getTime() < dateRange.end.getTime()
+          );
+        }),
+      ];
+    }
+
+    if (searchString !== undefined) {
+      if (searchString !== '') {
+        let searchStringArr: string[] = searchString.toLocaleLowerCase().split(' ');
+
+        this.currentServicesRuns = [
+          ...this.currentServicesRuns.filter(run => {
+            // let tags = service.metaTags.map(tag => tag.name);
+            return searchStringArr.every(
+              searchWord =>
+                run.serviceName.toLocaleLowerCase().includes(searchWord) ||
+                run.comment.toString().toLowerCase().includes(searchWord) ||
+                run.userName.toString().toLowerCase().includes(searchWord)
+            );
+          }),
+        ];
+        return [...this.currentServicesRuns];
+      } else {
+        console.log('else');
+        this.currentServicesRuns = [...this.serviceRuns];
+        return this.currentServicesRuns;
+      }
+    }
+
+    return this.currentServicesRuns;
+  }
 }
