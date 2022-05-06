@@ -14,7 +14,7 @@ export class AuthService {
   constructor() {}
 
   authenticate(username: String, password: String): boolean {
-    if (username.toLowerCase() === 'a@aspire.com' && password.toLowerCase() === 'catalyst') {
+    if (username.toLowerCase() === 'a@aspire.com' && password.toLowerCase() === 'pillango') {
       this.isAuthenticated.next(true);
     } else {
       this.isAuthenticated.next(false);

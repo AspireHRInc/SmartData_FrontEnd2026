@@ -80,9 +80,6 @@ export class HistoryComponent implements OnInit {
 
   filtersFormGroup = this.fb.group({
     Status: this.fb.group({}),
-    // users: this.fb.group({}),
-    // dateRange: this.fb.group({}),
-    // statuses: this.fb.group({}),
   });
 
   selectedDateRangeFilter = { start: new Date(), end: new Date() };
@@ -122,56 +119,85 @@ export class HistoryComponent implements OnInit {
 
     this.animateProcessingStatusBar();
 
-    // console.log(this.filters);
-
-    // this.filtersFormGroup.valueChanges.subscribe(x => {
-    //   console.log('form value changed');
-    //   console.log(x);
-    //   // let filterList = x.map((filter: any) => filter === true);
-    //   // console.log(filterList);
-    // });
-
     this.filters.forEach(filterCategory => {
       this.filtersFormGroup.addControl(filterCategory.name, this.fb.group({}));
 
       filterCategory.filters.forEach((filter: any) => {
-        // this.filtersFormGroup.addControl(filter, new FormControl(false));
         (this.filtersFormGroup.get(filterCategory.name) as FormGroup).addControl(filter, new FormControl(false));
       });
     });
-
-    console.log(this.filtersFormGroup.controls);
   }
 
-  ngAfterViewInit() {
-    this.filtersFormGroup.valueChanges.subscribe(filterValues => {
-      console.log('form value changed');
-      // console.log(filterValues);
-      // let filterList = x.map((filter: any) => filter === true);
-      // console.log(filterList);
-      this.updateFilterValues(filterValues);
-    });
+  // ngAfterViewInit() {
+  //   this.filtersFormGroup.valueChanges.subscribe(filterValues => {
+  //     this.updateFilterValues(filterValues);
+  //   });
+  // }
+
+  // updateFilterValues(filterValuesForm: any) {
+  //   let transformedFilters = Object.entries(filterValuesForm).map(filter => {
+  //     // return Object.keys(filter).find(key => filter[parseInt(key)] === true);
+  //     let obj: { name: string; filters: any } = { name: '', filters: [] };
+  //     obj.name = filter[0];
+  //     obj.filters = filter[1] as [];
+
+  //     obj.filters = Object.entries(obj.filters).map(([k, v]) => ({ [k]: v }));
+  //     // console.log(obj.filters);
+  //     obj.filters = obj.filters.filter((obj: any) => {
+  //       if (Object.values(obj)[0] === true) {
+  //         // console.log(Object.keys(obj)[0]);
+  //         return String(Object.keys(obj)[0]);
+  //       }
+  //       return;
+  //     });
+  //     return obj;
+  //   });
+
+  //   // console.log(transformedFilters[0].filters);
+  // }
+
+  filtersObj: any = { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
+
+  searchString = '';
+
+  filterActive = {};
+
+  onCheckboxChange(filterGroup: string, filter: string) {
+    if (!this.filtersObj[filterGroup.toLocaleLowerCase()].includes(filter)) {
+      this.filtersObj[filterGroup.toLocaleLowerCase()].push(filter);
+    } else {
+      this.filtersObj[filterGroup.toLocaleLowerCase()] = this.filtersObj[filterGroup.toLocaleLowerCase()].filter(
+        (value: string) => {
+          return value !== filter;
+        }
+      );
+    }
+    this.onServiceFilter();
   }
 
-  updateFilterValues(filterValuesForm: any) {
-    let filterValuesArr = Object.keys(filterValuesForm).map(key => [String(key), filterValuesForm[key]]);
-    console.log(filterValuesArr);
-    filterValuesArr = filterValuesArr.map(category => {
-      return { ...category };
-    });
-    // filterValuesForm.forEach((filterCategory: any) => {
-    //   console.log(filterCategory);
-    // });
+  setFilterActive() {}
+
+  onDateRangeValueChange(range: SelectionRange) {
+    console.log(range);
+    // console.log(this.selectedDateRangeFilter);
+    this.filtersObj.dateRange = range;
+    this.onServiceFilter();
   }
 
-  onServiceFilter(event: any) {
-    console.log(event.target.value);
+  onSearchStringUpdate(event: any) {
+    this.searchString = event.target.value;
+    this.onServiceFilter();
+  }
+
+  onServiceFilter(event: any = '') {
     // if (event.key === 'Enter' || event.type === 'click') {
     //   // this.services = this.servicesService.onServiceSearch(this.searchField);
     //   this.serviceRuns = this.getExtendedServices(this.serviceRunService.filterServiceRuns(event));
     // }
 
-    this.serviceRuns = this.getExtendedServices(this.serviceRunService.filterServiceRuns(event.target.value));
+    this.serviceRuns = this.getExtendedServices(
+      this.serviceRunService.filterServiceRuns(this.searchString, this.filtersObj)
+    );
   }
 
   getExtendedServices(services: ServiceRun[]): ServiceRunExtended[] {
@@ -231,10 +257,6 @@ export class HistoryComponent implements OnInit {
     }
   }
 
-  onDateRangeValueChange(range: SelectionRange) {
-    console.log(range);
-    // console.log(this.selectedDateRangeFilter);
-  }
   previousType = '';
   toggleSort(type: string) {
     if (type === 'status' && this.previousType !== 'status') {

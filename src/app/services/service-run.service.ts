@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { File } from './file.service';
+import { UserService } from './user.service';
 
 export enum ServiceRunStatus {
   'none' = 'none',
@@ -59,6 +60,13 @@ export class FilterGroup {
 export class Filter {
   value?: string | number;
   name = '';
+}
+
+export class Filters {
+  dateRange = { start: new Date(0), end: new Date(0) };
+  requester = [];
+  service = [];
+  status = [];
 }
 
 @Injectable({
@@ -397,61 +405,88 @@ export class ServiceRunService {
     },
   ];
 
-  constructor() {}
+  constructor(private userService: UserService) {}
 
-  currentServicesRuns: ServiceRun[] = [];
+  currentServicesRuns: ServiceRun[] = [...this.serviceRuns];
 
   currentFilters: string[] = [];
 
-  filterServiceRuns(searchString?: string, dateRange?: { start: Date; end: Date }, statuses?: [], servicesNames?: []) {
-    if (statuses !== undefined) {
+  filterServiceRuns(searchString: string, filters: Filters) {
+    console.log('filterServiceRuns');
+    console.log(filters);
+    console.log('search string ', searchString);
+
+    this.currentServicesRuns = [...this.serviceRuns];
+
+    let filtersActive = false;
+
+    if (
+      filters.status.length > 0 ||
+      filters.service.length > 0 ||
+      filters.requester.length > 0 ||
+      filters.dateRange.start !== new Date(0)
+    ) {
+      filtersActive = true;
+    }
+
+    if (filters.status.length > 0) {
       this.currentServicesRuns = [
         ...this.currentServicesRuns.filter(run => {
-          return statuses.every(status => run.status.includes(status));
+          return filters.status.every(status => run.status.includes(status));
         }),
       ];
     }
 
-    if (servicesNames !== undefined) {
+    if (filters.requester.length > 0) {
       this.currentServicesRuns = [
         ...this.currentServicesRuns.filter(run => {
-          return servicesNames.every(serviceName => run.serviceName.includes(serviceName));
-        }),
-      ];
-    }
-
-    if (dateRange !== undefined) {
-      this.currentServicesRuns = [
-        ...this.currentServicesRuns.filter(run => {
-          return (
-            run.submittedDate.getTime() > dateRange.start.getTime() &&
-            run.submittedDate.getTime() < dateRange.end.getTime()
+          return filters.requester.every(
+            requesterName => this.userService.getUserFullNameById(run.userId) === requesterName
           );
         }),
       ];
     }
 
-    if (searchString !== undefined) {
-      if (searchString !== '') {
-        let searchStringArr: string[] = searchString.toLocaleLowerCase().split(' ');
+    if (filters.service.length > 0) {
+      this.currentServicesRuns = [
+        ...this.currentServicesRuns.filter(run => {
+          return filters.service.every(serviceName => run.serviceName.includes(serviceName));
+        }),
+      ];
+    }
 
-        this.currentServicesRuns = [
-          ...this.currentServicesRuns.filter(run => {
-            // let tags = service.metaTags.map(tag => tag.name);
-            return searchStringArr.every(
-              searchWord =>
-                run.serviceName.toLocaleLowerCase().includes(searchWord) ||
-                run.comment.toString().toLowerCase().includes(searchWord) ||
-                run.userName.toString().toLowerCase().includes(searchWord)
-            );
-          }),
-        ];
-        return [...this.currentServicesRuns];
-      } else {
-        console.log('else');
-        this.currentServicesRuns = [...this.serviceRuns];
-        return this.currentServicesRuns;
-      }
+    if (filters.dateRange !== undefined) {
+      this.currentServicesRuns = [
+        ...this.currentServicesRuns.filter(run => {
+          return (
+            run.submittedDate.getTime() >= filters.dateRange.start.getTime() &&
+            run.submittedDate.getTime() <= filters.dateRange.end.getTime()
+          );
+        }),
+      ];
+    }
+
+    if (searchString !== '') {
+      let searchStringArr: string[] = searchString.toLocaleLowerCase().split(' ');
+
+      this.currentServicesRuns = [
+        ...this.currentServicesRuns.filter(run => {
+          // let tags = service.metaTags.map(tag => tag.name);
+          return searchStringArr.every(
+            searchWord =>
+              run.serviceName.toLocaleLowerCase().includes(searchWord) ||
+              run.comment.toString().toLowerCase().includes(searchWord) ||
+              run.userName.toString().toLowerCase().includes(searchWord)
+          );
+        }),
+      ];
+      return [...this.currentServicesRuns];
+    }
+
+    if (searchString === '' && !filtersActive) {
+      console.log('else');
+      this.currentServicesRuns = [...this.serviceRuns];
+      return this.currentServicesRuns;
     }
 
     return this.currentServicesRuns;

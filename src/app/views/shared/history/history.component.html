@@ -10,12 +10,12 @@
     <input
       placeholder="Search comment, service, name...etc."
       class="k-input field"
-      (keyup)="onServiceFilter($event)"
+      (keyup)="onSearchStringUpdate($event)"
       [(ngModel)]="searchField"
-      (focus)="onServiceFilter($event)"
+      (focus)="onSearchStringUpdate($event)"
       (ngModelChange)="this.searchFieldUpdate.next($event)"
     />
-    <button kendoButton icon="search" (click)="onServiceFilter($event)"></button>
+    <button kendoButton icon="search" (click)="onSearchStringUpdate($event)"></button>
   </div>
 </div>
 
@@ -44,7 +44,12 @@
             <ng-container *ngFor="let filter of filterGroup.filters">
               <li class="filter-item">
                 <label class="k-checkbox-label">
-                  <input type="checkbox" kendoCheckBox [formControlName]="filter" />
+                  <input
+                    type="checkbox"
+                    kendoCheckBox
+                    (change)="onCheckboxChange(filterGroup.name, filter)"
+                    [formControlName]="filter"
+                  />
                   {{ filter }}
                 </label>
               </li>
