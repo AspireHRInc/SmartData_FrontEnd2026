@@ -1,0 +1,20 @@
+<kendo-dialog title="Results" (close)="close()" [minWidth]="250" [width]="500">
+  <ul class="results">
+    <li class="result" *ngFor="let result of results">
+      <label>{{ result.label }}</label>
+      <button
+        *ngIf="result.type === 'file'"
+        kendoButton
+        icon="download"
+        (click)="onButtonClick(result.filePath)"
+        class="button primary result-button"
+      >
+        {{ result.fileName }}
+      </button>
+
+      <p *ngIf="result.resultType === 'text'" kendoButton class="result-text">
+        {{ result.textResult }}
+      </p>
+    </li>
+  </ul>
+</kendo-dialog>

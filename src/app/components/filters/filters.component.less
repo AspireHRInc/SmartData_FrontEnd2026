@@ -1,0 +1,75 @@
+:host {
+  display: block;
+
+  .window {
+    padding: 0;
+    max-height: 100vh;
+    max-width: 100vw;
+
+    .title {
+      margin: 0;
+    }
+
+    ::ng-deep {
+      .k-window-content {
+        padding: 0;
+      }
+    }
+
+    .form {
+      max-height: calc(100vh - 7rem);
+      overflow-y: auto;
+
+      .fieldset {
+        padding: 1.5rem;
+
+        &.subscribed {
+          .title {
+            display: inline;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            color: rgba(var(--color-text-primary-rgb), 0.7);
+            margin-left: 1rem;
+          }
+        }
+      }
+    }
+    .buttons {
+      .button {
+        flex: 1 30%;
+        max-width: 9rem;
+      }
+    }
+  }
+
+  .category {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;
+
+    .name {
+      font-weight: 700;
+      font-size: 1.25rem;
+      line-height: 125%;
+      padding-top: 1rem;
+    }
+
+    .label {
+      flex: 1 50%;
+      display: flex;
+      margin-bottom: 1rem;
+      font-weight: 400;
+      font-size: 0.75rem;
+      line-height: 0.875rem;
+
+      .checkbox {
+        margin-right: 0.5rem;
+      }
+
+      .subscribed {
+        color: var(--color-cta-lighter);
+      }
+    }
+  }
+}

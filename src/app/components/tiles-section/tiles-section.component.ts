@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ServiceCategory } from 'src/app/services/services.service';
 
 @Component({
@@ -10,8 +10,15 @@ import { ServiceCategory } from 'src/app/services/services.service';
 export class TilesSectionComponent implements OnInit {
   @Input() data: ServiceCategory = new ServiceCategory();
   @Input() largerTiles = false;
+  @Input() showViewAll = false;
+  @Output() viewAll = new EventEmitter<void>();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  onViewAll() {
+    this.showViewAll = false;
+    this.viewAll.emit();
+  }
 }

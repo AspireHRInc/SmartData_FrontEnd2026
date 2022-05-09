@@ -1,6 +1,8 @@
 :host {
   display: block;
   background-color: var(--color-background-secondary);
+  min-height: 100vh;
+  overflow-y: hidden;
 
   .dashboard {
     padding: 1rem;
@@ -13,14 +15,63 @@
     border-radius: 6px;
     z-index: 1;
     box-shadow: var(--drop-shadow);
+    position: relative;
 
     .controls {
       display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .filters {
+        display: flex;
+        gap: 1rem;
+
+        .filter {
+          background: var(--color-background-primary);
+          border-radius: 6.25rem;
+          border: 2px solid var(--color-cta-lighter);
+          color: var(--color-cta-lighter);
+          padding: 0.5rem 1rem;
+          align-self: center;
+          box-shadow: none;
+          text-transform: uppercase;
+          font-weight: 700;
+          font-size: 0.75rem;
+          line-height: 0.875rem;
+          transition: 150ms;
+
+          &.selected {
+            background-color: var(--color-cta-lighter);
+            color: var(--color-background-primary);
+            transition: 150ms;
+          }
+        }
+      }
 
       .search,
       .k-searchbar {
         margin-left: auto;
       }
+
+      .history {
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 125%;
+      }
+
+      .search {
+        max-width: 25rem;
+        min-width: 15rem;
+      }
+    }
+
+    .request {
+      width: 100%;
+      font-weight: 700;
+      font-size: 0.875rem;
+      height: 2rem;
+      margin-top: auto;
     }
   }
 }

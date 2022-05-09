@@ -1,13 +1,47 @@
 :host {
   display: block;
 
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      font-weight: 700;
+      font-size: 1.5625rem;
+      line-height: 125%;
+    }
+
+    .view-all {
+      border: none;
+      background: transparent;
+      color: var(--color-cta-lighter);
+      text-transform: uppercase;
+      box-shadow: none;
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 125%;
+      padding: 0;
+      height: 1rem;
+    }
+  }
+
   .tiles {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    // grid-template-columns: repeat(auto-fill, 335px);
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    // grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: 1fr;
+
+    grid-gap: 1.5em;
     gap: 1.5em;
 
     &.larger-tiles {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
+
+      @media screen and (min-width: 40em) {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   }
 }

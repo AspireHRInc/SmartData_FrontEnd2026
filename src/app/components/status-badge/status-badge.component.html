@@ -1,0 +1,31 @@
+<button
+  *ngIf="button"
+  class="status-badge {{ color }}"
+  [class.bold]="bold"
+  [class.rounded]="rounded"
+  [ngStyle]="{
+    color: colorFromString ? colorFromStringColor : textColor ? textColor : color,
+    borderColor: colorFromString ? colorFromStringColor : textColor ? textColor : color
+  }"
+  [class.outlined]="outline"
+>
+  <div class="background" *ngIf="colorFromString" [ngStyle]="{ 'background-color': colorFromStringColor }"></div>
+  <div class="background" *ngIf="color" [style.backgroundColor]="color"></div>
+  {{ title }}
+</button>
+
+<div
+  *ngIf="!button"
+  class="status-badge {{ color }}"
+  [class.bold]="bold"
+  [class.rounded]="rounded"
+  [ngStyle]="{
+    color: colorFromString ? colorFromStringColor : textColor ? textColor : color,
+    borderColor: colorFromString ? colorFromStringColor : textColor ? textColor : color
+  }"
+  [class.outlined]="outline"
+>
+  <div class="background" *ngIf="colorFromString" [ngStyle]="{ 'background-color': colorFromStringColor }"></div>
+  <div class="background" *ngIf="color" [style.backgroundColor]="color"></div>
+  {{ title }}
+</div>

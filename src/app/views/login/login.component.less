@@ -19,6 +19,8 @@
       position: absolute;
       top: max(1rem, 4vh);
       left: max(1rem, 4vw);
+      width: 2.8125rem;
+      height: 2.8125rem;
     }
 
     .ratings {
@@ -53,14 +55,22 @@
     }
 
     &.login-splash {
-      // background-color: var(--color-background-secondary-darker);
-      // background-image: url('../../../assets/images/backgrounds/logo-background-gray.png');
-      background: url('../../../assets/images/backgrounds/logo-background-gray.png'),
-        var(--color-background-secondary-darker);
+      background: var(--color-background-secondary);
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
       background-blend-mode: soft-light;
+      overflow: hidden;
+
+      .background {
+        width: 100vw;
+        position: absolute;
+        z-index: 0;
+        left: -5vw;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.8;
+      }
 
       .login {
         background-color: var(--color-background-primary);
@@ -72,6 +82,7 @@
         padding: 2rem;
         border-radius: 12px;
         box-shadow: var(--drop-shadow);
+        z-index: 1;
 
         .panel {
           width: 100%;

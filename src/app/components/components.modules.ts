@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // KENDO WIDGETS - these are all collected into their own imports.
 import { KendoModule } from './kendo.module';
@@ -17,11 +18,25 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
 import { HeaderComponent } from './header/header.component';
 import { TilesTileComponent } from './tiles-tile/tiles-tile.component';
 import { TilesSectionComponent } from './tiles-section/tiles-section.component';
-import { BadgeComponent } from './badge/badge.component';
-import { BadgeListComponent } from './badge-list/badge-list.component';
+
+import { StatusBadgeComponent } from './status-badge/status-badge.component';
+import { FiltersComponent } from './filters/filters.component';
+import { NavigationButtonsComponent } from './navigation-buttons/navigation-buttons.component';
+import { NavigationButtonComponent } from './navigation-button/navigation-button.component';
+import { StatusDotComponent } from './status-dot/status-dot.component';
+import { StatusProgressBarComponent } from './status-progress-bar/status-progress-bar.component';
+import { ListItemServiceRunComponent } from './list-item-service-run/list-item-service-run.component';
 
 @NgModule({
-  imports: [CommonModule, BrowserAnimationsModule, RouterModule, KendoModule, IconsModule],
+  imports: [
+    CommonModule,
+    BrowserAnimationsModule,
+    RouterModule,
+    KendoModule,
+    IconsModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   declarations: [
     UserBadgeComponent,
     UserBadgesComponent,
@@ -29,8 +44,13 @@ import { BadgeListComponent } from './badge-list/badge-list.component';
     HeaderComponent,
     TilesTileComponent,
     TilesSectionComponent,
-    BadgeComponent,
-    BadgeListComponent,
+    StatusBadgeComponent,
+    FiltersComponent,
+    NavigationButtonsComponent,
+    NavigationButtonComponent,
+    StatusDotComponent,
+    StatusProgressBarComponent,
+    ListItemServiceRunComponent,
   ],
   exports: [
     KendoModule,
@@ -41,8 +61,13 @@ import { BadgeListComponent } from './badge-list/badge-list.component';
     HeaderComponent,
     TilesTileComponent,
     TilesSectionComponent,
-    BadgeComponent,
-    BadgeListComponent,
+    StatusBadgeComponent,
+    FiltersComponent,
+    NavigationButtonsComponent,
+    NavigationButtonComponent,
+    StatusDotComponent,
+    StatusProgressBarComponent,
+    ListItemServiceRunComponent,
   ],
 })
 export class ComponentsModules {}

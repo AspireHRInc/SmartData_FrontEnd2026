@@ -1,0 +1,212 @@
+<ss-header
+  headerTitle="History"
+  headerSubtitle=""
+  type="serviceDetail"
+  [headerUserObject]="loggedInUserObj"
+></ss-header>
+
+<div class="search-wrapper">
+  <div class="search">
+    <input
+      placeholder="Search comment, service, name...etc."
+      class="k-input field"
+      (keyup)="onSearchStringUpdate($event)"
+      [(ngModel)]="searchField"
+      (focus)="onSearchStringUpdate($event)"
+      (ngModelChange)="this.searchFieldUpdate.next($event)"
+    />
+    <button kendoButton icon="search" (click)="onSearchStringUpdate($event)"></button>
+  </div>
+</div>
+
+<ss-navigation-buttons>
+  <ss-navigation-button *ngIf="showCreateNewRun" label="Create New Run" class="secondary"></ss-navigation-button>
+  <ss-navigation-button label="History of Runs"></ss-navigation-button>
+</ss-navigation-buttons>
+
+<ss-cancel-service-run [serviceId]="cancelServiceId"></ss-cancel-service-run>
+<ss-service-run-results
+  [serviceId]="serviceDetailsId"
+  *ngIf="uiState.serviceRunResultsOpen$ | async"
+></ss-service-run-results>
+<ss-service-run-info *ngIf="uiState.serviceRunInfoOpen$ | async" [serviceId]="serviceDetailsId"></ss-service-run-info>
+
+<div class="content-wrapper">
+  <div class="filters">
+    <ng-container *ngFor="let filterGroup of filters; let i = index">
+      <button
+        kendoButton
+        rounded="full"
+        fillMode="outline"
+        #anchor
+        (click)="showFilterPopup(i)"
+        class="filter-button"
+        [class.active]="
+          filterGroup.name !== 'Date Range'
+            ? filtersObj[filterGroup.name.toLocaleLowerCase()].length > 0
+            : filtersObj['dateRange'].start.getTime() !== 0
+            ? true
+            : false
+        "
+      >
+        <span class="name">{{ filterGroup.name }}</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+
+      <kendo-popup
+        #popup
+        [anchor]="anchor"
+        *ngIf="showFilterPopupIndex === i"
+        (blur)="filterListBlur()"
+        class="filter-popup"
+      >
+        <div class="content">
+          <ul class="filter-list" *ngIf="filterGroup.name !== 'Date Range'">
+            <ng-container *ngFor="let filter of filterGroup.filters">
+              <li class="filter-item" *ngIf="filterGroup.filters.length > 1">
+                <label class="k-checkbox-label">
+                  <input type="checkbox" kendoCheckBox (change)="onCheckboxChange(filterGroup.name, filter)" />
+                  {{ filter }}
+                </label>
+              </li>
+            </ng-container>
+          </ul>
+
+          <ng-container *ngIf="filterGroup.name === 'Date Range'">
+            <kendo-popup #popup [anchor]="anchor" *ngIf="showFilterPopupIndex === i" (blur)="filterListBlur()">
+              <div class="content">
+                <kendo-multiviewcalendar
+                  kendoDateRangeSelection
+                  [selectionRange]="selectedDateRangeFilter"
+                  (selectionRangeChange)="onDateRangeValueChange($event)"
+                ></kendo-multiviewcalendar>
+                <!-- <button (click)="onDateRangeValueChange(filtersObj['dateRange'], 'clear')">clear</button> -->
+              </div>
+            </kendo-popup>
+          </ng-container>
+        </div>
+      </kendo-popup>
+    </ng-container>
+    <button kendoButton rounded="full" fillMode="outline" (click)="clearAllFilters()" class="filter-button">
+      <span class="name">Clear</span>
+    </button>
+  </div>
+
+  <div class="history-header">
+    <div class="icon"></div>
+    <div class="info"></div>
+    <div class="status">
+      <button class="button" (click)="toggleSort('status')">
+        Status
+        <span class="arrow">&#8597;</span>
+      </button>
+    </div>
+    <div class="actions"></div>
+    <div class="date">
+      <button class="button" (click)="toggleSort('date')">
+        Submitted Date
+        <span class="arrow">&#8597;</span>
+      </button>
+    </div>
+    <div class="duration">
+      <button class="button" (click)="toggleSort('duration')">
+        Duration
+        <span class="arrow">&#8597;</span>
+      </button>
+    </div>
+    <div class="comment"></div>
+    <div class="info"></div>
+  </div>
+
+  <kendo-listview [data]="serviceRuns" containerClass="k-d-flex k-flex-col k-flex-nowrap">
+    <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst">
+      <div class="history-item" [class.new]="dataItem.newlyCompleted">
+        <div class="icon">
+          <ss-icon-file-w-status-dot [dotColor]="dataItem.statusColor"></ss-icon-file-w-status-dot>
+        </div>
+        <div class="info">
+          <h2 class="title">{{ dataItem.serviceName }}</h2>
+          <div class="details">
+            <ss-user-badge [user]="dataItem.userObject"></ss-user-badge>
+            <ss-status-badge
+              *ngIf="dataItem.scheduled"
+              [title]="dataItem.scheduled ? 'SCHEDULED' : ''"
+              textColor="var(--color-text-secondary)"
+              [color]="statusBadgeColor"
+              [rounded]="true"
+            ></ss-status-badge>
+          </div>
+        </div>
+        <div class="status">
+          <h3 class="label">
+            <ss-status-dot [color]="dataItem.statusColor"></ss-status-dot>
+            {{ dataItem.status }}
+          </h3>
+
+          <kendo-chunkprogressbar
+            *ngIf="dataItem.statusString === 'Processing'"
+            [value]="processingStatusBarValue"
+            [chunkCount]="16"
+            [max]="16"
+            [min]="0"
+            [reverse]="processingStatusBarDirection"
+            [progressCssStyle]="{ background: dataItem.statusColor }"
+            [emptyCssStyle]="{ background: 'rgba(var(--color-text-secondary-rgb),0.5)' }"
+          ></kendo-chunkprogressbar>
+
+          <kendo-chunkprogressbar
+            *ngIf="dataItem.statusString === 'Completed'"
+            [value]="16"
+            [chunkCount]="16"
+            [max]="16"
+            [min]="0"
+            [progressCssStyle]="{ background: dataItem.statusColor }"
+            [emptyCssStyle]="{ background: 'rgba(var(--color-text-secondary-rgb),0.5)' }"
+          ></kendo-chunkprogressbar>
+
+          <kendo-chunkprogressbar
+            *ngIf="dataItem.statusString === 'Processed with Errors'"
+            [value]="16"
+            [chunkCount]="16"
+            [max]="16"
+            [min]="0"
+          ></kendo-chunkprogressbar>
+        </div>
+        <div class="actions">
+          {{ dataItem.statuString }}
+          <button
+            (click)="cancel(dataItem.id)"
+            class="button medium action outline cancel"
+            *ngIf="dataItem.statusString === 'Processing'"
+          >
+            Cancel
+          </button>
+          <button
+            (click)="details(dataItem.id)"
+            class="button medium action primary complete"
+            *ngIf="dataItem.statusString === 'Completed'"
+          >
+            Get Results
+          </button>
+          <button
+            (click)="info(dataItem.id)"
+            class="button medium action primary complete"
+            *ngIf="dataItem.statusString === 'Processed with Errors'"
+          >
+            Details
+          </button>
+        </div>
+        <p class="date">{{ dataItem.submittedDate | date: "MMM d, h:mm aaaaa'm'" }}</p>
+        <div class="duration">
+          {{ dataItem.durationString }}
+        </div>
+        <div class="comment">
+          {{ dataItem.comment }}
+        </div>
+        <div class="info">
+          <button class="button" (click)="info(dataItem.id)">i</button>
+        </div>
+      </div>
+    </ng-template>
+  </kendo-listview>
+</div>

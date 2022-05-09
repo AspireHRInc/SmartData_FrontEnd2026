@@ -19,10 +19,18 @@ import { LoginComponent } from './views/login/login.component';
 import { ServicesComponent } from './views/services/services.component';
 import { SetupComponent } from './views/services/detail/setup/setup.component';
 import { ConfirmComponent } from './views/services/detail/confirm/confirm.component';
-import { HistoryComponent } from './views/services/detail/history/history.component';
+import { HistoryComponent } from './views/shared/history/history.component';
 import { DetailComponent } from './views/services/detail/detail.component';
 import { DashboardComponent } from './views/services/dashboard/dashboard.component';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { ListViewModule } from '@progress/kendo-angular-listview';
+import { ProgressBarModule } from '@progress/kendo-angular-progressbar';
+import { PopupModule } from '@progress/kendo-angular-popup';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { CancelServiceRunComponent } from './views/shared/history/cancel-service-run/cancel-service-run.component';
+import { ServiceRunResultsComponent } from './views/shared/history/service-run-results/service-run-results.component';
+import { ServiceRunInfoComponent } from './views/shared/history/service-run-info/service-run-info.component';
+
+
 
 
 @NgModule({
@@ -35,6 +43,9 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
     HistoryComponent,
     DetailComponent,
     DashboardComponent,
+    CancelServiceRunComponent,
+    ServiceRunResultsComponent,
+    ServiceRunInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +55,10 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    DropDownsModule,
+    ListViewModule,
+    ProgressBarModule,
+    PopupModule,
+    DateInputsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

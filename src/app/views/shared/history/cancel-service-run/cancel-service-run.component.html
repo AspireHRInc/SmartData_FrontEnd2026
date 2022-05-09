@@ -1,0 +1,15 @@
+<kendo-dialog
+  title="Cancel The Process"
+  *ngIf="uiState.cancelServiceRunOpen$ | async"
+  (close)="close()"
+  [minWidth]="250"
+  [width]="350"
+>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  </p>
+  <kendo-dialog-actions>
+    <button kendoButton [disabled]="false" (click)="cancel()" themeColor="primary">Confirm</button>
+  </kendo-dialog-actions>
+</kendo-dialog>
