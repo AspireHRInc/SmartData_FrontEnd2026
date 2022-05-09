@@ -20,14 +20,35 @@
 </div>
 
 <ss-navigation-buttons>
-  <ss-navigation-button label="Create New Run" class="secondary"></ss-navigation-button>
+  <ss-navigation-button *ngIf="showCreateNewRun" label="Create New Run" class="secondary"></ss-navigation-button>
   <ss-navigation-button label="History of Runs"></ss-navigation-button>
 </ss-navigation-buttons>
 
+<ss-cancel-service-run [serviceId]="cancelServiceId"></ss-cancel-service-run>
+<ss-service-run-results
+  [serviceId]="serviceDetailsId"
+  *ngIf="uiState.serviceRunResultsOpen$ | async"
+></ss-service-run-results>
+<ss-service-run-info *ngIf="uiState.serviceRunInfoOpen$ | async" [serviceId]="serviceDetailsId"></ss-service-run-info>
+
 <div class="content-wrapper">
-  <div class="filters" [formGroup]="filtersFormGroup">
+  <div class="filters">
     <ng-container *ngFor="let filterGroup of filters; let i = index">
-      <button kendoButton rounded="full" fillMode="outline" #anchor (click)="showFilterPopup(i)" class="filter-button">
+      <button
+        kendoButton
+        rounded="full"
+        fillMode="outline"
+        #anchor
+        (click)="showFilterPopup(i)"
+        class="filter-button"
+        [class.active]="
+          filterGroup.name !== 'Date Range'
+            ? filtersObj[filterGroup.name.toLocaleLowerCase()].length > 0
+            : filtersObj['dateRange'].start.getTime() !== 0
+            ? true
+            : false
+        "
+      >
         <span class="name">{{ filterGroup.name }}</span>
         <span class="arrow">&#9660;</span>
       </button>
@@ -39,17 +60,12 @@
         (blur)="filterListBlur()"
         class="filter-popup"
       >
-        <div class="content" [formGroupName]="filterGroup.name">
+        <div class="content">
           <ul class="filter-list" *ngIf="filterGroup.name !== 'Date Range'">
             <ng-container *ngFor="let filter of filterGroup.filters">
-              <li class="filter-item">
+              <li class="filter-item" *ngIf="filterGroup.filters.length > 1">
                 <label class="k-checkbox-label">
-                  <input
-                    type="checkbox"
-                    kendoCheckBox
-                    (change)="onCheckboxChange(filterGroup.name, filter)"
-                    [formControlName]="filter"
-                  />
+                  <input type="checkbox" kendoCheckBox (change)="onCheckboxChange(filterGroup.name, filter)" />
                   {{ filter }}
                 </label>
               </li>
@@ -58,18 +74,22 @@
 
           <ng-container *ngIf="filterGroup.name === 'Date Range'">
             <kendo-popup #popup [anchor]="anchor" *ngIf="showFilterPopupIndex === i" (blur)="filterListBlur()">
-              <div class="content" [formGroupName]="filterGroup.name">
+              <div class="content">
                 <kendo-multiviewcalendar
                   kendoDateRangeSelection
                   [selectionRange]="selectedDateRangeFilter"
                   (selectionRangeChange)="onDateRangeValueChange($event)"
                 ></kendo-multiviewcalendar>
+                <!-- <button (click)="onDateRangeValueChange(filtersObj['dateRange'], 'clear')">clear</button> -->
               </div>
             </kendo-popup>
           </ng-container>
         </div>
       </kendo-popup>
     </ng-container>
+    <button kendoButton rounded="full" fillMode="outline" (click)="clearAllFilters()" class="filter-button">
+      <span class="name">Clear</span>
+    </button>
   </div>
 
   <div class="history-header">
@@ -169,7 +189,7 @@
             Get Results
           </button>
           <button
-            (click)="details(dataItem.id)"
+            (click)="info(dataItem.id)"
             class="button medium action primary complete"
             *ngIf="dataItem.statusString === 'Processed with Errors'"
           >
@@ -184,7 +204,7 @@
           {{ dataItem.comment }}
         </div>
         <div class="info">
-          <button class="button">i</button>
+          <button class="button" (click)="info(dataItem.id)">i</button>
         </div>
       </div>
     </ng-template>

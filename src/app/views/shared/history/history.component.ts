@@ -1,19 +1,12 @@
-import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ElementRef, ViewChildren } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
-import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { UserService, User } from 'src/app/services/user.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
-import {
-  ServiceRunService,
-  ServiceRun,
-  ServiceRunStatus,
-  FilterGroup,
-  Filter,
-} from 'src/app/services/service-run.service';
+import { ServiceRunService, ServiceRun, ServiceRunStatus } from 'src/app/services/service-run.service';
 import { DateTimeService } from 'src/app/services/date-time.service';
 import { AccentColor } from 'src/app/services/color.service';
 
@@ -78,13 +71,29 @@ export class HistoryComponent implements OnInit {
 
   filters: any[] = [];
 
-  filtersFormGroup = this.fb.group({
-    Status: this.fb.group({}),
-  });
+  cancelServiceId = '';
+
+  // filtersFormGroup = this.fb.group({
+  //   Status: this.fb.group({}),
+  // });
 
   selectedDateRangeFilter = { start: new Date(), end: new Date() };
 
-  constructor(public userService: UserService, public serviceRunService: ServiceRunService, private fb: FormBuilder) {}
+  filtersObj: any = { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
+
+  searchString = '';
+
+  filterActive = {};
+
+  showCreateNewRun = false;
+
+  serviceDetailsId = '';
+
+  constructor(
+    public userService: UserService,
+    public serviceRunService: ServiceRunService,
+    public uiState: UiStateService
+  ) {}
 
   ngOnInit(): void {
     this.loggedInUserObj = this.userService.loggedInUserObj!;
@@ -119,48 +128,20 @@ export class HistoryComponent implements OnInit {
 
     this.animateProcessingStatusBar();
 
-    this.filters.forEach(filterCategory => {
-      this.filtersFormGroup.addControl(filterCategory.name, this.fb.group({}));
+    // this.filters.forEach(filterCategory => {
+    //   this.filtersFormGroup.addControl(filterCategory.name, this.fb.group({}));
 
-      filterCategory.filters.forEach((filter: any) => {
-        (this.filtersFormGroup.get(filterCategory.name) as FormGroup).addControl(filter, new FormControl(false));
-      });
+    //   filterCategory.filters.forEach((filter: any) => {
+    //     (this.filtersFormGroup.get(filterCategory.name) as FormGroup).addControl(filter, new FormControl(false));
+    //   });
+    // });
+
+    this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
+      this.serviceRuns = this.getExtendedServices(
+        this.serviceRunService.filterServiceRuns(this.searchString, this.filtersObj)
+      );
     });
   }
-
-  // ngAfterViewInit() {
-  //   this.filtersFormGroup.valueChanges.subscribe(filterValues => {
-  //     this.updateFilterValues(filterValues);
-  //   });
-  // }
-
-  // updateFilterValues(filterValuesForm: any) {
-  //   let transformedFilters = Object.entries(filterValuesForm).map(filter => {
-  //     // return Object.keys(filter).find(key => filter[parseInt(key)] === true);
-  //     let obj: { name: string; filters: any } = { name: '', filters: [] };
-  //     obj.name = filter[0];
-  //     obj.filters = filter[1] as [];
-
-  //     obj.filters = Object.entries(obj.filters).map(([k, v]) => ({ [k]: v }));
-  //     // console.log(obj.filters);
-  //     obj.filters = obj.filters.filter((obj: any) => {
-  //       if (Object.values(obj)[0] === true) {
-  //         // console.log(Object.keys(obj)[0]);
-  //         return String(Object.keys(obj)[0]);
-  //       }
-  //       return;
-  //     });
-  //     return obj;
-  //   });
-
-  //   // console.log(transformedFilters[0].filters);
-  // }
-
-  filtersObj: any = { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
-
-  searchString = '';
-
-  filterActive = {};
 
   onCheckboxChange(filterGroup: string, filter: string) {
     if (!this.filtersObj[filterGroup.toLocaleLowerCase()].includes(filter)) {
@@ -172,29 +153,39 @@ export class HistoryComponent implements OnInit {
         }
       );
     }
+    console.log(this.filtersObj);
     this.onServiceFilter();
   }
 
+  // filterGroupActive(filterGroup: string, i: number) {
+  //   if(filterGroup.toLowerCase().replace(/ /g, '') === 'daterange') {}
+  //   console.log(filterGroup.toLowerCase().replace(/ /g, ''), i);
+  //   console.log(this.filtersObj);
+  //   // console.log(this.filtersObj.name.toLowerCase());
+  // }
+
   setFilterActive() {}
 
-  onDateRangeValueChange(range: SelectionRange) {
-    console.log(range);
-    // console.log(this.selectedDateRangeFilter);
-    this.filtersObj.dateRange = range;
-    this.onServiceFilter();
+  onDateRangeValueChange(range?: SelectionRange, action?: string) {
+    if (action === 'clear') {
+      this.filtersObj.dateRange = { start: new Date(0), end: new Date(0) };
+      this.onServiceFilter();
+    } else {
+      this.filtersObj.dateRange = range;
+      this.onServiceFilter();
+    }
   }
 
   onSearchStringUpdate(event: any) {
     this.searchString = event.target.value;
-    this.onServiceFilter();
+    if (event.key === 'Enter' || event.type === 'click') {
+      this.serviceRuns = this.getExtendedServices(
+        this.serviceRunService.filterServiceRuns(this.searchString, this.filtersObj)
+      );
+    }
   }
 
   onServiceFilter(event: any = '') {
-    // if (event.key === 'Enter' || event.type === 'click') {
-    //   // this.services = this.servicesService.onServiceSearch(this.searchField);
-    //   this.serviceRuns = this.getExtendedServices(this.serviceRunService.filterServiceRuns(event));
-    // }
-
     this.serviceRuns = this.getExtendedServices(
       this.serviceRunService.filterServiceRuns(this.searchString, this.filtersObj)
     );
@@ -233,21 +224,48 @@ export class HistoryComponent implements OnInit {
   }
 
   cancel(id: string) {
-    alert('cancel item with id: ' + id);
+    this.cancelServiceId = id;
+    this.uiState.showCancelServiceRun();
   }
 
   details(id: string) {
-    alert('details for item with id: ' + id);
+    this.serviceDetailsId = id;
+    this.uiState.showServiceRunResults();
   }
 
-  onFilterClick(event: any) {
-    console.log(event);
+  info(id: string) {
+    this.serviceDetailsId = id;
+    this.uiState.showServiceRunInfo();
   }
 
   filterListBlur() {
     console.log('blur');
     this.showFilterPopupIndex = -1;
   }
+
+  // @ViewChildren('anchor') public anchor!: ElementRef;
+  // @ViewChildren('popup', { read: ElementRef }) public popup!: ElementRef;
+
+  // @HostListener('document:click', ['$event'])
+  // public documentClick(event: KeyboardEvent): void {
+  //   console.log(this.anchor);
+  //   console.log(this.popup);
+  //   console.log(event.target);
+  //   if (!this.contains(event.target!)) {
+  //     // this.toggle(false);
+  //     this.showFilterPopupIndex = -1;
+  //   }
+
+  //   if () {
+
+  //   }
+  // }
+
+  // contains(target: EventTarget): boolean {
+  //   return (
+  //     this.anchor.nativeElement.contains(target) || (this.popup ? this.popup.nativeElement.contains(target) : false)
+  //   );
+  // }
 
   showFilterPopup(i: number) {
     if (this.showFilterPopupIndex === i) {
@@ -284,5 +302,10 @@ export class HistoryComponent implements OnInit {
     }
 
     return this.serviceRuns;
+  }
+
+  clearAllFilters() {
+    this.showFilterPopupIndex = -1;
+    this.filtersObj = { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
   }
 }

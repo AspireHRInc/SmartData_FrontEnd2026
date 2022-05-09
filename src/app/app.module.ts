@@ -26,6 +26,9 @@ import { ListViewModule } from '@progress/kendo-angular-listview';
 import { ProgressBarModule } from '@progress/kendo-angular-progressbar';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { CancelServiceRunComponent } from './views/shared/history/cancel-service-run/cancel-service-run.component';
+import { ServiceRunResultsComponent } from './views/shared/history/service-run-results/service-run-results.component';
+import { ServiceRunInfoComponent } from './views/shared/history/service-run-info/service-run-info.component';
 
 
 
@@ -40,6 +43,9 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
     HistoryComponent,
     DetailComponent,
     DashboardComponent,
+    CancelServiceRunComponent,
+    ServiceRunResultsComponent,
+    ServiceRunInfoComponent,
   ],
   imports: [
     BrowserModule,

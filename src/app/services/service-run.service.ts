@@ -26,13 +26,24 @@ export class ServiceRun {
   newlyCompleted = false;
   comment = '';
   type = '';
-  results?: File[] = [];
+  results?: ServiceRunResult[] = [];
   parameters: ServiceRunParameter[] = [];
+  info?: (infoItem | ServiceRunResult)[] = [];
 
   constructor() {}
 }
 
-export class ServiceRunResult extends File {
+export class infoItem {
+  id = '';
+  type = '';
+  label = '';
+  detail = '';
+}
+
+export class ServiceRunResult {
+  id = '';
+  type = '';
+  label = '';
   fileName?: string;
   filePath?: string;
   createDate?: Date;
@@ -75,7 +86,7 @@ export class Filters {
 export class ServiceRunService {
   serviceRuns: ServiceRun[] = [
     {
-      id: '0',
+      id: '1',
       userId: 2,
       userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
@@ -102,9 +113,82 @@ export class ServiceRunService {
           displayOrder: 5000,
         },
       ],
+      info: [
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Process Code',
+          detail: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Created By',
+          detail: 'John Doe(Scheduled)',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Status',
+          detail: 'Completed',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Start Date',
+          detail: 'Mar 20 20:20:05',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'End Date',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: '1 Day',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Comment',
+          detail: 'Type',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'heading',
+          label: 'Settings',
+          detail: '',
+        },
+
+        {
+          id: '12302',
+          type: 'file',
+          label: 'Old File',
+          fileName: 'oldfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: '12302',
+          type: 'file',
+          label: 'New File',
+          fileName: 'newfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Type',
+          detail: 'SuccessFactors Comma Delimited File (Double Header)',
+        },
+      ],
     },
     {
-      id: '0',
+      id: '2',
       userId: 5,
       userName: 'Steven Fuller',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
@@ -130,9 +214,83 @@ export class ServiceRunService {
           displayOrder: 5000,
         },
       ],
+
+      info: [
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Process Code',
+          detail: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Created By',
+          detail: 'John Doe(Scheduled)',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Status',
+          detail: 'Completed',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Start Date',
+          detail: 'Mar 20 20:20:05',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'End Date',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: '1 Day',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Comment',
+          detail: 'Type',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'heading',
+          label: 'Settings',
+          detail: '',
+        },
+
+        {
+          id: '12302',
+          type: 'file',
+          label: 'Old File',
+          fileName: 'oldfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: '12302',
+          type: 'file',
+          label: 'New File',
+          fileName: 'newfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Type',
+          detail: 'SuccessFactors Comma Delimited File (Double Header)',
+        },
+      ],
     },
     {
-      id: '0',
+      id: '3',
       userId: 2,
       userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
@@ -150,15 +308,17 @@ export class ServiceRunService {
       type: 'SuccessFactors Comma Delimited File (Double Header)',
       results: [
         {
+          type: 'file',
           id: '12302',
-          title: 'Compare Results',
+          label: 'Compare Results',
           fileName: 'compareresults.xlsx',
           filePath: '/asset/results/samples/compareresults.xlsx',
           createDate: new Date(),
         },
         {
+          type: 'file',
           id: '12303',
-          title: 'File Name',
+          label: 'File Name',
           fileName: 'filename.xlsx',
           filePath: '/asset/results/samples/filename.xlsx',
           createDate: new Date(),
@@ -175,9 +335,82 @@ export class ServiceRunService {
           displayOrder: 5000,
         },
       ],
+      info: [
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Process Code',
+          detail: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Created By',
+          detail: 'John Doe(Scheduled)',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Status',
+          detail: 'Completed',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Start Date',
+          detail: 'Mar 20 20:20:05',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'End Date',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: '1 Day',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Comment',
+          detail: 'Type',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'heading',
+          label: 'Settings',
+          detail: '',
+        },
+
+        {
+          id: '12302',
+          type: 'file',
+          label: 'Old File',
+          fileName: 'oldfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: '12302',
+          type: 'file',
+          label: 'New File',
+          fileName: 'newfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Type',
+          detail: 'SuccessFactors Comma Delimited File (Double Header)',
+        },
+      ],
     },
     {
-      id: '0',
+      id: '4',
       userId: 2,
       userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
@@ -195,18 +428,10 @@ export class ServiceRunService {
       type: 'SuccessFactors Comma Delimited File (Double Header)',
       results: [
         {
+          type: 'text',
           id: '12302',
-          title: 'Compare Results',
-          fileName: 'compareresults.xlsx',
-          filePath: '/asset/results/samples/compareresults.xlsx',
-          createDate: new Date(),
-        },
-        {
-          id: '12303',
-          title: 'File Name',
-          fileName: 'filename.xlsx',
-          filePath: '/asset/results/samples/filename.xlsx',
-          createDate: new Date(),
+          label: 'Different Result',
+          textResult: 'Some text',
         },
       ],
       parameters: [
@@ -220,9 +445,82 @@ export class ServiceRunService {
           displayOrder: 5000,
         },
       ],
+      info: [
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Process Code',
+          detail: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Created By',
+          detail: 'John Doe(Scheduled)',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Status',
+          detail: 'Completed',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Start Date',
+          detail: 'Mar 20 20:20:05',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'End Date',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: '1 Day',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Comment',
+          detail: 'Type',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'heading',
+          label: 'Settings',
+          detail: '',
+        },
+
+        {
+          id: '12302',
+          type: 'file',
+          label: 'Old File',
+          fileName: 'oldfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: '12302',
+          type: 'file',
+          label: 'New File',
+          fileName: 'newfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Type',
+          detail: 'SuccessFactors Comma Delimited File (Double Header)',
+        },
+      ],
     },
     {
-      id: '0',
+      id: '5',
       userId: 2,
       userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
@@ -240,15 +538,17 @@ export class ServiceRunService {
       type: 'SuccessFactors Comma Delimited File (Double Header)',
       results: [
         {
+          type: 'file',
           id: '12302',
-          title: 'Compare Results',
+          label: 'Compare Results',
           fileName: 'compareresults.xlsx',
           filePath: '/asset/results/samples/compareresults.xlsx',
           createDate: new Date(),
         },
         {
+          type: 'file',
           id: '12303',
-          title: 'File Name',
+          label: 'File Name',
           fileName: 'filename.xlsx',
           filePath: '/asset/results/samples/filename.xlsx',
           createDate: new Date(),
@@ -265,9 +565,82 @@ export class ServiceRunService {
           displayOrder: 5000,
         },
       ],
+      info: [
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Process Code',
+          detail: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Created By',
+          detail: 'John Doe(Scheduled)',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Status',
+          detail: 'Completed',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Start Date',
+          detail: 'Mar 20 20:20:05',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'End Date',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: '1 Day',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Comment',
+          detail: 'Type',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'heading',
+          label: 'Settings',
+          detail: '',
+        },
+
+        {
+          id: '12302',
+          type: 'file',
+          label: 'Old File',
+          fileName: 'oldfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: '12302',
+          type: 'file',
+          label: 'New File',
+          fileName: 'newfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Type',
+          detail: 'SuccessFactors Comma Delimited File (Double Header)',
+        },
+      ],
     },
     {
-      id: '0',
+      id: '6',
       userId: 2,
       userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
@@ -285,15 +658,17 @@ export class ServiceRunService {
       type: 'SuccessFactors Comma Delimited File (Double Header)',
       results: [
         {
+          type: 'file',
           id: '12302',
-          title: 'Compare Results',
+          label: 'Compare Results',
           fileName: 'compareresults.xlsx',
           filePath: '/asset/results/samples/compareresults.xlsx',
           createDate: new Date(),
         },
         {
+          type: 'file',
           id: '12303',
-          title: 'File Name',
+          label: 'File Name',
           fileName: 'filename.xlsx',
           filePath: '/asset/results/samples/filename.xlsx',
           createDate: new Date(),
@@ -310,9 +685,81 @@ export class ServiceRunService {
           displayOrder: 5000,
         },
       ],
+      info: [
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Process Code',
+          detail: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Created By',
+          detail: 'John Doe(Scheduled)',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Status',
+          detail: 'Completed',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Start Date',
+          detail: 'Mar 20 20:20:05',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'End Date',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: '1 Day',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Comment',
+          detail: 'Type',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'heading',
+          label: 'Settings',
+          detail: '',
+        },
+        {
+          id: '12302',
+          type: 'file',
+          label: 'Old File',
+          fileName: 'oldfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: '12302',
+          type: 'file',
+          label: 'New File',
+          fileName: 'newfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Type',
+          detail: 'SuccessFactors Comma Delimited File (Double Header)',
+        },
+      ],
     },
     {
-      id: '0',
+      id: '7',
       userId: 2,
       userName: 'Jesse West',
       processCode: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
@@ -330,15 +777,17 @@ export class ServiceRunService {
       type: 'SuccessFactors Comma Delimited File (Double Header)',
       results: [
         {
+          type: 'file',
           id: '12302',
-          title: 'Compare Results',
+          label: 'Compare Results',
           fileName: 'compareresults.xlsx',
           filePath: '/asset/results/samples/compareresults.xlsx',
           createDate: new Date(),
         },
         {
+          type: 'file',
           id: '12303',
-          title: 'File Name',
+          label: 'File Name',
           fileName: 'filename.xlsx',
           filePath: '/asset/results/samples/filename.xlsx',
           createDate: new Date(),
@@ -353,6 +802,79 @@ export class ServiceRunService {
           defaultValue: 'DefaultFilename.xlsx',
           templateS3Path: 'Templates/MANAGEPENDINGHIRE.xlsx',
           displayOrder: 5000,
+        },
+      ],
+      info: [
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Process Code',
+          detail: '1215113wffsdf-trhgfvbv-2415-4521b-dsgnslokn068',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Created By',
+          detail: 'John Doe(Scheduled)',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Status',
+          detail: 'Completed',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Start Date',
+          detail: 'Mar 20 20:20:05',
+        },
+
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'End Date',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: '1 Day',
+          detail: 'Mar 21 20:20:37',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Comment',
+          detail: 'Type',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'heading',
+          label: 'Settings',
+          detail: '',
+        },
+
+        {
+          id: '12302',
+          type: 'file',
+          label: 'Old File',
+          fileName: 'oldfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: '12302',
+          type: 'file',
+          label: 'New File',
+          fileName: 'newfile.xlsx',
+          filePath: '/asset/results/samples/compareresults.xlsx',
+        },
+        {
+          id: 'lkjlkj',
+          type: 'text',
+          label: 'Type',
+          detail: 'SuccessFactors Comma Delimited File (Double Header)',
         },
       ],
     },
@@ -377,13 +899,10 @@ export class ServiceRunService {
       name: 'Requester',
       filters: [
         {
-          name: 'Esther Neal',
+          name: 'Steven Fuller',
         },
         {
           name: 'Jesse West',
-        },
-        {
-          name: 'Brittany Watts',
         },
       ],
     },
@@ -412,10 +931,6 @@ export class ServiceRunService {
   currentFilters: string[] = [];
 
   filterServiceRuns(searchString: string, filters: Filters) {
-    console.log('filterServiceRuns');
-    console.log(filters);
-    console.log('search string ', searchString);
-
     this.currentServicesRuns = [...this.serviceRuns];
 
     let filtersActive = false;
@@ -432,7 +947,7 @@ export class ServiceRunService {
     if (filters.status.length > 0) {
       this.currentServicesRuns = [
         ...this.currentServicesRuns.filter(run => {
-          return filters.status.every(status => run.status.includes(status));
+          return filters.status.some(status => run.status.includes(status));
         }),
       ];
     }
@@ -440,7 +955,7 @@ export class ServiceRunService {
     if (filters.requester.length > 0) {
       this.currentServicesRuns = [
         ...this.currentServicesRuns.filter(run => {
-          return filters.requester.every(
+          return filters.requester.some(
             requesterName => this.userService.getUserFullNameById(run.userId) === requesterName
           );
         }),
@@ -450,12 +965,12 @@ export class ServiceRunService {
     if (filters.service.length > 0) {
       this.currentServicesRuns = [
         ...this.currentServicesRuns.filter(run => {
-          return filters.service.every(serviceName => run.serviceName.includes(serviceName));
+          return filters.service.some(serviceName => run.serviceName.includes(serviceName));
         }),
       ];
     }
-
-    if (filters.dateRange !== undefined) {
+    // every
+    if (filters.dateRange.start.getTime() !== new Date(0).getTime()) {
       this.currentServicesRuns = [
         ...this.currentServicesRuns.filter(run => {
           return (
@@ -490,5 +1005,9 @@ export class ServiceRunService {
     }
 
     return this.currentServicesRuns;
+  }
+
+  cancelServiceRun(id: string) {
+    console.log('cancel service run ', id);
   }
 }

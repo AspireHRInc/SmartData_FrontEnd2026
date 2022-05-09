@@ -15,8 +15,17 @@ export class UiStateService {
   private serviceDetailId = new BehaviorSubject<string>('');
   serviceDetailId$ = this.serviceDetailId.asObservable();
 
-  // private serviceSearchString = new BehaviorSubject<string>('');
-  // serviceSearchString$ = this.serviceSearchString.asObservable();
+  private cancelServiceRunOpen = new BehaviorSubject<boolean>(false);
+  cancelServiceRunOpen$ = this.cancelServiceRunOpen.asObservable();
+
+  // private cancelServiceRunId = new BehaviorSubject<string>('');
+  // cancelServiceRunId$ = this.cancelServiceRunId.asObservable();
+
+  private serviceRunResultsOpen = new BehaviorSubject<boolean>(false);
+  serviceRunResultsOpen$ = this.serviceRunResultsOpen.asObservable();
+
+  private serviceRunInfoOpen = new BehaviorSubject<boolean>(false);
+  serviceRunInfoOpen$ = this.serviceRunInfoOpen.asObservable();
 
   constructor() {}
 
@@ -41,8 +50,31 @@ export class UiStateService {
     this.serviceFiltersOpen.next(false);
   }
 
-  // setServiceSearchString(searchString: string) {
-  //   console.log('set service search string', searchString);
-  //   this.serviceSearchString.next(searchString);
+  showCancelServiceRun() {
+    this.cancelServiceRunOpen.next(true);
+  }
+
+  hideCancelServiceRun() {
+    this.cancelServiceRunOpen.next(false);
+  }
+
+  // setCancelServiceRunId(searchString: string) {
+  //   this.cancelServiceRunId.next(searchString);
   // }
+
+  showServiceRunResults() {
+    this.serviceRunResultsOpen.next(true);
+  }
+
+  hideServiceRunResults() {
+    this.serviceRunResultsOpen.next(false);
+  }
+
+  showServiceRunInfo() {
+    this.serviceRunInfoOpen.next(true);
+  }
+
+  hideServiceRunInfo() {
+    this.serviceRunInfoOpen.next(false);
+  }
 }

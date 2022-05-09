@@ -1,0 +1,22 @@
+:host {
+  display: block;
+
+  .results {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    .result {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      .button {
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 18px;
+        text-transform: uppercase;
+        padding: 0.375rem;
+      }
+    }
+  }
+}

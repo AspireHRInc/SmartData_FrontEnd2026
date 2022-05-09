@@ -1,0 +1,31 @@
+<kendo-dialog title="Information" (close)="close()" [minWidth]="250" [width]="650">
+  <ul class="infos">
+    <li class="info" *ngFor="let result of results">
+      <label [class.heading]="result.type === 'heading'">{{ result.label }}</label>
+
+      <button
+        *ngIf="result.type === 'file'"
+        kendoButton
+        icon="download"
+        (click)="onButtonClick(result.filePath)"
+        class="button primary result-button"
+      >
+        {{ result.fileName }}
+      </button>
+
+      <p *ngIf="result.type === 'text'" class="text">
+        {{ result.detail }}
+
+        <button
+          kendoButton
+          icon="copy"
+          class="copy"
+          *ngIf="result.label === 'Process Code'"
+          (click)="copyText(result.detail)"
+        ></button>
+      </p>
+
+      <p *ngIf="result.type === 'heading'"></p>
+    </li>
+  </ul>
+</kendo-dialog>

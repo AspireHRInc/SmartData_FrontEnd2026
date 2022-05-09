@@ -32,12 +32,21 @@
     display: flex;
     gap: 1rem;
     padding: 1rem;
+    flex-wrap: wrap;
 
     .filter-button {
       border-color: var(--color-cta-lighter);
       color: var(--color-cta-lighter);
       border-width: 2px;
       text-transform: uppercase;
+
+      &.active {
+        background-color: var(--color-cta-lighter);
+        .name,
+        .arrow {
+          color: var(--color-background-primary);
+        }
+      }
 
       &:hover {
         background-color: var(--color-cta-lighter);
@@ -97,6 +106,38 @@
     line-height: 1rem;
     color: var(--color-text-secondary);
 
+    .actions,
+    .history-header,
+    .comment,
+    .info,
+    .icon {
+      display: none;
+      @media screen and (min-width: 54rem) {
+        display: inherit;
+      }
+    }
+
+    .status {
+      order: 3;
+      @media screen and (min-width: 54rem) {
+        order: unset;
+      }
+    }
+
+    .duration {
+      order: 2;
+      @media screen and (min-width: 54rem) {
+        order: unset;
+      }
+    }
+
+    .date {
+      order: 1;
+      @media screen and (min-width: 54rem) {
+        order: unset;
+      }
+    }
+
     .button {
       font-weight: 500;
       font-size: 0.75rem;
@@ -115,8 +156,20 @@
     display: grid;
     gap: 1rem;
     // justify-content: space-between;
-    grid-template-columns: 0.4fr 2.2fr 1.5fr 1fr 1fr 0.5fr 2fr 0.2fr;
+    grid-template-columns: 1fr;
     align-items: center;
+
+    @media screen and (min-width: 43rem) {
+      grid-template-columns: 7rem 1fr 1fr 1fr;
+    }
+
+    @media screen and (min-width: 54rem) {
+      grid-template-columns: 35px 2.3fr 1.6fr 7rem 7rem 0.5fr 2fr 0.2fr;
+    }
+  }
+
+  .history-header {
+    margin: 0 2rem;
   }
 
   .history-item {
