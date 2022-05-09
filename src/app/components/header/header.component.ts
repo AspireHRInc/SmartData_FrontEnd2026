@@ -1,5 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+
 import { User } from 'src/app/services/user.service';
+
+// export enum HeaderType {
+//   'dashboard' = 'dashboard',
+//   'serviceDetail' = 'serviceDetail',
+// }
 
 @Component({
   selector: 'ss-header',
@@ -11,8 +18,13 @@ export class HeaderComponent implements OnInit {
   @Input() headerSubtitle = '';
   @Input() headerUserId = 1;
   @Input() headerUserObject = new User();
+  @Input() type = 'dashboard';
 
-  constructor() {}
+  constructor(private location: Location) {}
 
   ngOnInit(): void {}
+
+  back(): void {
+    this.location.back();
+  }
 }

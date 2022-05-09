@@ -7,7 +7,6 @@
         kendoButton
         *ngFor="let filter of filters"
         [toggleable]="true"
-        [selected]="servicesService.currentFilter === filter"
         [class.selected]="servicesService.currentFilter === filter"
         (click)="selectedFilter(filter)"
         class="filter"

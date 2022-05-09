@@ -15,6 +15,7 @@
     border-radius: 6px;
     z-index: 1;
     box-shadow: var(--drop-shadow);
+    position: relative;
 
     .controls {
       display: flex;
@@ -60,27 +61,8 @@
       }
 
       .search {
-        display: flex;
-        height: 2.3125rem;
-        flex: 1 50%;
         max-width: 25rem;
         min-width: 15rem;
-
-        .field {
-          display: flex;
-          height: 100%;
-          flex: 1 50%;
-          border-radius: 2rem 0 0 2rem;
-          border-color: var(--color-cta-lighter);
-          border-width: 2px;
-          padding-top: 0;
-        }
-        .k-icon-button.k-button-md {
-          background-color: var(--color-cta-lighter);
-          color: var(--color-background-primary);
-          border-radius: 0 2rem 2rem 0;
-          padding: 0.7rem;
-        }
       }
     }
 

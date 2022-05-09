@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { trigger, style, animate, transition } from '@angular/animations';
 
 import { UserService, User } from 'src/app/services/user.service';
 import { ServicesService, ServiceCategory, Tag } from 'src/app/services/services.service';
@@ -59,12 +59,18 @@ export class DashboardComponent implements OnInit {
   }
 
   selectedFilter(filter: string): void {
+    console.log('selectedFilter ', filter);
     this.searchField = '';
-    if (this.servicesService.currentFilter !== filter) {
-      this.servicesService.currentFilter = filter;
-    } else {
-      this.servicesService.currentFilter = '';
+
+    if (filter !== 'filters') {
+      if (this.servicesService.currentFilter !== filter) {
+        this.servicesService.currentFilter = filter;
+      } else {
+        this.servicesService.currentFilter = '';
+      }
     }
+
+    console.log('this.servicesService.currentFilter ', this.servicesService.currentFilter);
 
     if (filter !== 'filters') {
       this.uiState.hideServiceFilters();

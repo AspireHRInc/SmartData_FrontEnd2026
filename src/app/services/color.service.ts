@@ -16,6 +16,7 @@ export enum AccentColor {
   green = 'var(--accent-color-3)',
   aqua = 'var(--color-accent-6)',
   red = 'var(--color-accent-7)',
+  gray = 'var(--color-text-secondary)',
 }
 
 @Injectable({

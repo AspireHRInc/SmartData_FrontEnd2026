@@ -8,13 +8,14 @@ import { ColorService, AccentColor } from 'src/app/services/color.service';
   host: { class: 'status-badge' },
 })
 export class StatusBadgeComponent implements OnInit {
-  @Input() colour = AccentColor.none;
+  @Input() color = AccentColor.none;
   @Input() textColor = '';
   @Input() title = `status`;
   @Input() colorFromString = false;
   @Input() bold = false;
   @Input() rounded = false;
   @Input() button = false;
+  @Input() outline = true;
 
   colorFromStringColor = '';
 

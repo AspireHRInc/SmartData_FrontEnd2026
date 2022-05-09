@@ -55,7 +55,8 @@ export class FiltersComponent implements OnInit {
 
     this.resize$.pipe(debounceTime(this.resizeUpdateInterval)).subscribe(_ => this.setWindowDimensions());
 
-    console.log(this.filters);
+    // console.log(this.filters);
+    this.filters.reset();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -78,6 +79,7 @@ export class FiltersComponent implements OnInit {
     let filterValues = this.filters.value;
     let selectedFilters = Object.keys(filterValues).filter(key => filterValues[key] === true);
     this.selectedFilters.emit(selectedFilters);
+    this.uiState.hideServiceFilters();
   }
 
   reset() {

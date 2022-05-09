@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { File } from './file.service';
 
 export enum ServiceTag {
   'Favorites' = 'Favorites',
@@ -9,12 +10,7 @@ export enum ServiceTag {
   'Recruiting' = 'Recruiting',
 }
 
-export interface Template {
-  id: string;
-  title: string;
-  fileName: string;
-  filePath: string;
-}
+export interface Template extends File {}
 
 export class Service {
   id = '0';
@@ -1457,6 +1453,11 @@ export class ServicesService {
               name: 'Mass Upload',
               subscribed: '0',
             },
+            {
+              id: '3-1',
+              name: 'Favorites',
+              subscribed: '',
+            },
           ],
           shortDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
           description:
@@ -2133,6 +2134,7 @@ export class ServicesService {
   }
 
   filterServices(filters: string[]) {
+    console.log('filterServices ', filters);
     this.currentServices = [...JSON.parse(JSON.stringify(this.allServices))];
     this.currentServices[0].name = filters.toString().charAt(0).toUpperCase() + filters.toString().slice(1);
 
@@ -2151,27 +2153,27 @@ export class ServicesService {
     return this.currentServices;
   }
 
-  filterServicesByTag() {
-    this.currentServices = [...JSON.parse(JSON.stringify(this.allServices))];
-    this.currentServices[0].name = this.currentFilters.join(' ');
-    console.log(this.currentFilters);
+  // filterServicesByTag() {
+  //   this.currentServices = [...JSON.parse(JSON.stringify(this.allServices))];
+  //   this.currentServices[0].name = this.currentFilters.join(' ');
+  //   // console.log(this.currentFilters);
 
-    this.currentServices[0].services = [
-      ...this.currentServices[0].services.filter(service => {
-        return this.currentFilters.every(filter => {
-          return service.metaTags
-            .map(tag => tag.name)
-            .toString()
-            .toLowerCase()
-            .includes(filter);
-        });
-      }),
-    ];
+  //   this.currentServices[0].services = [
+  //     ...this.currentServices[0].services.filter(service => {
+  //       return this.currentFilters.every(filter => {
+  //         return service.metaTags
+  //           .map(tag => tag.name)
+  //           .toString()
+  //           .toLowerCase()
+  //           .includes(filter);
+  //       });
+  //     }),
+  //   ];
 
-    console.log(this.currentServices);
+  //   console.log(this.currentServices);
 
-    return this.currentServices;
-  }
+  //   return this.currentServices;
+  // }
 
   constructor() {}
 

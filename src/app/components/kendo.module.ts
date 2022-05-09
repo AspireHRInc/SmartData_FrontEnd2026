@@ -8,6 +8,7 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
+import { ListViewModule } from '@progress/kendo-angular-listview';
 
 @NgModule({
   imports: [
