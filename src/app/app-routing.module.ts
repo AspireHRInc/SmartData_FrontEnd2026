@@ -13,9 +13,7 @@ import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  // { path: 'one', component: PageOneComponent },
-  // { path: 'two', component: PageTwoComponent },
-  // { path: 'three', component: PageThreeComponent },
+
   { path: 'services', redirectTo: 'services/dashboard', pathMatch: 'full' },
   {
     path: 'services',
@@ -39,7 +37,7 @@ const routes: Routes = [
   // { path: 'forgotPassword', component: ForgotPasswordComponent },
   // { path: 'requestAccount', component: RequestAccountComponent},
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: 'login' },
 ];
 
 @NgModule({
