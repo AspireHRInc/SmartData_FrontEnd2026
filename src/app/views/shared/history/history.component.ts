@@ -307,5 +307,6 @@ export class HistoryComponent implements OnInit {
   clearAllFilters() {
     this.showFilterPopupIndex = -1;
     this.filtersObj = { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
+    this.onServiceFilter();
   }
 }
