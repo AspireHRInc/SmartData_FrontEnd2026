@@ -58,9 +58,7 @@ export class DashboardComponent implements OnInit {
   }
 
   selectedFilter(filter: string): void {
-    console.log('selectedFilter ', filter);
     this.searchField = '';
-    console.log(this.servicesService.currentFilter);
 
     if (filter !== 'filters') {
       if (this.servicesService.currentFilter !== filter) {
@@ -69,8 +67,6 @@ export class DashboardComponent implements OnInit {
         this.servicesService.currentFilter = '';
       }
     }
-
-    console.log('this.servicesService.currentFilter ', this.servicesService.currentFilter);
 
     if (filter !== 'filters') {
       this.uiState.hideServiceFilters();
@@ -107,5 +103,12 @@ export class DashboardComponent implements OnInit {
   onFiltersSelected(filtersArr: string[]) {
     this.servicesService.currentFilters = filtersArr;
     this.services = this.servicesService.onServiceSearch(this.searchField);
+  }
+
+  onServiceTileClick(event: Event, serviceId: string) {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log(event);
+    console.log(serviceId);
   }
 }

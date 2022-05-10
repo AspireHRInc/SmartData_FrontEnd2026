@@ -46,6 +46,7 @@
         (toggleFavorite)="onToggleFavorite(service.id, $event)"
         (openInfo)="openInfo(category.id, service.id)"
         [@tileInOutAnimation]
+        (click)="onServiceTileClick($event, service.id)"
       >
         <button class="k-button primary request" *ngIf="!service.subscribed" (click)="requestService(service.id)">
           Learn More
