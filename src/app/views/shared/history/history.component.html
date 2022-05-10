@@ -62,10 +62,15 @@
       >
         <div class="content">
           <ul class="filter-list" *ngIf="filterGroup.name !== 'Date Range'">
-            <ng-container *ngFor="let filter of filterGroup.filters">
+            <ng-container *ngFor="let filter of filterGroup.filters; let i = index">
               <li class="filter-item" *ngIf="filterGroup.filters.length > 1">
                 <label class="k-checkbox-label">
-                  <input type="checkbox" kendoCheckBox (change)="onCheckboxChange(filterGroup.name, filter)" />
+                  <input
+                    type="checkbox"
+                    kendoCheckBox
+                    (change)="onCheckboxChange(filterGroup.name, filter)"
+                    [checked]="filtersObj[filterGroup.name.toLowerCase()].indexOf(filter) !== -1"
+                  />
                   {{ filter }}
                 </label>
               </li>

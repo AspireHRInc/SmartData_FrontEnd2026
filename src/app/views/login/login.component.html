@@ -47,9 +47,21 @@
                 required
                 email
                 (keydown)="emailNextOnEnter($event)"
+                (keyup)="onKeyUp($event)"
               />
             </kendo-floatinglabel>
-            <kendo-formerror>Error: Email is required</kendo-formerror>
+            <!-- <kendo-formerror>Error: Email is required {{ messages }}</kendo-formerror> -->
+            <div role="alert" class="k-form-error k-text-start ng-star-inserted">
+              <ng-container
+                *ngIf="
+                  signInFormGroup.controls['email'].invalid &&
+                  (signInFormGroup.controls['email'].dirty || signInFormGroup.controls['email'].touched)
+                "
+              >
+                Error: Email is required
+              </ng-container>
+              &nbsp;{{ messages }}
+            </div>
           </kendo-formfield>
           <button class="primary" (click)="next()" [class.disabled]="email!.invalid" [disabled]="email!.invalid">
             Next
@@ -65,11 +77,27 @@
                 formControlName="password"
                 (focus)="messages = ''"
                 (keydown)="passwordSinginOnEnter($event)"
+                (keyup)="onKeyUp($event)"
               />
             </kendo-floatinglabel>
-            <kendo-formerror>Error: Password is required</kendo-formerror>
+            <!-- <kendo-formerror>Error: Password is required {{ messages }}</kendo-formerror> -->
+            <div role="alert" class="k-form-error k-text-start ng-star-inserted">
+              <ng-container
+                *ngIf="
+                  signInFormGroup.controls['password'].invalid &&
+                  (signInFormGroup.controls['password'].dirty || signInFormGroup.controls['password'].touched)
+                "
+              >
+                Error: Password is required
+              </ng-container>
+              &nbsp;{{ messages }}
+            </div>
           </kendo-formfield>
-          <kendo-formerror>{{ messages }}</kendo-formerror>
+          <kendo-formerror *ngIf="messages">{{ messages }}</kendo-formerror>
+
+          <!-- <div role="alert" class="k-form-error k-text-start ng-star-inserted">
+            Error: Password is required {{ messages }}
+          </div> -->
           <button
             class="primary"
             (click)="signin()"

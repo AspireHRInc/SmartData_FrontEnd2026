@@ -153,18 +153,14 @@ export class HistoryComponent implements OnInit {
         }
       );
     }
-    console.log(this.filtersObj);
+    this.showFilterPopupIndex = -1;
     this.onServiceFilter();
   }
 
-  // filterGroupActive(filterGroup: string, i: number) {
-  //   if(filterGroup.toLowerCase().replace(/ /g, '') === 'daterange') {}
-  //   console.log(filterGroup.toLowerCase().replace(/ /g, ''), i);
-  //   console.log(this.filtersObj);
-  //   // console.log(this.filtersObj.name.toLowerCase());
-  // }
-
-  setFilterActive() {}
+  filterChecked(filterGroupFilters: any, filter: any) {
+    console.log('filterChecked');
+    return filterGroupFilters.includes(filter);
+  }
 
   onDateRangeValueChange(range?: SelectionRange, action?: string) {
     if (action === 'clear') {

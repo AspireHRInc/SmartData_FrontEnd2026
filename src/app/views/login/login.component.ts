@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
   isEmailFieldVisible = true;
 
   signInFormGroup = this.fb.group({
-    email: ['', Validators.required],
+    email: ['', Validators.email],
     password: ['', Validators.required],
   });
 
@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
   }
 
   next() {
-    console.log(this.signInFormGroup);
+    // console.log(this.signInFormGroup);
     setTimeout(() => {
       if (this.step === 1) {
         this.step = 0;
@@ -78,12 +78,13 @@ export class LoginComponent implements OnInit {
   }
 
   signin() {
-    console.log(this.signInFormGroup);
-    console.log('auth', this.auth.authenticate(this.signInFormGroup.value.email, this.signInFormGroup.value.password));
+    // console.log(this.signInFormGroup);
+    // console.log('auth', this.auth.authenticate(this.signInFormGroup.value.email, this.signInFormGroup.value.password));
     if (this.auth.authenticate(this.signInFormGroup.value.email, this.signInFormGroup.value.password)) {
       this.router.navigateByUrl('/services/dashboard');
     } else {
       this.messages = `Invalid username or password.`;
+      this.step = 0;
     }
   }
 
@@ -101,5 +102,9 @@ export class LoginComponent implements OnInit {
     if (event.key === 'Enter' && this.signInFormGroup.controls['password'].status === 'VALID') {
       this.signin();
     }
+  }
+
+  clearMassages() {
+    this.messages = '';
   }
 }
