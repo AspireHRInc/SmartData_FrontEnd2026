@@ -53,7 +53,6 @@ export class DashboardComponent implements OnInit {
     this.services = [...this.servicesService.getServices()];
 
     this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
-      // console.log(value);
       this.services = this.servicesService.onServiceSearch(value);
     });
   }
@@ -61,6 +60,7 @@ export class DashboardComponent implements OnInit {
   selectedFilter(filter: string): void {
     console.log('selectedFilter ', filter);
     this.searchField = '';
+    console.log(this.servicesService.currentFilter);
 
     if (filter !== 'filters') {
       if (this.servicesService.currentFilter !== filter) {
