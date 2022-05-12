@@ -10,6 +10,8 @@ import { KendoModule } from './kendo.module';
 
 // ICONS - all the icon components we want to make available.
 import { IconsModule } from './icons/icons.module';
+// DIRECTIVES - all directives we
+import { DirectivesModule } from '../directives/directives.module';
 
 // COMPONENTS - all the components we want to make available.
 import { UserBadgeComponent } from './user-badge/user-badge.component';
@@ -26,6 +28,17 @@ import { NavigationButtonComponent } from './navigation-button/navigation-button
 import { StatusDotComponent } from './status-dot/status-dot.component';
 import { StatusProgressBarComponent } from './status-progress-bar/status-progress-bar.component';
 import { ListItemServiceRunComponent } from './list-item-service-run/list-item-service-run.component';
+import { FieldTextComponent } from './fields/field-text/field-text.component';
+import { FieldFileComponent } from './fields/field-file/field-file.component';
+import { FieldSelectComponent } from './fields/field-select/field-select.component';
+import { FieldCheckboxComponent } from './fields/field-checkbox/field-checkbox.component';
+import { FieldConnectionStringComponent } from './fields/field-connection-string/field-connection-string.component';
+import { FieldPasswordComponent } from './fields/field-password/field-password.component';
+import { FieldOutputFileComponent } from './fields/field-output-file/field-output-file.component';
+import { FieldGroupComponent } from './field-group/field-group.component';
+import { FieldUploadComponent } from './fields/field-upload/field-upload.component';
+import { FieldDateComponent } from './fields/field-date/field-date.component';
+import { CardComponent } from './card/card.component';
 
 @NgModule({
   imports: [
@@ -36,6 +49,7 @@ import { ListItemServiceRunComponent } from './list-item-service-run/list-item-s
     IconsModule,
     FormsModule,
     ReactiveFormsModule,
+    DirectivesModule,
   ],
   declarations: [
     UserBadgeComponent,
@@ -51,10 +65,22 @@ import { ListItemServiceRunComponent } from './list-item-service-run/list-item-s
     StatusDotComponent,
     StatusProgressBarComponent,
     ListItemServiceRunComponent,
+    FieldTextComponent,
+    FieldFileComponent,
+    FieldSelectComponent,
+    FieldCheckboxComponent,
+    FieldConnectionStringComponent,
+    FieldPasswordComponent,
+    FieldOutputFileComponent,
+    FieldGroupComponent,
+    FieldUploadComponent,
+    FieldDateComponent,
+    CardComponent,
   ],
   exports: [
     KendoModule,
     IconsModule,
+    DirectivesModule,
     UserBadgeComponent,
     UserBadgesComponent,
     StarRatingComponent,
@@ -68,6 +94,17 @@ import { ListItemServiceRunComponent } from './list-item-service-run/list-item-s
     StatusDotComponent,
     StatusProgressBarComponent,
     ListItemServiceRunComponent,
+    FieldTextComponent,
+    FieldFileComponent,
+    FieldSelectComponent,
+    FieldCheckboxComponent,
+    FieldConnectionStringComponent,
+    FieldPasswordComponent,
+    FieldOutputFileComponent,
+    FieldGroupComponent,
+    FieldUploadComponent,
+    FieldDateComponent,
+    CardComponent,
   ],
 })
 export class ComponentsModules {}

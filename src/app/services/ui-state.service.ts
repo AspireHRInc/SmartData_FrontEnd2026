@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UiStateService {
-  private serviceDetailOpen = new BehaviorSubject<boolean>(true);
+  private serviceDetailOpen = new BehaviorSubject<boolean>(false);
   serviceDetailOpen$ = this.serviceDetailOpen.asObservable();
 
   private serviceFiltersOpen = new BehaviorSubject<boolean>(false);

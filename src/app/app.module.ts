@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // 3RD PARTY
 // import 'hammerjs';
@@ -14,6 +14,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModules } from './components/components.modules';
 import { AppComponent } from './app.component';
 
+// MOCK BACKEND FOR UPLOADS_MODULE
+// ! REMOVE FOR PRODUCTION
+import { UploadInterceptorService } from './services/upload-interceptor.service';
+
 // VIEWS
 import { LoginComponent } from './views/login/login.component';
 import { ServicesComponent } from './views/services/services.component';
@@ -22,16 +26,10 @@ import { ConfirmComponent } from './views/services/detail/confirm/confirm.compon
 import { HistoryComponent } from './views/shared/history/history.component';
 import { DetailComponent } from './views/services/detail/detail.component';
 import { DashboardComponent } from './views/services/dashboard/dashboard.component';
-import { ListViewModule } from '@progress/kendo-angular-listview';
-import { ProgressBarModule } from '@progress/kendo-angular-progressbar';
-import { PopupModule } from '@progress/kendo-angular-popup';
-import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+
 import { CancelServiceRunComponent } from './views/shared/history/cancel-service-run/cancel-service-run.component';
 import { ServiceRunResultsComponent } from './views/shared/history/service-run-results/service-run-results.component';
 import { ServiceRunInfoComponent } from './views/shared/history/service-run-info/service-run-info.component';
-
-
-
 
 @NgModule({
   declarations: [
@@ -55,12 +53,14 @@ import { ServiceRunInfoComponent } from './views/shared/history/service-run-info
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ListViewModule,
-    ProgressBarModule,
-    PopupModule,
-    DateInputsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UploadInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

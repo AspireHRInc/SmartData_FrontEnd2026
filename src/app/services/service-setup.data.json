@@ -1,0 +1,171 @@
+{
+  "currentServiceFields": {
+    "tags": ["SuccessFactors", "Onboarding"],
+    "Parameters": [
+      {
+        "ParameterName": "TargetSystem",
+        "ParameterType": "Selection",
+        "Caption": "Target System",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "Options": [
+          { "Pvalue": "System 1", "Plabel": "System 1" },
+          { "Pvalue": "System 2", "Plabel": "System 2" }
+        ],
+        "DisplayOrder": 1000
+      },
+
+      {
+        "ParameterName": "UserFile1",
+        "ParameterType": "Upload",
+        "Caption": "User File",
+        "Required": true,
+        "DefaultValue": "DefaultFilename.xlsx",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "UploadSaveUrl": "saveUrl",
+        "UploadRemoveUrl": "removeUrl",
+        "DisplayOrder": 5010
+      },
+      {
+        "ParameterName": "UserFile2",
+        "ParameterType": "Upload",
+        "Caption": "User File2",
+        "Required": true,
+        "DefaultValue": "DefaultFilename.xlsx",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "UploadSaveUrl": "saveUrl",
+        "UploadRemoveUrl": "removeUrl",
+        "DisplayOrder": 5010
+      },
+      {
+        "ParameterName": "UserName",
+        "ParameterType": "Text",
+        "Caption": "User Name",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "DisplayOrder": 1010
+      },
+      {
+        "ParameterName": "Password",
+        "Caption": "Password",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "Password",
+        "DisplayOrder": 1020
+      },
+      {
+        "ParameterName": "PostingDate",
+        "Caption": "Posting Date for External Posting (MM/DD/YYYY)",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "Date",
+        "DisplayOrder": 1030
+      },
+      {
+        "ParameterName": "PositionFilter",
+        "Caption": "Position Filter (User * for all)",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "Text",
+        "DisplayOrder": 1040
+      }
+    ],
+    "DXScriptS3Path": "DXScripts/MyScript.dxt",
+    "longDescription": "s3://s3-bucket.dxstore.dxa/UserTemplates/Manage Pending Hire.fragment.html"
+  },
+  "allServiceFields": {
+    "tags": ["SuccessFactors", "Onboarding"],
+    "Parameters": [
+      {
+        "ParameterName": "YourName",
+        "ParameterType": "Text",
+        "Caption": "What is your name?",
+        "Required": true,
+        "DefaultValue": "Dave",
+        "DisplayOrder": 1000
+      },
+      {
+        "ParameterName": "EmailAddress",
+        "Caption": "Email address of Customer",
+        "Required": true,
+        "DefaultValue": "User@Acme.com",
+        "ParameterType": "Text",
+        "DisplayOrder": 1010
+      },
+      {
+        "ParameterName": "ChosenReward",
+        "Caption": "Which reward would you like to choose?",
+        "Required": false,
+        "DefaultValue": "Cash",
+        "ParameterType": "Selection",
+        "Options": [
+          { "Pvalue": "Cash", "Plabel": "Cash" },
+          { "Pvalue": "Gold", "PLabel": "Gold Bars" }
+        ],
+        "DisplayOrder": 2000
+      },
+      {
+        "ParameterName": "Conn_Source",
+        "ParameterType": "ConnectionString",
+        "Caption": "Source System",
+        "Required": true,
+        "DisplayOrder": 3000
+      },
+      {
+        "ParameterName": "Conn_Dest",
+        "ParameterType": "ConnectionString",
+        "Caption": "Destination System",
+        "Required": true,
+        "DisplayOrder": 3010
+      },
+      {
+        "ParameterName": "Filter",
+        "ParameterType": "Selection",
+        "Caption": "Desired Pod Bay Door State",
+        "Required": true,
+        "Options": [
+          { "Pvalue": "X", "Plabel": "Open" },
+          { "Pvalue": " ", "Plabel": "Clooosed" }
+        ],
+        "DisplayOrder": 4000
+      },
+      {
+        "ParameterName": "AskNicely",
+        "ParameterType": "Selection",
+        "Caption": "Ask nicely?",
+        "Required": true,
+        "Options": [
+          { "Pvalue": "1", "Plabel": "Nicely" },
+          { "Pvalue": "2", "Plabel": "Very Nicely" }
+        ],
+        "DisplayOrder": 4010
+      },
+      {
+        "ParameterName": "TemplateFile",
+        "ParameterType": "File",
+        "Caption": "Upload Requisition Data Sheet",
+        "Required": true,
+        "DefaultValue": "DefaultFilename.xlsx",
+        "TemplateS3Path": "Templates/MANAGEPENDINGHIRE.xlsx",
+        "DisplayOrder": 5000
+      },
+      {
+        "ParameterName": "User File",
+        "ParameterType": "Upload",
+        "Caption": "",
+        "Required": true,
+        "DefaultValue": "DefaultFilename.xlsx",
+        "UploadSaveUrl": "src",
+        "UploadRemoveUrl": "",
+        "DisplayOrder": 5010
+      }
+    ],
+    "DXScriptS3Path": "DXScripts/MyScript.dxt",
+    "longDescription": "s3://s3-bucket.dxstore.dxa/UserTemplates/Manage Pending Hire.fragment.html"
+  }
+}

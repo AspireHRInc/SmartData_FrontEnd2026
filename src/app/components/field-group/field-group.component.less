@@ -1,0 +1,34 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  border-radius: 1rem;
+
+  .form {
+    display: grid;
+    gap: 1rem;
+
+    ::ng-deep {
+      // .label {
+      //   border: 1px solid rgba(var(--color-text-secondary-rgb), 0.15);
+      //   display: block;
+      //   padding: 0.5rem 0.25rem;
+      //   border-radius: 0.25rem;
+
+      //   // &.ng-invalid.ng-touched {
+      //   //   border-color: red;
+      //   // }
+      // }
+    }
+  }
+
+  ::ng-deep {
+    .form {
+      .k-label {
+        font-weight: 400;
+        font-size: 0.75rem;
+        line-height: 1.5rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+<!-- <kendo-window title="Please provide additional data" [minWidth]="250" [width]="450" [draggable]="false">
+  <kendo-window-titlebar>
+    <div class="k-window-title">Settings</div>
+
+  </kendo-window-titlebar>
+  <div class="form" [formGroup]="formGroup">
+    <ng-template *ngFor="let field of fields" [field]="field" [formGroup]="formGroup" ssFieldGenerator></ng-template>
+    <ng-content></ng-content>
+  </div>
+  <div class="k-actions k-actions-end">
+    <button kendoButton themeColor="primary" type="button" (click)="submit()">Continue</button>
+  </div>
+</kendo-window> -->
+
+<ss-card title="Settings" step="1">
+  <ng-container actions>
+    <div class="spacer"></div>
+    <ng-content select="[actions]"></ng-content>
+  </ng-container>
+  <div class="form" [formGroup]="formGroup">
+    <ng-template
+      *ngFor="let field of fields; let i = index"
+      [field]="field"
+      [tabindex]="i"
+      [formGroup]="formGroup"
+      ssFieldGenerator
+    ></ng-template>
+    <ng-content></ng-content>
+  </div>
+  <ng-container footer>
+    <button
+      kendoButton
+      themeColor="primary"
+      type="submit"
+      class="button"
+      (click)="save(formGroup.valid)"
+      [class.disabled]="!formGroup.valid"
+      [tabindex]="fields.length * 2 + 1"
+      role="button"
+    >
+      Continue
+    </button>
+  </ng-container>
+</ss-card>

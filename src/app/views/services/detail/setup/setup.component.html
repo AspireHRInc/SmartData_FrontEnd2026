@@ -1,1 +1,31 @@
-<p>setup works!</p>
+<!-- <p>Setup service id {{ serviceId }}</p> -->
+
+<!-- <div>
+  <p *ngFor="let service of serviceSetup.currentServiceFields.Parameters">{{ service.ParameterName }}</p>
+</div> -->
+
+<!-- <ng-template
+  *ngFor="let field of serviceSetup.currentServiceFields.Parameters"
+  [field]="field"
+  ssFieldGenerator
+></ng-template> -->
+
+<kendo-dialog
+  title=" "
+  *ngIf="uiState.serviceDetailOpen$ | async"
+  (close)="detailsClose()"
+  [minWidth]="250"
+  [width]="600"
+>
+  <p style="margin: 30px; text-align: center">Service Detail</p>
+</kendo-dialog>
+
+<ss-field-group
+  [fields]="serviceSetup.currentServiceFields.Parameters"
+  [formGroup]="formGroup"
+  (submit)="onSubmit($event)"
+>
+  <ng-container actions>
+    <button class="button info" (click)="showInfo()" tabindex="1">i</button>
+  </ng-container>
+</ss-field-group>

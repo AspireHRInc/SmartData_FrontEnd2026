@@ -41,6 +41,41 @@ input.k-input {
   background-color: var(--color-cta-lighter);
 }
 
+.k-upload {
+  border-color: rgba(var(--color-text-secondary-rgb), 0.15);
+  color: var(--color-text-secondary);
+  background-color: var(--color-background-primary);
+  min-height: 3rem;
+}
+
+.k-upload {
+  .k-dropzone {
+    border-color: rgba(var(--color-text-secondary-rgb), 0.08);
+    color: var(--color-text-secondary);
+    background-color: var(--color-background-primary);
+    height: 2.8rem;
+  }
+  .k-upload-button {
+    border: none;
+    span {
+      color: var(--color-cta-lighter);
+      text-decoration: underline;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 125%;
+    }
+  }
+}
+
+.k-icon-button.k-button-lg > .k-button-icon {
+  color: var(--color-cta-lighter);
+}
+
+.k-picker.k-picker-flat {
+  outline: 1px solid rgba(var(--color-text-secondary-rgb), 0.15);
+  height: 3rem;
+}
+
 // switch
 
 .k-switch-off .k-switch-track {
@@ -62,6 +97,12 @@ input.k-input {
 
 .k-switch-thumb-wrap {
   transform: scale(0.85);
+}
+
+.k-list-item.k-selected,
+.k-selected.k-list-optionlabel {
+  color: var(--color-background-color);
+  background-color: var(--color-cta);
 }
 
 // buttons
@@ -101,6 +142,26 @@ input.k-input {
   border-color: #424242;
   color: white;
   background-color: #424242;
+}
+
+// .button.k-button.k-button-solid-secondary.k-button-solid{
+
+// }
+
+.k-button.k-button-solid-primary.k-button-solid.k-disabled,
+.k-button-solid-primary.disabled {
+  background-color: #f0f2f4;
+  border: none;
+  opacity: 1;
+
+  .k-button-text {
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+  }
+}
+
+:focus-visible {
+  outline-color: var(--color-cta-lighter);
 }
 
 // progress bar
@@ -208,4 +269,23 @@ input.k-input {
   max-width: 100vw;
   white-space: normal;
   flex-wrap: wrap;
+}
+
+// tooltip
+
+kendo-popup.k-animation-container.k-animation-container-fixed.k-tooltip-wrapper.tool-tip.k-animation-container-shown {
+  color: var(--color-primary-text);
+  background-color: var(--color-background-primary);
+  box-shadow: var(--drop-shadow);
+  box-shadow: 0px 4px 24px #bdc8d7;
+
+  border-radius: 1rem;
+}
+
+kendo-tooltip.k-tooltip.k-widget {
+  background-color: var(--color-background-primary);
+
+  .k-callout.k-callout-w {
+    color: var(--color-background-primary);
+  }
 }
