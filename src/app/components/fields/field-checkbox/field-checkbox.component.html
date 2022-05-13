@@ -1,0 +1,31 @@
+<div
+  kendoTooltip
+  class="right"
+  position="right"
+  [title]="parameters.HelpText"
+  [tooltipTemplate]="template"
+  tooltipClass="tool-tip"
+  showOn="none"
+  [offset]="25"
+  #anchor
+>
+  <kendo-label class="label" [formGroup]="formGroup" [for]="parameters.ParameterName">
+    <label>
+      <input
+        type="checkbox"
+        #notification
+        kendoCheckBox
+        [formControlName]="parameters.ParameterName"
+        (focus)="showToolTip(anchor)"
+        (blur)="hideToolTip(anchor)"
+        [tabindex]="tabindex + 1"
+      />
+      {{ parameters.Caption }}
+    </label>
+
+    <button class="info" [tabindex]="tabindex" (click)="toggleToolTip(anchor)">?</button>
+  </kendo-label>
+</div>
+<ng-template #template let-anchor>
+  <span>{{ parameters.HelpText }}</span>
+</ng-template>

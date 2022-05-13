@@ -2124,6 +2124,7 @@ export class ServicesService {
     } else if (filter === 'all') {
       return JSON.parse(JSON.stringify(this.allServices));
     } else if (filter === 'favorites') {
+      this.currentFilters = [];
       return this.filterServices([filter]);
     } else {
       let noService: ServiceCategory[] = [
@@ -2134,7 +2135,6 @@ export class ServicesService {
   }
 
   filterServices(filters: string[]) {
-    console.log('filterServices ', filters);
     this.currentServices = [...JSON.parse(JSON.stringify(this.allServices))];
     this.currentServices[0].name = filters.toString().charAt(0).toUpperCase() + filters.toString().slice(1);
 
@@ -2204,8 +2204,6 @@ export class ServicesService {
         .flat();
       searchStringArr.unshift(...searchTagArray);
 
-      console.log(searchStringArr);
-
       this.currentServices[0].services = [
         ...this.currentServices[0].services.filter(service => {
           let tags = service.metaTags.map(tag => tag.name);
@@ -2224,7 +2222,7 @@ export class ServicesService {
       ];
       return [...this.currentServices];
     } else {
-      console.log('else');
+      // console.log('else');
       this.currentServices = [...this.getServices()];
       return this.currentServices;
     }

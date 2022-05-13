@@ -1,0 +1,27 @@
+<div
+  kendoTooltip
+  class="right"
+  position="right"
+  [title]="parameters.HelpText"
+  [tooltipTemplate]="template"
+  tooltipClass="tool-tip"
+  showOn="none"
+  [offset]="25"
+  #anchor
+>
+  <kendo-label class="label" [text]="parameters.Caption" [formGroup]="formGroup">
+    <button class="info" [tabindex]="tabindex" (click)="toggleToolTip(anchor)">?</button>
+    <kendo-datepicker
+      [(value)]="value"
+      [format]="localizationService.dateFormat"
+      formatPlaceholder="formatPattern"
+      [formControlName]="parameters.ParameterName"
+      [tabindex]="tabindex + 1"
+      (focus)="showToolTip(anchor)"
+      (blur)="hideToolTip(anchor)"
+    ></kendo-datepicker>
+  </kendo-label>
+</div>
+<ng-template #template let-anchor>
+  <span>{{ parameters.HelpText }}</span>
+</ng-template>

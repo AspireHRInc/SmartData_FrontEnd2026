@@ -1,2 +1,15 @@
-<p>detail works!</p>
-<router-outlet></router-outlet>
+<ss-header
+  [headerTitle]="currentServiceName + ' Record'"
+  headerSubtitle=""
+  type="serviceDetail"
+  [headerUserObject]="loggedInUserObj"
+></ss-header>
+
+<ss-navigation-buttons>
+  <ss-navigation-button *ngIf="showCreateNewRun" label="Create New Run" class="active"></ss-navigation-button>
+  <ss-navigation-button label="History of Runs" (click)="onNavigateHistory()"></ss-navigation-button>
+</ss-navigation-buttons>
+
+<div class="content-wrapper">
+  <router-outlet></router-outlet>
+</div>
