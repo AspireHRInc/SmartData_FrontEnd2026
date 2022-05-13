@@ -1,0 +1,26 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  border-radius: 1rem;
+
+  .form {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .button.k-button {
+    padding: 0.5rem;
+  }
+
+  ::ng-deep {
+    .form {
+      .k-label,
+      .label {
+        font-weight: 400;
+        font-size: 0.75rem;
+        line-height: 1.5rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+<div class="header">
+  <h2 class="title">
+    <span class="step" *ngIf="step !== ''">{{ step }}</span>
+    <span>{{ title }}</span>
+  </h2>
+  <div class="spacer"></div>
+  <div class="actions">
+    <ng-content select="[actions]"></ng-content>
+  </div>
+</div>
+<div class="content-container">
+  <ng-content></ng-content>
+</div>
+
+<div class="footer">
+  <ng-content select="[footer]"></ng-content>
+</div>

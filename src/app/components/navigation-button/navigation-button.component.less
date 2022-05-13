@@ -7,5 +7,16 @@
     font-size: 0.8125rem;
     line-height: 0.9375rem;
     text-transform: uppercase;
+    background: var(--color-background-secondary);
+    color: var(--color-text-secondary);
+    padding-left: min(2rem, 3vw);
+    padding-right: min(2rem, 3vw);
+  }
+
+  &.active {
+    .button {
+      background: var(--color-cta-gradient);
+      color: var(--color-background-primary);
+    }
   }
 }

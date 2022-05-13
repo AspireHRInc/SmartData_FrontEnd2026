@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { Service, Tag } from 'src/app/services/services.service';
 
 @Component({
   selector: 'ss-tiles-tile',
   templateUrl: './tiles-tile.component.html',
   styleUrls: ['./tiles-tile.component.less'],
-  host: { class: 'tile' },
+  host: { class: 'tile', '(click)': 'onClickService($event)' },
 })
 export class TilesTileComponent implements OnInit {
   @Input() data: Service = new Service();
@@ -13,15 +14,9 @@ export class TilesTileComponent implements OnInit {
   @Output() toggleFavorite = new EventEmitter<Tag[]>();
   @Output() openInfo = new EventEmitter<void>();
 
-  @HostListener('click', ['this.service.name']) click(event: string) {
-    if (this.data.subscribed) {
-      console.log(event);
-    }
-  }
-
   favorite = false;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.favorite = this.data.metaTags.find(tag => tag.name === 'Favorites') === undefined ? false : true;
@@ -41,5 +36,12 @@ export class TilesTileComponent implements OnInit {
   onInfo(event: Event) {
     event.stopPropagation();
     this.openInfo.emit();
+  }
+  onClickService(event: Event) {
+    if (this.data.subscribed) {
+      console.log(event);
+      console.log(this.data);
+      this.router.navigate(['/services', this.data.id, 'detail', 'setup']);
+    }
   }
 }

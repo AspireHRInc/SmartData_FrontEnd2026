@@ -89,6 +89,8 @@ export class HistoryComponent implements OnInit {
 
   serviceDetailsId = '';
 
+  filterClearActive = false;
+
   constructor(
     public userService: UserService,
     public serviceRunService: ServiceRunService,
@@ -153,8 +155,27 @@ export class HistoryComponent implements OnInit {
         }
       );
     }
+
+    // this.filterClearActive = this.isEmptyObject(this.filtersObj);
+
+    if (
+      this.filtersObj ===
+      { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] }
+    ) {
+      this.filterClearActive = false;
+    } else {
+      this.filterClearActive = true;
+    }
+    console.log(this.filterClearActive);
+
     this.showFilterPopupIndex = -1;
     this.onServiceFilter();
+  }
+
+  isEmptyObject(o: any) {
+    return Object.keys(o).every(function (x) {
+      return o[x].length === 0 || o[x] === new Date(0);
+    });
   }
 
   filterChecked(filterGroupFilters: any, filter: any) {
@@ -216,7 +237,7 @@ export class HistoryComponent implements OnInit {
       if (this.processingStatusBarValue === 0 || this.processingStatusBarValue === 16) {
         this.processingStatusBarDirection = !this.processingStatusBarDirection;
       }
-    }, 100);
+    }, 200);
   }
 
   cancel(id: string) {

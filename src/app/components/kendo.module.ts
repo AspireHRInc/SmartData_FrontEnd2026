@@ -8,7 +8,13 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
+
+import { UploadsModule } from '@progress/kendo-angular-upload';
 import { ListViewModule } from '@progress/kendo-angular-listview';
+import { ProgressBarModule } from '@progress/kendo-angular-progressbar';
+import { PopupModule } from '@progress/kendo-angular-popup';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { TooltipsModule } from '@progress/kendo-angular-tooltip';
 
 @NgModule({
   imports: [
@@ -20,8 +26,26 @@ import { ListViewModule } from '@progress/kendo-angular-listview';
     ButtonsModule,
     DropDownsModule,
     DialogsModule,
+    UploadsModule,
+    ListViewModule,
+    ProgressBarModule,
+    PopupModule,
+    DateInputsModule,
+    TooltipsModule,
   ],
-  exports: [InputsModule, LabelModule, ButtonsModule, DropDownsModule, DialogsModule],
+  exports: [
+    InputsModule,
+    LabelModule,
+    ButtonsModule,
+    DropDownsModule,
+    DialogsModule,
+    UploadsModule,
+    ListViewModule,
+    ProgressBarModule,
+    PopupModule,
+    DateInputsModule,
+    TooltipsModule,
+  ],
   declarations: [],
 })
 export class KendoModule {}

@@ -1,0 +1,28 @@
+<div
+  kendoTooltip
+  class="right"
+  position="right"
+  [title]="parameters.HelpText"
+  [tooltipTemplate]="template"
+  tooltipClass="tool-tip"
+  showOn="none"
+  [offset]="25"
+  #anchor
+>
+  <kendo-label class="label" [formGroup]="formGroup" [text]="parameters.Caption">
+    <button class="info" [tabindex]="tabindex" (click)="toggleToolTip(anchor)">?</button>
+    <kendo-upload
+      [saveUrl]="parameters.UploadSaveUrl!"
+      [removeUrl]="parameters.UploadRemoveUrl!"
+      [formControlName]="parameters.ParameterName"
+      [multiple]="false"
+      [tabindex]="tabindex + 1"
+      (focus)="showToolTip(anchor)"
+      (blur)="hideToolTip(anchor)"
+      (remove)="onFileRemove($event)"
+    ></kendo-upload>
+  </kendo-label>
+</div>
+<ng-template #template let-anchor>
+  <span>{{ parameters.HelpText }}</span>
+</ng-template>
