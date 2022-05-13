@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
@@ -10,7 +10,7 @@ import { field, fieldOptions } from 'src/app/services/service-setup.service';
   templateUrl: './field-select.component.html',
   styleUrls: ['./field-select.component.less'],
 })
-export class FieldSelectComponent implements OnInit {
+export class FieldSelectComponent implements OnInit, AfterViewInit {
   @Input() parameters!: field;
   @Input() tabindex = 0;
   @Input() formGroup: FormGroup = this.fb.group({});
@@ -20,10 +20,7 @@ export class FieldSelectComponent implements OnInit {
 
   selectedItem: fieldOptions = { Pvalue: '', Plabel: '' };
 
-  // defaultItem: { text: string; value: number } = {
-  //   text: "Select item...",
-  //   value: null,
-  // };
+  currentValue: any;
 
   constructor(private fb: FormBuilder) {}
 
@@ -37,7 +34,24 @@ export class FieldSelectComponent implements OnInit {
     } else {
       this.formGroup.get(this.parameters.ParameterName)!.clearValidators();
     }
+
+    if (this.parameters.Required) {
+      this.formGroup.get(this.parameters.ParameterName)!.valueChanges.subscribe(result => {
+        this.currentValue = result;
+        if (result.Pvalue === null || result.value === null || result === undefined) {
+          this.formGroup.get(this.parameters.ParameterName)!.setErrors({ incorrect: true });
+          this.formGroup.get(this.parameters.ParameterName)!.markAsTouched();
+        } else {
+          this.formGroup.get(this.parameters.ParameterName)!.setErrors(null);
+        }
+      });
+    }
   }
+
+  ngAfterViewInit() {
+    this.formGroup.get(this.parameters.ParameterName)!.setErrors({ incorrect: true });
+  }
+
   toggleToolTip(eventTarget: Element): void {
     this.tooltipDir.toggle(eventTarget);
   }
@@ -47,5 +61,28 @@ export class FieldSelectComponent implements OnInit {
 
   hideToolTip(eventTarget: Element): void {
     this.tooltipDir.hide();
+    this.setError();
+  }
+
+  setError(): void {
+    console.log(this.currentValue);
+    if (this.parameters.Required) {
+      if (
+        this.currentValue.Pvalue === null ||
+        this.currentValue.value === null ||
+        this.currentValue.Pvalue === '' ||
+        this.currentValue === undefined
+      ) {
+        console.log('true');
+        this.formGroup.get(this.parameters.ParameterName)!.setErrors({ incorrect: true });
+        this.formGroup.get(this.parameters.ParameterName)!.markAsTouched();
+      } else {
+        this.formGroup.get(this.parameters.ParameterName)!.setErrors(null);
+      }
+    }
+  }
+
+  testInvalid() {
+    this.formGroup.get(this.parameters.ParameterName)!.setErrors({ incorrect: true });
   }
 }

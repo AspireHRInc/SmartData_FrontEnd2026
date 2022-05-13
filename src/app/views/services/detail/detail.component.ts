@@ -23,7 +23,7 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUserObj = this.userService.loggedInUserObj!;
-    console.log(this.route.snapshot.params['id']);
+    // console.log(this.route.snapshot.params['id']);
     this.currentServiceId = this.route.snapshot.params['id'];
 
     this.currentServiceName = this.servicesService.allServices[0].services.find(

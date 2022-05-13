@@ -24,6 +24,7 @@
   [fields]="serviceSetup.currentServiceFields.Parameters"
   [formGroup]="formGroup"
   (submit)="onSubmit($event)"
+  (abortFile)="onAbortFile($event)"
 >
   <ng-container actions>
     <button class="button info" (click)="showInfo()" tabindex="1">i</button>

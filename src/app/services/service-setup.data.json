@@ -18,7 +18,7 @@
 
       {
         "ParameterName": "UserFile1",
-        "ParameterType": "Upload",
+        "ParameterType": "File",
         "Caption": "User File",
         "Required": true,
         "DefaultValue": "DefaultFilename.xlsx",
@@ -29,7 +29,7 @@
       },
       {
         "ParameterName": "UserFile2",
-        "ParameterType": "Upload",
+        "ParameterType": "File",
         "Caption": "User File2",
         "Required": true,
         "DefaultValue": "DefaultFilename.xlsx",
@@ -63,6 +63,16 @@
         "DefaultValue": "",
         "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
         "ParameterType": "Date",
+        "DisplayOrder": 1030
+      },
+
+      {
+        "ParameterName": "SampleCheckbox",
+        "Caption": "Sample Checkbox",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "CheckBox",
         "DisplayOrder": 1030
       },
       {
@@ -156,7 +166,7 @@
       },
       {
         "ParameterName": "User File",
-        "ParameterType": "Upload",
+        "ParameterType": "File",
         "Caption": "",
         "Required": true,
         "DefaultValue": "DefaultFilename.xlsx",

@@ -18,6 +18,8 @@ export class FieldPasswordComponent implements OnInit {
   @ViewChild(TooltipDirective)
   tooltipDir!: TooltipDirective;
 
+  fieldType = 'password';
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -38,5 +40,13 @@ export class FieldPasswordComponent implements OnInit {
 
   hideToolTip(eventTarget: Element): void {
     this.tooltipDir.hide();
+  }
+
+  toggleView() {
+    if (this.fieldType === 'password') {
+      this.fieldType = 'text';
+    } else {
+      this.fieldType = 'password';
+    }
   }
 }

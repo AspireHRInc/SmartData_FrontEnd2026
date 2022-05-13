@@ -24,6 +24,7 @@
       [tabindex]="i"
       [formGroup]="formGroup"
       ssFieldGenerator
+      (removeFile)="onRemoveFile($event)"
     ></ng-template>
     <ng-content></ng-content>
   </div>

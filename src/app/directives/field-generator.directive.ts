@@ -1,4 +1,12 @@
-import { ComponentFactoryResolver, Directive, Input, OnInit, ViewContainerRef } from '@angular/core';
+import {
+  ComponentFactoryResolver,
+  Directive,
+  Input,
+  OnInit,
+  ViewContainerRef,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { field } from 'src/app/services/service-setup.service';
@@ -10,7 +18,6 @@ import { FieldCheckboxComponent } from '../components/fields/field-checkbox/fiel
 import { FieldConnectionStringComponent } from '../components/fields/field-connection-string/field-connection-string.component';
 import { FieldPasswordComponent } from '../components/fields/field-password/field-password.component';
 import { FieldOutputFileComponent } from '../components/fields/field-output-file/field-output-file.component';
-import { FieldUploadComponent } from '../components/fields/field-upload/field-upload.component';
 import { FieldDateComponent } from '../components/fields/field-date/field-date.component';
 
 const fieldMap: Record<string, any> = {
@@ -21,7 +28,6 @@ const fieldMap: Record<string, any> = {
   connectionstring: FieldConnectionStringComponent,
   password: FieldPasswordComponent,
   outputfile: FieldOutputFileComponent,
-  upload: FieldUploadComponent,
   date: FieldDateComponent,
 };
 
@@ -40,6 +46,8 @@ export class FieldGeneratorDirective implements OnInit {
 
   @Input() tabindex: number = 0;
 
+  @Output() removeFile = new EventEmitter<string>();
+
   constructor(public viewContainerRef: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit(): void {
@@ -47,14 +55,18 @@ export class FieldGeneratorDirective implements OnInit {
     const _fieldName = this.field.ParameterType.toLowerCase();
 
     if (fieldMap.hasOwnProperty(_fieldName)) {
-      console.log(this.tabindex);
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(fieldMap[_fieldName]);
       let fieldRef: any = this.viewContainerRef.createComponent(componentFactory).instance;
 
       fieldRef.parameters = this.field;
       fieldRef.formGroup = this.formGroup;
       fieldRef.tabindex = (this.tabindex + 1) * 2;
-      // instance.message = "some text!!";
+
+      if (fieldRef.removeFile !== undefined) {
+        fieldRef.removeFile.subscribe((fileName: string) => {
+          this.removeFile.emit(fileName);
+        });
+      }
     }
   }
 }

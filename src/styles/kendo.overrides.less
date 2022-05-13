@@ -76,6 +76,22 @@ input.k-input {
   height: 3rem;
 }
 
+.settings-drop-down {
+  background-color: var(--color-background-secondary);
+  box-shadow: var(--drop-shadow);
+
+  & > .k-list {
+    background-color: var(--color-background-secondary);
+  }
+}
+
+.k-picker-flat.k-invalid,
+.k-picker-flat.ng-invalid.ng-touched,
+.k-picker-flat.ng-invalid.ng-dirty {
+  border-color: transparent;
+  outline: 1px solid #f31700;
+}
+
 // switch
 
 .k-switch-off .k-switch-track {
@@ -101,8 +117,12 @@ input.k-input {
 
 .k-list-item.k-selected,
 .k-selected.k-list-optionlabel {
-  color: var(--color-background-color);
+  color: var(--color-background-primary);
   background-color: var(--color-cta);
+
+  .k-list-item-text {
+    color: var(--color-background-primary);
+  }
 }
 
 // buttons
@@ -144,10 +164,6 @@ input.k-input {
   background-color: #424242;
 }
 
-// .button.k-button.k-button-solid-secondary.k-button-solid{
-
-// }
-
 .k-button.k-button-solid-primary.k-button-solid.k-disabled,
 .k-button-solid-primary.disabled {
   background-color: #f0f2f4;
@@ -162,6 +178,22 @@ input.k-input {
 
 :focus-visible {
   outline-color: var(--color-cta-lighter);
+}
+
+button .info:focus-visible {
+  outline-color: var(--color-cta-lighter);
+}
+
+.button.info {
+  &:focus-visible {
+    outline-color: var(--color-text-primary);
+  }
+}
+
+.k-checkbox {
+  border-color: var(--color-text-secondary);
+  width: 1.2rem;
+  height: 1.28rem;
 }
 
 // progress bar

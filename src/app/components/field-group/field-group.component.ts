@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
+import { BehaviorSubject } from 'rxjs';
+
 import { field } from 'src/app/services/service-setup.service';
 
 @Component({
@@ -14,6 +16,7 @@ export class FieldGroupComponent implements OnInit {
   @Input() fields: field[] = [];
   @Input() formGroup: FormGroup = this.fb.group({});
   @Output() submit = new EventEmitter<FormGroup>();
+  @Output() abortFile = new EventEmitter<string>();
 
   submitted = false;
 
@@ -27,5 +30,12 @@ export class FieldGroupComponent implements OnInit {
     } else {
       this.formGroup.markAllAsTouched();
     }
+  }
+
+  // private abortFile = new BehaviorSubject<boolean>(false);
+  // abortFile$ = this.abortFile.asObservable();
+
+  onRemoveFile(fileName: string) {
+    this.abortFile.emit(fileName);
   }
 }

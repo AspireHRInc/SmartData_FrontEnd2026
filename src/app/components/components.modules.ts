@@ -36,7 +36,7 @@ import { FieldConnectionStringComponent } from './fields/field-connection-string
 import { FieldPasswordComponent } from './fields/field-password/field-password.component';
 import { FieldOutputFileComponent } from './fields/field-output-file/field-output-file.component';
 import { FieldGroupComponent } from './field-group/field-group.component';
-import { FieldUploadComponent } from './fields/field-upload/field-upload.component';
+
 import { FieldDateComponent } from './fields/field-date/field-date.component';
 import { CardComponent } from './card/card.component';
 
@@ -73,7 +73,6 @@ import { CardComponent } from './card/card.component';
     FieldPasswordComponent,
     FieldOutputFileComponent,
     FieldGroupComponent,
-    FieldUploadComponent,
     FieldDateComponent,
     CardComponent,
   ],
@@ -102,7 +101,6 @@ import { CardComponent } from './card/card.component';
     FieldPasswordComponent,
     FieldOutputFileComponent,
     FieldGroupComponent,
-    FieldUploadComponent,
     FieldDateComponent,
     CardComponent,
   ],

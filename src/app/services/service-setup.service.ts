@@ -67,4 +67,9 @@ export class ServiceSetupService {
     PostingDate: '2022-05-13T07:00:00.000Z',
     PositionFilter: 'lkjklj',
   };
+
+  onFileRemove(fileName: string) {
+    console.log('on file remove', fileName);
+    // TODO Tell server to flush file
+  }
 }

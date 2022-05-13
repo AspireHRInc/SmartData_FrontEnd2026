@@ -30,8 +30,6 @@ export class SetupComponent implements OnInit, AfterViewChecked {
     this.route.parent!.params.subscribe(params => {
       this.serviceId = params['id'];
     });
-
-    console.log(this.serviceSetup.currentServiceFields.Parameters);
   }
 
   ngAfterViewChecked(): void {
@@ -50,5 +48,9 @@ export class SetupComponent implements OnInit, AfterViewChecked {
     console.log(formResults);
     this.serviceSetup.currenctServiceSetup = formResults.value;
     this.router.navigate(['confirm'], { relativeTo: this.route.parent });
+  }
+
+  onAbortFile(fileName: string) {
+    this.serviceSetup.onFileRemove(fileName);
   }
 }

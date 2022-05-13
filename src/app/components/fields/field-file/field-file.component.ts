@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { field } from 'src/app/services/service-setup.service';
 import { LocalizationService } from 'src/app/services/localization.service';
+import { FieldGroupComponent } from '../../field-group/field-group.component';
 
 @Component({
   selector: 'ss-field-file',
@@ -13,14 +14,14 @@ import { LocalizationService } from 'src/app/services/localization.service';
 })
 export class FieldFileComponent implements OnInit {
   @Input() parameters!: field;
-  @Input() formGroup: FormGroup = this.fb.group({});
   @Input() tabindex = 0;
-  value: any;
+  @Input() formGroup: FormGroup = this.fb.group({});
+  @Output() removeFile = new EventEmitter<any>();
 
   @ViewChild(TooltipDirective)
   tooltipDir!: TooltipDirective;
 
-  constructor(public localizationService: LocalizationService, private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.formGroup.addControl(this.parameters.ParameterName, this.fb.control(''));
@@ -40,5 +41,9 @@ export class FieldFileComponent implements OnInit {
 
   hideToolTip(eventTarget: Element): void {
     this.tooltipDir.hide();
+  }
+
+  onFileRemove(event: any) {
+    this.removeFile.emit(event.files[0].name);
   }
 }
