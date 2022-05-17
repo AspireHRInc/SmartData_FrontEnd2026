@@ -310,4 +310,10 @@ export class HistoryComponent implements OnInit {
     this.filtersObj = { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
     this.onServiceFilter();
   }
+
+  onSetupRun() {
+    console.log(this.route);
+    console.log('yelp');
+    // this.router.navigate(['setup'], { relativeTo: this.route.parent });
+  }
 }

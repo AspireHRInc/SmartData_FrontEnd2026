@@ -32,7 +32,12 @@ const routes: Routes = [
         component: DetailComponent,
         canDeactivate: [CanDeactivateGuard],
         children: [
-          { path: 'setup', component: SetupComponent, canDeactivate: [CanDeactivateGuard] },
+          {
+            path: 'setup',
+            component: SetupComponent,
+            canDeactivate: [CanDeactivateGuard],
+            runGuardsAndResolvers: 'always',
+          },
           { path: 'confirm', component: ConfirmComponent, canDeactivate: [CanDeactivateGuard] },
           { path: 'history', component: HistoryComponent, canDeactivate: [CanDeactivateGuard] },
         ],

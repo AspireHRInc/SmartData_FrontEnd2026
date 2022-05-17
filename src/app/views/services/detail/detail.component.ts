@@ -36,4 +36,13 @@ export class DetailComponent implements OnInit {
   onNavigateHistory() {
     this.router.navigate(['history'], { relativeTo: this.route });
   }
+
+  onSetupRun() {
+    console.log(this.router);
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['setup'], { relativeTo: this.route });
+  }
 }
