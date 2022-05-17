@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, HostListener, ElementRef, ViewChildren } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -56,45 +57,34 @@ export class HistoryComponent implements OnInit {
   // }
 
   loggedInUserObj = new User();
-
   serviceRuns: ServiceRunExtended[] = [];
-
   searchField = '';
   searchFieldUpdate = new Subject<string>();
-
   processingStatusBarValue = 0;
   processingStatusBarDirection = true;
-
   statusBadgeColor = AccentColor.gray;
-
   showFilterPopupIndex = -1;
-
   filters: any[] = [];
-
   cancelServiceId = '';
-
-  // filtersFormGroup = this.fb.group({
-  //   Status: this.fb.group({}),
-  // });
 
   selectedDateRangeFilter = { start: new Date(), end: new Date() };
 
   filtersObj: any = { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
 
   searchString = '';
-
   filterActive = {};
-
   showCreateNewRun = false;
-
   serviceDetailsId = '';
-
   filterClearActive = false;
+
+  allServicesHistory = false;
 
   constructor(
     public userService: UserService,
     public serviceRunService: ServiceRunService,
-    public uiState: UiStateService
+    public uiState: UiStateService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -130,19 +120,15 @@ export class HistoryComponent implements OnInit {
 
     this.animateProcessingStatusBar();
 
-    // this.filters.forEach(filterCategory => {
-    //   this.filtersFormGroup.addControl(filterCategory.name, this.fb.group({}));
-
-    //   filterCategory.filters.forEach((filter: any) => {
-    //     (this.filtersFormGroup.get(filterCategory.name) as FormGroup).addControl(filter, new FormControl(false));
-    //   });
-    // });
-
     this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
       this.serviceRuns = this.getExtendedServices(
         this.serviceRunService.filterServiceRuns(this.searchString, this.filtersObj)
       );
     });
+
+    if (this.router.url.indexOf('/services/history') > -1) {
+      this.allServicesHistory = true;
+    }
   }
 
   onCheckboxChange(filterGroup: string, filter: string) {
@@ -155,8 +141,6 @@ export class HistoryComponent implements OnInit {
         }
       );
     }
-
-    // this.filterClearActive = this.isEmptyObject(this.filtersObj);
 
     if (
       this.filtersObj ===
@@ -325,5 +309,11 @@ export class HistoryComponent implements OnInit {
     this.showFilterPopupIndex = -1;
     this.filtersObj = { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
     this.onServiceFilter();
+  }
+
+  onSetupRun() {
+    console.log(this.route);
+    console.log('yelp');
+    // this.router.navigate(['setup'], { relativeTo: this.route.parent });
   }
 }

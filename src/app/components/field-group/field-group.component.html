@@ -1,33 +1,33 @@
-<!-- <kendo-window title="Please provide additional data" [minWidth]="250" [width]="450" [draggable]="false">
-  <kendo-window-titlebar>
-    <div class="k-window-title">Settings</div>
-
-  </kendo-window-titlebar>
-  <div class="form" [formGroup]="formGroup">
-    <ng-template *ngFor="let field of fields" [field]="field" [formGroup]="formGroup" ssFieldGenerator></ng-template>
-    <ng-content></ng-content>
-  </div>
-  <div class="k-actions k-actions-end">
-    <button kendoButton themeColor="primary" type="button" (click)="submit()">Continue</button>
-  </div>
-</kendo-window> -->
-
-<ss-card title="Settings" step="1">
+<ss-card title="Settings" [step]="step">
   <ng-container actions>
     <div class="spacer"></div>
     <ng-content select="[actions]"></ng-content>
   </ng-container>
-  <div class="form" [formGroup]="formGroup">
+  <form class="form" [formGroup]="formGroup" *ngIf="!static">
     <ng-template
       *ngFor="let field of fields; let i = index"
       [field]="field"
       [tabindex]="i"
       [formGroup]="formGroup"
+      [static]="static"
       ssFieldGenerator
-      (removeFile)="onRemoveFile($event)"
+      (fileAbort)="onFileAbort($event)"
+    ></ng-template>
+
+    <ng-content></ng-content>
+    <small>* Required</small>
+  </form>
+
+  <ul class="form-summary" *ngIf="static">
+    <ng-template
+      *ngFor="let field of staticData; let i = index"
+      [staticField]="field"
+      [tabindex]="i"
+      [static]="static"
+      ssFieldGenerator
     ></ng-template>
     <ng-content></ng-content>
-  </div>
+  </ul>
   <ng-container footer>
     <button
       kendoButton
@@ -39,7 +39,7 @@
       [tabindex]="fields.length * 2 + 1"
       role="button"
     >
-      Continue
+      <span _ngcontent-bem-c118="" class="k-button-text">{{ buttonText }}</span>
     </button>
   </ng-container>
 </ss-card>

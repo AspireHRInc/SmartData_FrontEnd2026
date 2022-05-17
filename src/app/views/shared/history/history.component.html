@@ -1,4 +1,5 @@
 <ss-header
+  *ngIf="allServicesHistory"
   headerTitle="History"
   headerSubtitle=""
   type="serviceDetail"
@@ -19,8 +20,13 @@
   </div>
 </div>
 
-<ss-navigation-buttons>
-  <ss-navigation-button *ngIf="showCreateNewRun" label="Create New Run" class="secondary"></ss-navigation-button>
+<ss-navigation-buttons *ngIf="allServicesHistory">
+  <ss-navigation-button
+    *ngIf="showCreateNewRun"
+    label="Create New Run"
+    class="secondary"
+    (click)="onSetupRun()"
+  ></ss-navigation-button>
   <ss-navigation-button label="History of Runs"></ss-navigation-button>
 </ss-navigation-buttons>
 

@@ -1,15 +1,3 @@
-<!-- <p>Setup service id {{ serviceId }}</p> -->
-
-<!-- <div>
-  <p *ngFor="let service of serviceSetup.currentServiceFields.Parameters">{{ service.ParameterName }}</p>
-</div> -->
-
-<!-- <ng-template
-  *ngFor="let field of serviceSetup.currentServiceFields.Parameters"
-  [field]="field"
-  ssFieldGenerator
-></ng-template> -->
-
 <kendo-dialog
   title=" "
   *ngIf="uiState.serviceDetailOpen$ | async"
@@ -21,12 +9,14 @@
 </kendo-dialog>
 
 <ss-field-group
-  [fields]="serviceSetup.currentServiceFields.Parameters"
+  [fields]="serviceSetupFields.Parameters"
   [formGroup]="formGroup"
   (submit)="onSubmit($event)"
   (abortFile)="onAbortFile($event)"
+  buttonText="Continue"
+  step="1"
 >
   <ng-container actions>
-    <button class="button info" (click)="showInfo()" tabindex="1">i</button>
+    <button class="button info" (click)="showInfo()" tabindex="1" aria-label="Service Information">i</button>
   </ng-container>
 </ss-field-group>

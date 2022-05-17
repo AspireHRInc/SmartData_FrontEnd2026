@@ -11,6 +11,47 @@
 
   .button.k-button {
     padding: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .form-summary {
+    display: grid;
+    gap: 1.5rem;
+    ::ng-deep {
+      .item {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+
+        @media screen and (min-width: 30rem) {
+          grid-template-columns: 1fr 2fr;
+        }
+
+        .label {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 16px;
+        }
+        .deltails {
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 125%;
+          margin: 0;
+        }
+
+        .details {
+          margin: 0;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 125%;
+          margin: 0;
+        }
+      }
+
+      // .tool-tip {
+      //   color: red;
+      // }
+    }
   }
 
   ::ng-deep {

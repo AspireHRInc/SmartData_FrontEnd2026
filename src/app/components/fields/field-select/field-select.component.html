@@ -1,22 +1,30 @@
 <div
   kendoTooltip
   class="right"
-  position="right"
+  position="bottom"
   [title]="parameters.HelpText"
   [tooltipTemplate]="template"
   tooltipClass="tool-tip"
   showOn="none"
-  [offset]="25"
   #anchor
+  *ngIf="!static"
 >
   <kendo-label class="label" [text]="parameters.Caption" [formGroup]="formGroup">
-    <button class="info" [tabindex]="tabindex" (click)="toggleToolTip(anchor)">?</button>
+    <span class="required" *ngIf="parameters.Required">*</span>
+    <button
+      class="info"
+      [tabindex]="tabindex"
+      (click)="toggleToolTip(anchor)"
+      [attr.aria-label]="'Field Help ' + parameters.HelpText"
+      type="button"
+    >
+      ?
+    </button>
     <kendo-dropdownlist
       [data]="parameters.Options"
       textField="Plabel"
       valueField="Pvalue"
       [defaultItem]="{ text: parameters.DefaultValue, value: null }"
-      [(ngModel)]="selectedItem"
       [formControlName]="parameters.ParameterName"
       [required]="parameters.Required"
       fillMode="flat"
@@ -32,3 +40,8 @@
 <ng-template #template let-anchor>
   <span>{{ parameters.HelpText }}</span>
 </ng-template>
+
+<li class="item" *ngIf="static">
+  <p class="label">{{ parameters.Caption }}</p>
+  <h5 class="details">{{ parameters.value.Plabel }}</h5>
+</li>

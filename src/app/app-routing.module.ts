@@ -10,6 +10,10 @@ import { HistoryComponent } from './views/shared/history/history.component';
 import { DashboardComponent } from './views/services/dashboard/dashboard.component';
 
 import { AuthGuard } from './services/auth-guard.service';
+import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
+
+// routes that can be navigated to from /setup and /confirm need to use canDeactivate
+// https://github.com/angular/angular/issues/12382
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,18 +24,25 @@ const routes: Routes = [
     component: ServicesComponent,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
+    canDeactivate: [CanDeactivateGuard],
     children: [
-      { path: 'history', component: HistoryComponent },
+      { path: 'history', component: HistoryComponent, canDeactivate: [CanDeactivateGuard] },
       {
         path: ':id/detail',
         component: DetailComponent,
+        canDeactivate: [CanDeactivateGuard],
         children: [
-          { path: 'setup', component: SetupComponent },
-          { path: 'confirm', component: ConfirmComponent },
-          { path: 'history', component: HistoryComponent },
+          {
+            path: 'setup',
+            component: SetupComponent,
+            canDeactivate: [CanDeactivateGuard],
+            runGuardsAndResolvers: 'always',
+          },
+          { path: 'confirm', component: ConfirmComponent, canDeactivate: [CanDeactivateGuard] },
+          { path: 'history', component: HistoryComponent, canDeactivate: [CanDeactivateGuard] },
         ],
       },
-      { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboard', component: DashboardComponent, canDeactivate: [CanDeactivateGuard] },
     ],
   },
   // { path: 'forgotPassword', component: ForgotPasswordComponent },

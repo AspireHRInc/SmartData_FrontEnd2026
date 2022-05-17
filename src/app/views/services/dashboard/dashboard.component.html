@@ -2,14 +2,15 @@
 <ss-filters [data]="servicesService.allTags" (selectedFilters)="onFiltersSelected($event)"></ss-filters>
 <main class="dashboard">
   <div class="controls">
-    <kendo-buttongroup class="filters" selection="single">
+    <kendo-buttongroup class="filters" selection="single" tabindex="1">
       <button
         kendoButton
-        *ngFor="let filter of filters"
+        *ngFor="let filter of filters; let i = index"
         [toggleable]="true"
         [class.selected]="servicesService.currentFilter === filter"
         (click)="selectedFilter(filter)"
         class="filter"
+        tabindex="0"
       >
         {{ filter }}
       </button>
@@ -22,16 +23,19 @@
         [(ngModel)]="searchField"
         (focus)="onServiceSearch($event)"
         (ngModelChange)="this.searchFieldUpdate.next($event)"
+        [tabindex]="filters.length + 1"
       />
-      <button kendoButton icon="search" (click)="onServiceSearch($event)"></button>
+      <button kendoButton icon="search" (click)="onServiceSearch($event)" [tabindex]="filters.length + 2"></button>
     </div>
 
-    <button class="k-button primary history" routerLink="/services/history">View History</button>
+    <button class="k-button primary history" routerLink="/services/history" [tabindex]="filters.length + 3">
+      View History
+    </button>
   </div>
 
   <ss-tiles-section
     [data]="category"
-    *ngFor="let category of services"
+    *ngFor="let category of services; let cati = index"
     [largerTiles]="category.featured"
     [showViewAll]="category.defaultMaxTiles < category.services.length + 1 && category.defaultMaxTiles !== 0"
     (viewAll)="onCatgoryViewAll(category.id)"
@@ -46,8 +50,15 @@
         (toggleFavorite)="onToggleFavorite(service.id, $event)"
         (openInfo)="openInfo(category.id, service.id)"
         [@tileInOutAnimation]
+        [tabIndex]="cati * 100 + i * 3 + 5"
+        [tabindex]="cati * 100 + i * 3 + 5"
       >
-        <button class="k-button primary request" *ngIf="!service.subscribed" (click)="requestService(service.id)">
+        <button
+          class="k-button primary request"
+          *ngIf="!service.subscribed"
+          (click)="requestService(service.id)"
+          [tabindex]="cati * 100 + i * 3 + 5 + 3"
+        >
           Learn More
         </button>
       </ss-tiles-tile>

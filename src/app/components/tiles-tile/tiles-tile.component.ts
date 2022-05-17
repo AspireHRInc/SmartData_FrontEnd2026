@@ -13,6 +13,7 @@ export class TilesTileComponent implements OnInit {
   @Input() larger = false;
   @Output() toggleFavorite = new EventEmitter<Tag[]>();
   @Output() openInfo = new EventEmitter<void>();
+  @Input() tabIndex = 0;
 
   favorite = false;
 
@@ -39,8 +40,8 @@ export class TilesTileComponent implements OnInit {
   }
   onClickService(event: Event) {
     if (this.data.subscribed) {
-      console.log(event);
-      console.log(this.data);
+      // console.log(event);
+      // console.log(this.data);
       this.router.navigate(['/services', this.data.id, 'detail', 'setup']);
     }
   }

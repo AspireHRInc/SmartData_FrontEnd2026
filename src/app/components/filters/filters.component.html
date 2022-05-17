@@ -8,6 +8,7 @@
   [draggable]="false"
   [@slideInOut]
   class="window"
+  autoFocusedElement="#subscribed"
 >
   <kendo-window-titlebar>
     <div class="k-window-title"><h2 class="title">Filters</h2></div>
@@ -22,15 +23,24 @@
           (valueChange)="subscribedVisible = !subscribedVisible"
           onLabel=" "
           offLabel=" "
+          [tabindex]="100"
+          #subscribed
         ></kendo-switch>
         <h5 class="title">Subscribed</h5>
       </label>
     </fieldset>
-    <fieldset *ngFor="let category of data" class="fieldset category">
+    <fieldset *ngFor="let category of data; let cati = index" class="fieldset category">
       <legend class="name">{{ category.name }}</legend>
 
-      <label class="k-form-field label" *ngFor="let filter of category.tags">
-        <input type="checkbox" #notification kendoCheckBox class="checkbox" [formControlName]="filter.name" />
+      <label class="k-form-field label" *ngFor="let filter of category.tags; let i = index">
+        <input
+          type="checkbox"
+          #notification
+          kendoCheckBox
+          class="checkbox"
+          [formControlName]="filter.name"
+          [tabindex]="cati * 10 + i + 1 + 100"
+        />
         <span>
           {{ filter.name }}
           <span class="subscribed" *ngIf="subscribedVisible">({{ filter.subscribed }})</span>
@@ -39,8 +49,17 @@
     </fieldset>
   </form>
   <div class="k-actions k-actions-end buttons">
-    <button kendoButton type="button" class="button reset" (click)="reset()">Reset</button>
-    <button kendoButton themeColor="primary" type="button" class="button submit" (click)="submit()">
+    <button kendoButton type="button" class="button reset" (click)="reset()" [tabindex]="totalTagsLength + 101">
+      Reset
+    </button>
+    <button
+      kendoButton
+      themeColor="primary"
+      type="button"
+      class="button submit"
+      (click)="submit()"
+      [tabindex]="totalTagsLength + 102"
+    >
       Show Results
     </button>
   </div>
