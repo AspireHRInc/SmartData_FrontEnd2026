@@ -35,10 +35,14 @@ export class FieldDateComponent implements OnInit {
   }
 
   toggleToolTip(eventTarget: Element): void {
-    this.tooltipDir.toggle(eventTarget);
+    if (this.parameters.hasOwnProperty('ShowHelpOnFocus') && this.parameters.ShowHelpOnFocus) {
+      this.tooltipDir.show(eventTarget);
+    }
   }
   showToolTip(eventTarget: Element): void {
-    this.tooltipDir.show(eventTarget);
+    if (this.parameters.hasOwnProperty('ShowHelpOnFocus') && this.parameters.ShowHelpOnFocus) {
+      this.tooltipDir.hide();
+    }
   }
 
   hideToolTip(eventTarget: Element): void {

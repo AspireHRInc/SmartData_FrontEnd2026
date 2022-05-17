@@ -3,9 +3,10 @@
   (submit)="onSubmit($event)"
   [static]="true"
   [staticData]="currentSetup"
+  step="2"
 >
   <kendo-label [for]="comments" text="Comments" class="customizing-label" [formGroup]="formGroup">
-    <kendo-textarea #comments formControlName="comment" resizable="none" [rows]="3"></kendo-textarea>
+    <kendo-textarea #comments formControlName="comment" resizable="none" [rows]="3" [maxlength]="1000"></kendo-textarea>
   </kendo-label>
   <ng-container actions></ng-container>
 </ss-field-group>

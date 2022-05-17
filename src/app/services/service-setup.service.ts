@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import setupData from './service-setup.data.json';
+import { UiStateService } from './ui-state.service';
 
 export class Field {
   ParameterName = '';
@@ -14,6 +15,7 @@ export class Field {
   UploadRemoveUrl? = '';
   HelpText? = '';
   value?: any;
+  ShowHelpOnFocus?: boolean;
 
   constructor() {}
 }
@@ -44,8 +46,6 @@ export class setupOptions {
   providedIn: 'root',
 })
 export class ServiceSetupService {
-  constructor() {}
-
   currentServiceFields: Fields = setupData.currentServiceFields;
 
   // allServiceFields: fields = setupData.allServiceFields;
@@ -161,6 +161,12 @@ export class ServiceSetupService {
     },
   ];
 
+  constructor(private uiState: UiStateService) {
+    this.uiState.abandonCurrentForm$.subscribe(() => {
+      this.currentFormAbandoned();
+    });
+  }
+
   onFileRemove(fileName: string) {
     console.log('service: on file remove/cancel ', fileName);
     // triggered on file cancel or file remove
@@ -179,10 +185,11 @@ export class ServiceSetupService {
       value: comment,
     };
     this.currentServiceSetup.push(commentField);
-    console.log(this.currentServiceSetup);
+    console.log(this.currentServiceFields);
   }
 
   currentFormAbandoned() {
+    console.log('current form abandoned');
     // TODO flush uploaded files from current form
   }
 

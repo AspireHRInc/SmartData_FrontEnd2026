@@ -38,11 +38,15 @@ export class FieldPasswordComponent implements OnInit {
     this.tooltipDir.toggle(eventTarget);
   }
   showToolTip(eventTarget: Element): void {
-    this.tooltipDir.show(eventTarget);
+    if (this.parameters.hasOwnProperty('ShowHelpOnFocus') && this.parameters.ShowHelpOnFocus) {
+      this.tooltipDir.show(eventTarget);
+    }
   }
 
   hideToolTip(eventTarget: Element): void {
-    this.tooltipDir.hide();
+    if (this.parameters.hasOwnProperty('ShowHelpOnFocus') && this.parameters.ShowHelpOnFocus) {
+      this.tooltipDir.hide();
+    }
   }
 
   toggleView() {

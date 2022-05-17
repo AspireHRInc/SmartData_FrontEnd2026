@@ -21,7 +21,8 @@ export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate>
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('canDeactivate');
+    // console.log('canDeactivate');
+    this.uiState.onAbandonCurrentForm();
     if (this.uiState.getUnsavedFormPreventNavigate()) {
       this.uiState.setUnsavedFormPreventNavigate(
         !confirm('Your process has not been submitted. Are you sure you want to leave?')

@@ -35,7 +35,6 @@ export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDea
     });
 
     this.serviceSetupFields = this.serviceSetup.getServiceSetup(this.serviceId);
-    console.log(this.serviceSetup.currentServiceSetup);
   }
 
   ngAfterViewChecked(): void {

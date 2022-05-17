@@ -60,7 +60,6 @@ export class FiltersComponent implements OnInit {
     this.resize$.pipe(debounceTime(this.resizeUpdateInterval)).subscribe(_ => this.setWindowDimensions());
 
     this.filters.reset();
-    console.log(this.totalTagsLength);
   }
 
   @HostListener('window:resize', ['$event'])

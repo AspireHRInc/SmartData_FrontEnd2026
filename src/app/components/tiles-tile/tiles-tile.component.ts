@@ -40,8 +40,8 @@ export class TilesTileComponent implements OnInit {
   }
   onClickService(event: Event) {
     if (this.data.subscribed) {
-      console.log(event);
-      console.log(this.data);
+      // console.log(event);
+      // console.log(this.data);
       this.router.navigate(['/services', this.data.id, 'detail', 'setup']);
     }
   }

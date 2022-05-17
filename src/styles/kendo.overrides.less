@@ -328,10 +328,12 @@ button .info:focus-visible {
 
 .tool-tip {
   background-color: var(--color-background-primary);
-  max-width: min(calc(100vw - 2rem), 35.5rem);
+  max-width: calc(100vw - 2rem);
+  @media screen and (min-width: 37.5rem) {
+    max-width: 35.5rem;
+  }
   kendo-tooltip.k-tooltip.k-widget {
     background-color: rgba(var(--color-text-secondary-rgb), 0.4);
-    // background-color: rgba(var(--color-background-secondary-rgb), 1);
   }
   .k-callout.k-callout-n {
     color: rgba(var(--color-background-secondary-rgb), 1);

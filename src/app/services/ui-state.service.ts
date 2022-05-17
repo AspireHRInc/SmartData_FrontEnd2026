@@ -31,6 +31,9 @@ export class UiStateService {
   private unsavedFormPreventNavigate = new BehaviorSubject<boolean>(false);
   unsavedFormPreventNavigate$ = this.unsavedFormPreventNavigate.asObservable();
 
+  private abandonCurrentForm = new BehaviorSubject<null>(null);
+  abandonCurrentForm$ = this.abandonCurrentForm.asObservable();
+
   constructor() {}
 
   showServiceDetail() {
@@ -92,5 +95,9 @@ export class UiStateService {
       current = event;
     });
     return current;
+  }
+
+  onAbandonCurrentForm() {
+    this.abandonCurrentForm.next(null);
   }
 }

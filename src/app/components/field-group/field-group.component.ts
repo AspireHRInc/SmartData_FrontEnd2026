@@ -33,6 +33,7 @@ export class FieldGroupComponent implements OnInit, AfterViewChecked {
   @Input() staticData: Field[] = [];
   @Input() buttonText = 'Submit';
   @Output() formTouchedAndInvalid = new EventEmitter<boolean>();
+  @Input() step = '';
 
   fieldsWithValues: any;
 
