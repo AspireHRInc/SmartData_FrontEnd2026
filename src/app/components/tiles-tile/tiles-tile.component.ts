@@ -13,6 +13,7 @@ export class TilesTileComponent implements OnInit {
   @Input() larger = false;
   @Output() toggleFavorite = new EventEmitter<Tag[]>();
   @Output() openInfo = new EventEmitter<void>();
+  @Input() tabIndex = 0;
 
   favorite = false;
 

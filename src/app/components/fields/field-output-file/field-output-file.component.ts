@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { field } from 'src/app/services/service-setup.service';
+import { Field } from 'src/app/services/service-setup.service';
 
 @Component({
   selector: 'ss-field-output-file',
@@ -7,7 +7,7 @@ import { field } from 'src/app/services/service-setup.service';
   styleUrls: ['./field-output-file.component.less'],
 })
 export class FieldOutputFileComponent implements OnInit {
-  @Input() parameters!: field;
+  @Input() parameters!: Field;
 
   constructor() {}
 

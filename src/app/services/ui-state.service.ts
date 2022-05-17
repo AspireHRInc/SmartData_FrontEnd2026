@@ -27,6 +27,10 @@ export class UiStateService {
   private serviceRunInfoOpen = new BehaviorSubject<boolean>(false);
   serviceRunInfoOpen$ = this.serviceRunInfoOpen.asObservable();
 
+  // when a form is in a dirty state but not saved, confirm naviate away
+  private unsavedFormPreventNavigate = new BehaviorSubject<boolean>(false);
+  unsavedFormPreventNavigate$ = this.unsavedFormPreventNavigate.asObservable();
+
   constructor() {}
 
   showServiceDetail() {
@@ -76,5 +80,17 @@ export class UiStateService {
 
   hideServiceRunInfo() {
     this.serviceRunInfoOpen.next(false);
+  }
+
+  setUnsavedFormPreventNavigate(current: boolean) {
+    this.unsavedFormPreventNavigate.next(current);
+  }
+
+  getUnsavedFormPreventNavigate(): boolean {
+    let current: boolean = true;
+    this.unsavedFormPreventNavigate$.subscribe(event => {
+      current = event;
+    });
+    return current;
   }
 }

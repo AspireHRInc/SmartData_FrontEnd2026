@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
-import { field } from 'src/app/services/service-setup.service';
+import { Field } from 'src/app/services/service-setup.service';
 import { LocalizationService } from 'src/app/services/localization.service';
 import { FieldGroupComponent } from '../../field-group/field-group.component';
 
@@ -13,10 +13,11 @@ import { FieldGroupComponent } from '../../field-group/field-group.component';
   styleUrls: ['./field-file.component.less'],
 })
 export class FieldFileComponent implements OnInit {
-  @Input() parameters!: field;
+  @Input() parameters!: Field;
   @Input() tabindex = 0;
   @Input() formGroup: FormGroup = this.fb.group({});
-  @Output() removeFile = new EventEmitter<any>();
+  @Output() fileAbort = new EventEmitter<string>();
+  @Input() static = false;
 
   @ViewChild(TooltipDirective)
   tooltipDir!: TooltipDirective;
@@ -24,11 +25,13 @@ export class FieldFileComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.formGroup.addControl(this.parameters.ParameterName, this.fb.control(''));
-    if (this.parameters.Required) {
-      this.formGroup.get(this.parameters.ParameterName)!.addValidators(Validators.required);
-    } else {
-      this.formGroup.get(this.parameters.ParameterName)!.clearValidators();
+    if (!this.static) {
+      this.formGroup.addControl(this.parameters.ParameterName, this.fb.control(''));
+      if (this.parameters.Required) {
+        this.formGroup.get(this.parameters.ParameterName)!.addValidators(Validators.required);
+      } else {
+        this.formGroup.get(this.parameters.ParameterName)!.clearValidators();
+      }
     }
   }
 
@@ -43,7 +46,12 @@ export class FieldFileComponent implements OnInit {
     this.tooltipDir.hide();
   }
 
-  onFileRemove(event: any) {
-    this.removeFile.emit(event.files[0].name);
+  onFileAbort(event: any) {
+    this.fileAbort.emit(event.files[0].name);
+  }
+
+  uploadEventHandler(event: any) {
+    let fileNames = event.files.map((files: any) => files.name);
+    console.log(fileNames);
   }
 }

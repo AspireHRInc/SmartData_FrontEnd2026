@@ -92,6 +92,10 @@ input.k-input {
   outline: 1px solid #f31700;
 }
 
+:focus {
+  outline: 2px solid var(--color-cta-lighter);
+}
+
 // switch
 
 .k-switch-off .k-switch-track {
@@ -305,19 +309,43 @@ button .info:focus-visible {
 
 // tooltip
 
-kendo-popup.k-animation-container.k-animation-container-fixed.k-tooltip-wrapper.tool-tip.k-animation-container-shown {
-  color: var(--color-primary-text);
+// kendo-popup.k-animation-container.k-animation-container-fixed.k-tooltip-wrapper.tool-tip.k-animation-container-shown {
+//   color: var(--color-primary-text);
+//   background-color: var(--color-background-secondary);
+//   box-shadow: var(--drop-shadow);
+//   box-shadow: 0px 4px 24px #bdc8d7;
+
+//   border-radius: 1rem;
+// }
+
+// kendo-tooltip.k-tooltip.k-widget {
+//   background-color: var(--color-background-primary);
+
+//   .k-callout.k-callout-w {
+//     color: var(--color-background-primary);
+//   }
+// }
+
+.tool-tip {
   background-color: var(--color-background-primary);
-  box-shadow: var(--drop-shadow);
-  box-shadow: 0px 4px 24px #bdc8d7;
+  max-width: min(calc(100vw - 2rem), 35.5rem);
+  kendo-tooltip.k-tooltip.k-widget {
+    background-color: rgba(var(--color-text-secondary-rgb), 0.4);
+    // background-color: rgba(var(--color-background-secondary-rgb), 1);
+  }
+  .k-callout.k-callout-n {
+    color: rgba(var(--color-background-secondary-rgb), 1);
+    color: rgba(var(--color-text-secondary-rgb), 0.4);
+    left: 1rem;
+  }
 
-  border-radius: 1rem;
-}
+  .k-callout {
+    color: rgba(var(--color-background-secondary-rgb), 1);
+    color: rgba(var(--color-text-secondary-rgb), 0.4);
+    left: 1rem;
+  }
 
-kendo-tooltip.k-tooltip.k-widget {
-  background-color: var(--color-background-primary);
-
-  .k-callout.k-callout-w {
-    color: var(--color-background-primary);
+  .k-tooltip-content {
+    padding: 0.5rem;
   }
 }

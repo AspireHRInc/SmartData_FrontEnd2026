@@ -40,13 +40,17 @@ export class FiltersComponent implements OnInit {
 
   subscribedVisible = false;
 
+  totalTagsLength = 0;
+
   constructor(private fb: FormBuilder, public uiState: UiStateService) {}
 
   ngOnInit(): void {
     this.data = this.data.filter(data => data.id !== '3');
 
     this.data.forEach(filterCategory => {
+      this.totalTagsLength++;
       filterCategory.tags.forEach(filter => {
+        this.totalTagsLength++;
         this.filters.addControl(filter.name, new FormControl(false));
       });
     });
@@ -55,8 +59,8 @@ export class FiltersComponent implements OnInit {
 
     this.resize$.pipe(debounceTime(this.resizeUpdateInterval)).subscribe(_ => this.setWindowDimensions());
 
-    // console.log(this.filters);
     this.filters.reset();
+    console.log(this.totalTagsLength);
   }
 
   @HostListener('window:resize', ['$event'])

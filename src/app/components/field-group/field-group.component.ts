@@ -1,9 +1,22 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Optional,
+  Host,
+  SkipSelf,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 
-import { BehaviorSubject } from 'rxjs';
+import { Field } from 'src/app/services/service-setup.service';
+import { Subscription, Subject, Observable } from 'rxjs';
 
-import { field } from 'src/app/services/service-setup.service';
+import { UiStateService } from 'src/app/services/ui-state.service';
 
 @Component({
   selector: 'ss-field-group',
@@ -11,31 +24,51 @@ import { field } from 'src/app/services/service-setup.service';
   styleUrls: ['./field-group.component.less'],
   host: { class: 'field-group' },
 })
-export class FieldGroupComponent implements OnInit {
-  constructor(private fb: FormBuilder) {}
-  @Input() fields: field[] = [];
+export class FieldGroupComponent implements OnInit, AfterViewChecked {
+  @Input() fields: Field[] = [];
   @Input() formGroup: FormGroup = this.fb.group({});
   @Output() submit = new EventEmitter<FormGroup>();
   @Output() abortFile = new EventEmitter<string>();
+  @Input() static = false;
+  @Input() staticData: Field[] = [];
+  @Input() buttonText = 'Submit';
+  @Output() formTouchedAndInvalid = new EventEmitter<boolean>();
+
+  fieldsWithValues: any;
 
   submitted = false;
 
-  ngOnInit(): void {}
+  constructor(
+    private fb: FormBuilder,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private router: Router,
+    private uiState: UiStateService
+  ) {}
+
+  ngOnInit(): void {
+    this.formGroup.statusChanges.subscribe(newStatus => {
+      if (this.formGroup.dirty) {
+        this.formTouchedAndInvalid.emit(true);
+        this.uiState.setUnsavedFormPreventNavigate(true);
+      }
+    });
+  }
+
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
+  }
 
   save(valid: boolean): void {
-    this.submitted = true;
     if (valid) {
-      console.log('Everything is OK!');
+      this.submitted = true;
+      this.uiState.setUnsavedFormPreventNavigate(false);
       this.submit.emit(this.formGroup);
     } else {
       this.formGroup.markAllAsTouched();
     }
   }
 
-  // private abortFile = new BehaviorSubject<boolean>(false);
-  // abortFile$ = this.abortFile.asObservable();
-
-  onRemoveFile(fileName: string) {
+  onFileAbort(fileName: string) {
     this.abortFile.emit(fileName);
   }
 }
