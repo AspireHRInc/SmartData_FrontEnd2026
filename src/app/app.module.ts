@@ -31,6 +31,7 @@ import { CancelServiceRunComponent } from './views/shared/history/cancel-service
 import { ServiceRunResultsComponent } from './views/shared/history/service-run-results/service-run-results.component';
 import { ServiceRunInfoComponent } from './views/shared/history/service-run-info/service-run-info.component';
 import { ServiceDetailComponent } from './views/shared/service-detail/service-detail.component';
+import { NavigationComponent } from './views/services/detail/navigation/navigation.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ServiceDetailComponent } from './views/shared/service-detail/service-de
     ServiceRunResultsComponent,
     ServiceRunInfoComponent,
     ServiceDetailComponent,
+    NavigationComponent,
   ],
   imports: [
     BrowserModule,

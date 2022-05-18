@@ -18,19 +18,17 @@ export class UiStateService {
   private cancelServiceRunOpen = new BehaviorSubject<boolean>(false);
   cancelServiceRunOpen$ = this.cancelServiceRunOpen.asObservable();
 
-  // private cancelServiceRunId = new BehaviorSubject<string>('');
-  // cancelServiceRunId$ = this.cancelServiceRunId.asObservable();
-
   private serviceRunResultsOpen = new BehaviorSubject<boolean>(false);
   serviceRunResultsOpen$ = this.serviceRunResultsOpen.asObservable();
 
   private serviceRunInfoOpen = new BehaviorSubject<boolean>(false);
   serviceRunInfoOpen$ = this.serviceRunInfoOpen.asObservable();
 
-  // when a form is in a dirty state but not saved, confirm naviate away
+  // When a form is in a dirty state but not saved, confirm naviate away
   private unsavedFormPreventNavigate = new BehaviorSubject<boolean>(false);
   unsavedFormPreventNavigate$ = this.unsavedFormPreventNavigate.asObservable();
 
+  // When a form that is currently being edited is abandoned. Added to allow server to flush file cache
   private abandonCurrentForm = new BehaviorSubject<null>(null);
   abandonCurrentForm$ = this.abandonCurrentForm.asObservable();
 
@@ -49,6 +47,14 @@ export class UiStateService {
     this.serviceDetailId.next(id);
   }
 
+  getIdServiceDetailId(): string {
+    let current = '';
+    this.serviceDetailId$.subscribe(event => {
+      current = event;
+    });
+    return current;
+  }
+
   showServiceFilters() {
     this.serviceFiltersOpen.next(true);
   }
@@ -64,10 +70,6 @@ export class UiStateService {
   hideCancelServiceRun() {
     this.cancelServiceRunOpen.next(false);
   }
-
-  // setCancelServiceRunId(searchString: string) {
-  //   this.cancelServiceRunId.next(searchString);
-  // }
 
   showServiceRunResults() {
     this.serviceRunResultsOpen.next(true);

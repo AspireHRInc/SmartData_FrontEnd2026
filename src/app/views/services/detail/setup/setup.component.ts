@@ -20,6 +20,8 @@ export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDea
   changesSaved = false;
   formValuesChanged = false;
 
+  showCreateNewRun = true;
+
   constructor(
     public serviceSetup: ServiceSetupService,
     private fb: FormBuilder,

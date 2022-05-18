@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener, ElementRef, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -10,8 +10,10 @@ import { UiStateService } from 'src/app/services/ui-state.service';
 import { ServiceRunService, ServiceRun, ServiceRunStatus } from 'src/app/services/service-run.service';
 import { DateTimeService } from 'src/app/services/date-time.service';
 import { AccentColor } from 'src/app/services/color.service';
+import { LocalizationService } from 'src/app/services/localization.service';
 
 import { SelectionRange } from '@progress/kendo-angular-dateinputs';
+import { Query } from '@angular/compiler/src/core';
 
 export class ServiceRunExtended extends ServiceRun {
   userObject: User = new User();
@@ -26,37 +28,46 @@ export class ServiceRunExtended extends ServiceRun {
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.less'],
   animations: [
-    trigger('tileInOutAnimation', [
+    trigger('listItemInOutAnimation', [
       transition(':enter', [
-        style({ transform: 'scale(0.5)', opacity: 0 }),
-        animate('300ms ease-out', style({ transform: 'scale(1)', opacity: 1 })),
+        style({ transform: 'scaleY(.5)', opacity: 0.5 }),
+        animate('300ms ease-out', style({ transform: 'scaleY(1)', opacity: 1 })),
       ]),
       transition(':leave', [
-        style({ transform: 'scale(1)', opacity: 1 }),
-        animate('300ms ease-in', style({ transform: 'scale(0.5)', opacity: 0 })),
+        style({ transform: 'scaleY(1)', opacity: 1 }),
+        animate('300ms ease-in', style({ transform: 'scaleY(.5)', opacity: 0.5 })),
       ]),
     ]),
   ],
 })
 export class HistoryComponent implements OnInit {
-  // @ViewChild("anchor") public anchor!: ElementRef;
-  // @ViewChild("popup", { read: ElementRef }) public popup!: ElementRef;
+  public toggleText = 'Show';
+  public show = false;
 
-  // @HostListener("document:click", ["$event"])
-  // documentClick(event: KeyboardEvent): void {
-  //   if (!this.contains(event.target!)) {
-  //     this.toggle(false);
-  //   }
-  // }
+  @ViewChildren('anchor') public anchors!: QueryList<ElementRef>;
+  @ViewChildren('popup', { read: ElementRef }) public popups!: QueryList<ElementRef>;
 
-  // private contains(target: EventTarget): boolean {
-  //   return (
-  //     this.anchor.nativeElement.contains(target) ||
-  //     (this.popup ? this.popup.nativeElement.contains(target) : false)
-  //   );
-  // }
+  allElements!: ElementRef<any>[];
+
+  @HostListener('document:click', ['$event'])
+  public documentClick(event: KeyboardEvent): void {
+    let filtersContainsEventTarget = false;
+
+    this.allElements = this.anchors.toArray().concat(this.popups.toArray());
+
+    this.allElements.forEach((element: any) => {
+      if (element.nativeElement.contains(event.target)) {
+        filtersContainsEventTarget = true;
+      }
+    });
+
+    if (!filtersContainsEventTarget) {
+      this.showFilterPopupIndex = -1;
+    }
+  }
 
   loggedInUserObj = new User();
+  serviceRunsRaw: ServiceRun[] = [];
   serviceRuns: ServiceRunExtended[] = [];
   searchField = '';
   searchFieldUpdate = new Subject<string>();
@@ -79,18 +90,43 @@ export class HistoryComponent implements OnInit {
 
   allServicesHistory = false;
 
+  serviceId = 'all';
+
   constructor(
     public userService: UserService,
     public serviceRunService: ServiceRunService,
     public uiState: UiStateService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public localizationService: LocalizationService
   ) {}
 
   ngOnInit(): void {
     this.loggedInUserObj = this.userService.loggedInUserObj!;
 
-    this.serviceRuns = this.serviceRunService.serviceRuns.map(serviceRun => {
+    if (this.router.url.indexOf('/services/history') > -1) {
+      this.allServicesHistory = true;
+      this.serviceId = 'all';
+      this.serviceRunService.currentServiceRunsId = 'all';
+    }
+
+    this.route.parent!.params.subscribe(params => {
+      if (params['id']) {
+        console.log('params id: ', params['id']);
+        this.serviceId = params['id'];
+        this.serviceRunService.currentServiceRunsId = params['id'];
+      }
+    });
+
+    if (this.allServicesHistory === true) {
+      this.serviceRunsRaw = this.serviceRunService.getServiceRuns();
+      this.filters = this.serviceRunService.serviceRunsFilters;
+    } else {
+      this.serviceRunsRaw = this.serviceRunService.getServiceRuns();
+      this.filters = this.serviceRunService.singleServiceRunsFilters;
+    }
+
+    this.serviceRuns = this.serviceRunsRaw.map(serviceRun => {
       return {
         ...serviceRun,
         status: serviceRun.status.filter(status => status !== ServiceRunStatus.Scheduled),
@@ -109,10 +145,10 @@ export class HistoryComponent implements OnInit {
       };
     });
 
-    this.filters = this.serviceRunService.serviceRunsFilters.map(filterGroup => {
+    this.filters = this.filters.map(filterGroup => {
       return {
         ...filterGroup,
-        filters: filterGroup.filters!.map(filter => {
+        filters: filterGroup.filters!.map((filter: any) => {
           return filter.name;
         }),
       };
@@ -125,10 +161,6 @@ export class HistoryComponent implements OnInit {
         this.serviceRunService.filterServiceRuns(this.searchString, this.filtersObj)
       );
     });
-
-    if (this.router.url.indexOf('/services/history') > -1) {
-      this.allServicesHistory = true;
-    }
   }
 
   onCheckboxChange(filterGroup: string, filter: string) {
@@ -150,7 +182,6 @@ export class HistoryComponent implements OnInit {
     } else {
       this.filterClearActive = true;
     }
-    console.log(this.filterClearActive);
 
     this.showFilterPopupIndex = -1;
     this.onServiceFilter();
@@ -163,15 +194,16 @@ export class HistoryComponent implements OnInit {
   }
 
   filterChecked(filterGroupFilters: any, filter: any) {
-    console.log('filterChecked');
     return filterGroupFilters.includes(filter);
   }
 
   onDateRangeValueChange(range?: SelectionRange, action?: string) {
     if (action === 'clear') {
+      this.selectedDateRangeFilter = { start: new Date(0), end: new Date(0) };
       this.filtersObj.dateRange = { start: new Date(0), end: new Date(0) };
       this.onServiceFilter();
     } else {
+      this.selectedDateRangeFilter = range!;
       this.filtersObj.dateRange = range;
       this.onServiceFilter();
     }
@@ -239,35 +271,6 @@ export class HistoryComponent implements OnInit {
     this.uiState.showServiceRunInfo();
   }
 
-  filterListBlur() {
-    console.log('blur');
-    this.showFilterPopupIndex = -1;
-  }
-
-  // @ViewChildren('anchor') public anchor!: ElementRef;
-  // @ViewChildren('popup', { read: ElementRef }) public popup!: ElementRef;
-
-  // @HostListener('document:click', ['$event'])
-  // public documentClick(event: KeyboardEvent): void {
-  //   console.log(this.anchor);
-  //   console.log(this.popup);
-  //   console.log(event.target);
-  //   if (!this.contains(event.target!)) {
-  //     // this.toggle(false);
-  //     this.showFilterPopupIndex = -1;
-  //   }
-
-  //   if () {
-
-  //   }
-  // }
-
-  // contains(target: EventTarget): boolean {
-  //   return (
-  //     this.anchor.nativeElement.contains(target) || (this.popup ? this.popup.nativeElement.contains(target) : false)
-  //   );
-  // }
-
   showFilterPopup(i: number) {
     if (this.showFilterPopupIndex === i) {
       this.showFilterPopupIndex = -1;
@@ -308,12 +311,20 @@ export class HistoryComponent implements OnInit {
   clearAllFilters() {
     this.showFilterPopupIndex = -1;
     this.filtersObj = { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
+    this.selectedDateRangeFilter = { start: new Date(), end: new Date() };
+    this.serviceRunService.filtersActive = false;
     this.onServiceFilter();
   }
 
   onSetupRun() {
-    console.log(this.route);
-    console.log('yelp');
-    // this.router.navigate(['setup'], { relativeTo: this.route.parent });
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['setup'], { relativeTo: this.route.parent });
+  }
+
+  onNavigateHistory() {
+    this.router.navigate(['history'], { relativeTo: this.route });
   }
 }

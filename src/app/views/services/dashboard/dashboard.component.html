@@ -28,7 +28,7 @@
       <button kendoButton icon="search" (click)="onServiceSearch($event)" [tabindex]="filters.length + 2"></button>
     </div>
 
-    <button class="k-button primary history" routerLink="/services/history" [tabindex]="filters.length + 3">
+    <button class="k-button primary history" (click)="onNavigateHistory()" [tabindex]="filters.length + 3">
       View History
     </button>
   </div>
@@ -48,7 +48,7 @@
         [class.subscribed]="service.subscribed"
         [class.featured]="category.featured"
         (toggleFavorite)="onToggleFavorite(service.id, $event)"
-        (openInfo)="openInfo(category.id, service.id)"
+        (openInfo)="openInfo(service.id)"
         [@tileInOutAnimation]
         [tabIndex]="cati * 100 + i * 3 + 5"
         [tabindex]="cati * 100 + i * 3 + 5"
@@ -65,3 +65,4 @@
     </ng-container>
   </ss-tiles-section>
 </main>
+<ss-service-detail *ngIf="uiState.serviceDetailOpen$ | async"></ss-service-detail>
