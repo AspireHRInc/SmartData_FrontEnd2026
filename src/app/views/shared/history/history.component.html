@@ -158,7 +158,7 @@
 
   <kendo-listview [data]="serviceRuns" containerClass="k-d-flex k-flex-col k-flex-nowrap">
     <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst">
-      <div class="history-item" [class.new]="dataItem.newlyCompleted">
+      <div class="history-item" [class.new]="dataItem.newlyCompleted" [@listItemInOutAnimation]>
         <div class="icon">
           <ss-icon-file-w-status-dot [dotColor]="dataItem.statusColor"></ss-icon-file-w-status-dot>
         </div>

@@ -28,14 +28,14 @@ export class ServiceRunExtended extends ServiceRun {
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.less'],
   animations: [
-    trigger('tileInOutAnimation', [
+    trigger('listItemInOutAnimation', [
       transition(':enter', [
-        style({ transform: 'scale(0.5)', opacity: 0 }),
-        animate('300ms ease-out', style({ transform: 'scale(1)', opacity: 1 })),
+        style({ transform: 'scaleY(.5)', opacity: 0.5 }),
+        animate('300ms ease-out', style({ transform: 'scaleY(1)', opacity: 1 })),
       ]),
       transition(':leave', [
-        style({ transform: 'scale(1)', opacity: 1 }),
-        animate('300ms ease-in', style({ transform: 'scale(0.5)', opacity: 0 })),
+        style({ transform: 'scaleY(1)', opacity: 1 }),
+        animate('300ms ease-in', style({ transform: 'scaleY(.5)', opacity: 0.5 })),
       ]),
     ]),
   ],
