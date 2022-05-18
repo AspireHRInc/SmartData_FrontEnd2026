@@ -77,7 +77,9 @@ export class DashboardComponent implements OnInit {
   }
 
   requestService(serviceId: string) {
-    console.log('request service ' + serviceId);
+    console.log(serviceId);
+    this.uiState.setIdServiceDetailId(serviceId);
+    this.uiState.showServiceDetail();
   }
 
   onCatgoryViewAll(categoryId: string) {
@@ -88,9 +90,9 @@ export class DashboardComponent implements OnInit {
     this.servicesService.toggleFavorite(serviceId, metaTags);
   }
 
-  openInfo(categoryId: string, serviceId: string) {
+  openInfo(serviceId: string) {
     // TODO: connect to UiStatService and detail modal
-    this.uiState.setIdServiceDetailId(categoryId + '-' + serviceId);
+    this.uiState.setIdServiceDetailId(serviceId);
     this.uiState.showServiceDetail();
   }
 

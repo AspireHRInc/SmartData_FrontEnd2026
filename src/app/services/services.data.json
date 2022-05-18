@@ -1,0 +1,2040 @@
+{
+  "allServices": [
+    {
+      "id": "1",
+      "name": "All Services",
+      "featured": false,
+      "defaultMaxTiles": 0,
+      "services": [
+        {
+          "id": "1",
+          "name": "Mass Requisition Upload 1",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 47",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 48",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "Employee Data Scrambling 2",
+          "imagePath": "assets/images/services/card-images/service-2.jpg",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            },
+            {
+              "id": "3-1",
+              "name": "Favorites",
+              "subscribed": ""
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 49",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 50",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 50",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 50",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 50",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 50",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 50",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "name": "Talent Pool Assignment 3",
+          "imagePath": "assets/images/services/card-images/service-3.png",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 51",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 52",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "4",
+          "name": "Mass Requisition Upload 4",
+          "imagePath": "assets/images/services/card-images/service-6.jpg",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 53",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 54",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "5",
+          "name": "Employee Data Scrambling 5",
+          "imagePath": "assets/images/services/card-images/service-2.png",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            },
+            {
+              "id": "3-1",
+              "name": "Favorites",
+              "subscribed": ""
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 55",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 56",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "6",
+          "name": "Talent Pool Assignment 6",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 57",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 58",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "7",
+          "name": "Talent Pool Assignment 7",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 59",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 60",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "8",
+          "name": "Mass Requisition Upload 8",
+          "imagePath": "assets/images/services/card-images/service-1-featured.jpg",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 61",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 62",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "9",
+          "name": "Employee Data Scrambling 9",
+          "imagePath": "assets/images/services/card-images/service-2-featured.jpg",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            },
+            {
+              "id": "3-1",
+              "name": "Favorites",
+              "subscribed": ""
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 63",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 64",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "10",
+          "name": "Talent Pool Assignment 10",
+          "imagePath": "assets/images/services/card-images/service-3.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            },
+            {
+              "id": "3-1",
+              "name": "Favorites",
+              "subscribed": ""
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 65",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 66",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "11",
+          "name": "Mass Requisition Upload 11",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 67",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 68",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "12",
+          "name": "Employee Data Scrambling 12",
+          "imagePath": "assets/images/services/card-images/service-2.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 69",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 70",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "13",
+          "name": "Talent Pool Assignment 13",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 71",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 72",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "14",
+          "name": "Mass Requisition Upload 14",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 73",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 74",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "15",
+          "name": "Employee Data Scrambling 15",
+          "imagePath": "assets/images/services/card-images/service-2.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            },
+            {
+              "id": "3-1",
+              "name": "Favorites",
+              "subscribed": ""
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 75",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 76",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "16",
+          "name": "Talent Pool Assignment 16",
+          "imagePath": "assets/images/services/card-images/service-3.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 77",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 78",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "17",
+          "name": "Mass Requisition Upload 17",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 79",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 80",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "18",
+          "name": "Employee Data Scrambling 18",
+          "imagePath": "assets/images/services/card-images/service-2.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            },
+            {
+              "id": "3-1",
+              "name": "Favorites",
+              "subscribed": ""
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 81",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 82",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "19",
+          "name": "Talent Pool Assignment 19",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 83",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 84",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "20",
+          "name": "Talent Pool Assignment 20",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 85",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 86",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "21",
+          "name": "Talent Pool Assignment 21",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 87",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 88",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "22",
+          "name": "Talent Pool Assignment 22",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 89",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 90",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "23",
+          "name": "Talent Pool Assignment 23",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 91",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 92",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "defaultServices": [
+    {
+      "id": "1",
+      "name": "Your Smart Suite",
+      "featured": false,
+      "defaultMaxTiles": 6,
+      "services": [
+        {
+          "id": "1",
+          "name": "Mass Requisition Upload",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 1",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 2",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "Employee Data Scrambling",
+          "imagePath": "assets/images/services/card-images/service-2.jpg",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            },
+            {
+              "id": "3-1",
+              "name": "Favorites",
+              "subscribed": ""
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 3",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 4",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "name": "Talent Pool Assignment",
+          "imagePath": "assets/images/services/card-images/service-3.png",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 5",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 6",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "4",
+          "name": "Mass Requisition Upload",
+          "imagePath": "assets/images/services/card-images/service-6.jpg",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 7",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 8",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "5",
+          "name": "Employee Data Scrambling",
+          "imagePath": "assets/images/services/card-images/service-2.png",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            },
+            {
+              "id": "3-1",
+              "name": "Favorites",
+              "subscribed": ""
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 9",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 10",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "6",
+          "name": "Talent Pool Assignment",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 11",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 12",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "7",
+          "name": "Talent Pool Assignment",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": true,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 13",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 14",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Hot",
+      "featured": true,
+      "defaultMaxTiles": 2,
+      "services": [
+        {
+          "id": "8",
+          "name": "Mass Requisition Upload",
+          "imagePath": "assets/images/services/card-images/service-1-featured.jpg",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 15",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 16",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "9",
+          "name": "Employee Data Scrambling",
+          "imagePath": "assets/images/services/card-images/service-2-featured.jpg",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            },
+            {
+              "id": "3-1",
+              "name": "Favorites",
+              "subscribed": ""
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 17",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 18",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "9",
+          "name": "Talent Pool Assignment",
+          "imagePath": "assets/images/services/card-images/service-3.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 19",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 20",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "10",
+          "name": "Mass Requisition Upload",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 21",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 22",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "11",
+          "name": "Employee Data Scrambling",
+          "imagePath": "assets/images/services/card-images/service-2.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 23",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 24",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "12",
+          "name": "Talent Pool Assignment",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 25",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 26",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "name": "Recruiting",
+      "featured": false,
+      "defaultMaxTiles": 9,
+      "services": [
+        {
+          "id": "9",
+          "name": "Mass Requisition Upload",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 27",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 28",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "14",
+          "name": "Employee Data Scrambling",
+          "imagePath": "assets/images/services/card-images/service-2.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            },
+            {
+              "id": "3-1",
+              "name": "Favorites",
+              "subscribed": ""
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 29",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 30",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "15",
+          "name": "Talent Pool Assignment",
+          "imagePath": "assets/images/services/card-images/service-3.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 31",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 32",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "16",
+          "name": "Mass Requisition Upload",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 33",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 34",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "17",
+          "name": "Employee Data Scrambling",
+          "imagePath": "assets/images/services/card-images/service-2.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-1",
+              "name": "Reconciliation",
+              "subscribed": "1"
+            },
+            {
+              "id": "1-2",
+              "name": "Human Resources",
+              "subscribed": "1"
+            },
+            {
+              "id": "3-1",
+              "name": "Favorites",
+              "subscribed": ""
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 35",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 36",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "18",
+          "name": "Talent Pool Assignment",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 37",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 38",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "19",
+          "name": "Talent Pool Assignment",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 39",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 40",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "20",
+          "name": "Talent Pool Assignment",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 41",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 42",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "21",
+          "name": "Talent Pool Assignment",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 43",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 44",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        },
+        {
+          "id": "22",
+          "name": "Talent Pool Assignment",
+          "imagePath": "assets/images/services/card-images/service-0.png",
+          "weighting": 0,
+          "subscribed": false,
+          "displayTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "metaTags": [
+            {
+              "id": "2-4",
+              "name": "Mass Upload",
+              "subscribed": "0"
+            }
+          ],
+          "shortDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+          "description": "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "templates": [
+            {
+              "id": "1",
+              "title": "Template File 45",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            },
+            {
+              "id": "2",
+              "title": "Template File 46",
+              "fileName": "user-file.xls",
+              "filePath": "/src/assets/templates/"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "allTags": [
+    {
+      "id": "1",
+      "name": "Functional",
+      "tags": [
+        {
+          "id": "1-1",
+          "name": "Recruiting",
+          "subscribed": "2"
+        },
+        {
+          "id": "1-2",
+          "name": "Human Resources",
+          "subscribed": "1"
+        },
+        {
+          "id": "1-3",
+          "name": "Payroll",
+          "subscribed": "10"
+        },
+        {
+          "id": "1-4",
+          "name": "Benefits",
+          "subscribed": "12"
+        },
+        {
+          "id": "1-5",
+          "name": "Onboarding",
+          "subscribed": "4"
+        },
+        {
+          "id": "1-6",
+          "name": "Succession Managements",
+          "subscribed": "0"
+        },
+        {
+          "id": "1-7",
+          "name": "Compensation",
+          "subscribed": "0"
+        },
+        {
+          "id": "1-8",
+          "name": "General File Comparison",
+          "subscribed": "0"
+        },
+        {
+          "id": "1-9",
+          "name": "Time Managements",
+          "subscribed": "7"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Purpose",
+      "tags": [
+        {
+          "id": "2-1",
+          "name": "Reconciliation",
+          "subscribed": "1"
+        },
+        {
+          "id": "2-2",
+          "name": "Process Automation",
+          "subscribed": "0"
+        },
+        {
+          "id": "2-3",
+          "name": "Health Checks",
+          "subscribed": "4"
+        },
+        {
+          "id": "2-4",
+          "name": "Mass Upload",
+          "subscribed": "0"
+        },
+        {
+          "id": "2-5",
+          "name": "Reporting",
+          "subscribed": "0"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Meta",
+      "tags": [
+        {
+          "id": "3-1",
+          "name": "Favorites",
+          "subscribed": ""
+        }
+      ]
+    }
+  ]
+}
