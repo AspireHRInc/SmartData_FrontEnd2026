@@ -36,16 +36,16 @@ export class DetailComponent implements OnInit {
     )!.name;
   }
 
-  onNavigateHistory() {
-    this.router.navigate(['history'], { relativeTo: this.route });
-  }
+  // onNavigateHistory() {
+  //   this.router.navigate(['history'], { relativeTo: this.route });
+  // }
 
-  onSetupRun() {
-    console.log(this.router);
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
-      return false;
-    };
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate(['setup'], { relativeTo: this.route });
-  }
+  // onSetupRun() {
+  //   console.log(this.router);
+  //   this.router.routeReuseStrategy.shouldReuseRoute = function () {
+  //     return false;
+  //   };
+  //   this.router.onSameUrlNavigation = 'reload';
+  //   this.router.navigate(['setup'], { relativeTo: this.route });
+  // }
 }

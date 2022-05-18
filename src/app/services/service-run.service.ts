@@ -98,26 +98,45 @@ export class ServiceRunService {
     };
   });
 
+  singleServiceRuns: ServiceRun[] = servicesRunData.singleServiceRuns.map(serviceRun => {
+    return {
+      ...serviceRun,
+      status: serviceRun.status.map(status => status as ServiceRunStatus),
+      submittedDate: new Date(serviceRun.submittedDate),
+      startDate: new Date(serviceRun.startDate),
+      endDate: new Date(serviceRun.endDate),
+      results: serviceRun.results?.map(result => {
+        return { ...result, createDate: new Date(result.createDate) } as ServiceRunResult;
+      }),
+    };
+  });
+
   serviceRunsFilters: FilterGroup[] = servicesRunData.serviceRunsFilters;
+
+  singleServiceRunsFilters: FilterGroup[] = servicesRunData.singleServiceRunsFilters;
 
   constructor(private userService: UserService) {}
 
-  currentServicesRuns: ServiceRun[] = [...this.serviceRuns];
+  currentServiceRunsId = 'all';
+
+  currentServicesRuns: ServiceRun[] = [...this.getServiceRuns()];
 
   currentFilters: string[] = [];
 
-  filterServiceRuns(searchString: string, filters: Filters) {
-    this.currentServicesRuns = [...this.serviceRuns];
+  filtersActive = false;
 
-    let filtersActive = false;
+  filterServiceRuns(searchString: string, filters: Filters) {
+    this.currentServicesRuns = [...this.getServiceRuns()];
+
+    this.filtersActive = false;
 
     if (
       filters.status.length > 0 ||
       filters.service.length > 0 ||
       filters.requester.length > 0 ||
-      filters.dateRange.start !== new Date(0)
+      filters.dateRange.start.toString() !== new Date(0).toString()
     ) {
-      filtersActive = true;
+      this.filtersActive = true;
     }
 
     if (filters.status.length > 0) {
@@ -174,9 +193,9 @@ export class ServiceRunService {
       return [...this.currentServicesRuns];
     }
 
-    if (searchString === '' && !filtersActive) {
+    if (searchString === '' && !this.filtersActive) {
       console.log('else');
-      this.currentServicesRuns = [...this.serviceRuns];
+      this.currentServicesRuns = [...this.getServiceRuns()];
       return this.currentServicesRuns;
     }
 
@@ -185,5 +204,13 @@ export class ServiceRunService {
 
   cancelServiceRun(id: string) {
     console.log('cancel service run ', id);
+  }
+
+  getServiceRuns(): ServiceRun[] {
+    if (this.currentServiceRunsId === 'all') {
+      return (this.currentServicesRuns = [...this.serviceRuns]);
+    } else {
+      return (this.currentServicesRuns = [...this.singleServiceRuns]);
+    }
   }
 }

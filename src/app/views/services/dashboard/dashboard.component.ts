@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { UserService, User } from 'src/app/services/user.service';
 import { ServicesService, ServiceCategory, Tag } from 'src/app/services/services.service';
@@ -44,7 +45,9 @@ export class DashboardComponent implements OnInit {
   constructor(
     public userService: UserService,
     public servicesService: ServicesService,
-    public uiState: UiStateService
+    public uiState: UiStateService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -112,5 +115,12 @@ export class DashboardComponent implements OnInit {
     event.stopPropagation();
     console.log(event);
     console.log(serviceId);
+  }
+
+  onNavigateHistory() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+    this.router.navigate(['history'], { relativeTo: this.route.parent });
   }
 }

@@ -5,16 +5,6 @@
   [headerUserObject]="loggedInUserObj"
 ></ss-header>
 
-<ss-navigation-buttons>
-  <ss-navigation-button
-    *ngIf="showCreateNewRun"
-    label="Create New Run"
-    class="active"
-    (click)="onSetupRun()"
-  ></ss-navigation-button>
-  <ss-navigation-button label="History of Runs" (click)="onNavigateHistory()"></ss-navigation-button>
-</ss-navigation-buttons>
-
 <div class="content-wrapper">
   <router-outlet></router-outlet>
 </div>

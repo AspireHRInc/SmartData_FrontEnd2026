@@ -28,7 +28,7 @@
       <button kendoButton icon="search" (click)="onServiceSearch($event)" [tabindex]="filters.length + 2"></button>
     </div>
 
-    <button class="k-button primary history" routerLink="/services/history" [tabindex]="filters.length + 3">
+    <button class="k-button primary history" (click)="onNavigateHistory()" [tabindex]="filters.length + 3">
       View History
     </button>
   </div>
