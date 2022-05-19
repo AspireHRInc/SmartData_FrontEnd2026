@@ -26,16 +26,17 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
     if (this.userService.loggedInUserObj!.customRoles!.includes('Admin')) {
       this.navigationItems = [
-        { title: 'Home', url: 'services/dashboard', icon: 'home' },
-        { title: 'Job Search', url: 'services/dashboard', icon: 'search' },
+        { title: 'Home', url: '/services/dashboard', icon: 'home' },
+        { title: 'Job Search', url: '/services/dashboard', icon: 'search' },
         { title: 'Profile', url: 'user-profile', icon: 'person' },
         // { title: 'Admin', icon: 'settings' },
         { title: 'Logout', url: 'logout', icon: 'logout' },
       ];
     } else {
       this.navigationItems = [
-        { title: 'Home', url: 'services/dashboard', icon: 'home' },
-        { title: 'Job Search', url: 'services/dashboard', icon: 'search' },
+        { title: 'Home', url: '/services/dashboard', icon: 'home' },
+        { title: 'Job Search', url: '/services/dashboard', icon: 'search' },
+        { title: 'Admin', url: '/admin', icon: 'settings' },
         { title: 'Profile', url: 'user-profile', icon: 'person' },
         { title: 'Logout', url: 'logout', icon: 'logout' },
       ];
