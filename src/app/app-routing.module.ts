@@ -8,6 +8,7 @@ import { DetailComponent } from './views/services/detail/detail.component';
 import { ConfirmComponent } from './views/services/detail/confirm/confirm.component';
 import { HistoryComponent } from './views/shared/history/history.component';
 import { DashboardComponent } from './views/services/dashboard/dashboard.component';
+import { AdminComponent } from './views/admin/admin.component';
 
 import { AuthGuard } from './services/auth-guard.service';
 import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   { path: 'services', redirectTo: 'services/dashboard', pathMatch: 'full' },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
   {
     path: 'services',
     component: ServicesComponent,
