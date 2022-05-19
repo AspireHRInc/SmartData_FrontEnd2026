@@ -8,7 +8,7 @@ export class User {
   phone = '';
   email = '';
   permission = '';
-  roles?: string[] = [];
+  customRoles?: string[] = [];
   profilePic? = '';
   constructor() {}
 }
@@ -58,7 +58,7 @@ export class UserService {
     userData.users[currentUserIndex].email = userDetails.email;
     userData.users[currentUserIndex].phone = userDetails.phone;
     userData.users[currentUserIndex].permission = userDetails.permission;
-    userData.users[currentUserIndex].roles = userDetails.roles.split(',');
+    userData.users[currentUserIndex].customRoles = userDetails.customRoles.split(',');
   }
 
   constructor() {}

@@ -32,6 +32,9 @@ export class UiStateService {
   private abandonCurrentForm = new BehaviorSubject<null>(null);
   abandonCurrentForm$ = this.abandonCurrentForm.asObservable();
 
+  private menuOpen = new BehaviorSubject<boolean>(false);
+  menuOpen$ = this.menuOpen.asObservable();
+
   constructor() {}
 
   showServiceDetail() {
@@ -101,5 +104,9 @@ export class UiStateService {
 
   onAbandonCurrentForm() {
     this.abandonCurrentForm.next(null);
+  }
+
+  toggleMenu(state: boolean) {
+    this.menuOpen.next(state);
   }
 }
