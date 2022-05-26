@@ -13,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 export class MenuComponent implements OnInit {
   @HostListener('click') onNavigation() {
     // close the menu
-    // this.uiState.toggleMenu();
+    this.uiState.closeMenu();
   }
 
   public navigationItems: any;
@@ -24,7 +24,7 @@ export class MenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.userService.loggedInUserObj!.customRoles!.includes('Admin')) {
+    if (this.userService.loggedInUserObj!.userGroups!.filter(userGroup => userGroup.name === 'Admin').length > 0) {
       this.navigationItems = [
         { title: 'Home', url: '/services/dashboard', icon: 'home' },
         { title: 'Job Search', url: '/services/dashboard', icon: 'search' },
@@ -42,4 +42,12 @@ export class MenuComponent implements OnInit {
       ];
     }
   }
+
+  // closeNav() {
+  //   this.uiState.closeMenu();
+  // }
+
+  // navigate(url: string) {
+  //   this.router.navigate(url)
+  // }
 }

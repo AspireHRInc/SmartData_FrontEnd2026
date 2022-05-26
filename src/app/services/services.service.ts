@@ -11,6 +11,12 @@ export enum ServiceTag {
   'Recruiting' = 'Recruiting',
 }
 
+export enum Environments {
+  'development' = 'development',
+  'test' = 'test',
+  'production' = 'production',
+}
+
 export interface Template extends File {}
 
 export class Service {
@@ -47,6 +53,13 @@ export class Tag {
   id = '0';
   name = '';
   subscribed? = '';
+  constructor() {}
+}
+
+export class Environment {
+  id = '0';
+  name = '';
+  constructor() {}
 }
 
 @Injectable({
@@ -60,6 +73,8 @@ export class ServicesService {
   allServices: ServiceCategory[] = servicesData.allServices;
 
   allTags: TagCategory[] = servicesData.allTags;
+
+  evironments: Environment[] = servicesData.evironments;
 
   currentFilter = '';
 

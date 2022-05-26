@@ -1,1 +1,128 @@
-<p>admin works!</p>
+<ss-header headerTitle="Company Admin" type="admin" [headerUserObject]="loggedInUserObj"></ss-header>
+
+<ss-navigation-buttons>
+  <ss-navigation-button label="Setup Users" class="active" (click)="onSetupUsers()"></ss-navigation-button>
+</ss-navigation-buttons>
+
+<kendo-listview [data]="userGroupsExtended" containerClass="k-d-flex k-flex-col k-flex-nowrap">
+  <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst" let-index="index">
+    <div
+      class="usergroup-item"
+      [@listItemInOutAnimation]
+      (click)="openDetail(index)"
+      (keyup)="openDetailWithKey($event, index)"
+      tabindex="0"
+      role="button"
+      aria-label="Show user group details"
+    >
+      <div class="info">
+        <h2 class="title">{{ dataItem.name }}</h2>
+      </div>
+      <div class="members">{{ dataItem.users.length + ' member' + (dataItem.users.length > 1 ? 's' : '') }}</div>
+      <div class="users">
+        <ss-user-badges [users]="dataItem.users" [truncateAt]="6"></ss-user-badges>
+      </div>
+
+      <div class="actions">
+        <button
+          (click)="removeUserGroup($event, dataItem.id)"
+          (keyup)="openDetailWithKey($event, dataItem.id)"
+          class="button medium action outline cancel"
+          [attr.aria-label]="'Remove user group: ' + dataItem.name"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+    <div class="details" *ngIf="this.detailsOpen === index">
+      <h3 class="title">Setup Group</h3>
+      <ng-container [formGroup]="userGroupsForm">
+        <div class="toggle" [formGroupName]="dataItem.name">
+          <kendo-switch [formControlName]="'Can See Others Processes'" class="switch"></kendo-switch>
+          Group can see processes by others
+        </div>
+      </ng-container>
+      <form class="form" [formGroup]="userGroupsForm" [style.height]="environments.length + 10 + 'rem'">
+        <div class="services" [formGroupName]="dataItem.name">
+          <div class="header">
+            <h4 class="title">Allowed Services</h4>
+            <button class="button" aria-label="View all allowed services">View All</button>
+          </div>
+          <div class="services-wrapper">
+            <label class="label">
+              <input type="checkbox" #notification kendoCheckBox [tabindex]="0" />
+              All
+            </label>
+
+            <ng-container *ngFor="let service of services">
+              <label class="label">
+                <input type="checkbox" kendoCheckBox [tabindex]="0" [formControlName]="service.name" />
+                <img [src]="service.imagePath" [alt]="service.name + ' icon'" class="icon" />
+                {{ service.name }}
+              </label>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="environments" [formGroupName]="dataItem.name">
+          <div class="header">
+            <h4 class="title">Allowed Environments</h4>
+          </div>
+
+          <div class="environments-wrapper">
+            <label class="label" *ngFor="let environment of environments">
+              <input type="checkbox" kendoCheckBox [tabindex]="0" [formControlName]="environment.name" />
+              {{ environment.name }}
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="button" (click)="cancelGroupPreferences()">Cancel</button>
+          <button class="button primary" (click)="saveGroupPreferences(dataItem.name)">Save</button>
+        </div>
+      </form>
+
+      <div class="users">
+        <kendo-listview [data]="dataItem.users" containerClass="k-d-flex k-flex-col k-flex-nowrap">
+          <ng-template kendoListViewHeaderTemplate>
+            <div class="header">
+              <h3 class="title">Members {{ '(' + dataItem.users.length + ')' }}</h3>
+              <button class="button add-user" aria-label="add user">+</button>
+            </div>
+          </ng-template>
+          <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst">
+            <div class="user" [@listItemInOutAnimation]>
+              <ss-user-badge [user]="dataItem"></ss-user-badge>
+              <div class="info">
+                <h2 class="title">{{ dataItem.firstName + ' ' + dataItem.lastName }}</h2>
+              </div>
+
+              <div class="email">
+                <p>{{ dataItem.email }}</p>
+              </div>
+
+              <div class="actions">
+                <button
+                  (click)="removeUser($event, userGroupsExtended[index].name, dataItem.id)"
+                  (keyup)="removeUser($event, userGroupsExtended[index].name, dataItem.id)"
+                  class="button medium action outline cancel"
+                  [attr.aria-label]="
+                    'Remove user: ' +
+                    dataItem.firstName +
+                    ' ' +
+                    dataItem.lastName +
+                    ' from ' +
+                    userGroupsExtended[index].name
+                  "
+                >
+                  Remove User
+                </button>
+              </div>
+            </div>
+          </ng-template>
+        </kendo-listview>
+      </div>
+    </div>
+  </ng-template>
+</kendo-listview>

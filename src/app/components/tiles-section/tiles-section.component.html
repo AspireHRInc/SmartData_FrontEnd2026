@@ -1,6 +1,6 @@
 <header class="header">
   <h3 class="title">{{ data.name }}</h3>
-  <button class="view-all" *ngIf="showViewAll" (click)="onViewAll()" tabindex="1">View All</button>
+  <button class="view-all" *ngIf="showViewAll" (click)="onViewAll()" tabindex="0">View All</button>
 </header>
 
 <div class="tiles" [class.larger-tiles]="largerTiles">

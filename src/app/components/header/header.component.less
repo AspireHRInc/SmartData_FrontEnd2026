@@ -20,6 +20,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    max-width: 90rem;
 
     .background {
       position: absolute;
@@ -38,10 +39,18 @@
       flex: 1 100%;
       position: relative;
 
+      a.home-link {
+        font-size: 0;
+        width: 2.5rem;
+        height: 2.5rem;
+        cursor: pointer;
+      }
+
       .logo {
         position: absolute;
         top: 0;
         left: 0;
+        font-size: 0;
         ss-icon-logo-light {
           width: 2rem;
         }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { UiStateService } from 'src/app/services/ui-state.service';
 import { ServicesService, Service } from 'src/app/services/services.service';
@@ -10,12 +11,26 @@ import { ServicesService, Service } from 'src/app/services/services.service';
 })
 export class ServiceDetailComponent implements OnInit {
   serviceId = '0';
-  constructor(private uiState: UiStateService, public services: ServicesService) {}
+  constructor(
+    private uiState: UiStateService,
+    public services: ServicesService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
   service: Service = new Service();
 
   ngOnInit(): void {
     this.serviceId = this.uiState.getIdServiceDetailId();
+    // console.log(this.route.params);
+    // this.route.parent!.params.subscribe(params => {
+    //   if (params['id']) {
+    //     console.log('params id: ', params['id']);
+    //     this.serviceId = params['id'];
+    //   }
+    // });
+
     this.service = this.services.getServiceById(this.serviceId);
+    console.log(this.serviceId);
   }
 
   detailsClose() {

@@ -16,7 +16,7 @@
       (focus)="onSearchStringUpdate($event)"
       (ngModelChange)="this.searchFieldUpdate.next($event)"
     />
-    <button kendoButton icon="search" (click)="onSearchStringUpdate($event)"></button>
+    <button kendoButton icon="search" aria-label="search history" (click)="onSearchStringUpdate($event)"></button>
   </div>
 </div>
 
