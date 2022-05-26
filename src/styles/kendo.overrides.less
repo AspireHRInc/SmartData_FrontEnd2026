@@ -133,6 +133,11 @@ input.k-input {
 
 .k-button {
   box-shadow: none;
+
+  &:focus-visible,
+  &:focus {
+    outline: 1px solid var(--color-cta-lighter);
+  }
   .k-button-text {
     font-weight: 700;
     font-size: 0.875rem;

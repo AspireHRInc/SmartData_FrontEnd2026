@@ -2,19 +2,26 @@
 <ss-filters [data]="servicesService.allTags" (selectedFilters)="onFiltersSelected($event)"></ss-filters>
 <main class="dashboard">
   <div class="controls">
-    <kendo-buttongroup class="filters" selection="single" tabindex="1">
-      <button
-        kendoButton
-        *ngFor="let filter of filters; let i = index"
-        [toggleable]="true"
-        [class.selected]="servicesService.currentFilter === filter"
-        (click)="selectedFilter(filter)"
-        class="filter"
-        tabindex="0"
-      >
-        {{ filter }}
-      </button>
-    </kendo-buttongroup>
+    <div class="buttons">
+      <div class="filters">
+        <button
+          kendoButton
+          *ngFor="let filter of filters; let i = index"
+          [toggleable]="true"
+          [class.selected]="servicesService.currentFilter === filter"
+          (click)="selectedFilter(filter)"
+          class="filter button outline"
+          tabindex="0"
+          [disabled]="false"
+          [rounded]="'full'"
+          [size]="'small'"
+          [attr.aria-label]="'filter services by' + filter"
+        >
+          {{ filter }}
+        </button>
+      </div>
+    </div>
+
     <div class="search">
       <input
         placeholder="Search services"
@@ -23,14 +30,18 @@
         [(ngModel)]="searchField"
         (focus)="onServiceSearch($event)"
         (ngModelChange)="this.searchFieldUpdate.next($event)"
-        [tabindex]="filters.length + 1"
+        tabindex="0"
       />
-      <button kendoButton icon="search" (click)="onServiceSearch($event)" [tabindex]="filters.length + 2"></button>
+      <button
+        kendoButton
+        icon="search"
+        aria-label="search services"
+        (click)="onServiceSearch($event)"
+        tabindex="0"
+      ></button>
     </div>
 
-    <button class="k-button primary history" (click)="onNavigateHistory()" [tabindex]="filters.length + 3">
-      View History
-    </button>
+    <button class="k-button primary history" (click)="onNavigateHistory()" tabindex="0">View History</button>
   </div>
 
   <ss-tiles-section
@@ -50,14 +61,13 @@
         (toggleFavorite)="onToggleFavorite(service.id, $event)"
         (openInfo)="openInfo(service.id)"
         [@tileInOutAnimation]
-        [tabIndex]="cati * 100 + i * 3 + 5"
-        [tabindex]="cati * 100 + i * 3 + 5"
+        tabindex="0"
       >
         <button
           class="k-button primary request"
           *ngIf="!service.subscribed"
           (click)="requestService(service.id)"
-          [tabindex]="cati * 100 + i * 3 + 5 + 3"
+          tabindex="0"
         >
           Learn More
         </button>

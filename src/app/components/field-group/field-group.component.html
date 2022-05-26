@@ -7,7 +7,7 @@
     <ng-template
       *ngFor="let field of fields; let i = index"
       [field]="field"
-      [tabindex]="i"
+      [tabindex]="0"
       [formGroup]="formGroup"
       [static]="static"
       ssFieldGenerator
@@ -22,7 +22,7 @@
     <ng-template
       *ngFor="let field of staticData; let i = index"
       [staticField]="field"
-      [tabindex]="i"
+      [tabindex]="0"
       [static]="static"
       ssFieldGenerator
     ></ng-template>
@@ -36,7 +36,7 @@
       class="button"
       (click)="save(formGroup.valid)"
       [class.disabled]="!formGroup.valid"
-      [tabindex]="fields.length * 2 + 1"
+      tabindex="0"
       role="button"
     >
       <span _ngcontent-bem-c118="" class="k-button-text">{{ buttonText }}</span>

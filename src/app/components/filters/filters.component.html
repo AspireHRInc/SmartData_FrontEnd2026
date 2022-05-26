@@ -23,7 +23,7 @@
           (valueChange)="subscribedVisible = !subscribedVisible"
           onLabel=" "
           offLabel=" "
-          [tabindex]="100"
+          [tabindex]="0"
           #subscribed
         ></kendo-switch>
         <h5 class="title">Subscribed</h5>
@@ -39,7 +39,7 @@
           kendoCheckBox
           class="checkbox"
           [formControlName]="filter.name"
-          [tabindex]="cati * 10 + i + 1 + 100"
+          tabindex="0"
         />
         <span>
           {{ filter.name }}
@@ -49,17 +49,8 @@
     </fieldset>
   </form>
   <div class="k-actions k-actions-end buttons">
-    <button kendoButton type="button" class="button reset" (click)="reset()" [tabindex]="totalTagsLength + 101">
-      Reset
-    </button>
-    <button
-      kendoButton
-      themeColor="primary"
-      type="button"
-      class="button submit"
-      (click)="submit()"
-      [tabindex]="totalTagsLength + 102"
-    >
+    <button kendoButton type="button" class="button reset" (click)="reset()" tabindex="0">Reset</button>
+    <button kendoButton themeColor="primary" type="button" class="button submit" (click)="submit()" tabindex="0">
       Show Results
     </button>
   </div>

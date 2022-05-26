@@ -109,4 +109,12 @@ export class UiStateService {
   toggleMenu(state: boolean) {
     this.menuOpen.next(state);
   }
+
+  closeMenu() {
+    this.menuOpen.next(false);
+  }
+
+  openMenu() {
+    this.menuOpen.next(true);
+  }
 }

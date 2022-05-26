@@ -18,7 +18,7 @@
         [formControlName]="parameters.ParameterName"
         (focus)="showToolTip(anchor)"
         (blur)="hideToolTip(anchor)"
-        [tabindex]="tabindex + 1"
+        [tabindex]="0"
       />
       {{ parameters.Caption }}
       <span class="required" *ngIf="parameters.Required">*</span>
@@ -26,7 +26,7 @@
 
     <button
       class="info"
-      [tabindex]="tabindex"
+      [tabindex]="0"
       (click)="toggleToolTip(anchor)"
       [attr.aria-label]="'Field Help. ' + parameters.HelpText"
       type="button"

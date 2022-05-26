@@ -28,7 +28,12 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     canDeactivate: [CanDeactivateGuard],
     children: [
-      { path: 'history', component: HistoryComponent, canDeactivate: [CanDeactivateGuard] },
+      {
+        path: 'history',
+        component: HistoryComponent,
+        canDeactivate: [CanDeactivateGuard],
+        data: { title: 'Services History' },
+      },
       {
         path: ':id/detail',
         component: DetailComponent,
@@ -39,17 +44,33 @@ const routes: Routes = [
             component: SetupComponent,
             canDeactivate: [CanDeactivateGuard],
             runGuardsAndResolvers: 'always',
+            data: { title: 'Service Setup' },
           },
-          { path: 'confirm', component: ConfirmComponent, canDeactivate: [CanDeactivateGuard] },
-          { path: 'history', component: HistoryComponent, canDeactivate: [CanDeactivateGuard] },
+          {
+            path: 'confirm',
+            component: ConfirmComponent,
+            canDeactivate: [CanDeactivateGuard],
+            data: { title: 'Confirm Service Setup' },
+          },
+          {
+            path: 'history',
+            component: HistoryComponent,
+            canDeactivate: [CanDeactivateGuard],
+            data: { title: 'Service History' },
+          },
         ],
       },
-      { path: 'dashboard', component: DashboardComponent, canDeactivate: [CanDeactivateGuard] },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canDeactivate: [CanDeactivateGuard],
+        data: { title: 'Services Dashboard' },
+      },
     ],
   },
   // { path: 'forgotPassword', component: ForgotPasswordComponent },
   // { path: 'requestAccount', component: RequestAccountComponent},
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, data: { title: 'Login' } },
   { path: '**', redirectTo: 'login' },
 ];
 

@@ -2036,5 +2036,10 @@
         }
       ]
     }
+  ],
+  "evironments": [
+    { "id": "1", "name": "Development" },
+    { "id": "2", "name": "Test" },
+    { "id": "3", "name": "Production" }
   ]
 }

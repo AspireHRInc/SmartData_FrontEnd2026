@@ -13,7 +13,7 @@
     <span class="required" *ngIf="parameters.Required">*</span>
     <button
       class="info"
-      [tabindex]="tabindex"
+      [tabindex]="0"
       (click)="toggleToolTip(anchor)"
       [attr.aria-label]="'Field Help ' + parameters.HelpText"
       type="button"
@@ -25,9 +25,10 @@
       [format]="localizationService.dateFormat"
       formatPlaceholder="formatPattern"
       [formControlName]="parameters.ParameterName"
-      [tabindex]="tabindex + 1"
+      [tabindex]="0"
       (focus)="showToolTip(anchor)"
       (blur)="hideToolTip(anchor)"
+      [attr.aria-label]="parameters.Caption"
     ></kendo-datepicker>
   </kendo-label>
 </div>

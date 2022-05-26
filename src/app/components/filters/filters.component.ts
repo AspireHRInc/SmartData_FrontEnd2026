@@ -40,17 +40,13 @@ export class FiltersComponent implements OnInit {
 
   subscribedVisible = false;
 
-  totalTagsLength = 0;
-
   constructor(private fb: FormBuilder, public uiState: UiStateService) {}
 
   ngOnInit(): void {
     this.data = this.data.filter(data => data.id !== '3');
 
     this.data.forEach(filterCategory => {
-      this.totalTagsLength++;
       filterCategory.tags.forEach(filter => {
-        this.totalTagsLength++;
         this.filters.addControl(filter.name, new FormControl(false));
       });
     });

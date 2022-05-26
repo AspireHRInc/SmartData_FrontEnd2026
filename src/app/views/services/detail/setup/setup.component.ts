@@ -34,7 +34,10 @@ export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDea
   ngOnInit(): void {
     this.route.parent!.params.subscribe(params => {
       this.serviceId = params['id'];
+      this.uiState.setIdServiceDetailId(params['id']);
     });
+    console.log(this.serviceId);
+    console.log(this.uiState.getIdServiceDetailId);
 
     this.serviceSetupFields = this.serviceSetup.getServiceSetup(this.serviceId);
   }

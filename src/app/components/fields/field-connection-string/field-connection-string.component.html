@@ -13,7 +13,7 @@
     <span class="required" *ngIf="parameters.Required">*</span>
     <button
       class="info"
-      [tabindex]="tabindex"
+      [tabindex]="0"
       (click)="toggleToolTip(anchor)"
       [attr.aria-label]="'Field Help. ' + parameters.HelpText"
       type="button"
@@ -31,7 +31,7 @@
       fillMode="flat"
       size="large"
       [valuePrimitive]="false"
-      [tabIndex]="tabindex + 1"
+      [tabIndex]="0"
       (focus)="showToolTip(anchor)"
       (blur)="hideToolTip(anchor)"
       [popupSettings]="{ popupClass: 'settings-drop-down' }"

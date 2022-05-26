@@ -5,19 +5,14 @@
     class="k-button button favorite"
     [class.favorited]="favorite"
     (click)="onFavorite($event)"
-    [tabindex]="tabIndex + 2"
-    aria-label="toggle as favorite service"
+    tabindex="0"
+    [attr.aria-labelledby]="
+      favorite ? data.name + ' service favorited:checked' : data.name + ' service favorited:unchecked'
+    "
   >
     &#9829;
   </button>
-  <button
-    class="k-button button info"
-    (click)="onInfo($event)"
-    [tabindex]="tabIndex + 1"
-    aria-label="service information"
-  >
-    i
-  </button>
+  <button class="k-button button info" (click)="onInfo($event)" tabindex="0" aria-label="service information">i</button>
 </div>
 <div class="text">
   <div class="status-badges">
