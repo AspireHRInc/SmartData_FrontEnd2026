@@ -6,8 +6,15 @@ import { UserService, User, UserGroups } from 'src/app/services/user.service';
 import { ServicesService, Service, Environment, Environments } from 'src/app/services/services.service';
 import { UiStateService } from '../../services/ui-state.service';
 
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
+export class UserExtended extends User {
+  pendingRemoval? = false;
+}
+
 export class UserGroupsExtended extends UserGroups {
-  users: User[] = [];
+  users: UserExtended[] = [];
 }
 
 @Component({
@@ -46,7 +53,7 @@ export class AdminComponent implements OnInit {
   loggedInUserObj = new User();
   userGroups: UserGroups[] = [];
   userGroupsExtended: UserGroupsExtended[] = [];
-  detailsOpen = 0;
+  detailsOpen = -1;
 
   services: Service[] = [];
   environments: Environment[] = [];
@@ -54,6 +61,14 @@ export class AdminComponent implements OnInit {
   userGroupsForm: FormGroup = this.fb.group({});
 
   userGroupsFormInitialValues: any;
+
+  expandedServiceIndex = -1;
+  formDirtyIndex = -1;
+
+  modelChanged: Subject<string> = new Subject<string>();
+  searchFieldUpdate = new Subject<string>();
+
+  searchField = '';
 
   constructor(
     private userService: UserService,
@@ -64,17 +79,24 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUserObj = this.userService.loggedInUserObj!;
-
+    this.userGroups = this.userService.userGroups;
     this.loadUserGroups();
 
     this.services = this.servicesService.allServices[0].services;
     this.environments = this.servicesService.evironments;
 
     this.generateFormModel();
+
+    this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
+      this.detailsOpen = -1;
+      console.log(value);
+      this.userGroups = this.userService.filterUserGroups(value);
+      this.loadUserGroups();
+    });
   }
 
   loadUserGroups() {
-    this.userGroups = this.userService.userGroups;
+    // this.userGroups = this.userService.userGroups;
     this.userGroupsExtended = this.userGroups.map(userGroup => {
       return { ...userGroup, users: this.userService.getUserGroupUsers(userGroup.id) };
     });
@@ -89,8 +111,15 @@ export class AdminComponent implements OnInit {
         new FormControl(userGroup.CanSeeProcessesByOthers)
       );
 
+      (this.userGroupsForm.get(userGroup.name) as FormGroup)!.addControl('services', this.fb.group({}));
+
+      ((this.userGroupsForm.get(userGroup.name) as FormGroup).get('services') as FormGroup)!.addControl(
+        'all',
+        new FormControl()
+      );
+
       this.services.forEach(service => {
-        (this.userGroupsForm.get(userGroup.name) as FormGroup)!.addControl(
+        ((this.userGroupsForm.get(userGroup.name) as FormGroup).get('services') as FormGroup)!.addControl(
           service.name,
           new FormControl(userGroup.services.includes(service.name))
         );
@@ -104,6 +133,7 @@ export class AdminComponent implements OnInit {
       });
     });
     this.userGroupsFormInitialValues = this.userGroupsForm.value;
+    console.log(this.userGroupsForm);
   }
 
   onSetupUsers() {}
@@ -130,7 +160,23 @@ export class AdminComponent implements OnInit {
     event.cancelBubble = true;
 
     this.userService.removeUserFromGroup(userGroupName, userId);
-    this.loadUserGroups();
+    // this.loadUserGroups();
+  }
+
+  reAddUser(event: Event, userGroupName: string, userId: number) {
+    event.stopPropagation();
+    event.preventDefault();
+    event.cancelBubble = true;
+
+    this.userService.addUserToGroup(userGroupName, userId);
+    // this.loadUserGroups();
+  }
+
+  togglePendingRemoval(userGroupindex: number, userId: number) {
+    let userIndex = this.userGroupsExtended[userGroupindex].users.findIndex(user => user.id === userId);
+
+    this.userGroupsExtended[userGroupindex].users[userIndex].pendingRemoval =
+      !this.userGroupsExtended[userGroupindex].users[userIndex].pendingRemoval;
   }
 
   openDetail(index: number) {
@@ -157,4 +203,36 @@ export class AdminComponent implements OnInit {
       (this.userGroupsForm.get(userGroupName) as FormGroup)!.value
     );
   }
+
+  expandService(index: number) {
+    if (this.expandedServiceIndex === -1 || this.expandedServiceIndex !== index) {
+      this.expandedServiceIndex = index;
+    } else {
+      this.expandedServiceIndex = -1;
+    }
+  }
+
+  toggleAllServices(userGroupName: string) {
+    let allChecked = ((this.userGroupsForm.get(userGroupName) as FormGroup).get('services') as FormGroup).get(
+      'all'
+    )!.value;
+
+    if (!allChecked) {
+      Object.keys(
+        ((this.userGroupsForm.get(userGroupName) as FormGroup).get('services') as FormGroup).controls
+      ).forEach(key => {
+        ((this.userGroupsForm.get(userGroupName) as FormGroup).get('services') as FormGroup).get(key)?.setValue(true);
+      });
+      allChecked = true;
+    } else {
+      Object.keys(
+        ((this.userGroupsForm.get(userGroupName) as FormGroup).get('services') as FormGroup).controls
+      ).forEach(key => {
+        ((this.userGroupsForm.get(userGroupName) as FormGroup).get('services') as FormGroup).get(key)?.setValue(false);
+      });
+      allChecked = true;
+    }
+  }
+
+  onGroupSearch(event: Event) {}
 }

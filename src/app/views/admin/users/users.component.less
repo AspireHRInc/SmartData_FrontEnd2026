@@ -1,0 +1,37 @@
+:host {
+  display: block;
+
+  .admin-header {
+    display: flex;
+    // padding: 1rem;
+    max-width: 90rem;
+    margin-bottom: 1rem;
+    background: var(--color-background-primary);
+    box-shadow: var(--drop-shadow);
+    padding-left: 1rem;
+
+    .tabs {
+      display: flex;
+      gap: 1rem;
+
+      .tab {
+        white-space: nowrap;
+        background: transparent;
+        color: var(--color-cta-lighter);
+        border: none;
+        font-weight: 700;
+        font-size: 1.25rem;
+        line-height: 125%;
+        box-shadow: none;
+        height: 5.3125rem;
+
+        &.active {
+          border-bottom: 3px solid var(--color-cta-lighter);
+        }
+      }
+    }
+    .search {
+      margin: 1.5rem 1rem;
+    }
+  }
+}

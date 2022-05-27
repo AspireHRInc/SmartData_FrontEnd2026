@@ -43,9 +43,15 @@ export class HeaderComponent implements OnInit {
     this.location.back();
   }
 
-  toggleMenu() {
-    console.log('toggle menu');
+  toggleMenu(event: Event) {
     this.menuOpenState = !this.menuOpenState;
     this.uiState.toggleMenu(this.menuOpenState);
+  }
+
+  keyToggleMenu(event: KeyboardEvent) {
+    if (event.key === ' ' || event.key === 'Enter') {
+      this.menuOpenState = !this.menuOpenState;
+      this.uiState.toggleMenu(this.menuOpenState);
+    }
   }
 }
