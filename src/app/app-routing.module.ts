@@ -8,35 +8,72 @@ import { DetailComponent } from './views/services/detail/detail.component';
 import { ConfirmComponent } from './views/services/detail/confirm/confirm.component';
 import { HistoryComponent } from './views/shared/history/history.component';
 import { DashboardComponent } from './views/services/dashboard/dashboard.component';
+import { AdminComponent } from './views/admin/admin.component';
+import { UsersComponent } from './views/admin/users/users.component';
 
 import { AuthGuard } from './services/auth-guard.service';
+import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
+
+// routes that can be navigated to from /setup and /confirm need to use canDeactivate
+// https://github.com/angular/angular/issues/12382
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   { path: 'services', redirectTo: 'services/dashboard', pathMatch: 'full' },
+  { path: 'admin', redirectTo: 'admin/groups', pathMatch: 'full' },
+  { path: 'admin/groups', component: AdminComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
+  { path: 'admin/users', component: UsersComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
   {
     path: 'services',
     component: ServicesComponent,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
+    canDeactivate: [CanDeactivateGuard],
     children: [
-      { path: 'history', component: HistoryComponent },
+      {
+        path: 'history',
+        component: HistoryComponent,
+        canDeactivate: [CanDeactivateGuard],
+        data: { title: 'Services History' },
+      },
       {
         path: ':id/detail',
         component: DetailComponent,
+        canDeactivate: [CanDeactivateGuard],
         children: [
-          { path: 'setup', component: SetupComponent },
-          { path: 'confirm', component: ConfirmComponent },
-          { path: 'history', component: HistoryComponent },
+          {
+            path: 'setup',
+            component: SetupComponent,
+            canDeactivate: [CanDeactivateGuard],
+            runGuardsAndResolvers: 'always',
+            data: { title: 'Service Setup' },
+          },
+          {
+            path: 'confirm',
+            component: ConfirmComponent,
+            canDeactivate: [CanDeactivateGuard],
+            data: { title: 'Confirm Service Setup' },
+          },
+          {
+            path: 'history',
+            component: HistoryComponent,
+            canDeactivate: [CanDeactivateGuard],
+            data: { title: 'Service History' },
+          },
         ],
       },
-      { path: 'dashboard', component: DashboardComponent },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canDeactivate: [CanDeactivateGuard],
+        data: { title: 'Services Dashboard' },
+      },
     ],
   },
   // { path: 'forgotPassword', component: ForgotPasswordComponent },
   // { path: 'requestAccount', component: RequestAccountComponent},
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, data: { title: 'Login' } },
   { path: '**', redirectTo: 'login' },
 ];
 

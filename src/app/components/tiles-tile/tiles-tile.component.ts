@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, HostListener, Output, EventEmitter, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 import { Service, Tag } from 'src/app/services/services.service';
 
@@ -13,6 +13,10 @@ export class TilesTileComponent implements OnInit {
   @Input() larger = false;
   @Output() toggleFavorite = new EventEmitter<Tag[]>();
   @Output() openInfo = new EventEmitter<void>();
+  @Input() tabIndex = 0;
+
+  @HostBinding('attr.role') ariaRole = 'button';
+  // @HostBinding('attr.aria-label') ariaLabel = 'Setup Service';
 
   favorite = false;
 
@@ -39,8 +43,8 @@ export class TilesTileComponent implements OnInit {
   }
   onClickService(event: Event) {
     if (this.data.subscribed) {
-      console.log(event);
-      console.log(this.data);
+      // console.log(event);
+      // console.log(this.data);
       this.router.navigate(['/services', this.data.id, 'detail', 'setup']);
     }
   }

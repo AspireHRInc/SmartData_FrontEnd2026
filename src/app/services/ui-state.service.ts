@@ -18,14 +18,22 @@ export class UiStateService {
   private cancelServiceRunOpen = new BehaviorSubject<boolean>(false);
   cancelServiceRunOpen$ = this.cancelServiceRunOpen.asObservable();
 
-  // private cancelServiceRunId = new BehaviorSubject<string>('');
-  // cancelServiceRunId$ = this.cancelServiceRunId.asObservable();
-
   private serviceRunResultsOpen = new BehaviorSubject<boolean>(false);
   serviceRunResultsOpen$ = this.serviceRunResultsOpen.asObservable();
 
   private serviceRunInfoOpen = new BehaviorSubject<boolean>(false);
   serviceRunInfoOpen$ = this.serviceRunInfoOpen.asObservable();
+
+  // When a form is in a dirty state but not saved, confirm naviate away
+  private unsavedFormPreventNavigate = new BehaviorSubject<boolean>(false);
+  unsavedFormPreventNavigate$ = this.unsavedFormPreventNavigate.asObservable();
+
+  // When a form that is currently being edited is abandoned. Added to allow server to flush file cache
+  private abandonCurrentForm = new BehaviorSubject<null>(null);
+  abandonCurrentForm$ = this.abandonCurrentForm.asObservable();
+
+  private menuOpen = new BehaviorSubject<boolean>(false);
+  menuOpen$ = this.menuOpen.asObservable();
 
   constructor() {}
 
@@ -40,6 +48,14 @@ export class UiStateService {
   setIdServiceDetailId(id: string) {
     console.log('set detail id', id);
     this.serviceDetailId.next(id);
+  }
+
+  getIdServiceDetailId(): string {
+    let current = '';
+    this.serviceDetailId$.subscribe(event => {
+      current = event;
+    });
+    return current;
   }
 
   showServiceFilters() {
@@ -58,10 +74,6 @@ export class UiStateService {
     this.cancelServiceRunOpen.next(false);
   }
 
-  // setCancelServiceRunId(searchString: string) {
-  //   this.cancelServiceRunId.next(searchString);
-  // }
-
   showServiceRunResults() {
     this.serviceRunResultsOpen.next(true);
   }
@@ -76,5 +88,33 @@ export class UiStateService {
 
   hideServiceRunInfo() {
     this.serviceRunInfoOpen.next(false);
+  }
+
+  setUnsavedFormPreventNavigate(current: boolean) {
+    this.unsavedFormPreventNavigate.next(current);
+  }
+
+  getUnsavedFormPreventNavigate(): boolean {
+    let current: boolean = true;
+    this.unsavedFormPreventNavigate$.subscribe(event => {
+      current = event;
+    });
+    return current;
+  }
+
+  onAbandonCurrentForm() {
+    this.abandonCurrentForm.next(null);
+  }
+
+  toggleMenu(state: boolean) {
+    this.menuOpen.next(state);
+  }
+
+  closeMenu() {
+    this.menuOpen.next(false);
+  }
+
+  openMenu() {
+    this.menuOpen.next(true);
   }
 }

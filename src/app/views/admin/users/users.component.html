@@ -1,0 +1,25 @@
+<ss-header headerTitle="Company Admin" type="admin" [headerUserObject]="loggedInUserObj"></ss-header>
+
+<ss-navigation-buttons>
+  <ss-navigation-button label="Setup Users" class="active"></ss-navigation-button>
+</ss-navigation-buttons>
+
+<div class="admin-header">
+  <div class="tabs">
+    <button class="tab" aria-label="View User Groups" routerLink="../groups">User Groups</button>
+    <button class="tab active" aria-label="View Users" routerLink="../users">Users</button>
+  </div>
+  <div class="spacer"></div>
+  <!-- <div class="search">
+    <input
+      placeholder="Search"
+      class="k-input field"
+      (keyup)="onGroupSearch($event)"
+      [(ngModel)]="searchField"
+      (focus)="onGroupSearch($event)"
+      (ngModelChange)="this.searchFieldUpdate.next($event)"
+      tabindex="0"
+    />
+    <button kendoButton icon="search" aria-label="search" (click)="onGroupSearch($event)" tabindex="0"></button>
+  </div> -->
+</div>

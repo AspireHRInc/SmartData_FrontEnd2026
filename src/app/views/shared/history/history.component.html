@@ -1,4 +1,5 @@
 <ss-header
+  *ngIf="allServicesHistory"
   headerTitle="History"
   headerSubtitle=""
   type="serviceDetail"
@@ -15,13 +16,18 @@
       (focus)="onSearchStringUpdate($event)"
       (ngModelChange)="this.searchFieldUpdate.next($event)"
     />
-    <button kendoButton icon="search" (click)="onSearchStringUpdate($event)"></button>
+    <button kendoButton icon="search" aria-label="search history" (click)="onSearchStringUpdate($event)"></button>
   </div>
 </div>
 
 <ss-navigation-buttons>
-  <ss-navigation-button *ngIf="showCreateNewRun" label="Create New Run" class="secondary"></ss-navigation-button>
-  <ss-navigation-button label="History of Runs"></ss-navigation-button>
+  <ss-navigation-button
+    *ngIf="!allServicesHistory"
+    label="Create New Run"
+    class="secondary"
+    (click)="onSetupRun()"
+  ></ss-navigation-button>
+  <ss-navigation-button label="History of Runs" class="active"></ss-navigation-button>
 </ss-navigation-buttons>
 
 <ss-cancel-service-run [serviceId]="cancelServiceId"></ss-cancel-service-run>
@@ -34,65 +40,92 @@
 <div class="content-wrapper">
   <div class="filters">
     <ng-container *ngFor="let filterGroup of filters; let i = index">
-      <button
-        kendoButton
-        rounded="full"
-        fillMode="outline"
-        #anchor
-        (click)="showFilterPopup(i)"
-        class="filter-button"
-        [class.active]="
-          filterGroup.name !== 'Date Range'
-            ? filtersObj[filterGroup.name.toLocaleLowerCase()].length > 0
-            : filtersObj['dateRange'].start.getTime() !== 0
-            ? true
-            : false
-        "
-      >
-        <span class="name">{{ filterGroup.name }}</span>
-        <span class="arrow">&#9660;</span>
-      </button>
+      <ng-container *ngIf="filterGroup.filters.length > 1 || filterGroup.name === 'Date Range'">
+        <button
+          kendoButton
+          rounded="full"
+          fillMode="outline"
+          #anchor
+          (click)="showFilterPopup(i)"
+          class="filter-button"
+          [class.active]="
+            filterGroup.name !== 'Date Range'
+              ? filtersObj[filterGroup.name.toLocaleLowerCase()].length > 0
+              : filtersObj['dateRange'].start.getTime() !== 0
+              ? true
+              : false
+          "
+        >
+          <span class="name">{{ filterGroup.name }}</span>
+          <span class="arrow">&#9660;</span>
+        </button>
 
-      <kendo-popup
-        #popup
-        [anchor]="anchor"
-        *ngIf="showFilterPopupIndex === i"
-        (blur)="filterListBlur()"
-        class="filter-popup"
-      >
-        <div class="content">
-          <ul class="filter-list" *ngIf="filterGroup.name !== 'Date Range'">
-            <ng-container *ngFor="let filter of filterGroup.filters; let i = index">
-              <li class="filter-item" *ngIf="filterGroup.filters.length > 1">
-                <label class="k-checkbox-label">
-                  <input
-                    type="checkbox"
-                    kendoCheckBox
-                    (change)="onCheckboxChange(filterGroup.name, filter)"
-                    [checked]="filtersObj[filterGroup.name.toLowerCase()].indexOf(filter) !== -1"
-                  />
-                  {{ filter }}
-                </label>
-              </li>
+        <kendo-popup #popup [anchor]="anchor" *ngIf="showFilterPopupIndex === i" class="filter-popup">
+          <div class="content">
+            <ul class="filter-list" *ngIf="filterGroup.name !== 'Date Range'">
+              <ng-container *ngFor="let filter of filterGroup.filters; let i = index">
+                <li class="filter-item" *ngIf="filterGroup.filters.length > 1">
+                  <label class="k-checkbox-label">
+                    <input
+                      type="checkbox"
+                      kendoCheckBox
+                      (change)="onCheckboxChange(filterGroup.name, filter)"
+                      [checked]="filtersObj[filterGroup.name.toLowerCase()].indexOf(filter) !== -1"
+                    />
+                    {{ filter }}
+                  </label>
+                </li>
+              </ng-container>
+            </ul>
+
+            <ng-container *ngIf="filterGroup.name === 'Date Range'">
+              <kendo-popup #popup [anchor]="anchor" *ngIf="showFilterPopupIndex === i">
+                <div class="content">
+                  <div class="date-inputs">
+                    <label>
+                      Start:
+                      <kendo-dateinput
+                        [(value)]="selectedDateRangeFilter.start"
+                        (valueChange)="onDateRangeValueChange(selectedDateRangeFilter)"
+                        size="small"
+                        [format]="localizationService.dateFormat"
+                      ></kendo-dateinput>
+                    </label>
+                    <label>
+                      End:
+                      <kendo-dateinput
+                        [(value)]="selectedDateRangeFilter.end"
+                        (valueChange)="onDateRangeValueChange(selectedDateRangeFilter)"
+                        class="date-input"
+                        size="small"
+                        [format]="localizationService.dateFormat"
+                      ></kendo-dateinput>
+                    </label>
+                    <!-- <button class="clear" (click)="onDateRangeValueChange(selectedDateRangeFilter, 'clear')">
+                      clear
+                    </button> -->
+                  </div>
+                  <kendo-multiviewcalendar
+                    kendoDateRangeSelection
+                    [selectionRange]="selectedDateRangeFilter"
+                    [focusedDate]="selectedDateRangeFilter.start || selectedDateRangeFilter.end"
+                    (selectionRangeChange)="onDateRangeValueChange($event)"
+                  ></kendo-multiviewcalendar>
+                </div>
+              </kendo-popup>
             </ng-container>
-          </ul>
-
-          <ng-container *ngIf="filterGroup.name === 'Date Range'">
-            <kendo-popup #popup [anchor]="anchor" *ngIf="showFilterPopupIndex === i" (blur)="filterListBlur()">
-              <div class="content">
-                <kendo-multiviewcalendar
-                  kendoDateRangeSelection
-                  [selectionRange]="selectedDateRangeFilter"
-                  (selectionRangeChange)="onDateRangeValueChange($event)"
-                ></kendo-multiviewcalendar>
-                <!-- <button (click)="onDateRangeValueChange(filtersObj['dateRange'], 'clear')">clear</button> -->
-              </div>
-            </kendo-popup>
-          </ng-container>
-        </div>
-      </kendo-popup>
+          </div>
+        </kendo-popup>
+      </ng-container>
     </ng-container>
-    <button kendoButton rounded="full" fillMode="outline" (click)="clearAllFilters()" class="filter-button">
+    <button
+      kendoButton
+      rounded="full"
+      fillMode="outline"
+      [class.active]="serviceRunService.filtersActive === true"
+      (click)="clearAllFilters()"
+      class="filter-button"
+    >
       <span class="name">Clear</span>
     </button>
   </div>
@@ -125,7 +158,7 @@
 
   <kendo-listview [data]="serviceRuns" containerClass="k-d-flex k-flex-col k-flex-nowrap">
     <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst">
-      <div class="history-item" [class.new]="dataItem.newlyCompleted">
+      <div class="history-item" [class.new]="dataItem.newlyCompleted" [@listItemInOutAnimation]>
         <div class="icon">
           <ss-icon-file-w-status-dot [dotColor]="dataItem.statusColor"></ss-icon-file-w-status-dot>
         </div>

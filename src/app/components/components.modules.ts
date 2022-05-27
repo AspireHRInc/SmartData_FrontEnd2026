@@ -40,6 +40,8 @@ import { FieldGroupComponent } from './field-group/field-group.component';
 import { FieldDateComponent } from './fields/field-date/field-date.component';
 import { CardComponent } from './card/card.component';
 
+import { MenuComponent } from './menu/menu.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -75,6 +77,7 @@ import { CardComponent } from './card/card.component';
     FieldGroupComponent,
     FieldDateComponent,
     CardComponent,
+    MenuComponent,
   ],
   exports: [
     KendoModule,
@@ -103,6 +106,7 @@ import { CardComponent } from './card/card.component';
     FieldGroupComponent,
     FieldDateComponent,
     CardComponent,
+    MenuComponent,
   ],
 })
 export class ComponentsModules {}

@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { AfterViewChecked, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { ServiceSetupService } from 'src/app/services/service-setup.service';
+import { CanComponentDeactivate } from 'src/app/services/can-deactivate-guard.service';
+import { ServiceSetupService, Field, Fields } from 'src/app/services/service-setup.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
 
 @Component({
@@ -12,24 +11,35 @@ import { UiStateService } from 'src/app/services/ui-state.service';
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.less'],
 })
-export class SetupComponent implements OnInit, AfterViewChecked {
+export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDeactivate {
+  serviceSetupFields: Fields = new Fields();
   serviceId = '';
   formGroup = this.fb.group({});
+  fieldsWithValues: Field[] = [];
+  allowEdit = true;
+  changesSaved = false;
+  formValuesChanged = false;
+
+  showCreateNewRun = true;
 
   constructor(
-    private route: ActivatedRoute,
     public serviceSetup: ServiceSetupService,
     private fb: FormBuilder,
     private readonly changeDetectorRef: ChangeDetectorRef,
     public uiState: UiStateService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.route.parent!.params.subscribe(params => {
       this.serviceId = params['id'];
+      this.uiState.setIdServiceDetailId(params['id']);
     });
+    console.log(this.serviceId);
+    console.log(this.uiState.getIdServiceDetailId);
+
+    this.serviceSetupFields = this.serviceSetup.getServiceSetup(this.serviceId);
   }
 
   ngAfterViewChecked(): void {
@@ -45,8 +55,11 @@ export class SetupComponent implements OnInit, AfterViewChecked {
   }
 
   onSubmit(formResults: FormGroup) {
-    console.log(formResults);
-    this.serviceSetup.currenctServiceSetup = formResults.value;
+    this.fieldsWithValues = this.serviceSetup.currentServiceFields.Parameters.map(field => {
+      return { ...field, value: this.formGroup.value[field.ParameterName] };
+    });
+    this.changesSaved = true;
+    this.serviceSetup.currentServiceSetup = this.fieldsWithValues;
     this.router.navigate(['confirm'], { relativeTo: this.route.parent });
   }
 

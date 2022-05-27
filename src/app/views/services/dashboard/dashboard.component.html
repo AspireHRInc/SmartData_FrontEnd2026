@@ -2,18 +2,26 @@
 <ss-filters [data]="servicesService.allTags" (selectedFilters)="onFiltersSelected($event)"></ss-filters>
 <main class="dashboard">
   <div class="controls">
-    <kendo-buttongroup class="filters" selection="single">
-      <button
-        kendoButton
-        *ngFor="let filter of filters"
-        [toggleable]="true"
-        [class.selected]="servicesService.currentFilter === filter"
-        (click)="selectedFilter(filter)"
-        class="filter"
-      >
-        {{ filter }}
-      </button>
-    </kendo-buttongroup>
+    <div class="buttons">
+      <div class="filters">
+        <button
+          kendoButton
+          *ngFor="let filter of filters; let i = index"
+          [toggleable]="true"
+          [class.selected]="servicesService.currentFilter === filter"
+          (click)="selectedFilter(filter)"
+          class="filter button outline"
+          tabindex="0"
+          [disabled]="false"
+          [rounded]="'full'"
+          [size]="'small'"
+          [attr.aria-label]="'filter services by' + filter"
+        >
+          {{ filter }}
+        </button>
+      </div>
+    </div>
+
     <div class="search">
       <input
         placeholder="Search services"
@@ -22,16 +30,23 @@
         [(ngModel)]="searchField"
         (focus)="onServiceSearch($event)"
         (ngModelChange)="this.searchFieldUpdate.next($event)"
+        tabindex="0"
       />
-      <button kendoButton icon="search" (click)="onServiceSearch($event)"></button>
+      <button
+        kendoButton
+        icon="search"
+        aria-label="search services"
+        (click)="onServiceSearch($event)"
+        tabindex="0"
+      ></button>
     </div>
 
-    <button class="k-button primary history" routerLink="/services/history">View History</button>
+    <button class="k-button primary history" (click)="onNavigateHistory()" tabindex="0">View History</button>
   </div>
 
   <ss-tiles-section
     [data]="category"
-    *ngFor="let category of services"
+    *ngFor="let category of services; let cati = index"
     [largerTiles]="category.featured"
     [showViewAll]="category.defaultMaxTiles < category.services.length + 1 && category.defaultMaxTiles !== 0"
     (viewAll)="onCatgoryViewAll(category.id)"
@@ -44,13 +59,20 @@
         [class.subscribed]="service.subscribed"
         [class.featured]="category.featured"
         (toggleFavorite)="onToggleFavorite(service.id, $event)"
-        (openInfo)="openInfo(category.id, service.id)"
+        (openInfo)="openInfo(service.id)"
         [@tileInOutAnimation]
+        tabindex="0"
       >
-        <button class="k-button primary request" *ngIf="!service.subscribed" (click)="requestService(service.id)">
+        <button
+          class="k-button primary request"
+          *ngIf="!service.subscribed"
+          (click)="requestService(service.id)"
+          tabindex="0"
+        >
           Learn More
         </button>
       </ss-tiles-tile>
     </ng-container>
   </ss-tiles-section>
 </main>
+<ss-service-detail *ngIf="uiState.serviceDetailOpen$ | async"></ss-service-detail>

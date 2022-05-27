@@ -1,28 +1,44 @@
 <div
   kendoTooltip
   class="right"
-  position="right"
+  position="bottom"
   [title]="parameters.HelpText"
   [tooltipTemplate]="template"
   tooltipClass="tool-tip"
   showOn="none"
-  [offset]="25"
   #anchor
+  *ngIf="!static"
 >
   <kendo-label class="label" [formGroup]="formGroup" [text]="parameters.Caption">
-    <button class="info" [tabindex]="tabindex" (click)="toggleToolTip(anchor)">?</button>
+    <span class="required" *ngIf="parameters.Required">*</span>
+    <button
+      class="info"
+      [tabindex]="0"
+      (click)="toggleToolTip(anchor)"
+      [attr.aria-label]="'Field Help ' + parameters.HelpText"
+      type="button"
+    >
+      ?
+    </button>
     <kendo-upload
       [saveUrl]="parameters.UploadSaveUrl!"
       [removeUrl]="parameters.UploadRemoveUrl!"
       [formControlName]="parameters.ParameterName"
       [multiple]="false"
-      [tabindex]="tabindex + 1"
+      [tabindex]="0"
       (focus)="showToolTip(anchor)"
       (blur)="hideToolTip(anchor)"
-      (remove)="onFileRemove($event)"
+      (remove)="onFileAbort($event)"
+      (cancel)="onFileAbort($event)"
+      (upload)="uploadEventHandler($event)"
     ></kendo-upload>
   </kendo-label>
 </div>
 <ng-template #template let-anchor>
   <span>{{ parameters.HelpText }}</span>
 </ng-template>
+
+<li class="item" *ngIf="static">
+  <p class="label">{{ parameters.Caption }}</p>
+  <h5 class="details">{{ parameters.value[0].name }}</h5>
+</li>

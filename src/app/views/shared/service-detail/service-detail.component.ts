@@ -1,0 +1,56 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { UiStateService } from 'src/app/services/ui-state.service';
+import { ServicesService, Service } from 'src/app/services/services.service';
+
+@Component({
+  selector: 'ss-service-detail',
+  templateUrl: './service-detail.component.html',
+  styleUrls: ['./service-detail.component.less'],
+})
+export class ServiceDetailComponent implements OnInit {
+  serviceId = '0';
+  constructor(
+    private uiState: UiStateService,
+    public services: ServicesService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+  service: Service = new Service();
+
+  ngOnInit(): void {
+    this.serviceId = this.uiState.getIdServiceDetailId();
+    // console.log(this.route.params);
+    // this.route.parent!.params.subscribe(params => {
+    //   if (params['id']) {
+    //     console.log('params id: ', params['id']);
+    //     this.serviceId = params['id'];
+    //   }
+    // });
+
+    this.service = this.services.getServiceById(this.serviceId);
+    console.log(this.serviceId);
+  }
+
+  detailsClose() {
+    this.uiState.hideServiceDetail();
+  }
+
+  requestService(serviceId: string) {
+    this.services.requestService(serviceId);
+  }
+
+  downloadTemplate(filePath?: string, id?: string) {
+    this.services.getServiceById(id!);
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', '../../../..' + filePath);
+    link.setAttribute('download', `RRpreviewsample.xlsx`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  templateInformation(serviceId: string) {}
+}

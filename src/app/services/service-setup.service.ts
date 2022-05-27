@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import setupData from './service-setup.data.json';
+import { UiStateService } from './ui-state.service';
 
-export class field {
+export class Field {
   ParameterName = '';
   Caption = '';
   Required = false;
@@ -13,6 +14,8 @@ export class field {
   UploadSaveUrl? = '';
   UploadRemoveUrl? = '';
   HelpText? = '';
+  value?: any;
+  ShowHelpOnFocus?: boolean;
 
   constructor() {}
 }
@@ -24,9 +27,9 @@ export class fieldOptions {
   constructor() {}
 }
 
-export class fields {
+export class Fields {
   tags: string[] = [];
-  Parameters: field[] = [];
+  Parameters: Field[] = [];
   DXScriptS3Path = '';
   longDescription = '';
 
@@ -43,33 +46,47 @@ export class setupOptions {
   providedIn: 'root',
 })
 export class ServiceSetupService {
-  constructor() {}
+  currentServiceFields: Fields = setupData.currentServiceFields;
 
-  currentServiceFields: fields = setupData.currentServiceFields;
-
+  // for testing
   // allServiceFields: fields = setupData.allServiceFields;
 
-  currenctServiceSetup: any = {
-    TargetSystem: { Pvalue: 'System 1', Plabel: 'System 1' },
-    UserFile: [
-      {
-        extension: '.jpg',
-        name: '04-02.jpg',
-        rawFile: {},
-        size: 235171,
-        state: 3,
-        uid: 'a121a831-a732-40cb-b65d-b6f32442a905',
-        httpSubscription: { closed: true, _parentage: null, _teardowns: null, isStopped: true, destination: null },
-      },
-    ],
-    UserName: 'lkjkljlk',
-    Password: 'lkkljlkj',
-    PostingDate: '2022-05-13T07:00:00.000Z',
-    PositionFilter: 'lkjklj',
-  };
+  currentServiceSetup: Field[] = setupData.currentServiceSetup;
+
+  constructor(private uiState: UiStateService) {
+    this.uiState.abandonCurrentForm$.subscribe(() => {
+      this.currentFormAbandoned();
+    });
+  }
 
   onFileRemove(fileName: string) {
-    console.log('on file remove', fileName);
+    console.log('service: on file remove/cancel ', fileName);
+    // triggered on file cancel or file remove
+    // TODO Tell server to flush file
+  }
+
+  onServiceSubmit(comment: string) {
+    let commentField = {
+      ParameterName: 'Comment',
+      ParameterType: 'Text',
+      Caption: 'Comment',
+      Required: false,
+      DefaultValue: '',
+      HelpText: '',
+      DisplayOrder: 1010,
+      value: comment,
+    };
+    this.currentServiceSetup.push(commentField);
+    console.log(this.currentServiceFields);
+  }
+
+  currentFormAbandoned() {
+    console.log('current form abandoned');
+    // TODO flush uploaded files from current form
+  }
+
+  getServiceSetup(id: string) {
+    return this.currentServiceFields;
     // TODO Tell server to flush file
   }
 }

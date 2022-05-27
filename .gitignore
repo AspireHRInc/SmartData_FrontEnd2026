@@ -40,8 +40,9 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+.eslint.json
 
 # System Files
 .DS_Store
 Thumbs.db
-"node_modules" 
+"node_modules"

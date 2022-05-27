@@ -98,6 +98,34 @@
       line-height: 14px;
       color: var(--color-text-secondary);
     }
+
+    .date-inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 100%;
+      // max-width: calc(100% - 2rem);
+      padding: 0.5rem;
+      align-items: center;
+
+      label {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1 50%;
+        max-width: calc(50% - 0.5rem);
+      }
+      ::ng-deep {
+        .k-input-sm .k-input-inner {
+          max-width: 6rem;
+          max-height: 2.125rem;
+        }
+      }
+
+      .clear {
+        margin-left: auto;
+        max-height: 2.125rem;
+      }
+    }
   }
 
   .history-header {

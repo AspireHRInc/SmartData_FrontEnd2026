@@ -1,0 +1,206 @@
+<ss-header headerTitle="Company Admin" type="admin" [headerUserObject]="loggedInUserObj"></ss-header>
+
+<ss-navigation-buttons>
+  <ss-navigation-button label="Setup Users" class="active" (click)="onSetupUsers()"></ss-navigation-button>
+</ss-navigation-buttons>
+
+<div class="admin-header">
+  <div class="tabs">
+    <button class="tab active" aria-label="View User Groups">User Groups</button>
+    <button class="tab" aria-label="View Users" routerLink="../users">Users</button>
+  </div>
+  <div class="spacer"></div>
+  <div class="search">
+    <input
+      placeholder="Search"
+      class="k-input field"
+      (keyup)="onGroupSearch($event)"
+      [(ngModel)]="searchField"
+      (focus)="onGroupSearch($event)"
+      (ngModelChange)="this.searchFieldUpdate.next($event)"
+      tabindex="0"
+    />
+    <button kendoButton icon="search" aria-label="search" (click)="onGroupSearch($event)" tabindex="0"></button>
+  </div>
+</div>
+
+<kendo-listview
+  [data]="userGroupsExtended"
+  class="list-view groups"
+  containerClass="k-d-flex k-flex-col k-flex-nowrap usergroups"
+>
+  <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst" let-index="index">
+    <div
+      class="usergroup-item"
+      [@listItemInOutAnimation]
+      (click)="openDetail(index)"
+      (keyup)="openDetailWithKey($event, index)"
+      tabindex="0"
+      role="button"
+      aria-label="Show user group details"
+    >
+      <div class="info">
+        <h2 class="title">{{ dataItem.name }}</h2>
+      </div>
+      <div class="members">{{ dataItem.users.length + ' member' + (dataItem.users.length > 1 ? 's' : '') }}</div>
+      <div class="users">
+        <ss-user-badges [users]="dataItem.users" [truncateAt]="6"></ss-user-badges>
+      </div>
+
+      <div class="actions">
+        <button
+          [class.disabled]="dataItem.name === 'Super Administrator'"
+          [disabled]="dataItem.name === 'Super Administrator'"
+          (click)="removeUserGroup($event, dataItem.id)"
+          (keyup)="openDetailWithKey($event, dataItem.id)"
+          class="button medium action outline cancel"
+          [attr.aria-label]="'Remove user group: ' + dataItem.name"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+    <div class="details" *ngIf="this.detailsOpen === index">
+      <h3 class="title">Setup Group</h3>
+      <ng-container [formGroup]="userGroupsForm">
+        <div class="toggle" [formGroupName]="dataItem.name">
+          <kendo-switch [formControlName]="'Can See Others Processes'" class="switch"></kendo-switch>
+          Group can see processes by others
+        </div>
+      </ng-container>
+      <form
+        class="form"
+        [formGroup]="userGroupsForm"
+        [style.height]="
+          this.expandedServiceIndex === index ? environments.length + 22 + 'rem' : environments.length + 12 + 'rem'
+        "
+      >
+        <div class="services" [formGroupName]="dataItem.name">
+          <div class="header">
+            <h4 class="title">Allowed Services</h4>
+            <button class="button" aria-label="Display more allowed services" (click)="expandService(index)">
+              {{ this.expandedServiceIndex === index ? 'Collapse' : 'Expand' }}
+            </button>
+          </div>
+          <div class="services-wrapper" formGroupName="services">
+            <label class="label">
+              <input
+                type="checkbox"
+                (click)="toggleAllServices(dataItem.name)"
+                #notification
+                kendoCheckBox
+                [tabindex]="0"
+                formControlName="all"
+              />
+              All
+            </label>
+
+            <ng-container *ngFor="let service of services">
+              <label class="label">
+                <input type="checkbox" kendoCheckBox [tabindex]="0" [formControlName]="service.name" />
+                <img [src]="service.imagePath" [alt]="service.name + ' icon'" class="icon" />
+                {{ service.name }}
+              </label>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="environments" [formGroupName]="dataItem.name">
+          <div class="header">
+            <h4 class="title">Allowed Environments</h4>
+          </div>
+
+          <div class="environments-wrapper">
+            <label class="label" *ngFor="let environment of environments">
+              <input type="checkbox" kendoCheckBox [tabindex]="0" [formControlName]="environment.name" />
+              {{ environment.name }}
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="button" (click)="cancelGroupPreferences()">Cancel</button>
+          <button
+            class="button primary"
+            [class.disabled]="!userGroupsForm.get(dataItem.name)!.dirty"
+            (click)="saveGroupPreferences(dataItem.name)"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+
+      <div class="users">
+        <div class="header">
+          <h3 class="title">Members {{ '(' + dataItem.users.length + ')' }}</h3>
+          <button class="button add-user" aria-label="add user">+</button>
+        </div>
+        <kendo-listview [data]="dataItem.users" containerClass="k-d-flex k-flex-col k-flex-nowrap">
+          <!-- <ng-template kendoListViewHeaderTemplate>
+            <div class="header">
+              <h3 class="title">Members {{ '(' + dataItem.users.length + ')' }}</h3>
+              <button class="button add-user" aria-label="add user">+</button>
+            </div>
+          </ng-template> -->
+          <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst">
+            <div class="user" [@listItemInOutAnimation]>
+              <ss-user-badge [user]="dataItem"></ss-user-badge>
+              <div class="info">
+                <h2 class="title">{{ dataItem.firstName + ' ' + dataItem.lastName }}</h2>
+              </div>
+
+              <div class="email">
+                <p>{{ dataItem.email }}</p>
+              </div>
+
+              <div class="actions">
+                <button
+                  (click)="reAddUser($event, userGroupsExtended[index].name, dataItem.id)"
+                  (keyup)="reAddUser($event, userGroupsExtended[index].name, dataItem.id)"
+                  (click)="togglePendingRemoval(index, dataItem.id)"
+                  *ngIf="dataItem.pendingRemoval"
+                  class="button medium action outline add"
+                  [attr.aria-label]="
+                    'Add user: ' +
+                    dataItem.firstName +
+                    ' ' +
+                    dataItem.lastName +
+                    ' to ' +
+                    userGroupsExtended[index].name
+                  "
+                >
+                  Add user
+                </button>
+                <button
+                  *ngIf="!dataItem.pendingRemoval"
+                  [class.disabled]="
+                    userGroupsExtended[index].name === 'Super Administrator' &&
+                    userGroupsExtended[index].users.length === 1
+                  "
+                  [disabled]="
+                    userGroupsExtended[index].name === 'Super Administrator' &&
+                    userGroupsExtended[index].users.length === 1
+                  "
+                  (click)="removeUser($event, userGroupsExtended[index].name, dataItem.id)"
+                  (keyup)="removeUser($event, userGroupsExtended[index].name, dataItem.id)"
+                  (click)="togglePendingRemoval(index, dataItem.id)"
+                  class="button medium action outline cancel"
+                  [attr.aria-label]="
+                    'Remove user: ' +
+                    dataItem.firstName +
+                    ' ' +
+                    dataItem.lastName +
+                    ' from ' +
+                    userGroupsExtended[index].name
+                  "
+                >
+                  Remove User
+                </button>
+              </div>
+            </div>
+          </ng-template>
+        </kendo-listview>
+      </div>
+    </div>
+  </ng-template>
+</kendo-listview>

@@ -1,0 +1,303 @@
+:host {
+  display: block;
+  background: var(--color-background-secondary);
+  // padding: 1rem;
+  height: 100vh;
+
+  .admin-header {
+    display: flex;
+    // padding: 1rem;
+    max-width: 90rem;
+    margin-bottom: 1rem;
+    background: var(--color-background-primary);
+    box-shadow: var(--drop-shadow);
+    padding-left: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+
+    .tabs {
+      display: flex;
+      gap: 1rem;
+
+      .tab {
+        white-space: nowrap;
+        background: transparent;
+        color: var(--color-cta-lighter);
+        border: none;
+        font-weight: 700;
+        font-size: 1.25rem;
+        line-height: 125%;
+        box-shadow: none;
+
+        &.active {
+          border-bottom: 3px solid var(--color-cta-lighter);
+        }
+      }
+    }
+    .search {
+      margin: 1.5rem 1rem;
+    }
+  }
+
+  ::ng-deep {
+    & > .k-listview {
+      margin: 1rem;
+      padding: 1rem 0.5rem 0.5rem;
+      box-shadow: var(--drop-shadow);
+      max-width: 90rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .usergroups {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .usergroup-item,
+  .user {
+    display: grid;
+    gap: 1rem;
+    box-shadow: var(--drop-shadow);
+    border-radius: 6px;
+    box-shadow: 0px 4px 12px #cad6e5;
+    padding: 1rem;
+    margin: 0.4rem 1rem;
+
+    grid-template-columns: 1fr;
+    align-items: center;
+
+    @media screen and (min-width: 43rem) {
+      grid-template-columns: 7rem 1fr 1fr 1fr;
+    }
+
+    @media screen and (min-width: 54rem) {
+      grid-template-columns: 2.3fr 1.6fr 2fr 10rem;
+    }
+
+    .title {
+      margin: 0;
+    }
+
+    .members {
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 0.75rem;
+      line-height: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    .details {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+
+      .button {
+        width: 100%;
+        &.cancel {
+          border-color: var(--color-accent-3);
+          color: var(--color-accent-3);
+        }
+        &.add {
+          border-color: var(--color-accent-5-darker);
+          color: var(--color-accent-5-darker);
+        }
+      }
+    }
+  }
+
+  .details {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    transform-origin: top;
+    overflow: hidden;
+
+    @media screen and (min-width: 40rem) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .title {
+      margin: 0;
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-weight: 500;
+      font-size: 0.75rem;
+      line-height: 1.25rem;
+      color: var(--color-text-secondary);
+
+      .switch {
+        margin-right: 0.5rem;
+      }
+    }
+
+    .form {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+      gap: 1rem;
+      grid-column: span 2;
+      // max-height: 15rem;
+      transition: 300ms;
+
+      @media screen and (min-width: 40rem) {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .environments {
+        align-items: flex-start;
+        grid-template-rows: 2rem;
+      }
+
+      .services,
+      .environments {
+        display: grid;
+        grid-column: minmax(200px, 1fr);
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        outline: 1px solid rgba(var(--color-text-secondary-rgb), 0.5);
+        max-height: 100%;
+        overflow-y: auto;
+        padding: 0.5rem;
+
+        .header {
+          .title {
+            margin: 0;
+          }
+
+          button.button {
+            border: none;
+            background: none;
+            box-shadow: none;
+            color: var(--color-cta-lighter);
+            font-weight: 600;
+          }
+        }
+
+        .services-wrapper,
+        .environments-wrapper {
+          display: grid;
+          gap: 0.5rem;
+          input {
+            margin-right: 0.5rem;
+          }
+        }
+
+        .services-wrapper {
+          overflow-y: auto;
+          padding-top: 0.3rem;
+        }
+
+        .header {
+          display: flex;
+          justify-content: space-between;
+        }
+        .label {
+          display: flex;
+          align-items: center;
+          padding-left: 0.3rem;
+
+          .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1rem;
+
+      @media screen and (min-width: 40rem) {
+        grid-column: span 2;
+      }
+
+      .button {
+        height: 2rem;
+        width: 9rem;
+        font-size: 0.75rem;
+        padding: 0;
+        font-weight: 700;
+        text-transform: uppercase;
+        border-radius: 3px;
+        color: var(--color-cta-lighter);
+        background: transparent;
+        border: none;
+        box-shadow: none;
+
+        &.primary {
+          color: var(--color-background-primary);
+          background: var(--color-cta-lighter);
+        }
+      }
+    }
+    .users {
+      grid-column: span 2;
+
+      ::ng-deep {
+        .k-listview-content {
+          overflow: visible;
+        }
+        .k-listview-bordered > .k-listview-header {
+          border-bottom-width: 0;
+        }
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 1rem;
+
+        .add-user {
+          background: var(--color-accent-1);
+          color: var(--color-background-primary);
+          border: none;
+          width: 2rem;
+          height: 2rem;
+          font-size: 1.1rem;
+          line-height: 0;
+          position: relative;
+          border-radius: 3px;
+          &:after {
+            content: '\25EF';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 1.1rem;
+            transform: translate(-50%, -50%);
+          }
+        }
+      }
+
+      .user {
+        grid-template-columns: 1fr;
+        align-items: center;
+        margin: 0;
+
+        @media screen and (min-width: 40rem) {
+          grid-template-columns: 5rem 1fr 1fr 10rem;
+        }
+
+        .title {
+          align-items: center;
+        }
+      }
+    }
+  }
+}

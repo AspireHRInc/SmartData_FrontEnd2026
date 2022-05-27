@@ -1,0 +1,42 @@
+<kendo-dialog title=" " (close)="detailsClose()" [minWidth]="250" [width]="800">
+  <div class="content-wrapper">
+    <div class="header">
+      <div class="image-wrapper">
+        <img class="image" [src]="service.imagePath" [alt]="service.name" />
+      </div>
+      <div class="templates-wrapper" *ngIf="service.subscribed">
+        <ul class="templates">
+          <li class="template" *ngFor="let template of service.templates">
+            <p class="label">{{ template.title }}</p>
+            <div class="buttons">
+              <button
+                class="button k-button primary outline button template"
+                (click)="downloadTemplate(template.filePath, template.id)"
+              >
+                Download Template
+              </button>
+              <button class="button k-button primary outline info" (click)="templateInformation(service.id)">
+                <span class="icon">?</span>
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="request" *ngIf="!service.subscribed">
+        <button class="button k-button primary request" (click)="requestService(service.id)">Request</button>
+      </div>
+    </div>
+    <div class="details">
+      <div class="status-badges">
+        <ss-status-badge
+          *ngFor="let tag of service.displayTags"
+          [title]="tag.name.toString()"
+          [colorFromString]="true"
+          [rounded]="true"
+        ></ss-status-badge>
+        <h2 class="name">{{ service.name }}</h2>
+        <p class="description">{{ service.description }}</p>
+      </div>
+    </div>
+  </div>
+</kendo-dialog>

@@ -1,13 +1,13 @@
 <div
   kendoTooltip
   class="right"
-  position="right"
+  position="bottom"
   [title]="parameters.HelpText"
   [tooltipTemplate]="template"
   tooltipClass="tool-tip"
   showOn="none"
-  [offset]="25"
   #anchor
+  *ngIf="!static"
 >
   <kendo-label class="label" [formGroup]="formGroup" [for]="parameters.ParameterName">
     <label>
@@ -18,14 +18,28 @@
         [formControlName]="parameters.ParameterName"
         (focus)="showToolTip(anchor)"
         (blur)="hideToolTip(anchor)"
-        [tabindex]="tabindex + 1"
+        [tabindex]="0"
       />
       {{ parameters.Caption }}
+      <span class="required" *ngIf="parameters.Required">*</span>
     </label>
 
-    <button class="info" [tabindex]="tabindex" (click)="toggleToolTip(anchor)">?</button>
+    <button
+      class="info"
+      [tabindex]="0"
+      (click)="toggleToolTip(anchor)"
+      [attr.aria-label]="'Field Help. ' + parameters.HelpText"
+      type="button"
+    >
+      ?
+    </button>
   </kendo-label>
 </div>
 <ng-template #template let-anchor>
   <span>{{ parameters.HelpText }}</span>
 </ng-template>
+
+<li class="item" *ngIf="static">
+  <p class="label">{{ parameters.Caption }}</p>
+  <h5 class="details">{{ parameters.value ? 'true' : 'false' }}</h5>
+</li>

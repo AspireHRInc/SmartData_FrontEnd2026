@@ -7,7 +7,7 @@
       "phone": "123-456-7810",
       "email": "esther.neal@company.com",
       "permission": "lorum ipsum",
-      "roles": [],
+      "userGroups": [{ "id": "1", "name": "Super Administrator" }],
       "profilePic": "/assets/users/esther-neal.jpg"
     },
     {
@@ -17,7 +17,7 @@
       "phone": "123-456-7811",
       "email": "jesse.west@company.com",
       "permission": "lorum ipsum",
-      "roles": [],
+      "userGroups": [{ "id": "2", "name": "Recruiting Process Administrator" }],
       "profilePic": "/assets/users/jesse-west.jpg"
     },
     {
@@ -27,7 +27,7 @@
       "phone": "123-456-7812",
       "email": "brittany.watts@company.com",
       "permission": "lorum ipsum",
-      "roles": [],
+      "userGroups": [{ "id": "2", "name": "Recruiting Process Administrator" }],
       "profilePic": "/assets/users/brittany-watts.jpg"
     },
     {
@@ -37,7 +37,7 @@
       "phone": "123-456-7813",
       "email": "christian.lee@company.com",
       "permission": "lorum ipsum",
-      "roles": [],
+      "userGroups": [{ "id": "2", "name": "Recruiting Process Administrator" }],
       "profilePic": "/assets/users/christian-lee.jpg"
     },
     {
@@ -47,7 +47,7 @@
       "phone": "123-456-7814",
       "email": "steven.fuller@company.com",
       "permission": "lorum ipsum",
-      "roles": [],
+      "userGroups": [{ "id": "2", "name": "Recruiting Process Administrator" }],
       "profilePic": "/assets/users/steven-fuller.jpg"
     },
     {
@@ -57,7 +57,7 @@
       "phone": "123-456-7815",
       "email": "roberta.hicks@company.com",
       "permission": "lorum ipsum",
-      "roles": []
+      "userGroups": [{ "id": "3", "name": "Recruiting Users" }]
     },
     {
       "id": 7,
@@ -66,7 +66,7 @@
       "phone": "123-456-7816",
       "email": "lily.wade@company.com",
       "permission": "lorum ipsum",
-      "roles": []
+      "userGroups": [{ "id": "3", "name": "Recruiting Users" }]
     },
     {
       "id": 8,
@@ -75,7 +75,7 @@
       "phone": "123-456-7817",
       "email": "allen.nichols@company.com",
       "permission": "lorum ipsum",
-      "roles": []
+      "userGroups": [{ "id": "3", "name": "Recruiting Users" }]
     },
     {
       "id": 9,
@@ -84,7 +84,7 @@
       "phone": "123-456-7818",
       "email": "marian.lee@company.com",
       "permission": "lorum ipsum",
-      "roles": []
+      "userGroups": [{ "id": "3", "name": "Recruiting Users" }]
     },
     {
       "id": 10,
@@ -93,7 +93,68 @@
       "phone": "123-456-7819",
       "email": "beth.andrews@company.com",
       "permission": "lorum ipsum",
-      "roles": []
+      "userGroups": [{ "id": "3", "name": "Recruiting Users" }]
+    },
+    {
+      "id": 11,
+      "firstName": "Don",
+      "lastName": "Little",
+      "phone": "123-456-7819",
+      "email": "don.little@company.com",
+      "permission": "lorum ipsum",
+      "userGroups": [{ "id": "3", "name": "Recruiting Users" }]
+    },
+    {
+      "id": 12,
+      "firstName": "Kyle",
+      "lastName": "Kelly",
+      "phone": "123-456-7819",
+      "email": "kyle.kelly@company.com",
+      "permission": "lorum ipsum",
+      "userGroups": [{ "id": "3", "name": "Recruiting Users" }]
+    },
+
+    {
+      "id": 13,
+      "firstName": "Megan",
+      "lastName": "Hanson",
+      "phone": "123-456-7819",
+      "email": "megan.hanson@company.com",
+      "permission": "lorum ipsum",
+      "userGroups": [{ "id": "3", "name": "Recruiting Users" }]
+    },
+
+    {
+      "id": 14,
+      "firstName": "Herbert",
+      "lastName": "Jacobs",
+      "phone": "123-456-7819",
+      "email": "herber.jacobs@company.com",
+      "permission": "lorum ipsum",
+      "userGroups": [{ "id": "3", "name": "Recruiting Users" }]
+    }
+  ],
+  "userGroups": [
+    {
+      "id": "1",
+      "name": "Super Administrator",
+      "services": ["Mass Requisition Upload 1", "Employee Data Scrambling 2"],
+      "environments": ["Development", "Test", "Production"],
+      "CanSeeProcessesByOthers": true
+    },
+    {
+      "id": "2",
+      "name": "Recruiting Process Administrator",
+      "services": ["Talent Pool Assignment 3"],
+      "environments": ["Development", "Test"],
+      "CanSeeProcessesByOthers": false
+    },
+    {
+      "id": "3",
+      "name": "Recruiting Users",
+      "services": ["Mass Requisition Upload 4"],
+      "environments": ["Test"],
+      "CanSeeProcessesByOthers": false
     }
   ]
 }

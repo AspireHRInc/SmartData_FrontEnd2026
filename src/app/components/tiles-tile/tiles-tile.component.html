@@ -1,8 +1,18 @@
 <div class="image-wrapper">
   <img class="image" [src]="data.imagePath" [alt]="data.name + ' tile image'" />
   <br />
-  <button class="k-button button favorite" [class.favorited]="favorite" (click)="onFavorite($event)">&#9829;</button>
-  <button class="k-button button info" (click)="onInfo($event)">i</button>
+  <button
+    class="k-button button favorite"
+    [class.favorited]="favorite"
+    (click)="onFavorite($event)"
+    tabindex="0"
+    [attr.aria-labelledby]="
+      favorite ? data.name + ' service favorited:checked' : data.name + ' service favorited:unchecked'
+    "
+  >
+    &#9829;
+  </button>
+  <button class="k-button button info" (click)="onInfo($event)" tabindex="0" aria-label="service information">i</button>
 </div>
 <div class="text">
   <div class="status-badges">

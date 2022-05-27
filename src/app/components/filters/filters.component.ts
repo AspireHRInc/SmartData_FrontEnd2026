@@ -55,7 +55,6 @@ export class FiltersComponent implements OnInit {
 
     this.resize$.pipe(debounceTime(this.resizeUpdateInterval)).subscribe(_ => this.setWindowDimensions());
 
-    // console.log(this.filters);
     this.filters.reset();
   }
 

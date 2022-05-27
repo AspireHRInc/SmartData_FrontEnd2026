@@ -1,28 +1,13 @@
-<ss-card title="Review & Submit" step="2">
-  <ng-container actions>
-    <div class="spacer"></div>
-    <button class="button info" (click)="showInfo()" tabindex="1">i</button>
-  </ng-container>
-  <!-- {{ currentSetup | json }} -->
-  <ul>
-    <li *ngFor="let item of currentSetup">
-      <label>
-        {{ item[0] }}
-      </label>
-      <p>{{ item[1] | json }}</p>
-    </li>
-  </ul>
-  <ng-container footer>
-    <button
-      kendoButton
-      themeColor="primary"
-      type="submit"
-      class="button"
-      (click)="submit()"
-      [tabindex]="2"
-      role="button"
-    >
-      Submit
-    </button>
-  </ng-container>
-</ss-card>
+<ss-navigation></ss-navigation>
+<ss-field-group
+  [fields]="serviceSetup.currentServiceFields.Parameters"
+  (submit)="onSubmit($event)"
+  [static]="true"
+  [staticData]="currentSetup"
+  step="2"
+>
+  <kendo-label [for]="comments" text="Comments" class="customizing-label" [formGroup]="formGroup">
+    <kendo-textarea #comments formControlName="comment" resizable="none" [rows]="3" [maxlength]="1000"></kendo-textarea>
+  </kendo-label>
+  <ng-container actions></ng-container>
+</ss-field-group>

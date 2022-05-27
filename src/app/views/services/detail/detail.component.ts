@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+
 import { UserService, User } from 'src/app/services/user.service';
+import { UiStateService } from 'src/app/services/ui-state.service';
 import { ServicesService, ServiceCategory, Tag } from 'src/app/services/services.service';
 
 @Component({
@@ -18,7 +21,9 @@ export class DetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private servicesService: ServicesService
+    private servicesService: ServicesService,
+    private _location: Location,
+    public uiState: UiStateService
   ) {}
 
   ngOnInit(): void {
@@ -31,8 +36,16 @@ export class DetailComponent implements OnInit {
     )!.name;
   }
 
-  onNavigateHistory() {
-    // this.router.navigate(['/services', this.data.id, 'detail', 'history']);
-    this.router.navigate(['history'], { relativeTo: this.route });
-  }
+  // onNavigateHistory() {
+  //   this.router.navigate(['history'], { relativeTo: this.route });
+  // }
+
+  // onSetupRun() {
+  //   console.log(this.router);
+  //   this.router.routeReuseStrategy.shouldReuseRoute = function () {
+  //     return false;
+  //   };
+  //   this.router.onSameUrlNavigation = 'reload';
+  //   this.router.navigate(['setup'], { relativeTo: this.route });
+  // }
 }

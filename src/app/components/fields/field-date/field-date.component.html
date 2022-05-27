@@ -1,27 +1,42 @@
 <div
   kendoTooltip
   class="right"
-  position="right"
+  position="bottom"
   [title]="parameters.HelpText"
   [tooltipTemplate]="template"
   tooltipClass="tool-tip"
   showOn="none"
-  [offset]="25"
   #anchor
+  *ngIf="!static"
 >
   <kendo-label class="label" [text]="parameters.Caption" [formGroup]="formGroup">
-    <button class="info" [tabindex]="tabindex" (click)="toggleToolTip(anchor)">?</button>
+    <span class="required" *ngIf="parameters.Required">*</span>
+    <button
+      class="info"
+      [tabindex]="0"
+      (click)="toggleToolTip(anchor)"
+      [attr.aria-label]="'Field Help ' + parameters.HelpText"
+      type="button"
+    >
+      ?
+    </button>
     <kendo-datepicker
       [(value)]="value"
       [format]="localizationService.dateFormat"
       formatPlaceholder="formatPattern"
       [formControlName]="parameters.ParameterName"
-      [tabindex]="tabindex + 1"
+      [tabindex]="0"
       (focus)="showToolTip(anchor)"
       (blur)="hideToolTip(anchor)"
+      [attr.aria-label]="parameters.Caption"
     ></kendo-datepicker>
   </kendo-label>
 </div>
 <ng-template #template let-anchor>
   <span>{{ parameters.HelpText }}</span>
 </ng-template>
+
+<li class="item" *ngIf="static">
+  <p class="label">{{ parameters.Caption }}</p>
+  <h5 class="details">{{ parameters.value | date: this.localizationService.dateFormat }}</h5>
+</li>
