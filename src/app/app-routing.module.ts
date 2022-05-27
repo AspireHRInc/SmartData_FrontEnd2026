@@ -9,6 +9,7 @@ import { ConfirmComponent } from './views/services/detail/confirm/confirm.compon
 import { HistoryComponent } from './views/shared/history/history.component';
 import { DashboardComponent } from './views/services/dashboard/dashboard.component';
 import { AdminComponent } from './views/admin/admin.component';
+import { UsersComponent } from './views/admin/users/users.component';
 
 import { AuthGuard } from './services/auth-guard.service';
 import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
@@ -20,7 +21,9 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   { path: 'services', redirectTo: 'services/dashboard', pathMatch: 'full' },
-  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
+  { path: 'admin', redirectTo: 'admin/groups', pathMatch: 'full' },
+  { path: 'admin/groups', component: AdminComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
+  { path: 'admin/users', component: UsersComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
   {
     path: 'services',
     component: ServicesComponent,

@@ -2,7 +2,14 @@
   <img src="../../../assets/images/logos/logo-aspire-light.svg" alt="Aspire Logo" class="background" />
   <!-- <span class="menu material-icons-outlined" (click)="toggleMenu()">menu</span> -->
   <div class="content-wrapper">
-    <a class="home-link" (click)="toggleMenu()" role="button" arial-label="Toggle menu">
+    <a
+      class="home-link"
+      (click)="toggleMenu($event)"
+      (keyup)="keyToggleMenu($event)"
+      role="button"
+      arial-label="Toggle menu"
+      tabindex="0"
+    >
       Menu
       <ss-icon-logo-light></ss-icon-logo-light>
     </a>
@@ -19,13 +26,20 @@
   <!-- <span class="menu material-icons-outlined" (click)="toggleMenu()">menu</span> -->
   <div class="content-wrapper">
     <div class="logo">
-      <a class="home-link" (click)="toggleMenu()" role="button" arial-label="Toggle menu">
+      <a
+        class="home-link"
+        (click)="toggleMenu($event)"
+        (keyup)="keyToggleMenu($event)"
+        role="button"
+        arial-label="Toggle menu"
+        tabindex="0"
+      >
         Menu
         <ss-icon-logo-light></ss-icon-logo-light>
       </a>
     </div>
     <div class="text">
-      <a (click)="back()" class="back">Back</a>
+      <a (click)="back()" class="back" role="button" aria-label="navigate back" tabindex="0">Back</a>
       <h1 class="title">{{ headerTitle }}</h1>
     </div>
     <ss-user-badge [user]="headerUserObject"></ss-user-badge>

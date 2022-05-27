@@ -114,4 +114,39 @@ export class UserService {
 
     this.users[userIndex].userGroups.splice(groupIndex, 1);
   }
+
+  addUserToGroup(userGroupName: string, userId: number) {
+    // TODO: add user to group on server
+    let userIndex = this.users.findIndex(user => {
+      return user.id === userId;
+    });
+
+    let additionalUserGroupIndex = this.userGroups.findIndex(group => group.name === userGroupName);
+
+    this.users[userIndex].userGroups.push(this.userGroups[additionalUserGroupIndex]);
+  }
+
+  currentUserGroups: UserGroups[] = [...this.userGroups];
+
+  filterUserGroups(searchString: string) {
+    if (searchString !== '') {
+      let searchStringArr: string[] = searchString.toLocaleLowerCase().split(' ');
+
+      this.currentUserGroups = [
+        ...this.currentUserGroups.filter(run => {
+          // let tags = service.metaTags.map(tag => tag.name);
+          return searchStringArr.every(searchWord => run.name.toLocaleLowerCase().includes(searchWord));
+        }),
+      ];
+      return [...this.currentUserGroups];
+    }
+
+    if (searchString === '') {
+      console.log('else');
+      this.currentUserGroups = [...this.userGroups];
+      return this.currentUserGroups;
+    }
+
+    return this.currentUserGroups;
+  }
 }

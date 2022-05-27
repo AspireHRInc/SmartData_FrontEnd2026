@@ -33,6 +33,7 @@ import { ServiceRunInfoComponent } from './views/shared/history/service-run-info
 import { ServiceDetailComponent } from './views/shared/service-detail/service-detail.component';
 import { NavigationComponent } from './views/services/detail/navigation/navigation.component';
 import { AdminComponent } from './views/admin/admin.component';
+import { UsersComponent } from './views/admin/users/users.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { AdminComponent } from './views/admin/admin.component';
     ServiceDetailComponent,
     NavigationComponent,
     AdminComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,

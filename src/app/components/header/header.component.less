@@ -41,9 +41,15 @@
 
       a.home-link {
         font-size: 0;
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2rem;
+        height: 2rem;
         cursor: pointer;
+        border-radius: 2rem;
+        display: block;
+        &:focus,
+        &:focus-visible {
+          outline: 2px solid white !important;
+        }
       }
 
       .logo {
@@ -53,6 +59,11 @@
         font-size: 0;
         ss-icon-logo-light {
           width: 2rem;
+          border-radius: 2rem;
+          &:focus,
+          &:focus-visible {
+            outline: 2px solid white !important;
+          }
         }
       }
 
@@ -97,6 +108,11 @@
             color: var(--color-background-primary);
             text-transform: uppercase;
             cursor: pointer;
+
+            &:focus,
+            &:focus-visible {
+              outline: 2px solid white !important;
+            }
           }
 
           .title {
