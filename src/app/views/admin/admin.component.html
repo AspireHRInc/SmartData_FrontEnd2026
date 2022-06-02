@@ -1,3 +1,7 @@
+<ss-remove-group-confirm
+  *ngIf="uiState.confirmUserGroupDeleteOpen$ | async"
+  (confirmUserGroupDelete)="onConfirmRemoveUserGroup()"
+></ss-remove-group-confirm>
 <ss-header headerTitle="Company Admin" type="admin" [headerUserObject]="loggedInUserObj"></ss-header>
 
 <ss-navigation-buttons>
@@ -136,12 +140,6 @@
           <button class="button add-user" aria-label="add user">+</button>
         </div>
         <kendo-listview [data]="dataItem.users" containerClass="k-d-flex k-flex-col k-flex-nowrap">
-          <!-- <ng-template kendoListViewHeaderTemplate>
-            <div class="header">
-              <h3 class="title">Members {{ '(' + dataItem.users.length + ')' }}</h3>
-              <button class="button add-user" aria-label="add user">+</button>
-            </div>
-          </ng-template> -->
           <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst">
             <div class="user" [@listItemInOutAnimation]>
               <ss-user-badge [user]="dataItem"></ss-user-badge>
