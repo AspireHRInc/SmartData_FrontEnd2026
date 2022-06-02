@@ -35,6 +35,12 @@ export class UiStateService {
   private menuOpen = new BehaviorSubject<boolean>(false);
   menuOpen$ = this.menuOpen.asObservable();
 
+  private confirmUserGroupDeleteOpen = new BehaviorSubject<boolean>(false);
+  confirmUserGroupDeleteOpen$ = this.confirmUserGroupDeleteOpen.asObservable();
+
+  // private currentUserGroupDeleteId = new BehaviorSubject<string>('');
+  // currentUserGroupDeleteId$ = this.currentUserGroupDeleteId.asObservable();
+
   constructor() {}
 
   showServiceDetail() {
@@ -117,4 +123,17 @@ export class UiStateService {
   openMenu() {
     this.menuOpen.next(true);
   }
+
+  showConfirmUserGroupDelete() {
+    this.confirmUserGroupDeleteOpen.next(true);
+  }
+
+  hideConfirmUserGroupDelete() {
+    this.confirmUserGroupDeleteOpen.next(false);
+  }
+
+  // setCurrentUserGroupDeleteId(id: string) {
+  //   console.log('ser user group delete', id);
+  //   this.currentUserGroupDeleteId.next(id);
+  // }
 }

@@ -26,48 +26,6 @@
   <button class="button add-user" aria-label="add user">+</button>
 </div>
 
-<!-- <div class="filters">
-  <ng-container *ngFor="let filterGroup of filters; let i = index">
-    <ng-container *ngIf="filterGroup.filters.length > 1">
-      <button kendoButton rounded="full" fillMode="outline" #anchor (click)="showFilterPopup(i)" class="filter-button">
-         [class.active]="filtersObj[filterGroup.name.toLocaleLowerCase()].length > 0"
-        <span class="name">{{ filterGroup.name }}</span>
-        <span class="arrow">&#9660;</span>
-      </button>
-
-      <kendo-popup #popup [anchor]="anchor" *ngIf="showFilterPopupIndex === i" class="filter-popup">
-        <div class="content">
-          <ul class="filter-list">
-            <ng-container *ngFor="let filter of filterGroup.filters; let i = index">
-              <li class="filter-item" *ngIf="filterGroup.filters.length > 1">
-                <label class="k-checkbox-label">
-                  <input
-                    type="checkbox"
-                    kendoCheckBox
-                    (change)="onCheckboxChange(filterGroup.name, filter)"
-                    [checked]="filtersObj[filterGroup.name.toLowerCase()].indexOf(filter) !== -1"
-                  />
-                  {{ filter.name }}
-                </label>
-              </li>
-            </ng-container>
-          </ul>
-        </div>
-      </kendo-popup>
-    </ng-container>
-  </ng-container>
-  <button
-    kendoButton
-    rounded="full"
-    fillMode="outline"
-    [class.active]="userService.filtersActive === true"
-    (click)="clearAllFilters()"
-    class="filter-button"
-  >
-    <span class="name">Clear</span>
-  </button>
-</div> -->
-
 <kendo-listview [data]="usersExtended" containerClass="k-d-flex k-flex-col k-flex-nowrap">
   <ng-template kendoListViewHeaderTemplate>
     <div class="header">
