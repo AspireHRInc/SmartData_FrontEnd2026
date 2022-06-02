@@ -8,6 +8,7 @@
     borderColor: colorFromString ? colorFromStringColor : textColor ? textColor : color
   }"
   [class.outlined]="outline"
+  [style.whitespace]
 >
   <div class="background" *ngIf="colorFromString" [ngStyle]="{ 'background-color': colorFromStringColor }"></div>
   <div class="background" *ngIf="color" [style.backgroundColor]="color"></div>

@@ -1,17 +1,150 @@
 import { Component, OnInit } from '@angular/core';
+import { trigger, style, animate, transition } from '@angular/animations';
+
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 import { UserService, User, UserGroups } from 'src/app/services/user.service';
+import { Filter, FilterGroup } from 'src/app/services/service-run.service';
+
+import { UserExtended } from '../admin.component';
 
 @Component({
   selector: 'ss-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.less'],
+  animations: [
+    trigger('listItemInOutAnimation', [
+      transition(':enter', [
+        style({ transform: 'scaleY(.5)', opacity: 0.5 }),
+        animate('300ms ease-out', style({ transform: 'scaleY(1)', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ transform: 'scaleY(1)', opacity: 1 }),
+        animate('300ms ease-in', style({ transform: 'scaleY(.5)', opacity: 0.5 })),
+      ]),
+    ]),
+    trigger('detailsDrawerAnimation', [
+      transition(':enter', [style({ maxHeight: '0px' }), animate('500ms ease-out', style({ maxHeight: '2000px' }))]),
+      transition(':leave', [style({ maxHeight: '2000px' }), animate('500ms ease-in', style({ maxHeight: '0px' }))]),
+    ]),
+  ],
 })
 export class UsersComponent implements OnInit {
   loggedInUserObj = new User();
 
-  constructor(private userService: UserService) {}
+  users: User[] = [];
+  usersExtended: UserExtended[] = [];
+
+  searchFieldUpdate = new Subject<string>();
+  searchField = '';
+
+  filters: FilterGroup[] = [];
+  showFilterPopupIndex = -1;
+
+  filtersObj: any = { status: [], 'user groups': [] };
+  filterClearActive = false;
+
+  constructor(public userService: UserService) {}
 
   ngOnInit(): void {
     this.loggedInUserObj = this.userService.loggedInUserObj!;
+    this.users = this.userService.users;
+
+    this.usersExtended = this.userService.users;
+
+    this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
+      // console.log(value);
+      this.usersExtended = this.userService.filterUsers(this.searchField, this.filtersObj);
+      // console.log(this.usersExtended);
+      this.loadUserGroups();
+    });
+
+    this.filters = this.userService.userFilters;
+
+    // console.log(this.filtersObj['status']);
+  }
+
+  loadUserGroups() {
+    // this.users = this.userService.currentUsers;
+    // this.usersExtended = this.users;
+  }
+
+  removeUser(event: Event, userId: number) {
+    event.stopPropagation();
+    event.preventDefault();
+    event.cancelBubble = true;
+
+    this.userService.deactivateUser(userId);
+    this.loadUserGroups();
+  }
+
+  reAddUser(event: Event, userId: number) {
+    event.stopPropagation();
+    event.preventDefault();
+    event.cancelBubble = true;
+
+    this.userService.activateUser(userId);
+    this.loadUserGroups();
+  }
+
+  togglePendingRemoval(userIndex: number, userId: number) {
+    // let toggleUserIndex = this.usersExtended[userIndex].findIndex(user => user.id === userId);
+
+    this.usersExtended[userIndex].pendingRemoval = !this.usersExtended[userIndex].pendingRemoval;
+  }
+
+  onUsersSearch(event: Event) {}
+
+  onServiceFilter(event: any = '') {
+    this.usersExtended = this.userService.filterUsers(this.searchField, this.filtersObj);
+    console.log(this.usersExtended);
+  }
+
+  getExtendedUsers(services: User[]): UserExtended[] {
+    this.users = this.userService.users;
+
+    this.usersExtended = this.userService.users;
+    return this.usersExtended;
+  }
+
+  onCheckboxChange(filterGroup: string, filter: Filter | string) {
+    if (!this.filtersObj[filterGroup.toLocaleLowerCase()].includes(filter)) {
+      this.filtersObj[filterGroup.toLocaleLowerCase()].push(filter);
+    } else {
+      this.filtersObj[filterGroup.toLocaleLowerCase()] = this.filtersObj[filterGroup.toLocaleLowerCase()].filter(
+        (value: string) => {
+          return value !== filter;
+        }
+      );
+    }
+
+    if (
+      this.filtersObj ===
+      { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] }
+    ) {
+      this.filterClearActive = false;
+    } else {
+      this.filterClearActive = true;
+    }
+
+    this.showFilterPopupIndex = -1;
+    this.onServiceFilter();
+  }
+
+  showFilterPopup(i: number) {
+    if (this.showFilterPopupIndex === i) {
+      this.showFilterPopupIndex = -1;
+    } else {
+      this.showFilterPopupIndex = i;
+    }
+  }
+
+  clearAllFilters() {
+    this.showFilterPopupIndex = -1;
+    this.filtersObj = { status: [], 'user groups': [] };
+
+    this.userService.filtersActive = false;
+    this.onServiceFilter();
   }
 }

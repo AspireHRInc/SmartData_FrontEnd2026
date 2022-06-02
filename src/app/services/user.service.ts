@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import userData from './user.data.json';
 import { Service, Environments } from './services.service';
+import { FilterGroup, Filter } from './service-run.service';
 
 export class User {
   id = 0;
@@ -11,6 +12,7 @@ export class User {
   permission = '';
   userGroups: UserGroup[] = [];
   profilePic? = '';
+  active = false;
   constructor() {}
 }
 
@@ -29,6 +31,11 @@ export class UserGroup {
   constructor() {}
 }
 
+export class Filters {
+  status = [];
+  'user groups': UserGroups[] = [];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -41,8 +48,16 @@ export class UserService {
     };
   });
 
+  userFilters: FilterGroup[] = userData.userFilters;
+
   loggedInUserId = 10;
   loggedInUserObj = this.getUserById(this.loggedInUserId);
+
+  currentUserGroups: UserGroups[] = [...this.userGroups];
+
+  currentUsers: User[] = [...this.users];
+
+  filtersActive = false;
 
   constructor() {}
 
@@ -126,8 +141,6 @@ export class UserService {
     this.users[userIndex].userGroups.push(this.userGroups[additionalUserGroupIndex]);
   }
 
-  currentUserGroups: UserGroups[] = [...this.userGroups];
-
   filterUserGroups(searchString: string) {
     if (searchString !== '') {
       let searchStringArr: string[] = searchString.toLocaleLowerCase().split(' ');
@@ -148,5 +161,100 @@ export class UserService {
     }
 
     return this.currentUserGroups;
+  }
+
+  // filterUsers(searchString: string, filters: Filters) {
+  //   if (searchString !== '') {
+  //     let searchStringArr: string[] = searchString.toLocaleLowerCase().split(' ');
+
+  //     this.currentUsers = [
+  //       ...this.currentUsers.filter(user => {
+  //         // let tags = service.metaTags.map(tag => tag.name);
+  //         return (
+  //           searchStringArr.every(searchWord => user.firstName.toLocaleLowerCase().includes(searchWord)) ||
+  //           searchStringArr.every(searchWord => user.lastName.toLocaleLowerCase().includes(searchWord))
+  //         );
+  //       }),
+  //     ];
+  //     return [...this.currentUsers];
+  //   }
+
+  //   if (searchString === '') {
+  //     console.log('else');
+  //     this.currentUsers = [...this.users];
+  //     return this.currentUsers;
+  //   }
+
+  //   return this.currentUsers;
+  // }
+
+  filterUsers(searchString: string, filters: Filters) {
+    this.currentUsers = [...this.users];
+
+    this.filtersActive = false;
+
+    if (filters.status.length > 0 || filters['user groups'].length > 0) {
+      this.filtersActive = true;
+    }
+
+    if (filters.status.length > 0) {
+      this.currentUsers = [
+        ...this.currentUsers.filter(user => {
+          return filters.status.some((status: Filter) => {
+            return user.active == (status.name === 'Active' ? true : false);
+          });
+        }),
+      ];
+    }
+
+    if (filters['user groups'].length > 0) {
+      this.currentUsers = [
+        ...this.currentUsers.filter(user => {
+          return filters['user groups'].some(group => {
+            return user.userGroups.some(userGroup => userGroup.name === group.name);
+          });
+        }),
+      ];
+    }
+
+    if (searchString !== '') {
+      let searchStringArr: string[] = searchString.toLocaleLowerCase().split(' ');
+
+      this.currentUsers = [
+        ...this.currentUsers.filter(user => {
+          // let tags = service.metaTags.map(tag => tag.name);
+          return searchStringArr.every(
+            searchWord =>
+              searchStringArr.every(searchWord => user.firstName.toLocaleLowerCase().includes(searchWord)) ||
+              searchStringArr.every(searchWord => user.lastName.toLocaleLowerCase().includes(searchWord))
+          );
+        }),
+      ];
+      return [...this.currentUsers];
+    }
+
+    if (searchString === '' && !this.filtersActive) {
+      console.log('else');
+      this.currentUsers = [...this.users];
+      return this.currentUsers;
+    }
+    console.log(this.currentUsers);
+    return this.currentUsers;
+  }
+
+  deactivateUser(userId: number) {
+    // TODO: deactivate user
+    let userIndex = this.users.findIndex(user => user.id === userId);
+    this.users[userIndex].active = false;
+  }
+
+  activateUser(userId: number) {
+    // TODO: activate user
+    let userIndex = this.users.findIndex(user => user.id === userId);
+    this.users[userIndex].active = true;
+  }
+
+  getUsers(): User[] {
+    return this.currentUsers;
   }
 }

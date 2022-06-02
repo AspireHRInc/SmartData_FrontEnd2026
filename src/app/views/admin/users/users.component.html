@@ -10,16 +10,156 @@
     <button class="tab active" aria-label="View Users" routerLink="../users">Users</button>
   </div>
   <div class="spacer"></div>
-  <!-- <div class="search">
+  <div class="search">
     <input
       placeholder="Search"
       class="k-input field"
-      (keyup)="onGroupSearch($event)"
+      (keyup)="onUsersSearch($event)"
       [(ngModel)]="searchField"
-      (focus)="onGroupSearch($event)"
+      (focus)="onUsersSearch($event)"
       (ngModelChange)="this.searchFieldUpdate.next($event)"
       tabindex="0"
     />
-    <button kendoButton icon="search" aria-label="search" (click)="onGroupSearch($event)" tabindex="0"></button>
-  </div> -->
+    <button kendoButton icon="search" aria-label="search" (click)="onUsersSearch($event)" tabindex="0"></button>
+  </div>
+
+  <button class="button add-user" aria-label="add user">+</button>
 </div>
+
+<!-- <div class="filters">
+  <ng-container *ngFor="let filterGroup of filters; let i = index">
+    <ng-container *ngIf="filterGroup.filters.length > 1">
+      <button kendoButton rounded="full" fillMode="outline" #anchor (click)="showFilterPopup(i)" class="filter-button">
+         [class.active]="filtersObj[filterGroup.name.toLocaleLowerCase()].length > 0"
+        <span class="name">{{ filterGroup.name }}</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+
+      <kendo-popup #popup [anchor]="anchor" *ngIf="showFilterPopupIndex === i" class="filter-popup">
+        <div class="content">
+          <ul class="filter-list">
+            <ng-container *ngFor="let filter of filterGroup.filters; let i = index">
+              <li class="filter-item" *ngIf="filterGroup.filters.length > 1">
+                <label class="k-checkbox-label">
+                  <input
+                    type="checkbox"
+                    kendoCheckBox
+                    (change)="onCheckboxChange(filterGroup.name, filter)"
+                    [checked]="filtersObj[filterGroup.name.toLowerCase()].indexOf(filter) !== -1"
+                  />
+                  {{ filter.name }}
+                </label>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </kendo-popup>
+    </ng-container>
+  </ng-container>
+  <button
+    kendoButton
+    rounded="full"
+    fillMode="outline"
+    [class.active]="userService.filtersActive === true"
+    (click)="clearAllFilters()"
+    class="filter-button"
+  >
+    <span class="name">Clear</span>
+  </button>
+</div> -->
+
+<kendo-listview [data]="usersExtended" containerClass="k-d-flex k-flex-col k-flex-nowrap">
+  <ng-template kendoListViewHeaderTemplate>
+    <div class="header">
+      <div class="filters">
+        <ng-container *ngFor="let filterGroup of filters; let i = index">
+          <ng-container *ngIf="filterGroup.filters.length > 1">
+            <button
+              kendoButton
+              rounded="full"
+              fillMode="outline"
+              #anchor
+              (click)="showFilterPopup(i)"
+              class="filter-button"
+            >
+              <!-- [class.active]="filtersObj[filterGroup.name.toLocaleLowerCase()].length > 0" -->
+              <span class="name">{{ filterGroup.name }}</span>
+              <span class="arrow">&#9660;</span>
+            </button>
+
+            <kendo-popup #popup [anchor]="anchor" *ngIf="showFilterPopupIndex === i" class="filter-popup">
+              <div class="content">
+                <ul class="filter-list">
+                  <ng-container *ngFor="let filter of filterGroup.filters; let i = index">
+                    <li class="filter-item" *ngIf="filterGroup.filters.length > 1">
+                      <label class="k-checkbox-label">
+                        <input
+                          type="checkbox"
+                          kendoCheckBox
+                          (change)="onCheckboxChange(filterGroup.name, filter)"
+                          [checked]="filtersObj[filterGroup.name.toLowerCase()].indexOf(filter) !== -1"
+                        />
+                        {{ filter.name }}
+                      </label>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+            </kendo-popup>
+          </ng-container>
+        </ng-container>
+        <button
+          kendoButton
+          rounded="full"
+          fillMode="outline"
+          [class.active]="userService.filtersActive === true"
+          (click)="clearAllFilters()"
+          class="filter-button"
+        >
+          <span class="name">Clear</span>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst" let-index="index">
+    <div class="user" [@listItemInOutAnimation]>
+      <div class="info">
+        <ss-user-badge [user]="dataItem"></ss-user-badge>
+        <h2 class="title">{{ dataItem.firstName + ' ' + dataItem.lastName }}</h2>
+      </div>
+      <ss-status-badge
+        *ngFor="let group of dataItem.userGroups"
+        [title]="group.name"
+        [colorFromString]="true"
+        [rounded]="true"
+      ></ss-status-badge>
+
+      <div class="email">
+        <p>{{ dataItem.email }}</p>
+      </div>
+
+      <div class="actions">
+        <button
+          (click)="reAddUser($event, dataItem.id)"
+          (keyup)="reAddUser($event, dataItem.id)"
+          (click)="togglePendingRemoval(index, dataItem.id)"
+          *ngIf="!dataItem.active"
+          class="button medium action outline add"
+          [attr.aria-label]="'Add user: ' + dataItem.firstName + ' ' + dataItem.lastName"
+        >
+          Activate
+        </button>
+        <button
+          *ngIf="dataItem.active"
+          (click)="removeUser($event, dataItem.id)"
+          (keyup)="removeUser($event, dataItem.id)"
+          (click)="togglePendingRemoval(index, dataItem.id)"
+          class="button medium action outline cancel"
+          [attr.aria-label]="'Deactivate user: ' + dataItem.firstName + ' ' + dataItem.lastName"
+        >
+          Deactivate
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</kendo-listview>
