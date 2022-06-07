@@ -10,11 +10,11 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RemoveGroupConfirmComponent implements OnInit {
   @Output() confirmUserGroupDelete = new EventEmitter<string>();
-  constructor(private uiState: UiStateService, private userService: UserService) {}
+  constructor(private uiState: UiStateService) {}
 
   ngOnInit(): void {}
 
-  public close(): void {
+  close(): void {
     this.uiState.hideConfirmUserGroupDelete();
   }
 

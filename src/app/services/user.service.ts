@@ -163,31 +163,6 @@ export class UserService {
     return this.currentUserGroups;
   }
 
-  // filterUsers(searchString: string, filters: Filters) {
-  //   if (searchString !== '') {
-  //     let searchStringArr: string[] = searchString.toLocaleLowerCase().split(' ');
-
-  //     this.currentUsers = [
-  //       ...this.currentUsers.filter(user => {
-  //         // let tags = service.metaTags.map(tag => tag.name);
-  //         return (
-  //           searchStringArr.every(searchWord => user.firstName.toLocaleLowerCase().includes(searchWord)) ||
-  //           searchStringArr.every(searchWord => user.lastName.toLocaleLowerCase().includes(searchWord))
-  //         );
-  //       }),
-  //     ];
-  //     return [...this.currentUsers];
-  //   }
-
-  //   if (searchString === '') {
-  //     console.log('else');
-  //     this.currentUsers = [...this.users];
-  //     return this.currentUsers;
-  //   }
-
-  //   return this.currentUsers;
-  // }
-
   filterUsers(searchString: string, filters: Filters) {
     this.currentUsers = [...this.users];
 
@@ -256,5 +231,24 @@ export class UserService {
 
   getUsers(): User[] {
     return this.currentUsers;
+  }
+
+  getUserGroupById(id: string) {
+    return this.currentUserGroups.filter(group => group.id === id);
+  }
+
+  getUserGroupByName(name: string) {
+    return this.currentUserGroups.filter(group => group.name === name);
+  }
+
+  addUser(user: User) {
+    // TODO: add user
+    console.log('Add User: ', user);
+    // this.users.push(user);
+  }
+
+  editUser(user: User) {
+    // TODO: edit user
+    console.log('Edit User: ', user);
   }
 }

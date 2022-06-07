@@ -6,6 +6,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { UserService, User, UserGroups } from 'src/app/services/user.service';
 import { Filter, FilterGroup } from 'src/app/services/service-run.service';
+import { UiStateService } from 'src/app/services/ui-state.service';
 
 import { UserExtended } from '../admin.component';
 
@@ -45,7 +46,10 @@ export class UsersComponent implements OnInit {
   filtersObj: any = { status: [], 'user groups': [] };
   filterClearActive = false;
 
-  constructor(public userService: UserService) {}
+  userDetailModalTitle = '';
+  currentUserDetail = new User();
+
+  constructor(public userService: UserService, public uiState: UiStateService) {}
 
   ngOnInit(): void {
     this.loggedInUserObj = this.userService.loggedInUserObj!;
@@ -146,5 +150,32 @@ export class UsersComponent implements OnInit {
 
     this.userService.filtersActive = false;
     this.onServiceFilter();
+  }
+
+  editUser(event: Event, userId: string) {
+    console.log(event as KeyboardEvent);
+
+    if (
+      event.type === 'click' ||
+      (event.type === 'keyup' && (event as KeyboardEvent).code === 'Enter') ||
+      (event as KeyboardEvent).code === 'Space'
+    ) {
+      this.userDetailModalTitle = this.userService.getUserFullNameById(parseInt(userId));
+      this.currentUserDetail = this.userService.getUserById(parseInt(userId))!;
+      this.uiState.showUserDetail();
+    }
+  }
+
+  addUser() {
+    this.userDetailModalTitle = 'Add User';
+    this.currentUserDetail = new User();
+    this.uiState.showUserDetail();
+  }
+
+  onAddUser(user: User) {
+    this.userService.addUser(user);
+  }
+  onEditUser(user: User) {
+    this.userService.editUser(user);
   }
 }
