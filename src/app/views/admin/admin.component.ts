@@ -163,7 +163,7 @@ export class AdminComponent implements OnInit {
     this.loadUserGroups();
   }
 
-  removeUser(event: Event, userGroupName: string, userId: number) {
+  removeUser(event: Event, userGroupName: string, userId: string) {
     event.stopPropagation();
     event.preventDefault();
     event.cancelBubble = true;
@@ -172,7 +172,7 @@ export class AdminComponent implements OnInit {
     // this.loadUserGroups();
   }
 
-  reAddUser(event: Event, userGroupName: string, userId: number) {
+  reAddUser(event: Event, userGroupName: string, userId: string) {
     event.stopPropagation();
     event.preventDefault();
     event.cancelBubble = true;
@@ -181,7 +181,7 @@ export class AdminComponent implements OnInit {
     // this.loadUserGroups();
   }
 
-  togglePendingRemoval(userGroupindex: number, userId: number) {
+  togglePendingRemoval(userGroupindex: number, userId: string) {
     let userIndex = this.userGroupsExtended[userGroupindex].users.findIndex(user => user.id === userId);
 
     this.userGroupsExtended[userGroupindex].users[userIndex].pendingRemoval =

@@ -5,7 +5,7 @@ import { User } from './user.service';
   providedIn: 'root',
 })
 export class LoginService {
-  loginUserBadgeIds = [1, 2, 3];
+  loginUserBadgeIds = ['1', '2', '3'];
   numberOfHappyCustomers = 7291;
   userRating = 4.8;
 

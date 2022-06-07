@@ -13,7 +13,7 @@ export enum ServiceRunStatus {
 
 export class ServiceRun {
   id = '0';
-  userId = 0;
+  userId = '0';
   userName = '';
   processCode = '';
   targetSystemId = '';

@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   password = '';
   messages = '';
 
-  users: number[] = [];
+  users: string[] = [];
   usersObjects: User[] = [];
 
   step = 0;

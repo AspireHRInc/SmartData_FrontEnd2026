@@ -74,7 +74,7 @@ export class UsersComponent implements OnInit {
     // this.usersExtended = this.users;
   }
 
-  removeUser(event: Event, userId: number) {
+  removeUser(event: Event, userId: string) {
     event.stopPropagation();
     event.preventDefault();
     event.cancelBubble = true;
@@ -83,7 +83,7 @@ export class UsersComponent implements OnInit {
     this.loadUserGroups();
   }
 
-  reAddUser(event: Event, userId: number) {
+  reAddUser(event: Event, userId: string) {
     event.stopPropagation();
     event.preventDefault();
     event.cancelBubble = true;
@@ -92,7 +92,7 @@ export class UsersComponent implements OnInit {
     this.loadUserGroups();
   }
 
-  togglePendingRemoval(userIndex: number, userId: number) {
+  togglePendingRemoval(userIndex: number, userId: string) {
     // let toggleUserIndex = this.usersExtended[userIndex].findIndex(user => user.id === userId);
 
     this.usersExtended[userIndex].pendingRemoval = !this.usersExtended[userIndex].pendingRemoval;
@@ -160,8 +160,8 @@ export class UsersComponent implements OnInit {
       (event.type === 'keyup' && (event as KeyboardEvent).code === 'Enter') ||
       (event as KeyboardEvent).code === 'Space'
     ) {
-      this.userDetailModalTitle = this.userService.getUserFullNameById(parseInt(userId));
-      this.currentUserDetail = this.userService.getUserById(parseInt(userId))!;
+      this.userDetailModalTitle = this.userService.getUserFullNameById(userId);
+      this.currentUserDetail = this.userService.getUserById(userId)!;
       this.uiState.showUserDetail();
     }
   }

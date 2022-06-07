@@ -54,7 +54,7 @@ export class UserDetailComponent implements OnInit {
   public close(): void {
     this.uiState.hideUserDetail();
 
-    if (this.user.id !== 0) {
+    if (this.user.id !== '0') {
     }
   }
 
@@ -63,7 +63,7 @@ export class UserDetailComponent implements OnInit {
     this.user.lastName = this.userForm.controls['lastName'].value;
     this.user.email = this.userForm.controls['email'].value;
     this.user.userGroups = this.userForm.controls['userGroups'].value;
-    if (this.user.id === 0) {
+    if (this.user.id === '0') {
       this.addUser.emit(this.user);
     } else {
       this.editUser.emit(this.user);
