@@ -15,6 +15,17 @@
     padding-right: 1rem;
     margin-left: auto;
     margin-right: auto;
+    flex-wrap: wrap;
+    @media screen and (min-width: 37.5rem) {
+      flex-wrap: nowrap;
+    }
+
+    .spacer {
+      display: none;
+      @media screen and (min-width: 37.5rem) {
+        display: block;
+      }
+    }
 
     .tabs {
       display: flex;

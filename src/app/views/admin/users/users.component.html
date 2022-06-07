@@ -1,3 +1,11 @@
+<ss-user-detail
+  *ngIf="uiState.userDetailOpen$ | async"
+  [title]="userDetailModalTitle"
+  [user]="currentUserDetail"
+  (addUser)="onAddUser($event)"
+  (editUser)="onEditUser($event)"
+></ss-user-detail>
+
 <ss-header headerTitle="Company Admin" type="admin" [headerUserObject]="loggedInUserObj"></ss-header>
 
 <ss-navigation-buttons>
@@ -23,7 +31,7 @@
     <button kendoButton icon="search" aria-label="search" (click)="onUsersSearch($event)" tabindex="0"></button>
   </div>
 
-  <button class="button add-user" aria-label="add user">+</button>
+  <button class="button add-user" aria-label="add user" (click)="addUser()">+</button>
 </div>
 
 <kendo-listview [data]="usersExtended" containerClass="k-d-flex k-flex-col k-flex-nowrap">
@@ -80,17 +88,25 @@
     </div>
   </ng-template>
   <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst" let-index="index">
-    <div class="user" [@listItemInOutAnimation]>
+    <div
+      class="user"
+      [@listItemInOutAnimation]
+      tabindex="0"
+      (click)="editUser($event, dataItem.id)"
+      (keyup)="editUser($event, dataItem.id)"
+    >
       <div class="info">
         <ss-user-badge [user]="dataItem"></ss-user-badge>
         <h2 class="title">{{ dataItem.firstName + ' ' + dataItem.lastName }}</h2>
       </div>
-      <ss-status-badge
-        *ngFor="let group of dataItem.userGroups"
-        [title]="group.name"
-        [colorFromString]="true"
-        [rounded]="true"
-      ></ss-status-badge>
+      <div class="status-badges">
+        <ss-status-badge
+          *ngFor="let group of dataItem.userGroups"
+          [title]="group.name"
+          [colorFromString]="true"
+          [rounded]="true"
+        ></ss-status-badge>
+      </div>
 
       <div class="email">
         <p>{{ dataItem.email }}</p>

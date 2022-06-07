@@ -1,0 +1,49 @@
+<kendo-dialog [title]="title" (close)="close()" [minWidth]="250" [width]="640">
+  <form class="form" [formGroup]="userForm">
+    <div class="form-section">
+      <h2 class="header">General Information</h2>
+      <fieldset class="fieldset">
+        <label>
+          First Name
+          <kendo-textbox formControlName="firstName" required></kendo-textbox>
+        </label>
+        <label>
+          Last Name
+          <kendo-textbox formControlName="lastName" required></kendo-textbox>
+        </label>
+        <kendo-formfield>
+          <label>
+            Email
+            <kendo-textbox formControlName="email" text="Email" required></kendo-textbox>
+          </label>
+          <kendo-formerror>Error: A valid email address is required.</kendo-formerror>
+        </kendo-formfield>
+      </fieldset>
+    </div>
+
+    <div class="form-section" *ngIf="group === ''">
+      <h2 class="header">Group</h2>
+      <fieldset class="fieldset">
+        <div class="groups">
+          <div *ngFor="let group of userService.userGroups" class="group">
+            <label class="label">
+              <input
+                type="checkbox"
+                #notification
+                kendoCheckBox
+                [checked]="this.currentUsersGroupIds.includes(group.id)"
+                (click)="toggleUsersGroup($event, group.id)"
+              />
+              <div class="group-name">{{ group.name }}</div>
+            </label>
+
+            <div class="services">{{ this.userService.getUserGroupById(group.id)[0].services }}</div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </form>
+  <kendo-dialog-actions>
+    <button kendoButton (click)="save()" class="submit" themeColor="primary">Save</button>
+  </kendo-dialog-actions>
+</kendo-dialog>

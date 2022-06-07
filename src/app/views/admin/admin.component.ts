@@ -72,6 +72,8 @@ export class AdminComponent implements OnInit {
 
   currentUserGroupDeleteId = '';
 
+  currentUserGroupToAddUser = '';
+
   constructor(
     private userService: UserService,
     public servicesService: ServicesService,
@@ -239,6 +241,15 @@ export class AdminComponent implements OnInit {
       });
       allChecked = true;
     }
+  }
+
+  addUserToGroup(groupName: string) {
+    this.currentUserGroupToAddUser = groupName;
+    this.uiState.showUserDetail();
+  }
+
+  onAddUserToGroup(user: User) {
+    this.userService.addUser(user);
   }
 
   onGroupSearch(event: Event) {}

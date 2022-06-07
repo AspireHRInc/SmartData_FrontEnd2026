@@ -35,6 +35,7 @@ import { NavigationComponent } from './views/services/detail/navigation/navigati
 import { AdminComponent } from './views/admin/admin.component';
 import { UsersComponent } from './views/admin/users/users.component';
 import { RemoveGroupConfirmComponent } from './views/admin/remove-group-confirm/remove-group-confirm.component';
+import { UserDetailComponent } from './views/admin/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { RemoveGroupConfirmComponent } from './views/admin/remove-group-confirm/
     AdminComponent,
     UsersComponent,
     RemoveGroupConfirmComponent,
+    UserDetailComponent,
   ],
   imports: [
     BrowserModule,
