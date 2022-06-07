@@ -70,6 +70,10 @@ export class AdminComponent implements OnInit {
 
   searchField = '';
 
+  currentUserGroupDeleteId = '';
+
+  currentUserGroupToAddUser = '';
+
   constructor(
     private userService: UserService,
     public servicesService: ServicesService,
@@ -148,9 +152,14 @@ export class AdminComponent implements OnInit {
     event.preventDefault();
     event.cancelBubble = true;
 
-    console.log('removeUserGroup');
-    console.log(id);
-    this.userService.removeUserGroup(id);
+    this.currentUserGroupDeleteId = id;
+    this.uiState.showConfirmUserGroupDelete();
+  }
+
+  onConfirmRemoveUserGroup() {
+    if (this.currentUserGroupDeleteId !== '') {
+      this.userService.removeUserGroup(this.currentUserGroupDeleteId);
+    }
     this.loadUserGroups();
   }
 
@@ -232,6 +241,15 @@ export class AdminComponent implements OnInit {
       });
       allChecked = true;
     }
+  }
+
+  addUserToGroup(groupName: string) {
+    this.currentUserGroupToAddUser = groupName;
+    this.uiState.showUserDetail();
+  }
+
+  onAddUserToGroup(user: User) {
+    this.userService.addUser(user);
   }
 
   onGroupSearch(event: Event) {}

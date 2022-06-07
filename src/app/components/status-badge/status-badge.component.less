@@ -19,6 +19,8 @@
 
   &.outlined {
     border: 1px solid va(--color-text-secondary);
+    border-width: 1px;
+    border-style: solid;
   }
 
   .bold& {
@@ -52,18 +54,6 @@
     }
   }
 
-  // .orange& {
-  //   color: var(--accent-color-4);
-  // }
-
-  // .purple& {
-  //   color: var(--accent-color-5);
-  // }
-
-  // .violet& {
-  //   color: var(--accent-color-2);
-  // }
-
   &:before {
     content: '';
     position: absolute;
@@ -72,23 +62,7 @@
     left: 0;
     right: 0;
     border-radius: 4px;
-    // background-color: gainsboro;
     z-index: -1;
-
-    // .orange& {
-    //   background: var(--accent-color-4);
-    //   opacity: 0.1;
-    // }
-
-    // .purple& {
-    //   background: var(--accent-color-5);
-    //   opacity: 0.1;
-    // }
-
-    // .violet& {
-    //   background: var(--accent-color-2);
-    //   opacity: 0.1;
-    // }
   }
 
   div& {
