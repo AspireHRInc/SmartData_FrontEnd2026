@@ -4,7 +4,7 @@ import { Service, Environments } from './services.service';
 import { FilterGroup, Filter } from './service-run.service';
 
 export class User {
-  id = 0;
+  id = '0';
   firstName = '';
   lastName = '';
   phone = '';
@@ -50,7 +50,7 @@ export class UserService {
 
   userFilters: FilterGroup[] = userData.userFilters;
 
-  loggedInUserId = 10;
+  loggedInUserId = '10';
   loggedInUserObj = this.getUserById(this.loggedInUserId);
 
   currentUserGroups: UserGroups[] = [...this.userGroups];
@@ -61,11 +61,11 @@ export class UserService {
 
   constructor() {}
 
-  getUserById(id: number) {
+  getUserById(id: string) {
     return this.users.find(user => user.id === id);
   }
 
-  getUsersByIds(ids: number[]) {
+  getUsersByIds(ids: string[]) {
     let usersFiltered: User[] = [];
     ids.forEach(id => {
       let userFound: User = this.users.find(user => user.id === id)!;
@@ -74,19 +74,19 @@ export class UserService {
     return usersFiltered;
   }
 
-  getUserFirstNameById(id: number) {
+  getUserFirstNameById(id: string) {
     return this.users.find(user => user.id === id)?.firstName;
   }
 
-  getUserLastNameById(id: number) {
+  getUserLastNameById(id: string) {
     return this.users.find(user => user.id === id)?.lastName;
   }
 
-  getUserFullNameById(id: number) {
+  getUserFullNameById(id: string) {
     return this.users.find(user => user.id === id)?.firstName + ' ' + this.users.find(user => user.id === id)?.lastName;
   }
 
-  getProfilePicNameById(id: number) {
+  getProfilePicNameById(id: string) {
     return this.users.find(user => user.id === id)?.profilePic;
   }
 
@@ -117,7 +117,7 @@ export class UserService {
     console.log(this.userGroups);
   }
 
-  removeUserFromGroup(userGroupName: string, userId: number) {
+  removeUserFromGroup(userGroupName: string, userId: string) {
     // TODO: remove user from group on server
     let userIndex = this.users.findIndex(user => {
       return user.id === userId;
@@ -130,7 +130,7 @@ export class UserService {
     this.users[userIndex].userGroups.splice(groupIndex, 1);
   }
 
-  addUserToGroup(userGroupName: string, userId: number) {
+  addUserToGroup(userGroupName: string, userId: string) {
     // TODO: add user to group on server
     let userIndex = this.users.findIndex(user => {
       return user.id === userId;
@@ -217,13 +217,13 @@ export class UserService {
     return this.currentUsers;
   }
 
-  deactivateUser(userId: number) {
+  deactivateUser(userId: string) {
     // TODO: deactivate user
     let userIndex = this.users.findIndex(user => user.id === userId);
     this.users[userIndex].active = false;
   }
 
-  activateUser(userId: number) {
+  activateUser(userId: string) {
     // TODO: activate user
     let userIndex = this.users.findIndex(user => user.id === userId);
     this.users[userIndex].active = true;
@@ -250,5 +250,20 @@ export class UserService {
   editUser(user: User) {
     // TODO: edit user
     console.log('Edit User: ', user);
+  }
+
+  onAddUserToGroup(user: User) {
+    let userIndex = this.users.map(user => user.id).indexOf(user.id);
+
+    let groupIndex = this.users[userIndex].userGroups.map(group => group.id).indexOf(user.userGroups[0].id);
+
+    if (groupIndex === -1) {
+      this.users[userIndex].userGroups.push(user.userGroups[0]);
+    } else {
+      console.log('User already in group');
+    }
+
+    // TODO: add user to group
+    console.log('Add user: "', user.firstName + ' ' + user.lastName + '" to group: ' + user.userGroups[0].name);
   }
 }

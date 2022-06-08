@@ -1,5 +1,5 @@
 <kendo-dialog [title]="title" (close)="close()" [minWidth]="250" [width]="640">
-  <form class="form" [formGroup]="userForm">
+  <form class="form" [formGroup]="userForm" *ngIf="group === ''">
     <div class="form-section">
       <h2 class="header">General Information</h2>
       <fieldset class="fieldset">
@@ -21,7 +21,7 @@
       </fieldset>
     </div>
 
-    <div class="form-section" *ngIf="group === ''">
+    <div class="form-section">
       <h2 class="header">Group</h2>
       <fieldset class="fieldset">
         <div class="groups">
@@ -43,7 +43,30 @@
       </fieldset>
     </div>
   </form>
+
+  <form class="form" [formGroup]="userForm" *ngIf="group !== ''">
+    <div class="form-section">
+      <h2 class="header">General Information</h2>
+      <fieldset class="fieldset">
+        <kendo-combobox
+          [data]="filteredUserToAdd"
+          textField="fullName"
+          valueField="id"
+          (valueChange)="userValueChange($event)"
+        ></kendo-combobox>
+      </fieldset>
+    </div>
+  </form>
+
   <kendo-dialog-actions>
-    <button kendoButton (click)="save()" class="submit" themeColor="primary">Save</button>
+    <button
+      kendoButton
+      (click)="group === '' ? save() : saveUserToGroup()"
+      class="submit"
+      themeColor="primary"
+      [disabled]="!userForm.valid"
+    >
+      Save
+    </button>
   </kendo-dialog-actions>
 </kendo-dialog>

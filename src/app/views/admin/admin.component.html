@@ -7,7 +7,7 @@
   *ngIf="uiState.userDetailOpen$ | async"
   [title]="'Add New Member to ' + currentUserGroupToAddUser"
   [group]="currentUserGroupToAddUser"
-  (addUser)="onAddUserToGroup($event)"
+  (onSaveUserToGroup)="saveUserToGroup($event)"
 ></ss-user-detail>
 <ss-header headerTitle="Company Admin" type="admin" [headerUserObject]="loggedInUserObj"></ss-header>
 
@@ -144,7 +144,7 @@
       <div class="users">
         <div class="header">
           <h3 class="title">Members {{ '(' + dataItem.users.length + ')' }}</h3>
-          <button class="button add-user" aria-label="add user" (click)="addUserToGroup(dataItem.name)">+</button>
+          <button class="button add-user" aria-label="add user" (click)="onAddUserToGroup(dataItem.name)">+</button>
         </div>
         <kendo-listview [data]="dataItem.users" containerClass="k-d-flex k-flex-col k-flex-nowrap">
           <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst">

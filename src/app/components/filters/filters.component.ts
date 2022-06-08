@@ -58,6 +58,10 @@ export class FiltersComponent implements OnInit {
     this.filters.reset();
   }
 
+  // AfterViewinit() {
+  //   this._renderer.setAttribute(elRef,'focus',true);
+  //   }
+
   @HostListener('window:resize', ['$event'])
   onWindowResize(e: Event) {
     this.resize$.next();
