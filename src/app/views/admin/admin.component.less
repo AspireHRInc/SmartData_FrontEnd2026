@@ -12,8 +12,21 @@
     background: var(--color-background-primary);
     box-shadow: var(--drop-shadow);
     padding-left: 1rem;
+    align-items: center;
+    padding-right: 1rem;
     margin-left: auto;
     margin-right: auto;
+    flex-wrap: wrap;
+    @media screen and (min-width: 37.5rem) {
+      flex-wrap: nowrap;
+    }
+
+    .spacer {
+      display: none;
+      @media screen and (min-width: 37.5rem) {
+        display: block;
+      }
+    }
 
     .tabs {
       display: flex;
@@ -28,6 +41,8 @@
         font-size: 1.25rem;
         line-height: 125%;
         box-shadow: none;
+        height: 5.3125rem;
+        border: 3px solid transparent;
 
         &.active {
           border-bottom: 3px solid var(--color-cta-lighter);
