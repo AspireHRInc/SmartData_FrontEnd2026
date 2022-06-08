@@ -8,6 +8,7 @@ import { UiStateService } from '../../services/ui-state.service';
 
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+// import { group } from 'console';
 
 export class UserExtended extends User {
   pendingRemoval? = false;
@@ -36,17 +37,6 @@ export class UserGroupsExtended extends UserGroups {
       transition(':enter', [style({ maxHeight: '0px' }), animate('500ms ease-out', style({ maxHeight: '2000px' }))]),
       transition(':leave', [style({ maxHeight: '2000px' }), animate('500ms ease-in', style({ maxHeight: '0px' }))]),
     ]),
-
-    // trigger('detailsDrawerAnimation', [
-    //   transition(':enter', [
-    //     style({ transform: 'scaleY(0)' }),
-    //     animate('500ms ease-out', style({ transform: 'scaleY(1)' })),
-    //   ]),
-    //   transition(':leave', [
-    //     style({ transform: 'scaleY(1)' }),
-    //     animate('500ms ease-in', style({ transform: 'scaleY(0)' })),
-    //   ]),
-    // ]),
   ],
 })
 export class AdminComponent implements OnInit {
@@ -93,7 +83,6 @@ export class AdminComponent implements OnInit {
 
     this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
       this.detailsOpen = -1;
-      console.log(value);
       this.userGroups = this.userService.filterUserGroups(value);
       this.loadUserGroups();
     });
@@ -137,7 +126,6 @@ export class AdminComponent implements OnInit {
       });
     });
     this.userGroupsFormInitialValues = this.userGroupsForm.value;
-    console.log(this.userGroupsForm);
   }
 
   onSetupUsers() {}
@@ -169,7 +157,6 @@ export class AdminComponent implements OnInit {
     event.cancelBubble = true;
 
     this.userService.removeUserFromGroup(userGroupName, userId);
-    // this.loadUserGroups();
   }
 
   reAddUser(event: Event, userGroupName: string, userId: string) {
@@ -178,7 +165,6 @@ export class AdminComponent implements OnInit {
     event.cancelBubble = true;
 
     this.userService.addUserToGroup(userGroupName, userId);
-    // this.loadUserGroups();
   }
 
   togglePendingRemoval(userGroupindex: number, userId: string) {
@@ -243,13 +229,26 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  addUserToGroup(groupName: string) {
+  onAddUserToGroup(groupName: string) {
     this.currentUserGroupToAddUser = groupName;
+    console.log(this.currentUserGroupToAddUser);
     this.uiState.showUserDetail();
   }
 
-  onAddUserToGroup(user: User) {
-    this.userService.addUser(user);
+  saveUserToGroup(user: User) {
+    let userIndex = this.userService.users.map(user => user.id).indexOf(user.id);
+
+    let groupIndex = this.userService.users[userIndex].userGroups.map(group => group.id).indexOf(user.userGroups[0].id);
+
+    if (groupIndex === -1) {
+      this.userService.users[userIndex].userGroups.push(user.userGroups[0]);
+      let userExtended: UserExtended = { ...user, pendingRemoval: false };
+      this.userService.onAddUserToGroup(userExtended);
+      this.loadUserGroups();
+    } else {
+      console.log('User already in group');
+    }
+    this.uiState.hideUserDetail();
   }
 
   onGroupSearch(event: Event) {}

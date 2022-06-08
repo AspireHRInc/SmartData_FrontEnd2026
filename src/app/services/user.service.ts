@@ -251,4 +251,10 @@ export class UserService {
     // TODO: edit user
     console.log('Edit User: ', user);
   }
+
+  onAddUserToGroup(user: User) {
+    console.log(user);
+    // TODO: add user to group
+    console.log('Add user: "', user.firstName + ' ' + user.lastName + '" to group: ' + user.userGroups[0].name);
+  }
 }
