@@ -253,7 +253,16 @@ export class UserService {
   }
 
   onAddUserToGroup(user: User) {
-    console.log(user);
+    let userIndex = this.users.map(user => user.id).indexOf(user.id);
+
+    let groupIndex = this.users[userIndex].userGroups.map(group => group.id).indexOf(user.userGroups[0].id);
+
+    if (groupIndex === -1) {
+      this.users[userIndex].userGroups.push(user.userGroups[0]);
+    } else {
+      console.log('User already in group');
+    }
+
     // TODO: add user to group
     console.log('Add user: "', user.firstName + ' ' + user.lastName + '" to group: ' + user.userGroups[0].name);
   }
