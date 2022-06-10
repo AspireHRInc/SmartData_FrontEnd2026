@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { filter, map } from 'rxjs';
@@ -13,13 +13,14 @@ import { UiStateService } from './services/ui-state.service';
 })
 export class AppComponent implements OnInit {
   title = 'smart-suite';
-
   @HostBinding('class.show-menu') showMenu = false;
+
   constructor(
     public uiState: UiStateService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private titleService: Title
+    private titleService: Title,
+    public viewContainerRef: ViewContainerRef
   ) {}
 
   ngOnInit() {
@@ -45,5 +46,24 @@ export class AppComponent implements OnInit {
           this.titleService.setTitle(`${title} - Smart Suite`);
         }
       });
+
+    // this.uiState.errorNotification$.subscribe(errorMessage => {
+    //   this.showError(errorMessage);
+    // });
+  }
+
+  // public showError(notificationText: string): void {
+  //   this.notificationService.show({
+  //     content: notificationText,
+  //     // hideAfter: 3000,
+  //     hideAfter: 50000,
+  //     position: { horizontal: 'center', vertical: 'bottom' },
+  //     animation: { type: 'fade', duration: 400 },
+  //     type: { style: 'error', icon: true },
+  //   });
+  // }
+
+  showErrorUI() {
+    this.uiState.setErrorNotification('new error ' + String(new Date()));
   }
 }

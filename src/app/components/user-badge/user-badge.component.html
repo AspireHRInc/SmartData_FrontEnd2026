@@ -1,9 +1,19 @@
 <ng-container *ngIf="user.profilePic !== '' && user.profilePic !== undefined">
-  <img class="profile-pic" [src]="user.profilePic" [alt]="user.firstName + ' ' + user.lastName" />
+  <img
+    class="profile-pic"
+    [src]="user.profilePic"
+    [alt]="user.firstName + ' ' + user.lastName"
+    [attr.aria-label]="'user icon: ' + user.firstName + ' ' + user.lastName"
+  />
 </ng-container>
 
 <ng-container *ngIf="user.profilePic === '' || user.profilePic === undefined">
-  <p class="initials" [ngStyle]="{ 'background-color': this.bgColor }" [style.font-size]="fontSize">
+  <p
+    class="initials"
+    [ngStyle]="{ 'background-color': this.bgColor }"
+    [style.font-size]="fontSize"
+    [attr.aria-label]="'user icon: ' + user.firstName + ' ' + user.lastName"
+  >
     {{ user.firstName | slice: 0:1 }}{{ user.lastName | slice: 0:1 }}
   </p>
 </ng-container>

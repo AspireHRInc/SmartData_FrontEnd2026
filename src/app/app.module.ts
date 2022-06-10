@@ -1,5 +1,5 @@
 // ANGULAR
-import { NgModule } from '@angular/core';
+import { NgModule, ElementRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +9,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // import 'hammerjs';
 
 import { AppRoutingModule } from './app-routing.module';
+
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 // COMPONENTS
 import { ComponentsModules } from './components/components.modules';
@@ -36,6 +38,7 @@ import { AdminComponent } from './views/admin/admin.component';
 import { UsersComponent } from './views/admin/users/users.component';
 import { RemoveGroupConfirmComponent } from './views/admin/remove-group-confirm/remove-group-confirm.component';
 import { UserDetailComponent } from './views/admin/user-detail/user-detail.component';
+import { NotificationModule, NOTIFICATION_CONTAINER } from '@progress/kendo-angular-notification';
 
 @NgModule({
   declarations: [
@@ -65,6 +68,7 @@ import { UserDetailComponent } from './views/admin/user-detail/user-detail.compo
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NotificationModule,
   ],
   providers: [
     {
@@ -72,7 +76,16 @@ import { UserDetailComponent } from './views/admin/user-detail/user-detail.compo
       useClass: UploadInterceptorService,
       multi: true,
     },
+    {
+      provide: NOTIFICATION_CONTAINER,
+      useFactory: () => {
+        //return the container ElementRef, where the notification will be injected
+        return { nativeElement: document.body } as ElementRef;
+      },
+    },
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+platformBrowserDynamic().bootstrapModule(AppModule);

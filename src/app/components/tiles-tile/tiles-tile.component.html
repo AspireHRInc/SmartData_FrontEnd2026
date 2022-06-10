@@ -6,9 +6,7 @@
     [class.favorited]="favorite"
     (click)="onFavorite($event)"
     tabindex="0"
-    [attr.aria-labelledby]="
-      favorite ? data.name + ' service favorited:checked' : data.name + ' service favorited:unchecked'
-    "
+    [attr.aria-label]="favorite ? data.name + ' service favorited:checked' : data.name + ' service favorited:unchecked'"
   >
     &#9829;
   </button>

@@ -236,19 +236,6 @@ export class AdminComponent implements OnInit {
   }
 
   saveUserToGroup(user: User) {
-    // let userIndex = this.userService.users.map(user => user.id).indexOf(user.id);
-
-    // let groupIndex = this.userService.users[userIndex].userGroups.map(group => group.id).indexOf(user.userGroups[0].id);
-
-    // if (groupIndex === -1) {
-    //   this.userService.users[userIndex].userGroups.push(user.userGroups[0]);
-    //   let userExtended: UserExtended = { ...user, pendingRemoval: false };
-    //   this.userService.onAddUserToGroup(userExtended);
-    //   this.loadUserGroups();
-    // } else {
-    //   console.log('User already in group');
-    // }
-
     this.userService.onAddUserToGroup(user);
     this.loadUserGroups();
 
