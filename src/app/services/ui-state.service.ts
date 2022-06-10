@@ -44,6 +44,9 @@ export class UiStateService {
   // private currentUserGroupDeleteId = new BehaviorSubject<string>('');
   // currentUserGroupDeleteId$ = this.currentUserGroupDeleteId.asObservable();
 
+  private errorNotification = new BehaviorSubject<string>('');
+  errorNotification$ = this.errorNotification.asObservable();
+
   constructor() {}
 
   showServiceDetail() {
@@ -146,5 +149,9 @@ export class UiStateService {
 
   hideUserDetail() {
     this.userDetailOpen.next(false);
+  }
+
+  setErrorNotification(errorMessage: string) {
+    this.errorNotification.next(errorMessage);
   }
 }

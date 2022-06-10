@@ -39,8 +39,16 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  back(): void {
-    this.location.back();
+  back(event: Event): void {
+    if (
+      event.type === 'keyup' &&
+      ((event as KeyboardEvent).code === 'Space' || (event as KeyboardEvent).code === 'Enter')
+    ) {
+      this.location.back();
+    }
+    if (event.type === 'click') {
+      this.location.back();
+    }
   }
 
   toggleMenu(event: Event) {

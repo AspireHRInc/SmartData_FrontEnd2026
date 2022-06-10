@@ -6,7 +6,7 @@ import { Service, Tag } from 'src/app/services/services.service';
   selector: 'ss-tiles-tile',
   templateUrl: './tiles-tile.component.html',
   styleUrls: ['./tiles-tile.component.less'],
-  host: { class: 'tile', '(click)': 'onClickService($event)' },
+  host: { class: 'tile', '(click)': 'onClickService($event)', '(keyup)': 'onClickService($event)' },
 })
 export class TilesTileComponent implements OnInit {
   @Input() data: Service = new Service();
@@ -43,9 +43,13 @@ export class TilesTileComponent implements OnInit {
   }
   onClickService(event: Event) {
     if (this.data.subscribed) {
-      // console.log(event);
-      // console.log(this.data);
-      this.router.navigate(['/services', this.data.id, 'detail', 'setup']);
+      if (
+        event.type === 'click' ||
+        (event.type === 'keyup' &&
+          ((event as KeyboardEvent).code === 'Space' || (event as KeyboardEvent).code === 'Enter'))
+      ) {
+        this.router.navigate(['/services', this.data.id, 'detail', 'setup']);
+      }
     }
   }
 }
