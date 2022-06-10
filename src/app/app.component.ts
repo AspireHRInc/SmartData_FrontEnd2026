@@ -46,22 +46,7 @@ export class AppComponent implements OnInit {
           this.titleService.setTitle(`${title} - Smart Suite`);
         }
       });
-
-    // this.uiState.errorNotification$.subscribe(errorMessage => {
-    //   this.showError(errorMessage);
-    // });
   }
-
-  // public showError(notificationText: string): void {
-  //   this.notificationService.show({
-  //     content: notificationText,
-  //     // hideAfter: 3000,
-  //     hideAfter: 50000,
-  //     position: { horizontal: 'center', vertical: 'bottom' },
-  //     animation: { type: 'fade', duration: 400 },
-  //     type: { style: 'error', icon: true },
-  //   });
-  // }
 
   showErrorUI() {
     this.uiState.setErrorNotification('new error ' + String(new Date()));
