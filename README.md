@@ -18,6 +18,25 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build –prod` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+## Mock Server
+
+Navigate to mock server directory
+`cd /mock-server`
+
+For first run, make sure 3rd party components are installed with `npm install` then...
+
+Start json-server.json
+`npm run json:server`
+
+Start graphQL server
+`npm run dev:server`
+
+For JSON-server front end, in a browser navigate to:
+`http://localhost:3000/`
+
+For GraphiQL (graphQL explorer), in a browser navigate to:
+`http://localhost:4000/graphq`
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
