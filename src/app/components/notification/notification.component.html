@@ -1,0 +1,9 @@
+<ng-template #template>
+  <span role="alert">{{ message }}</span>
+  <!-- default notification button is not accessible: replace with manually created button -->
+  <button class="button notification-close" tabindex="0" (click)="close()" aria-label="close notification message">
+    <!-- &times; -->
+    DISMISS
+  </button>
+</ng-template>
+<div id="container"></div>

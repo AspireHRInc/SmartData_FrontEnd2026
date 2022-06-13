@@ -8,40 +8,44 @@
   [draggable]="false"
   [@slideInOut]
   class="window"
-  autoFocusedElement="#subscribed"
 >
   <kendo-window-titlebar>
     <div class="k-window-title"><h2 class="title">Filters</h2></div>
-    <button kendoWindowCloseAction></button>
+    <button kendoWindowCloseAction aria-label="close"></button>
   </kendo-window-titlebar>
 
   <form class="k-form form" [formGroup]="filters">
     <fieldset class="fieldset subscribed">
-      <label class="k-form-field">
+      <div class="k-form-field field-wrapper">
         <kendo-switch
           [checked]="subscribedVisible"
           (valueChange)="subscribedVisible = !subscribedVisible"
-          onLabel=" "
-          offLabel=" "
-          [tabindex]="0"
+          onLabel="On"
+          offLabel="Off"
+          [tabindex]="-1"
           id="subscribed"
           autofocus
+          aria-label="show subscribed"
         ></kendo-switch>
-        <h5 class="title">Subscribed</h5>
-      </label>
+        <label class="k-form-field label">
+          <input
+            type="checkbox"
+            kendoCheckBox
+            class="checkbox subscribed"
+            tabindex="0"
+            #subscribed
+            [checked]="subscribedVisible"
+            (change)="subscribedVisible = !subscribedVisible"
+          />
+          <span id="subscribed-label" class="title">Subscribed</span>
+        </label>
+      </div>
     </fieldset>
     <fieldset *ngFor="let category of data; let cati = index" class="fieldset category">
       <legend class="name">{{ category.name }}</legend>
 
       <label class="k-form-field label" *ngFor="let filter of category.tags; let i = index">
-        <input
-          type="checkbox"
-          #notification
-          kendoCheckBox
-          class="checkbox"
-          [formControlName]="filter.name"
-          tabindex="0"
-        />
+        <input type="checkbox" kendoCheckBox class="checkbox" [formControlName]="filter.name" tabindex="0" />
         <span>
           {{ filter.name }}
           <span class="subscribed" *ngIf="subscribedVisible">({{ filter.subscribed }})</span>

@@ -1,7 +1,7 @@
 <kendo-dialog [title]="title" (close)="close()" [minWidth]="250" [width]="640">
   <form class="form" [formGroup]="userForm" *ngIf="group === ''">
     <div class="form-section">
-      <h2 class="header">General Information</h2>
+      <h2 class="header" *ngIf="group === ''">General Information</h2>
       <fieldset class="fieldset">
         <label>
           First Name
@@ -53,7 +53,11 @@
           textField="fullName"
           valueField="id"
           (valueChange)="userValueChange($event)"
-        ></kendo-combobox>
+        >
+          <ng-template kendoComboBoxItemTemplate let-dataItem>
+            {{ dataItem.fullName }} ({{ dataItem.email }})
+          </ng-template>
+        </kendo-combobox>
       </fieldset>
     </div>
   </form>

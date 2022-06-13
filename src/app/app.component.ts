@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { filter, map } from 'rxjs';
@@ -13,13 +13,14 @@ import { UiStateService } from './services/ui-state.service';
 })
 export class AppComponent implements OnInit {
   title = 'smart-suite';
-
   @HostBinding('class.show-menu') showMenu = false;
+
   constructor(
     public uiState: UiStateService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private titleService: Title
+    private titleService: Title,
+    public viewContainerRef: ViewContainerRef
   ) {}
 
   ngOnInit() {
@@ -45,5 +46,9 @@ export class AppComponent implements OnInit {
           this.titleService.setTitle(`${title} - Smart Suite`);
         }
       });
+  }
+
+  showErrorUI() {
+    this.uiState.setErrorNotification('new error ' + String(new Date()));
   }
 }

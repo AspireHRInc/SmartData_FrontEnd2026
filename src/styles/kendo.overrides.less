@@ -337,25 +337,6 @@ button .info:focus-visible {
   flex-wrap: wrap;
 }
 
-// tooltip
-
-// kendo-popup.k-animation-container.k-animation-container-fixed.k-tooltip-wrapper.tool-tip.k-animation-container-shown {
-//   color: var(--color-primary-text);
-//   background-color: var(--color-background-secondary);
-//   box-shadow: var(--drop-shadow);
-//   box-shadow: 0px 4px 24px #bdc8d7;
-
-//   border-radius: 1rem;
-// }
-
-// kendo-tooltip.k-tooltip.k-widget {
-//   background-color: var(--color-background-primary);
-
-//   .k-callout.k-callout-w {
-//     color: var(--color-background-primary);
-//   }
-// }
-
 .tool-tip {
   background-color: var(--color-background-primary);
   max-width: calc(100vw - 2rem);
@@ -379,5 +360,48 @@ button .info:focus-visible {
 
   .k-tooltip-content {
     padding: 0.5rem;
+  }
+}
+
+// notifications
+.k-notification-wrap.k-hstack {
+  color: var(--color-background-primary);
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+span.k-icon.k-i-error.ng-star-inserted {
+  color: var(--color-background-primary);
+  font-size: 1.2rem;
+}
+
+.k-notification-content {
+  color: var(--color-background-primary);
+  font-size: 1.2rem;
+  span {
+    color: var(--color-background-primary);
+  }
+}
+
+.k-widget.k-notification.k-notification-error {
+  width: 100%;
+  padding: 1;
+  padding: 1rem;
+  background-color: var(--color-accent-3);
+  border-color: var(--color-accent-3);
+}
+
+.k-notification-wrap > .k-i-close {
+  font-size: 1.5rem;
+}
+
+.k-notification-group {
+  z-index: 1;
+
+  // hiding default notification button and manually adding accessible button
+  a.k-icon.k-i-close.ng-star-inserted {
+    display: none;
   }
 }

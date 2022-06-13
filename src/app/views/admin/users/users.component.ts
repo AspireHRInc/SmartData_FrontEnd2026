@@ -58,15 +58,11 @@ export class UsersComponent implements OnInit {
     this.usersExtended = this.userService.users;
 
     this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
-      // console.log(value);
       this.usersExtended = this.userService.filterUsers(this.searchField, this.filtersObj);
-      // console.log(this.usersExtended);
-      this.loadUserGroups();
+      // this.loadUserGroups();
     });
 
     this.filters = this.userService.userFilters;
-
-    // console.log(this.filtersObj['status']);
   }
 
   loadUserGroups() {
@@ -79,8 +75,14 @@ export class UsersComponent implements OnInit {
     event.preventDefault();
     event.cancelBubble = true;
 
-    this.userService.deactivateUser(userId);
-    this.loadUserGroups();
+    if (
+      event.type === 'click' ||
+      (event.type === 'keyup' &&
+        ((event as KeyboardEvent).code === 'Space' || (event as KeyboardEvent).code === 'Enter'))
+    ) {
+      this.userService.deactivateUser(userId);
+      // this.loadUserGroups();
+    }
   }
 
   reAddUser(event: Event, userId: string) {
@@ -89,7 +91,7 @@ export class UsersComponent implements OnInit {
     event.cancelBubble = true;
 
     this.userService.activateUser(userId);
-    this.loadUserGroups();
+    // this.loadUserGroups();
   }
 
   togglePendingRemoval(userIndex: number, userId: string) {
@@ -102,7 +104,6 @@ export class UsersComponent implements OnInit {
 
   onServiceFilter(event: any = '') {
     this.usersExtended = this.userService.filterUsers(this.searchField, this.filtersObj);
-    console.log(this.usersExtended);
   }
 
   getExtendedUsers(services: User[]): UserExtended[] {
@@ -153,7 +154,9 @@ export class UsersComponent implements OnInit {
   }
 
   editUser(event: Event, userId: string) {
-    console.log(event as KeyboardEvent);
+    event.stopPropagation();
+    event.preventDefault();
+    event.cancelBubble = true;
 
     if (
       event.type === 'click' ||

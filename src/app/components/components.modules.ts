@@ -41,6 +41,7 @@ import { FieldDateComponent } from './fields/field-date/field-date.component';
 import { CardComponent } from './card/card.component';
 
 import { MenuComponent } from './menu/menu.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   imports: [
@@ -78,6 +79,7 @@ import { MenuComponent } from './menu/menu.component';
     FieldDateComponent,
     CardComponent,
     MenuComponent,
+    NotificationComponent,
   ],
   exports: [
     KendoModule,
@@ -107,6 +109,7 @@ import { MenuComponent } from './menu/menu.component';
     FieldDateComponent,
     CardComponent,
     MenuComponent,
+    NotificationComponent,
   ],
 })
 export class ComponentsModules {}
