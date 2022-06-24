@@ -5,11 +5,6 @@ import { trigger, style, animate, transition } from '@angular/animations';
 import { User } from 'src/app/services/user.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
 
-// export enum HeaderType {
-//   'dashboard' = 'dashboard',
-//   'serviceDetail' = 'serviceDetail',
-// }
-
 @Component({
   selector: 'ss-header',
   templateUrl: './header.component.html',

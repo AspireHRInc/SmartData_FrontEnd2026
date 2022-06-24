@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@a
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 
-import { TagCategory, Tag } from '../../services/services.service';
+import { TagCategory } from '../../services/services.service';
 import { UiStateService } from '../../services/ui-state.service';
 
 import { Subject, debounceTime } from 'rxjs';
@@ -57,10 +57,6 @@ export class FiltersComponent implements OnInit {
 
     this.filters.reset();
   }
-
-  // AfterViewinit() {
-  //   this._renderer.setAttribute(elRef,'focus',true);
-  //   }
 
   @HostListener('window:resize', ['$event'])
   onWindowResize(e: Event) {

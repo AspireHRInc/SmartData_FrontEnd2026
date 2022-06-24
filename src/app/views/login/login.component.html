@@ -50,7 +50,6 @@
                 (keyup)="onKeyUp($event)"
               />
             </kendo-floatinglabel>
-            <!-- <kendo-formerror>Error: Email is required {{ messages }}</kendo-formerror> -->
             <div role="alert" class="k-form-error k-text-start ng-star-inserted">
               <ng-container
                 *ngIf="
@@ -80,7 +79,6 @@
                 (keyup)="onKeyUp($event)"
               />
             </kendo-floatinglabel>
-            <!-- <kendo-formerror>Error: Password is required {{ messages }}</kendo-formerror> -->
             <div role="alert" class="k-form-error k-text-start ng-star-inserted">
               <ng-container
                 *ngIf="
@@ -93,11 +91,6 @@
               &nbsp;{{ messages }}
             </div>
           </kendo-formfield>
-          <!-- <kendo-formerror *ngIf="messages">{{ messages }}</kendo-formerror> -->
-
-          <!-- <div role="alert" class="k-form-error k-text-start ng-star-inserted">
-            Error: Password is required {{ messages }}
-          </div> -->
           <button
             class="primary"
             (click)="signin()"
