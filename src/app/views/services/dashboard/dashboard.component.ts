@@ -7,7 +7,7 @@ import { ServicesService, ServiceCategory, Tag } from 'src/app/services/services
 import { UiStateService } from 'src/app/services/ui-state.service';
 
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 @Component({
   selector: 'ss-dashboard',
@@ -27,7 +27,8 @@ import { Subject } from 'rxjs';
   ],
 })
 export class DashboardComponent implements OnInit {
-  loggedInUserObj = new User();
+  // loggedInUserObj = new User();
+  loggedInUserObj$: Observable<User> = this.userService.loggedInUserObj$;
   services: ServiceCategory[] = [];
   allServices: ServiceCategory[] = [];
 
@@ -51,8 +52,6 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loggedInUserObj = this.userService.loggedInUserObj!;
-
     this.services = [...this.servicesService.getServices()];
 
     this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {

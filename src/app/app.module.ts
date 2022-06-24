@@ -39,6 +39,7 @@ import { UsersComponent } from './views/admin/users/users.component';
 import { RemoveGroupConfirmComponent } from './views/admin/remove-group-confirm/remove-group-confirm.component';
 import { UserDetailComponent } from './views/admin/user-detail/user-detail.component';
 import { NotificationModule, NOTIFICATION_CONTAINER } from '@progress/kendo-angular-notification';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { NotificationModule, NOTIFICATION_CONTAINER } from '@progress/kendo-angu
     ReactiveFormsModule,
     HttpClientModule,
     NotificationModule,
+    GraphQLModule,
   ],
   providers: [
     {

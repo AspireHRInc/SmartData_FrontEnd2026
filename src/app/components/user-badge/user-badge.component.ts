@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, OnInit } from '@angular/core';
+import { Component, Input, HostBinding, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 import { User } from 'src/app/services/user.service';
 import { ColorService } from 'src/app/services/color.service';
 
@@ -9,7 +9,8 @@ import { ColorService } from 'src/app/services/color.service';
   host: { class: 'user-badge' },
 })
 export class UserBadgeComponent implements OnInit {
-  @Input() user: User = new User();
+  // @Input() user: User = new User();
+  badgeUser: User = new User();
   @HostBinding('class.double-border') @Input() doubleBorder: boolean = false;
   @HostBinding('style.outline-color') outlineColor = '';
 
@@ -19,6 +20,16 @@ export class UserBadgeComponent implements OnInit {
 
   @Input() fontSize: string = '';
 
+  // private _userObj: User = new User;
+  @Input() set user(user: User) {
+    if (user !== null) {
+      this.badgeUser = user;
+      this.fullName = (user.firstName ?? '') + (user.lastName ?? '');
+      this.outlineColor = this.calculateBGColor(this.fullName);
+      this.bgColor = this.calculateBGColor(this.fullName);
+    }
+  }
+
   bgColor: string = '';
   fullName: string = '';
 
@@ -27,9 +38,6 @@ export class UserBadgeComponent implements OnInit {
   ngOnInit(): void {
     this.height = this.size;
     this.width = this.size;
-    this.fullName = `${this.user.firstName} ${this.user.lastName}`;
-    this.outlineColor = this.calculateBGColor(this.fullName);
-    this.bgColor = this.calculateBGColor(this.fullName);
   }
 
   calculateBGColor(fullName: string): string {

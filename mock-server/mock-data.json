@@ -13,7 +13,7 @@
           "name": "Super Administrator"
         }
       ],
-      "active": true,
+      "active": false,
       "profilePic": "/assets/users/esther-neal.jpg"
     },
     {
@@ -77,7 +77,7 @@
           "name": "Recruiting Process Administrator"
         }
       ],
-      "active": true,
+      "active": false,
       "profilePic": "/assets/users/steven-fuller.jpg"
     },
     {
@@ -183,7 +183,7 @@
           "name": "Recruiting Users"
         }
       ],
-      "active": true
+      "active": false
     },
     {
       "id": "13",
@@ -216,16 +216,50 @@
       "active": true
     },
     {
-      "name": "Jose",
-      "email": "Phillips",
-      "age": "josep@email.com",
-      "id": "fZQtw7A"
+      "firstName": "Jilly",
+      "lastName": "Hall",
+      "email": "jhall@gmail.com",
+      "phone": "1231231234",
+      "permission": "",
+      "profilePic": "",
+      "active": true,
+      "id": "eiB3yq4",
+      "userGroups": [
+        {
+          "id": "3",
+          "name": "Recruiting Users"
+        }
+      ]
     },
     {
-      "name": "Joseph",
-      "email": "Dandy",
-      "age": "josephd@email.com",
-      "id": "5tNqKHI"
+      "firstName": "June",
+      "lastName": "Bug",
+      "email": "jhall@gmail.com",
+      "phone": "1231231234",
+      "permission": "",
+      "profilePic": "",
+      "active": true,
+      "id": "YMyIW-P"
+    },
+    {
+      "firstName": "Jilly",
+      "lastName": "Hall",
+      "email": "jhall@gmail.com",
+      "phone": "1231231234",
+      "permission": "",
+      "profilePic": "",
+      "active": true,
+      "id": "8XcQfKx"
+    },
+    {
+      "firstName": "Jilly2",
+      "lastName": "Hall",
+      "email": "jhall@gmail.com",
+      "phone": "1231231234",
+      "permission": "",
+      "profilePic": "",
+      "active": true,
+      "id": "DFTVTnz"
     }
   ],
   "userGroups": [
@@ -293,5 +327,243 @@
         }
       ]
     }
+  ],
+  "serviceRuns": [
+    [
+      {
+        "ParameterName": "TargetSystem",
+        "ParameterType": "Selection",
+        "Caption": "Target System",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "Options": [
+          {
+            "Pvalue": "System 1",
+            "Plabel": "System 1"
+          },
+          {
+            "Pvalue": "System 2",
+            "Plabel": "System 2"
+          }
+        ],
+        "DisplayOrder": 1000,
+        "value": {
+          "Pvalue": "System 2",
+          "Plabel": "System 2"
+        }
+      },
+      {
+        "ParameterName": "UserFile1",
+        "ParameterType": "File",
+        "Caption": "User File",
+        "Required": true,
+        "DefaultValue": "DefaultFilename.xlsx",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "UploadSaveUrl": "saveUrl",
+        "UploadRemoveUrl": "removeUrl",
+        "DisplayOrder": 5010,
+        "value": [
+          {
+            "extension": ".jpg",
+            "name": "04-02.jpg",
+            "rawFile": {},
+            "size": 235171,
+            "state": 3,
+            "uid": "55048cfb-2f08-4c95-9602-9b863542a77a",
+            "httpSubscription": {
+              "closed": true,
+              "_parentage": null,
+              "_teardowns": null,
+              "isStopped": true,
+              "destination": null
+            }
+          }
+        ]
+      },
+      {
+        "ParameterName": "UserName",
+        "ParameterType": "Text",
+        "Caption": "User Name",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "DisplayOrder": 1010,
+        "value": "kjjkhkhjjhh"
+      },
+      {
+        "ParameterName": "Password",
+        "Caption": "Password",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "Password",
+        "DisplayOrder": 1020,
+        "value": "lkjlkj"
+      },
+      {
+        "ParameterName": "PostingDate",
+        "Caption": "Posting Date for External Posting (MM/DD/YYYY)",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "Date",
+        "DisplayOrder": 1030,
+        "value": "2022-06-07T07:00:00.000Z"
+      },
+      {
+        "ParameterName": "SampleCheckbox",
+        "Caption": "Sample Checkbox",
+        "Required": false,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "CheckBox",
+        "DisplayOrder": 1030,
+        "value": ""
+      },
+      {
+        "ParameterName": "PositionFilter",
+        "Caption": "Position Filter (User * for all)",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "Text",
+        "DisplayOrder": 1040,
+        "value": "lkjklj"
+      },
+      {
+        "ParameterName": "Comment",
+        "ParameterType": "Text",
+        "Caption": "Comment",
+        "Required": false,
+        "DefaultValue": "",
+        "HelpText": "",
+        "DisplayOrder": 1010,
+        "value": ""
+      },
+      {
+        "ParameterName": "Comment",
+        "ParameterType": "Text",
+        "Caption": "Comment",
+        "Required": false,
+        "DefaultValue": "",
+        "HelpText": "",
+        "DisplayOrder": 1010,
+        "value": ""
+      }
+    ],
+    [
+      {
+        "ParameterName": "TargetSystem",
+        "ParameterType": "Selection",
+        "Caption": "Target System",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "Options": [
+          {
+            "Pvalue": "System 1",
+            "Plabel": "System 1"
+          },
+          {
+            "Pvalue": "System 2",
+            "Plabel": "System 2"
+          }
+        ],
+        "DisplayOrder": 1000,
+        "value": {
+          "Pvalue": "System 1",
+          "Plabel": "System 1"
+        }
+      },
+      {
+        "ParameterName": "UserFile1",
+        "ParameterType": "File",
+        "Caption": "User File",
+        "Required": true,
+        "DefaultValue": "DefaultFilename.xlsx",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "UploadSaveUrl": "saveUrl",
+        "UploadRemoveUrl": "removeUrl",
+        "DisplayOrder": 5010,
+        "value": [
+          {
+            "extension": ".jpg",
+            "name": "04-01.jpg",
+            "rawFile": {},
+            "size": 409850,
+            "state": 3,
+            "uid": "96d6b421-ce87-41a3-b482-b0e71170234f",
+            "httpSubscription": {
+              "closed": true,
+              "_parentage": null,
+              "_teardowns": null,
+              "isStopped": true,
+              "destination": null
+            }
+          }
+        ]
+      },
+      {
+        "ParameterName": "UserName",
+        "ParameterType": "Text",
+        "Caption": "User Name",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "DisplayOrder": 1010,
+        "value": "User"
+      },
+      {
+        "ParameterName": "Password",
+        "Caption": "Password",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "Password",
+        "DisplayOrder": 1020,
+        "value": "12345"
+      },
+      {
+        "ParameterName": "PostingDate",
+        "Caption": "Posting Date for External Posting (MM/DD/YYYY)",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "Date",
+        "DisplayOrder": 1030,
+        "value": "2022-05-13T07:00:00.000Z"
+      },
+      {
+        "ParameterName": "SampleCheckbox",
+        "Caption": "Sample Checkbox",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "CheckBox",
+        "DisplayOrder": 1030,
+        "value": false
+      },
+      {
+        "ParameterName": "PositionFilter",
+        "Caption": "Position Filter (User * for all)",
+        "Required": true,
+        "DefaultValue": "",
+        "HelpText": "Lorem ipsum quia dolor sit amet consectetur adipisci velit sed qu ia nonnumquam eiusmodi empora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+        "ParameterType": "Text",
+        "DisplayOrder": 1040,
+        "value": "lkjklj"
+      },
+      {
+        "ParameterName": "Comment",
+        "ParameterType": "Text",
+        "Caption": "Comment",
+        "Required": false,
+        "DefaultValue": "",
+        "HelpText": "",
+        "DisplayOrder": 1010,
+        "value": ""
+      }
+    ]
   ]
 }

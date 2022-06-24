@@ -1,9 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-// import { User } from 'src/app/models/user.model';
-// import { ApplicationService } from '../services/application.service';
-// import { UserService } from '../services/user.service';
+
 import { UiStateService } from 'src/app/services/ui-state.service';
-import { UserService } from 'src/app/services/user.service';
+import { UserService, User } from 'src/app/services/user.service';
 
 @Component({
   selector: 'ss-menu',
@@ -16,6 +14,8 @@ export class MenuComponent implements OnInit {
     this.uiState.closeMenu();
   }
 
+  loggedInUserObj = new User();
+
   public navigationItems: any;
 
   constructor(
@@ -24,7 +24,11 @@ export class MenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.userService.loggedInUserObj!.userGroups!.filter(userGroup => userGroup.name === 'Admin').length > 0) {
+    this.userService.loggedInUserObj$.subscribe(user => {
+      this.loggedInUserObj = user;
+    });
+
+    if (this.loggedInUserObj!.userGroups!.filter(userGroup => userGroup.name === 'Admin').length > 0) {
       this.navigationItems = [
         { title: 'Home', url: '/services/dashboard', icon: 'home' },
         { title: 'Job Search', url: '/services/dashboard', icon: 'search' },

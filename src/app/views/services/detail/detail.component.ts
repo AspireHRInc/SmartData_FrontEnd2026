@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { UserService, User } from 'src/app/services/user.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
 import { ServicesService, ServiceCategory, Tag } from 'src/app/services/services.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ss-detail',
@@ -12,7 +13,8 @@ import { ServicesService, ServiceCategory, Tag } from 'src/app/services/services
   styleUrls: ['./detail.component.less'],
 })
 export class DetailComponent implements OnInit {
-  loggedInUserObj = new User();
+  // loggedInUserObj = new User();
+  loggedInUserObj$: Observable<User> = this.userService.loggedInUserObj$;
   showCreateNewRun = true;
   currentServiceId = '';
   currentServiceName = '';
@@ -27,7 +29,7 @@ export class DetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loggedInUserObj = this.userService.loggedInUserObj!;
+    // this.loggedInUserObj = this.userService.loggedInUserObj!;
     // console.log(this.route.snapshot.params['id']);
     this.currentServiceId = this.route.snapshot.params['id'];
 

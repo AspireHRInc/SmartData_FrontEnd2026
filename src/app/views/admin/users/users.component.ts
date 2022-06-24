@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { UserService, User, UserGroups } from 'src/app/services/user.service';
@@ -32,8 +32,7 @@ import { UserExtended } from '../admin.component';
   ],
 })
 export class UsersComponent implements OnInit {
-  loggedInUserObj = new User();
-
+  loggedInUserObj$: Observable<User> = this.userService.loggedInUserObj$;
   users: User[] = [];
   usersExtended: UserExtended[] = [];
 
@@ -52,10 +51,15 @@ export class UsersComponent implements OnInit {
   constructor(public userService: UserService, public uiState: UiStateService) {}
 
   ngOnInit(): void {
-    this.loggedInUserObj = this.userService.loggedInUserObj!;
-    this.users = this.userService.users;
+    // this.users = this.userService.users;
+    this.userService.users$.subscribe(users => {
+      this.users = users;
+      this.usersExtended = users.map(user => {
+        return { ...user, pendingRemoval: false };
+      });
+    });
 
-    this.usersExtended = this.userService.users;
+    // this.usersExtended = this.userService.users;
 
     this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
       this.usersExtended = this.userService.filterUsers(this.searchField, this.filtersObj);

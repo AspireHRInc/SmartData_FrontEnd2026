@@ -5,8 +5,18 @@ const {
     GraphQLInt,
     GraphQLSchema,
     GraphQLList,
-    GraphQLNonNull
+    GraphQLNonNull,
+    GraphQLBoolean
 } = require('graphql');
+
+const UserGroupType = new GraphQLObjectType({
+  name:'UserGroup',
+  fields:() => ({
+    id: {type:GraphQLString},
+    name: {type:GraphQLString}
+  })
+
+})
 
 // EXAMPLE REQUESTS
 
@@ -22,22 +32,63 @@ const {
 
 // GET USERS
 // {
-//   users{
-//     id,
-//     firstName,
-//     lastName,
+//   users {
+//     id
+//     firstName
+//     lastName
+//     phone
+//     email
+//     permission
+//     userGroups{
+//       id
+//       name
+//     }
+//     profilePic
+//     active
 //   }
 // }
 
 
 // ADD USER
-// mutation{
+
+// mutation {
 //   addUser(
-//     firstName: "Joseph"
-//     lastName: "Dandy"
-//     email: "josephd@email.com"
-// ) {
+//       firstName: "Jilly",
+//       lastName: "Hall",
+//       email: "jhall@gmail.com",
+//       phone: "1231231234",
+//       permission: "",
+//       profilePic: "",
+//       active: true)
+//   {
 //     id
+//     firstName
+//     lastName
+//     email
+//   }
+// }
+
+
+// DELETE USER
+
+// mutation {
+//   deleteUser(
+//       id: "w8MpdeH")
+//   {
+//     id
+//     firstName
+//     lastName
+//     email
+//   }
+// }
+
+
+// USE MUTATION TO SET USER ACTIVE/INACTIVE
+
+// mutation {
+// 	toggleUserActive(id: "w8MpdeH", active: true) {
+//     id,
+//     active
 //   }
 // }
 
@@ -52,8 +103,9 @@ const UserType = new GraphQLObjectType({
       phone: {type: GraphQLString},
       email: {type: GraphQLString},
       permission: {type: GraphQLString},
+      userGroups: {type: new GraphQLList(UserGroupType)},
       profilePic: {type: GraphQLString},
-      active: {type: GraphQLString},
+      active: {type: GraphQLBoolean},
   })
 });
 
@@ -90,12 +142,22 @@ const mutation = new GraphQLObjectType({
                 firstName: {type: new GraphQLNonNull(GraphQLString)},
                 lastName: {type: new GraphQLNonNull(GraphQLString)},
                 email: {type: new GraphQLNonNull(GraphQLString)},
+                phone: {type: GraphQLString},
+                permission: {type: GraphQLString},
+                // userGroups: {type: GraphQLList(UserGroupType)},
+                profilePic: {type: GraphQLString},
+                active: {type: GraphQLBoolean},
             },
             resolve(parentValue, args){
                 return axios.post('http://localhost:3000/users', {
-                    name:args.firstName,
-                    email: args.lastName,
-                    age:args.email
+                    id: args.id,
+                    firstName:args.firstName,
+                    lastName: args.lastName,
+                    email: args.email,
+                    phone: args.phone,
+                    permission: args.permission,
+                    profilePic: args.profilePic,
+                    active: args.active
                 })
                 .then(res => res.data);
             }
@@ -111,12 +173,20 @@ const mutation = new GraphQLObjectType({
             }
         },
         editUser:{
+          type:UserType,
+          args:{
+              id:{type: new GraphQLNonNull(GraphQLString)},
+          },
+          resolve(parentValue, args){
+              return axios.patch('http://localhost:3000/users/'+args.id, args)
+              .then(res => res.data);
+          }
+      },
+        toggleUserActive:{
             type:UserType,
             args:{
                 id:{type: new GraphQLNonNull(GraphQLString)},
-                firstName: {type: GraphQLString},
-                lastName: {type: GraphQLString},
-                email: {type: GraphQLString},
+                active: {type: GraphQLBoolean},
             },
             resolve(parentValue, args){
                 return axios.patch('http://localhost:3000/users/'+args.id, args)

@@ -2,7 +2,7 @@
   [headerTitle]="currentServiceName + ' Record'"
   headerSubtitle=""
   type="serviceDetail"
-  [headerUserObject]="loggedInUserObj"
+  [headerUserObject]="(loggedInUserObj$ | async)!"
 ></ss-header>
 
 <div class="content-wrapper">

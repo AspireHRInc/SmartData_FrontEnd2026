@@ -6,7 +6,7 @@
   (editUser)="onEditUser($event)"
 ></ss-user-detail>
 
-<ss-header headerTitle="Company Admin" type="admin" [headerUserObject]="loggedInUserObj"></ss-header>
+<ss-header headerTitle="Company Admin" type="admin" [headerUserObject]="(loggedInUserObj$ | async)!"></ss-header>
 
 <ss-navigation-buttons>
   <ss-navigation-button label="Setup Users" class="active"></ss-navigation-button>
@@ -88,13 +88,7 @@
     </div>
   </ng-template>
   <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst" let-index="index">
-    <div
-      class="user"
-      [@listItemInOutAnimation]
-      tabindex="0"
-      (click)="editUser($event, dataItem.id)"
-      (keyup)="editUser($event, dataItem.id)"
-    >
+    <div class="user" tabindex="0" (click)="editUser($event, dataItem.id)" (keyup)="editUser($event, dataItem.id)">
       <div class="info">
         <ss-user-badge [user]="dataItem"></ss-user-badge>
         <h2 class="title">{{ dataItem.firstName + ' ' + dataItem.lastName }}</h2>

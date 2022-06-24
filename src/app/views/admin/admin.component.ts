@@ -6,7 +6,7 @@ import { UserService, User, UserGroups } from 'src/app/services/user.service';
 import { ServicesService, Service, Environment, Environments } from 'src/app/services/services.service';
 import { UiStateService } from '../../services/ui-state.service';
 
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 // import { group } from 'console';
 
@@ -40,7 +40,7 @@ export class UserGroupsExtended extends UserGroups {
   ],
 })
 export class AdminComponent implements OnInit {
-  loggedInUserObj = new User();
+  loggedInUserObj$: Observable<User> = this.userService.loggedInUserObj$;
   userGroups: UserGroups[] = [];
   userGroupsExtended: UserGroupsExtended[] = [];
   detailsOpen = -1;
@@ -72,7 +72,6 @@ export class AdminComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loggedInUserObj = this.userService.loggedInUserObj!;
     this.userGroups = this.userService.userGroups;
     this.loadUserGroups();
 

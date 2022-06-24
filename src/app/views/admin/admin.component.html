@@ -9,7 +9,7 @@
   [group]="currentUserGroupToAddUser"
   (onSaveUserToGroup)="saveUserToGroup($event)"
 ></ss-user-detail>
-<ss-header headerTitle="Company Admin" type="admin" [headerUserObject]="loggedInUserObj"></ss-header>
+<ss-header headerTitle="Company Admin" type="admin" [headerUserObject]="(loggedInUserObj$ | async)!"></ss-header>
 
 <ss-navigation-buttons>
   <ss-navigation-button label="Setup Users" class="active" (click)="onSetupUsers()"></ss-navigation-button>

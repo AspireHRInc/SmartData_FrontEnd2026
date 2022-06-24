@@ -58,7 +58,6 @@ export class UiStateService {
   }
 
   setIdServiceDetailId(id: string) {
-    console.log('set detail id', id);
     this.serviceDetailId.next(id);
   }
 
@@ -137,11 +136,6 @@ export class UiStateService {
   hideConfirmUserGroupDelete() {
     this.confirmUserGroupDeleteOpen.next(false);
   }
-
-  // setCurrentUserGroupDeleteId(id: string) {
-  //   console.log('ser user group delete', id);
-  //   this.currentUserGroupDeleteId.next(id);
-  // }
 
   showUserDetail() {
     this.userDetailOpen.next(true);
