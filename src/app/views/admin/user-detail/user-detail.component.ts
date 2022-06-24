@@ -17,7 +17,6 @@ export class UserDetailComponent implements OnInit {
   @Input() user: User = new User();
   @Input() title = '';
   @Input() group = '';
-  // @Output() onSave = new EventEmitter<void>();
   @Output() addUser = new EventEmitter<User>();
   @Output() editUser = new EventEmitter<User>();
   @Output() onSaveUserToGroup = new EventEmitter<User>();

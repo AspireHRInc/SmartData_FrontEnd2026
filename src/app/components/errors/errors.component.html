@@ -1,0 +1,6 @@
+<ss-error
+  *ngFor="let message of messages; let i = index"
+  [message]="message.message"
+  [id]="message.id"
+  (close)="onClose($event)"
+></ss-error>

@@ -49,6 +49,6 @@ export class AppComponent implements OnInit {
   }
 
   showErrorUI() {
-    this.uiState.setErrorNotification('new error ' + String(new Date()));
+    this.uiState.setErrorNotification(String(new Date()));
   }
 }

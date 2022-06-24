@@ -25,7 +25,6 @@ export class ConfirmComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.currentSetup = Object.entries(this.serviceSetup.currentServiceSetup);
     this.currentSetup = this.serviceSetup.currentServiceSetup;
   }
 

@@ -41,9 +41,6 @@ export class UiStateService {
   private userDetailOpen = new BehaviorSubject<boolean>(false);
   userDetailOpen$ = this.userDetailOpen.asObservable();
 
-  // private currentUserGroupDeleteId = new BehaviorSubject<string>('');
-  // currentUserGroupDeleteId$ = this.currentUserGroupDeleteId.asObservable();
-
   private errorNotification = new BehaviorSubject<string>('');
   errorNotification$ = this.errorNotification.asObservable();
 
@@ -58,7 +55,6 @@ export class UiStateService {
   }
 
   setIdServiceDetailId(id: string) {
-    console.log('set detail id', id);
     this.serviceDetailId.next(id);
   }
 
@@ -137,11 +133,6 @@ export class UiStateService {
   hideConfirmUserGroupDelete() {
     this.confirmUserGroupDeleteOpen.next(false);
   }
-
-  // setCurrentUserGroupDeleteId(id: string) {
-  //   console.log('ser user group delete', id);
-  //   this.currentUserGroupDeleteId.next(id);
-  // }
 
   showUserDetail() {
     this.userDetailOpen.next(true);

@@ -16,7 +16,6 @@ export class TilesTileComponent implements OnInit {
   @Input() tabIndex = 0;
 
   @HostBinding('attr.role') ariaRole = 'button';
-  // @HostBinding('attr.aria-label') ariaLabel = 'Setup Service';
 
   favorite = false;
 

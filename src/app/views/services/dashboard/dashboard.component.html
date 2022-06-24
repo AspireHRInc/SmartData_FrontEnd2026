@@ -1,4 +1,8 @@
-<ss-header headerTitle="Hello." headerSubtitle="Select Your Process" [headerUserObject]="loggedInUserObj"></ss-header>
+<ss-header
+  headerTitle="Hello."
+  headerSubtitle="Select Your Process"
+  [headerUserObject]="(loggedInUserObj$ | async)!"
+></ss-header>
 <ss-filters [data]="servicesService.allTags" (selectedFilters)="onFiltersSelected($event)"></ss-filters>
 <main class="dashboard">
   <div class="controls">

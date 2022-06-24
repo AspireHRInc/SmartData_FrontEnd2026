@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { File } from './file.service';
+
 import { UserService } from './user.service';
 import servicesRunData from './service-run.data.json';
 
@@ -181,7 +181,6 @@ export class ServiceRunService {
 
       this.currentServicesRuns = [
         ...this.currentServicesRuns.filter(run => {
-          // let tags = service.metaTags.map(tag => tag.name);
           return searchStringArr.every(
             searchWord =>
               run.serviceName.toLocaleLowerCase().includes(searchWord) ||

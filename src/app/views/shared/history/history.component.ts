@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, HostListener, ElementRef, ViewChildren, Q
 import { trigger, style, animate, transition } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { UserService, User } from 'src/app/services/user.service';
@@ -66,7 +66,7 @@ export class HistoryComponent implements OnInit {
     }
   }
 
-  loggedInUserObj = new User();
+  loggedInUserObj$: Observable<User> = this.userService.loggedInUserObj$;
   serviceRunsRaw: ServiceRun[] = [];
   serviceRuns: ServiceRunExtended[] = [];
   searchField = '';
@@ -102,8 +102,6 @@ export class HistoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loggedInUserObj = this.userService.loggedInUserObj!;
-
     if (this.router.url.indexOf('/services/history') > -1) {
       this.allServicesHistory = true;
       this.serviceId = 'all';
@@ -112,7 +110,6 @@ export class HistoryComponent implements OnInit {
 
     this.route.parent!.params.subscribe(params => {
       if (params['id']) {
-        console.log('params id: ', params['id']);
         this.serviceId = params['id'];
         this.serviceRunService.currentServiceRunsId = params['id'];
       }

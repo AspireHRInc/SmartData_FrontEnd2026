@@ -36,9 +36,6 @@ export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDea
       this.serviceId = params['id'];
       this.uiState.setIdServiceDetailId(params['id']);
     });
-    console.log(this.serviceId);
-    console.log(this.uiState.getIdServiceDetailId);
-
     this.serviceSetupFields = this.serviceSetup.getServiceSetup(this.serviceId);
   }
 

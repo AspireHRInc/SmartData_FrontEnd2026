@@ -1,6 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+
+import { Apollo, gql } from 'apollo-angular';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import userData from './user.data.json';
-import { Service, Environments } from './services.service';
+import { Environments } from './services.service';
 import { FilterGroup, Filter } from './service-run.service';
 
 export class User {
@@ -41,6 +46,7 @@ export class Filters {
 })
 export class UserService {
   users: User[] = userData.users;
+  users$: Observable<User[]>;
   userGroups: UserGroups[] = userData.userGroups.map(userGroup => {
     return {
       ...userGroup,
@@ -51,7 +57,8 @@ export class UserService {
   userFilters: FilterGroup[] = userData.userFilters;
 
   loggedInUserId = '10';
-  loggedInUserObj = this.getUserById(this.loggedInUserId);
+
+  loggedInUserObj$: Observable<User>;
 
   currentUserGroups: UserGroups[] = [...this.userGroups];
 
@@ -59,7 +66,58 @@ export class UserService {
 
   filtersActive = false;
 
-  constructor() {}
+  constructor(private apollo: Apollo, private zone: NgZone) {
+    this.loggedInUserObj$ = this.apollo
+      .watchQuery({
+        query: gql`
+            {
+              user(id: "${this.loggedInUserId}") {
+                id,
+                firstName,
+                lastName,
+                phone,
+                email,
+                permission,
+                userGroups{
+                  id,
+                  name
+                },
+                profilePic,
+                active,
+              }
+            }
+          `,
+      })
+      .valueChanges.pipe(map((result: any) => result?.data?.user));
+
+    this.users$ = this.apollo
+      .watchQuery({
+        query: gql`
+          {
+            users {
+              id
+              firstName
+              lastName
+              phone
+              email
+              permission
+              userGroups {
+                id
+                name
+              }
+              profilePic
+              active
+            }
+          }
+        `,
+      })
+      .valueChanges.pipe(
+        map((result: any) => {
+          console.log('users value change');
+          return result?.data?.users;
+        })
+      );
+  }
 
   getUserById(id: string) {
     return this.users.find(user => user.id === id);
@@ -181,7 +239,9 @@ export class UserService {
         }),
       ];
     }
-
+    console.log(this.users);
+    console.log(this.currentUsers);
+    console.log(filters['user groups']);
     if (filters['user groups'].length > 0) {
       this.currentUsers = [
         ...this.currentUsers.filter(user => {
@@ -218,15 +278,37 @@ export class UserService {
   }
 
   deactivateUser(userId: string) {
-    // TODO: deactivate user
     let userIndex = this.users.findIndex(user => user.id === userId);
     this.users[userIndex].active = false;
+
+    this.apollo
+      .mutate({
+        mutation: gql`mutation {
+          toggleUserActive(id: "${userId}", active: false) {
+            id,
+            active
+          }
+        }
+      `,
+      })
+      .subscribe();
   }
 
   activateUser(userId: string) {
-    // TODO: activate user
     let userIndex = this.users.findIndex(user => user.id === userId);
     this.users[userIndex].active = true;
+
+    this.apollo
+      .mutate({
+        mutation: gql`mutation {
+        toggleUserActive(id: "${userId}", active: true) {
+          id,
+          active
+        }
+      }
+    `,
+      })
+      .subscribe();
   }
 
   getUsers(): User[] {

@@ -19,10 +19,6 @@ export class StatusBadgeComponent implements OnInit {
 
   colorFromStringColor = '';
 
-  // getColorFromString() {
-  //   return ColorService.StringToHslColor(this.title);
-  // }
-
   ngOnInit(): void {
     if (this.colorFromString) {
       this.colorFromStringColor = ColorService.StringToHslColor(this.title);

@@ -1,19 +1,28 @@
-<ng-container *ngIf="user.profilePic !== '' && user.profilePic !== undefined">
+<ng-container
+  *ngIf="
+    badgeUser !== null &&
+    badgeUser.profilePic !== '' &&
+    badgeUser.profilePic !== undefined &&
+    badgeUser.profilePic !== null
+  "
+>
   <img
     class="profile-pic"
-    [src]="user.profilePic"
-    [alt]="user.firstName + ' ' + user.lastName"
-    [attr.aria-label]="'user icon: ' + user.firstName + ' ' + user.lastName"
+    [src]="badgeUser.profilePic"
+    [alt]="badgeUser.firstName + ' ' + badgeUser.lastName"
+    [attr.aria-label]="'user icon: ' + badgeUser.firstName + ' ' + badgeUser.lastName"
   />
 </ng-container>
 
-<ng-container *ngIf="user.profilePic === '' || user.profilePic === undefined">
+<ng-container
+  *ngIf="badgeUser.profilePic === '' || badgeUser.profilePic === undefined || badgeUser.profilePic === null"
+>
   <p
     class="initials"
     [ngStyle]="{ 'background-color': this.bgColor }"
     [style.font-size]="fontSize"
-    [attr.aria-label]="'user icon: ' + user.firstName + ' ' + user.lastName"
+    [attr.aria-label]="'user icon: ' + badgeUser.firstName + ' ' + badgeUser.lastName"
   >
-    {{ user.firstName | slice: 0:1 }}{{ user.lastName | slice: 0:1 }}
+    {{ badgeUser.firstName | slice: 0:1 }}{{ badgeUser.lastName | slice: 0:1 }}
   </p>
 </ng-container>
