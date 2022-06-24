@@ -26,8 +26,6 @@ import { FiltersComponent } from './filters/filters.component';
 import { NavigationButtonsComponent } from './navigation-buttons/navigation-buttons.component';
 import { NavigationButtonComponent } from './navigation-button/navigation-button.component';
 import { StatusDotComponent } from './status-dot/status-dot.component';
-import { StatusProgressBarComponent } from './status-progress-bar/status-progress-bar.component';
-import { ListItemServiceRunComponent } from './list-item-service-run/list-item-service-run.component';
 import { FieldTextComponent } from './fields/field-text/field-text.component';
 import { FieldFileComponent } from './fields/field-file/field-file.component';
 import { FieldSelectComponent } from './fields/field-select/field-select.component';
@@ -67,8 +65,6 @@ import { ErrorsComponent } from './errors/errors.component';
     NavigationButtonsComponent,
     NavigationButtonComponent,
     StatusDotComponent,
-    StatusProgressBarComponent,
-    ListItemServiceRunComponent,
     FieldTextComponent,
     FieldFileComponent,
     FieldSelectComponent,
@@ -98,8 +94,6 @@ import { ErrorsComponent } from './errors/errors.component';
     NavigationButtonsComponent,
     NavigationButtonComponent,
     StatusDotComponent,
-    StatusProgressBarComponent,
-    ListItemServiceRunComponent,
     FieldTextComponent,
     FieldFileComponent,
     FieldSelectComponent,

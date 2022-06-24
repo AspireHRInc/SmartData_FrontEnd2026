@@ -46,12 +46,4 @@ export class MenuComponent implements OnInit {
       ];
     }
   }
-
-  // closeNav() {
-  //   this.uiState.closeMenu();
-  // }
-
-  // navigate(url: string) {
-  //   this.router.navigate(url)
-  // }
 }

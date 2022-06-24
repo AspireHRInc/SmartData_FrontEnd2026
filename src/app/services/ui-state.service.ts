@@ -41,9 +41,6 @@ export class UiStateService {
   private userDetailOpen = new BehaviorSubject<boolean>(false);
   userDetailOpen$ = this.userDetailOpen.asObservable();
 
-  // private currentUserGroupDeleteId = new BehaviorSubject<string>('');
-  // currentUserGroupDeleteId$ = this.currentUserGroupDeleteId.asObservable();
-
   private errorNotification = new BehaviorSubject<string>('');
   errorNotification$ = this.errorNotification.asObservable();
 

@@ -88,7 +88,6 @@ export class AdminComponent implements OnInit {
   }
 
   loadUserGroups() {
-    // this.userGroups = this.userService.userGroups;
     this.userGroupsExtended = this.userGroups.map(userGroup => {
       return { ...userGroup, users: this.userService.getUserGroupUsers(userGroup.id) };
     });

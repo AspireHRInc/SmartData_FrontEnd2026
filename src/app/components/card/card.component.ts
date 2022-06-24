@@ -9,7 +9,6 @@ import { Component, OnInit, Input, HostBinding } from '@angular/core';
 export class CardComponent implements OnInit {
   @Input() title = '';
   @Input() step = '';
-  // @Input() maxWidth = '600px';
 
   @HostBinding('style.max-width') @Input() maxWidth: string = '600px';
 

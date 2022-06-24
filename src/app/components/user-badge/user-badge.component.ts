@@ -9,7 +9,6 @@ import { ColorService } from 'src/app/services/color.service';
   host: { class: 'user-badge' },
 })
 export class UserBadgeComponent implements OnInit {
-  // @Input() user: User = new User();
   badgeUser: User = new User();
   @HostBinding('class.double-border') @Input() doubleBorder: boolean = false;
   @HostBinding('style.outline-color') outlineColor = '';
@@ -20,7 +19,6 @@ export class UserBadgeComponent implements OnInit {
 
   @Input() fontSize: string = '';
 
-  // private _userObj: User = new User;
   @Input() set user(user: User) {
     if (user !== null) {
       this.badgeUser = user;

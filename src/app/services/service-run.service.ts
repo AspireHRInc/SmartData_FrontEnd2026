@@ -181,7 +181,6 @@ export class ServiceRunService {
 
       this.currentServicesRuns = [
         ...this.currentServicesRuns.filter(run => {
-          // let tags = service.metaTags.map(tag => tag.name);
           return searchStringArr.every(
             searchWord =>
               run.serviceName.toLocaleLowerCase().includes(searchWord) ||

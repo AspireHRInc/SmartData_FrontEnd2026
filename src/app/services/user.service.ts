@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import userData from './user.data.json';
-import { Service, Environments } from './services.service';
+import { Environments } from './services.service';
 import { FilterGroup, Filter } from './service-run.service';
 
 export class User {
@@ -57,10 +57,7 @@ export class UserService {
   userFilters: FilterGroup[] = userData.userFilters;
 
   loggedInUserId = '10';
-  // loggedInUserObj = this.getUserById(this.loggedInUserId);
 
-  // graphql implementation
-  // loggedInUserObj: User = new User();
   loggedInUserObj$: Observable<User>;
 
   currentUserGroups: UserGroups[] = [...this.userGroups];
@@ -120,58 +117,7 @@ export class UserService {
           return result?.data?.users;
         })
       );
-
-    // this.apollo
-    //   .watchQuery({
-    //     query: gql`
-    //       {
-    //         users {
-    //           id
-    //           firstName
-    //           lastName
-    //           phone
-    //           email
-    //           permission
-    //           userGroups {
-    //             id
-    //             name
-    //           }
-    //           profilePic
-    //           active
-    //         }
-    //       }
-    //     `,
-    //   })
-    //   .valueChanges.subscribe((result: any) => {
-    //     // this.users = [...(result?.data?.users as User[])];
-    //     this.users = JSON.parse(JSON.stringify(result?.data?.users as User[]));
-    //   });
   }
-
-  // getLoggedInUserObj() {
-  //   this.apollo
-  //     .watchQuery({
-  //       query: gql`
-  //       {
-  //         user(id: "${this.loggedInUserId}") {
-  //           id,
-  //           firstName,
-  //           lastName,
-  //           phone,
-  //           email,
-  //           permission,
-  //           userGroups{
-  //             id,
-  //             name
-  //           },
-  //           profilePic,
-  //           active,
-  //         }
-  //       }
-  //     `,
-  //     })
-  //     .valueChanges.pipe(map((result: any) => result?.data?.user));
-  // }
 
   getUserById(id: string) {
     return this.users.find(user => user.id === id);

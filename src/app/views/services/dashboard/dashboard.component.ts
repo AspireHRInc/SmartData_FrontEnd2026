@@ -27,7 +27,6 @@ import { Subject, Observable } from 'rxjs';
   ],
 })
 export class DashboardComponent implements OnInit {
-  // loggedInUserObj = new User();
   loggedInUserObj$: Observable<User> = this.userService.loggedInUserObj$;
   services: ServiceCategory[] = [];
   allServices: ServiceCategory[] = [];

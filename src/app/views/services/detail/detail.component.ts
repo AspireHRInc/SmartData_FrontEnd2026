@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 
 import { UserService, User } from 'src/app/services/user.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
-import { ServicesService, ServiceCategory, Tag } from 'src/app/services/services.service';
+import { ServicesService } from 'src/app/services/services.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -13,7 +13,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./detail.component.less'],
 })
 export class DetailComponent implements OnInit {
-  // loggedInUserObj = new User();
   loggedInUserObj$: Observable<User> = this.userService.loggedInUserObj$;
   showCreateNewRun = true;
   currentServiceId = '';
@@ -29,25 +28,10 @@ export class DetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.loggedInUserObj = this.userService.loggedInUserObj!;
-    // console.log(this.route.snapshot.params['id']);
     this.currentServiceId = this.route.snapshot.params['id'];
 
     this.currentServiceName = this.servicesService.allServices[0].services.find(
       service => service.id === this.currentServiceId.toString()
     )!.name;
   }
-
-  // onNavigateHistory() {
-  //   this.router.navigate(['history'], { relativeTo: this.route });
-  // }
-
-  // onSetupRun() {
-  //   console.log(this.router);
-  //   this.router.routeReuseStrategy.shouldReuseRoute = function () {
-  //     return false;
-  //   };
-  //   this.router.onSameUrlNavigation = 'reload';
-  //   this.router.navigate(['setup'], { relativeTo: this.route });
-  // }
 }

@@ -4,7 +4,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
 import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { UserService, User, UserGroups } from 'src/app/services/user.service';
+import { UserService, User } from 'src/app/services/user.service';
 import { Filter, FilterGroup } from 'src/app/services/service-run.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
 
@@ -85,7 +85,6 @@ export class UsersComponent implements OnInit {
         ((event as KeyboardEvent).code === 'Space' || (event as KeyboardEvent).code === 'Enter'))
     ) {
       this.userService.deactivateUser(userId);
-      // this.loadUserGroups();
     }
   }
 
@@ -95,12 +94,9 @@ export class UsersComponent implements OnInit {
     event.cancelBubble = true;
 
     this.userService.activateUser(userId);
-    // this.loadUserGroups();
   }
 
   togglePendingRemoval(userIndex: number, userId: string) {
-    // let toggleUserIndex = this.usersExtended[userIndex].findIndex(user => user.id === userId);
-
     this.usersExtended[userIndex].pendingRemoval = !this.usersExtended[userIndex].pendingRemoval;
   }
 

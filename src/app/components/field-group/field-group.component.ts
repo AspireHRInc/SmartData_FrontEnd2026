@@ -1,21 +1,8 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  AfterViewChecked,
-  ChangeDetectorRef,
-  Optional,
-  Host,
-  SkipSelf,
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Field } from 'src/app/services/service-setup.service';
-import { Subscription, Subject, Observable } from 'rxjs';
-
 import { UiStateService } from 'src/app/services/ui-state.service';
 
 @Component({
