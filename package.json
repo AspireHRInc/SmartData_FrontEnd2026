@@ -11,9 +11,7 @@
     "watch": "ng build --watch --configuration development",
     "heroku-postbuild": "ng build --prod",
     "test": "ng test",
-    "lint": "ng lint",
-    "json:server": "json-server --watch /mock-server/data.json",
-    "dev:server": "nodemon /mock-server/mock-server.js"
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
