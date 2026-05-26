@@ -1,6 +1,8 @@
+
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from './auth.service';
 import { File } from './file.service';
-import servicesData from './services.data.json';
 
 export enum ServiceTag {
   'Favorites' = 'Favorites',
@@ -67,24 +69,72 @@ export class Environment {
 })
 export class ServicesService {
   currentServices: ServiceCategory[] = [];
-
-  defaultServices: ServiceCategory[] = servicesData.defaultServices;
-
-  allServices: ServiceCategory[] = servicesData.allServices;
-
-  allTags: TagCategory[] = servicesData.allTags;
-
-  evironments: Environment[] = servicesData.evironments;
-
+  defaultServices: ServiceCategory[] = [];
+  allServices: ServiceCategory[] = [];
+  allTags: TagCategory[] = [];
+  evironments: Environment[] = [];
   currentFilter = '';
-
   currentFilters: string[] = [];
+  private initialized = false;
+  private baseUrl = '/api';
 
-  constructor() {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  private getHeaders(): HttpHeaders {
+    const token = this.authService.getIdToken();
+    const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+    const partition = (payload['custom:Org'] || '').replace(/#$/, '');
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      Partition: partition,
+    });
+  }
+
+  initialize(): void {
+    if (this.initialized) return;
+    this.initialized = true;
+    this.loadProcessTypes();
+  }
+
+  private loadProcessTypes(): void {
+    const headers = this.getHeaders();
+
+    this.http.get<any>(`${this.baseUrl}/ScheduledProcess/list`, { headers }).subscribe(
+      (response) => {
+        console.log('Process list response:', response);
+        const items = response.Items || [];
+        const services: Service[] = items.map((item: any) => ({
+          id: item.SK || item.id || '0',
+          name: item.name || item.processTypeName || '',
+          imagePath: item.defaultProcessTypeVersionSSObjectKey || '',
+          weighting: 0,
+          subscribed: false,
+          displayTags: (item.tags || []).map((t: any) => ({ id: t.id || '0', name: t.name || t })),
+          metaTags: (item.tags || []).map((t: any) => ({ id: t.id || '0', name: t.name || t })),
+          shortDescription: item.description || '',
+          description: item.description || '',
+          templates: [],
+        }));
+
+        const category: ServiceCategory = {
+          id: '1',
+          name: 'All Services',
+          featured: false,
+          defaultMaxTiles: 100,
+          services: services,
+        };
+
+        this.allServices = [category];
+        this.defaultServices = [category];
+      },
+      (error) => console.error('Error loading process types:', error)
+    );
+  }
 
   getServices() {
     let filter = this.currentFilter.toLocaleLowerCase();
-    if (filter === '') {
+    if (filter === '' || this.defaultServices.length === 0) {
       return this.defaultServices;
     } else if (filter === 'all') {
       return JSON.parse(JSON.stringify(this.allServices));
@@ -100,6 +150,10 @@ export class ServicesService {
   }
 
   filterServices(filters: string[]) {
+    if (!this.allServices.length || !this.allServices[0]?.services) {
+      return [];
+    }
+
     this.currentServices = [...JSON.parse(JSON.stringify(this.allServices))];
     this.currentServices[0].name = filters.toString().charAt(0).toUpperCase() + filters.toString().slice(1);
 
@@ -147,7 +201,6 @@ export class ServicesService {
 
       this.currentServices[0].services = [
         ...this.currentServices[0].services.filter(service => {
-          let tags = service.metaTags.map(tag => tag.name);
           return searchStringArr.every(
             searchWord =>
               service.name.toLocaleLowerCase().includes(searchWord) ||
@@ -163,7 +216,6 @@ export class ServicesService {
       ];
       return [...this.currentServices];
     } else {
-      // console.log('else');
       this.currentServices = [...this.getServices()];
       return this.currentServices;
     }
@@ -184,21 +236,18 @@ export class ServicesService {
         return tag.name !== 'Favorites';
       });
     }
-
-    // TODO: write tags with favorite back to service
   }
 
   getServiceById(id: string): Service {
-    return this.allServices[0].services.find(service => service.id === id)!;
+    return this.allServices[0]?.services.find(service => service.id === id)!;
   }
 
   getTemplateFile(id: string) {
-    // TODO: get file from API
     console.log('get template file with ID: ', id);
   }
 
   requestService(id: string) {
-    // TODO: request service
     console.log('Request service with ID: ', id);
   }
 }
+

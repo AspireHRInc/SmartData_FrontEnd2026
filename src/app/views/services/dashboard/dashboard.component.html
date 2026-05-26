@@ -1,3 +1,5 @@
+
+<ng-container *ngIf="isReady">
 <ss-header
   headerTitle="Hello."
   headerSubtitle="Select Your Process"
@@ -80,3 +82,5 @@
   </ss-tiles-section>
 </main>
 <ss-service-detail *ngIf="uiState.serviceDetailOpen$ | async"></ss-service-detail>
+</ng-container>
+

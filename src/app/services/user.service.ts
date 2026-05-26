@@ -1,8 +1,7 @@
+
 import { Injectable, NgZone } from '@angular/core';
 
-import { Apollo, gql } from 'apollo-angular';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 import userData from './user.data.json';
 import { Environments } from './services.service';
@@ -46,7 +45,7 @@ export class Filters {
 })
 export class UserService {
   users: User[] = userData.users;
-  users$: Observable<User[]>;
+  users$!: Observable<User[]>;
   userGroups: UserGroups[] = userData.userGroups.map(userGroup => {
     return {
       ...userGroup,
@@ -58,7 +57,7 @@ export class UserService {
 
   loggedInUserId = '10';
 
-  loggedInUserObj$: Observable<User>;
+  loggedInUserObj$!: Observable<User>;
 
   currentUserGroups: UserGroups[] = [...this.userGroups];
 
@@ -66,57 +65,18 @@ export class UserService {
 
   filtersActive = false;
 
-  constructor(private apollo: Apollo, private zone: NgZone) {
-    this.loggedInUserObj$ = this.apollo
-      .watchQuery({
-        query: gql`
-            {
-              user(id: "${this.loggedInUserId}") {
-                id,
-                firstName,
-                lastName,
-                phone,
-                email,
-                permission,
-                userGroups{
-                  id,
-                  name
-                },
-                profilePic,
-                active,
-              }
-            }
-          `,
-      })
-      .valueChanges.pipe(map((result: any) => result?.data?.user));
+  private initialized = false;
 
-    this.users$ = this.apollo
-      .watchQuery({
-        query: gql`
-          {
-            users {
-              id
-              firstName
-              lastName
-              phone
-              email
-              permission
-              userGroups {
-                id
-                name
-              }
-              profilePic
-              active
-            }
-          }
-        `,
-      })
-      .valueChanges.pipe(
-        map((result: any) => {
-          console.log('users value change');
-          return result?.data?.users;
-        })
-      );
+  constructor(private zone: NgZone) {}
+
+  initialize() {
+    if (this.initialized) return;
+    this.initialized = true;
+
+    // Use local data instead of GraphQL
+    const loggedInUser = this.users.find(user => user.id === this.loggedInUserId);
+    this.loggedInUserObj$ = of(loggedInUser as User);
+    this.users$ = of(this.users);
   }
 
   getUserById(id: string) {
@@ -163,20 +123,17 @@ export class UserService {
   }
 
   updateUserGroupPermissions(userGroupName: string, permissions: any) {
-    // TODO: update user group permissions on server
     console.log(userGroupName);
     console.log(permissions);
   }
 
   removeUserGroup(userGroupId: string) {
-    // TODO: remove user group from server
     let groupIndex = this.userGroups.findIndex(group => group.id === userGroupId);
     this.userGroups.splice(groupIndex, 1);
     console.log(this.userGroups);
   }
 
   removeUserFromGroup(userGroupName: string, userId: string) {
-    // TODO: remove user from group on server
     let userIndex = this.users.findIndex(user => {
       return user.id === userId;
     });
@@ -189,7 +146,6 @@ export class UserService {
   }
 
   addUserToGroup(userGroupName: string, userId: string) {
-    // TODO: add user to group on server
     let userIndex = this.users.findIndex(user => {
       return user.id === userId;
     });
@@ -205,7 +161,6 @@ export class UserService {
 
       this.currentUserGroups = [
         ...this.currentUserGroups.filter(run => {
-          // let tags = service.metaTags.map(tag => tag.name);
           return searchStringArr.every(searchWord => run.name.toLocaleLowerCase().includes(searchWord));
         }),
       ];
@@ -257,7 +212,6 @@ export class UserService {
 
       this.currentUsers = [
         ...this.currentUsers.filter(user => {
-          // let tags = service.metaTags.map(tag => tag.name);
           return searchStringArr.every(
             searchWord =>
               searchStringArr.every(searchWord => user.firstName.toLocaleLowerCase().includes(searchWord)) ||
@@ -280,35 +234,11 @@ export class UserService {
   deactivateUser(userId: string) {
     let userIndex = this.users.findIndex(user => user.id === userId);
     this.users[userIndex].active = false;
-
-    this.apollo
-      .mutate({
-        mutation: gql`mutation {
-          toggleUserActive(id: "${userId}", active: false) {
-            id,
-            active
-          }
-        }
-      `,
-      })
-      .subscribe();
   }
 
   activateUser(userId: string) {
     let userIndex = this.users.findIndex(user => user.id === userId);
     this.users[userIndex].active = true;
-
-    this.apollo
-      .mutate({
-        mutation: gql`mutation {
-        toggleUserActive(id: "${userId}", active: true) {
-          id,
-          active
-        }
-      }
-    `,
-      })
-      .subscribe();
   }
 
   getUsers(): User[] {
@@ -324,13 +254,10 @@ export class UserService {
   }
 
   addUser(user: User) {
-    // TODO: add user
     console.log('Add User: ', user);
-    // this.users.push(user);
   }
 
   editUser(user: User) {
-    // TODO: edit user
     console.log('Edit User: ', user);
   }
 
@@ -345,7 +272,7 @@ export class UserService {
       console.log('User already in group');
     }
 
-    // TODO: add user to group
     console.log('Add user: "', user.firstName + ' ' + user.lastName + '" to group: ' + user.userGroups[0].name);
   }
 }
+

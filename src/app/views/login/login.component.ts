@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   username = '';
   password = '';
   messages = '';
+  isLoading = false;
 
   users: string[] = [];
   usersObjects: User[] = [];
@@ -77,12 +78,35 @@ export class LoginComponent implements OnInit {
   }
 
   signin() {
-    if (this.auth.authenticate(this.signInFormGroup.value.email, this.signInFormGroup.value.password)) {
-      this.router.navigateByUrl('/services/dashboard');
-    } else {
-      this.messages = `Invalid username or password.`;
-      this.step = 0;
+    if (!this.signInFormGroup.value.email || !this.signInFormGroup.value.password) {
+      return;
     }
+
+    this.isLoading = true;
+    this.messages = '';
+
+    this.auth.authenticate(
+      this.signInFormGroup.value.email,
+      this.signInFormGroup.value.password
+    ).subscribe({
+      next: (success) => {
+        this.isLoading = false;
+        if (success) {
+          setTimeout(() => {
+            this.userService.initialize();
+            this.router.navigateByUrl('/services/dashboard');
+          }, 200);
+        } else {
+          this.messages = 'Invalid username or password.';
+          this.step = 0;
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.messages = err.message || 'Authentication failed.';
+        this.step = 0;
+      }
+    });
   }
 
   clearMessages() {

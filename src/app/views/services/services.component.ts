@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ServicesService, ServiceCategory } from '../../services/services.service';
 
 @Component({
   selector: 'ss-services',
@@ -6,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./services.component.less'],
 })
 export class ServicesComponent implements OnInit {
-  constructor() {}
+  constructor(private servicesService: ServicesService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.servicesService.initialize();
+  }
+
+  get services(): ServiceCategory[] {
+    return this.servicesService.getServices();
+  }
 }

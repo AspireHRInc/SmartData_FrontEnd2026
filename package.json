@@ -24,6 +24,7 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
+    "@apollo/client": "^3.0.0",
     "@progress/kendo-angular-buttons": "^7.0.0",
     "@progress/kendo-angular-common": "^2.0.0",
     "@progress/kendo-angular-dateinputs": "^6.0.3",
@@ -44,16 +45,17 @@
     "@progress/kendo-drawing": "^1.5.12",
     "@progress/kendo-licensing": "^1.0.2",
     "@progress/kendo-theme-default": "^5.0.0",
+    "amazon-cognito-identity-js": "^6.3.16",
     "apollo-angular": "^3.0.1",
     "axios": "^0.27.2",
+    "buffer": "^6.0.3",
     "express": "^4.18.1",
     "express-graphql": "^0.12.0",
+    "graphql": "^16",
     "json-server": "^0.17.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4",
-    "@apollo/client": "^3.0.0",
-    "graphql": "^16"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.0.4",

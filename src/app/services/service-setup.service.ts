@@ -56,7 +56,7 @@ export class ServiceSetupService {
 
   currentServiceSetup: Field[] = setupData.currentServiceSetup;
 
-  restApiUrl = 'http://localhost:3000/serviceRuns';
+  restApiUrl = 'xgwuaf9642.execute-api.us-east-2.amazonaws.com';
   constructor(private uiState: UiStateService, private http: HttpClient) {
     this.uiState.abandonCurrentForm$.subscribe(() => {
       this.currentFormAbandoned();

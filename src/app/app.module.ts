@@ -1,3 +1,4 @@
+
 // ANGULAR
 import { NgModule, ElementRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -6,18 +7,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // 3RD PARTY
-// import 'hammerjs';
 
 import { AppRoutingModule } from './app-routing.module';
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
+// MODULES
+import { RestModule } from './rest.module';
+
 // COMPONENTS
 import { ComponentsModules } from './components/components.modules';
 import { AppComponent } from './app.component';
 
-// MOCK BACKEND FOR UPLOADS_MODULE
-// ! REMOVE FOR PRODUCTION
+// INTERCEPTORS
 import { UploadInterceptorService } from './services/upload-interceptor.service';
 
 // VIEWS
@@ -39,7 +41,6 @@ import { UsersComponent } from './views/admin/users/users.component';
 import { RemoveGroupConfirmComponent } from './views/admin/remove-group-confirm/remove-group-confirm.component';
 import { UserDetailComponent } from './views/admin/user-detail/user-detail.component';
 import { NotificationModule, NOTIFICATION_CONTAINER } from '@progress/kendo-angular-notification';
-import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
@@ -69,8 +70,8 @@ import { GraphQLModule } from './graphql.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NotificationModule,
-    GraphQLModule,
+    RestModule,
+    NotificationModule
   ],
   providers: [
     {
@@ -81,7 +82,6 @@ import { GraphQLModule } from './graphql.module';
     {
       provide: NOTIFICATION_CONTAINER,
       useFactory: () => {
-        //return the container ElementRef, where the notification will be injected
         return { nativeElement: document.body } as ElementRef;
       },
     },
@@ -91,3 +91,4 @@ import { GraphQLModule } from './graphql.module';
 export class AppModule {}
 
 platformBrowserDynamic().bootstrapModule(AppModule);
+

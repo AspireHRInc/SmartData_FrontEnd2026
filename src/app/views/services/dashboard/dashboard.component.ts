@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +9,8 @@ import { UiStateService } from 'src/app/services/ui-state.service';
 
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
+
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'ss-dashboard',
@@ -27,7 +30,8 @@ import { Subject, Observable } from 'rxjs';
   ],
 })
 export class DashboardComponent implements OnInit {
-  loggedInUserObj$: Observable<User> = this.userService.loggedInUserObj$;
+  isReady = false;
+  loggedInUserObj$!: Observable<User>;
   services: ServiceCategory[] = [];
   allServices: ServiceCategory[] = [];
 
@@ -47,16 +51,33 @@ export class DashboardComponent implements OnInit {
     public servicesService: ServicesService,
     public uiState: UiStateService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.services = [...this.servicesService.getServices()];
-
-    this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
-      this.services = this.servicesService.onServiceSearch(value);
-    });
+  if (!this.authService.getIdToken()) {
+    return;
   }
+
+  this.isReady = true;
+  this.loggedInUserObj$ = this.userService.loggedInUserObj$;
+
+  this.servicesService.initialize();
+
+  const interval = setInterval(() => {
+    const data = this.servicesService.getServices();
+    if (data.length > 0) {
+      this.services = [...data];
+      clearInterval(interval);
+    }
+  }, 500);
+
+  this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
+    this.services = this.servicesService.onServiceSearch(value);
+  });
+}
+
 
   selectedFilter(filter: string): void {
     this.searchField = '';
@@ -92,7 +113,6 @@ export class DashboardComponent implements OnInit {
   }
 
   openInfo(serviceId: string) {
-    // TODO: connect to UiStatService and detail modal
     this.uiState.setIdServiceDetailId(serviceId);
     this.uiState.showServiceDetail();
   }
@@ -122,3 +142,4 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['history'], { relativeTo: this.route.parent });
   }
 }
+

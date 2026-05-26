@@ -1,7 +1,9 @@
+
 import { Component, HostListener, OnInit } from '@angular/core';
 
 import { UiStateService } from 'src/app/services/ui-state.service';
 import { UserService, User } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'ss-menu',
@@ -10,7 +12,6 @@ import { UserService, User } from 'src/app/services/user.service';
 })
 export class MenuComponent implements OnInit {
   @HostListener('click') onNavigation() {
-    // close the menu
     this.uiState.closeMenu();
   }
 
@@ -20,20 +21,33 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private uiState: UiStateService,
-    private userService: UserService // private appService: ApplicationService, public userService: UserService
+    private userService: UserService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.userService.loggedInUserObj$.subscribe(user => {
-      this.loggedInUserObj = user;
-    });
+    // Default nav until user data loads
+    this.navigationItems = [
+      { title: 'Home', url: '/services/dashboard', icon: 'home' },
+    ];
 
-    if (this.loggedInUserObj!.userGroups!.filter(userGroup => userGroup.name === 'Admin').length > 0) {
+    // Only subscribe to user data after authentication
+    this.authService.isAuthenticated.subscribe(isAuth => {
+      if (isAuth && this.userService.loggedInUserObj$) {
+        this.userService.loggedInUserObj$.subscribe(user => {
+          this.loggedInUserObj = user;
+          this.buildNavigation();
+        });
+      }
+    });
+  }
+
+  private buildNavigation(): void {
+    if (this.loggedInUserObj?.userGroups?.filter(userGroup => userGroup.name === 'Admin').length > 0) {
       this.navigationItems = [
         { title: 'Home', url: '/services/dashboard', icon: 'home' },
         { title: 'Job Search', url: '/services/dashboard', icon: 'search' },
         { title: 'Profile', url: 'user-profile', icon: 'person' },
-        // { title: 'Admin', icon: 'settings' },
         { title: 'Logout', url: 'logout', icon: 'logout' },
       ];
     } else {
@@ -47,3 +61,4 @@ export class MenuComponent implements OnInit {
     }
   }
 }
+

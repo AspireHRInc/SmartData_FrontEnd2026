@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient } from '@angular/common/http';
 import { UserService } from './user.service';
-import servicesRunData from './service-run.data.json';
 
 export enum ServiceRunStatus {
   'none' = 'none',
@@ -85,45 +84,77 @@ export class Filters {
   providedIn: 'root',
 })
 export class ServiceRunService {
-  serviceRuns: ServiceRun[] = servicesRunData.serviceRuns.map(serviceRun => {
-    return {
-      ...serviceRun,
-      status: serviceRun.status.map(status => status as ServiceRunStatus),
-      submittedDate: new Date(serviceRun.submittedDate),
-      startDate: new Date(serviceRun.startDate),
-      endDate: new Date(serviceRun.endDate),
-      results: serviceRun.results?.map(result => {
-        return { ...result, createDate: new Date(result.createDate) } as ServiceRunResult;
-      }),
-    };
-  });
-
-  singleServiceRuns: ServiceRun[] = servicesRunData.singleServiceRuns.map(serviceRun => {
-    return {
-      ...serviceRun,
-      status: serviceRun.status.map(status => status as ServiceRunStatus),
-      submittedDate: new Date(serviceRun.submittedDate),
-      startDate: new Date(serviceRun.startDate),
-      endDate: new Date(serviceRun.endDate),
-      results: serviceRun.results?.map(result => {
-        return { ...result, createDate: new Date(result.createDate) } as ServiceRunResult;
-      }),
-    };
-  });
-
-  serviceRunsFilters: FilterGroup[] = servicesRunData.serviceRunsFilters;
-
-  singleServiceRunsFilters: FilterGroup[] = servicesRunData.singleServiceRunsFilters;
-
-  constructor(private userService: UserService) {}
-
+  serviceRuns: ServiceRun[] = [];
+  singleServiceRuns: ServiceRun[] = [];
+  serviceRunsFilters: FilterGroup[] = [];
+  singleServiceRunsFilters: FilterGroup[] = [];
   currentServiceRunsId = 'all';
-
-  currentServicesRuns: ServiceRun[] = [...this.getServiceRuns()];
-
+  currentServicesRuns: ServiceRun[] = [];
   currentFilters: string[] = [];
-
   filtersActive = false;
+  private initialized = false;
+
+  constructor(private userService: UserService, private http: HttpClient) {}
+
+  initialize(): void {
+    if (this.initialized) return;
+    this.initialized = true;
+    this.loadProcesses();
+  }
+
+  private loadProcesses(): void {
+    this.http.get<any>('/api/Process/list').subscribe(
+      (response) => {
+        const items = response.Items || [];
+        this.serviceRuns = items.map((item: any) => this.mapToServiceRun(item));
+        this.singleServiceRuns = [...this.serviceRuns];
+        this.currentServicesRuns = [...this.serviceRuns];
+
+        // Build filters from data
+        this.serviceRunsFilters = this.buildFilters(this.serviceRuns);
+        this.singleServiceRunsFilters = this.buildFilters(this.singleServiceRuns);
+      },
+      (error) => console.error('Error loading processes:', error)
+    );
+  }
+
+  private mapToServiceRun(item: any): ServiceRun {
+    return {
+      id: item.SK || item.id || '0',
+      userId: item.userId || '0',
+      userName: item.userName || '',
+      processCode: item.processCode || '',
+      targetSystemId: item.targetSystemId || '',
+      serviceId: item.serviceId || item.processTypeId || '',
+      serviceName: item.serviceName || item.processTypeName || '',
+      status: (item.status || ['none']).map((s: string) => s as ServiceRunStatus),
+      submittedDate: new Date(item.submittedDate || Date.now()),
+      startDate: new Date(item.startDate || Date.now()),
+      endDate: new Date(item.endDate || Date.now()),
+      durationHours: item.durationHours || 0,
+      newlyCompleted: item.newlyCompleted || false,
+      comment: item.comment || '',
+      type: item.type || '',
+      results: (item.results || []).map((r: any) => ({
+        ...r,
+        createDate: new Date(r.createDate || Date.now()),
+      })),
+      parameters: item.parameters || [],
+      info: item.info || [],
+    };
+  }
+
+  private buildFilters(runs: ServiceRun[]): FilterGroup[] {
+    const statuses = [...new Set(runs.flatMap(r => r.status))];
+    const services = [...new Set(runs.map(r => r.serviceName).filter(n => n))];
+    const requesters = [...new Set(runs.map(r => r.userName).filter(n => n))];
+
+    return [
+      { name: 'Status', filters: statuses.map(s => ({ name: s, value: s })) },
+      { name: 'Service', filters: services.map(s => ({ name: s, value: s })) },
+      { name: 'Requester', filters: requesters.map(r => ({ name: r, value: r })) },
+    ];
+  }
 
   filterServiceRuns(searchString: string, filters: Filters) {
     this.currentServicesRuns = [...this.getServiceRuns()];
@@ -164,7 +195,7 @@ export class ServiceRunService {
         }),
       ];
     }
-    // every
+
     if (filters.dateRange.start.getTime() !== new Date(0).getTime()) {
       this.currentServicesRuns = [
         ...this.currentServicesRuns.filter(run => {
@@ -193,7 +224,6 @@ export class ServiceRunService {
     }
 
     if (searchString === '' && !this.filtersActive) {
-      console.log('else');
       this.currentServicesRuns = [...this.getServiceRuns()];
       return this.currentServicesRuns;
     }
@@ -213,3 +243,4 @@ export class ServiceRunService {
     }
   }
 }
+
