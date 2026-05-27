@@ -56,28 +56,31 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-  if (!this.authService.getIdToken()) {
-    return;
-  }
-
-  this.isReady = true;
-  this.loggedInUserObj$ = this.userService.loggedInUserObj$;
-
-  this.servicesService.initialize();
-
-  const interval = setInterval(() => {
-    const data = this.servicesService.getServices();
-    if (data.length > 0) {
-      this.services = [...data];
-      clearInterval(interval);
+    if (!this.authService.getIdToken()) {
+      return;
     }
-  }, 500);
 
-  this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
-    this.services = this.servicesService.onServiceSearch(value);
-  });
-}
+    // Test: fetch details for a known process
+    this.servicesService.getProcessDetails('f3f2f39f-9a78-4d47-8e98-1f2b54319514')
+      .subscribe(res => console.log('FULL RESPONSE:', res));
 
+    this.isReady = true;
+    this.loggedInUserObj$ = this.userService.loggedInUserObj$;
+
+    this.servicesService.initialize();
+
+    const interval = setInterval(() => {
+      const data = this.servicesService.getServices();
+      if (data.length > 0) {
+        this.services = [...data];
+        clearInterval(interval);
+      }
+    }, 500);
+
+    this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
+      this.services = this.servicesService.onServiceSearch(value);
+    });
+  }
 
   selectedFilter(filter: string): void {
     this.searchField = '';

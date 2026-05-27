@@ -1,3 +1,4 @@
+
 import { Component, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -12,7 +13,11 @@ import { UiStateService } from 'src/app/services/ui-state.service';
   styleUrls: ['./setup.component.less'],
 })
 export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDeactivate {
-  serviceSetupFields: Fields = new Fields();
+  // CHANGED: Use a getter so it always reads the CURRENT value from the service
+  get serviceSetupFields(): Fields {
+    return this.serviceSetup.currentServiceFields;
+  }
+
   serviceId = '';
   formGroup = this.fb.group({});
   fieldsWithValues: Field[] = [];
@@ -36,7 +41,8 @@ export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDea
       this.serviceId = params['id'];
       this.uiState.setIdServiceDetailId(params['id']);
     });
-    this.serviceSetupFields = this.serviceSetup.getServiceSetup(this.serviceId);
+    // REMOVED: this.serviceSetupFields = this.serviceSetup.getServiceSetup(this.serviceId);
+    // No longer needed — the getter reads directly from the service
   }
 
   ngAfterViewChecked(): void {
@@ -64,3 +70,4 @@ export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDea
     this.serviceSetup.onFileRemove(fileName);
   }
 }
+

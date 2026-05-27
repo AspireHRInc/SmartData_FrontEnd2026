@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { File } from './file.service';
+import { Observable } from 'rxjs';
 
 export enum ServiceTag {
   'Favorites' = 'Favorites',
@@ -109,11 +110,12 @@ export class ServicesService {
           name: item.name || item.processTypeName || '',
           imagePath: item.defaultProcessTypeVersionSSObjectKey || '',
           weighting: 0,
-          subscribed: false,
+          subscribed: true,
           displayTags: (item.tags || []).map((t: any) => ({ id: t.id || '0', name: t.name || t })),
           metaTags: (item.tags || []).map((t: any) => ({ id: t.id || '0', name: t.name || t })),
           shortDescription: item.description || '',
           description: item.description || '',
+          inputparameters: item.inputParameters || [],
           templates: [],
         }));
 
@@ -246,8 +248,21 @@ export class ServicesService {
     console.log('get template file with ID: ', id);
   }
 
-  requestService(id: string) {
-    console.log('Request service with ID: ', id);
+  requestService(processId: string) {
+    console.log('Request service with ID: ', processId);
   }
+
+  getProcessDetails(id: string): Observable<any> {
+    return this.http.get(`/api/ScheduledProcess/${id}`, { headers: this.getHeaders() });
+  }
+
+  getProcessTypeVersion(ssObjectKey: string): Observable<any> {
+  // ssObjectKey = "PTM#29e4718e-...#PTV#148973ee-..."
+  // Just fetch the PTM item — it likely contains the PTV data
+  const ptmId = ssObjectKey.split('#')[1];  // "29e4718e-f24b-421f-90f8-0ec3be068d71"
+  return this.http.get(`/api/PTM/${ptmId}`, { headers: this.getHeaders() });
+}
+
+
 }
 
