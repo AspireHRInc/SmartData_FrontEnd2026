@@ -223,22 +223,30 @@ export class ServicesService {
     }
   }
 
-  toggleFavorite(serviceId: string, tags: Tag[]) {
-    let favorite = tags.find(tag => tag.name === 'Favorites') === undefined ? false : true;
+  toggleFavorite(serviceId: string, tags: Tag[]): Observable<any> {
+  let favorite = tags.find(tag => tag.name === 'Favorites') === undefined ? false : true;
 
-    if (!favorite) {
-      favorite = true;
-      tags.push({
-        id: '3-1',
-        name: 'Favorites',
-      });
-    } else {
-      favorite = false;
-      tags = tags.filter(tag => {
-        return tag.name !== 'Favorites';
-      });
-    }
+  if (!favorite) {
+    favorite = true;
+    tags.push({
+      id: '3-1',
+      name: 'Favorites',
+    });
+  } else {
+    favorite = false;
+    tags = tags.filter(tag => {
+      return tag.name !== 'Favorites';
+    });
   }
+
+  // Save to backend
+  return this.http.put<any>(
+    `${this.baseUrl}/ScheduledProcess/${serviceId}`,
+    { tags: tags },
+    { headers: this.getHeaders() }
+  );
+}
+
 
   getServiceById(id: string): Service {
     return this.allServices[0]?.services.find(service => service.id === id)!;

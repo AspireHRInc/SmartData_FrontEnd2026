@@ -1,9 +1,9 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UiStateService } from './ui-state.service';
+import { ServiceRunService } from './service-run.service';
 
 export class Field {
   ParameterName = '';
@@ -51,10 +51,15 @@ export class setupOptions {
 export class ServiceSetupService {
   currentServiceFields: Fields = new Fields();
   currentServiceSetup: Field[] = [];
+  currentProcessItem: any = null;
 
   private apiBase = '/api';
 
-  constructor(private uiState: UiStateService, private http: HttpClient) {
+  constructor(
+    private uiState: UiStateService,
+    private http: HttpClient,
+    private serviceRunService: ServiceRunService
+  ) {
     this.uiState.abandonCurrentForm$.subscribe(() => {
       this.currentFormAbandoned();
     });
@@ -88,17 +93,10 @@ export class ServiceSetupService {
     });
   }
 
-  /**
-   * Maps API parameterType values to the field type keys used by FieldGeneratorDirective.
-   * 
-   * The directive's fieldMap uses these lowercase keys:
-   *   "text", "file", "selection", "checkbox", "connectionstring", "password", "outputfile", "date"
-   */
   private mapParameterType(apiType: string): string {
     if (!apiType) return 'text';
 
     const typeMap: { [key: string]: string } = {
-      // Text variants → "text"
       'Text': 'text',
       'text': 'text',
       'String': 'text',
@@ -106,8 +104,6 @@ export class ServiceSetupService {
       'TextArea': 'text',
       'textarea': 'text',
       'MultiLine': 'text',
-
-      // Selection/Dropdown variants → "selection"
       'Selection': 'selection',
       'selection': 'selection',
       'Dropdown': 'selection',
@@ -115,59 +111,41 @@ export class ServiceSetupService {
       'Select': 'selection',
       'select': 'selection',
       'ComboBox': 'selection',
-
-      // File variants → "file"
       'File': 'file',
       'file': 'file',
       'Upload': 'file',
       'upload': 'file',
-
-      // Output file → "outputfile"
       'OutputFile': 'outputfile',
       'outputfile': 'outputfile',
       'OutputFileTemplate': 'outputfile',
-
-      // Checkbox/Boolean variants → "checkbox"
       'Checkbox': 'checkbox',
       'checkbox': 'checkbox',
       'Boolean': 'checkbox',
       'boolean': 'checkbox',
       'Toggle': 'checkbox',
-
-      // Connection string → "connectionstring"
       'ConnectionString': 'connectionstring',
       'connectionstring': 'connectionstring',
-
-      // Password → "password"
       'Password': 'password',
       'password': 'password',
-
-      // Date variants → "date"
       'Date': 'date',
       'date': 'date',
       'DateTime': 'date',
       'datetime': 'date',
-
-      // Number → "text" (no dedicated number component, text handles it)
       'Number': 'text',
       'number': 'text',
       'Integer': 'text',
     };
 
-    return typeMap[apiType] || 'text'; // Default to text if unknown
+    return typeMap[apiType] || 'text';
   }
 
-  /**
-   * Accepts the full process item (which already has inputParameters on it)
-   * and maps them into the Fields format the UI expects.
-   * Resets state first to prevent stale data between tile switches.
-   */
   loadServiceSetup(processItem: any): void {
     console.log('loadServiceSetup called with:', processItem);
 
     // RESET first — prevents stale data when switching tiles
     this.currentServiceFields = new Fields();
     this.currentServiceSetup = [];
+    this.currentProcessItem = processItem;
 
     const inputParams = processItem.inputParameters || processItem.InputParameters || [];
     console.log('Input parameters found:', inputParams);
@@ -190,7 +168,6 @@ export class ServiceSetupService {
       field.DisplayOrder = metadata.displayOrder || (index * 10);
       field.value = param.defaultValue || param.value || '';
 
-      // Map options for Selection/dropdown types
       if (metadata.options && Array.isArray(metadata.options)) {
         field.Options = metadata.options.map((opt: any) => {
           const option = new fieldOptions();
@@ -200,7 +177,6 @@ export class ServiceSetupService {
         });
       }
 
-      // Map template/file paths
       if (metadata.templateS3Path) {
         field.TemplateS3Path = metadata.templateS3Path;
       }
@@ -214,17 +190,14 @@ export class ServiceSetupService {
       return field;
     });
 
-    // Sort by DisplayOrder
     fields.sort((a, b) => a.DisplayOrder - b.DisplayOrder);
 
-    // Build the Fields object
     const result = new Fields();
     result.Parameters = fields;
     result.tags = processItem.tags || [];
     result.DXScriptS3Path = processItem.dxScriptS3Path || '';
     result.longDescription = processItem.longDescription || processItem.description || '';
 
-    // Update local state
     this.currentServiceFields = result;
     this.currentServiceSetup = fields;
 
@@ -238,27 +211,83 @@ export class ServiceSetupService {
   }
 
   onServiceSubmit(comment: string) {
-    const commentField: any = {
-      ParameterName: 'Comment',
-      ParameterType: 'text',
-      Caption: 'Comment',
-      Required: false,
-      DefaultValue: '',
-      HelpText: '',
-      DisplayOrder: 1010,
-      value: comment,
-    };
-    this.currentServiceSetup.push(commentField);
-    console.log('Submitting:', this.currentServiceFields);
+    const processItem = this.currentProcessItem;
+
+    if (!processItem) {
+      console.error('No process item available for execution');
+      this.uiState.setErrorNotification('Unable to execute: no process loaded');
+      return;
+    }
+
+    const filledParams = this.currentServiceSetup.map(field => ({
+      name: field.ParameterName,
+      value: field.value || field.DefaultValue || '',
+      defaultValue: field.DefaultValue || '',
+      parameterMetadata: {
+        caption: field.Caption,
+        parameterType: field.ParameterType,
+        required: field.Required,
+        displayOrder: field.DisplayOrder,
+        additionalMetadata: field.HelpText || ''
+      }
+    }));
+
+    if (comment) {
+      filledParams.push({
+        name: 'Comment',
+        value: comment,
+        defaultValue: '',
+        parameterMetadata: {
+          caption: 'Comment',
+          parameterType: 'text',
+          required: false,
+          displayOrder: 9999,
+          additionalMetadata: ''
+        }
+      });
+    }
+
+    const sk = processItem.SK || '';
+    const uuid = sk.includes('#') ? sk.split('#')[1] : sk;
+
+    if (!uuid) {
+      console.error('No process UUID available for execution');
+      this.uiState.setErrorNotification('Unable to execute: missing process ID');
+      return;
+    }
 
     const headers = this.getHeaders();
-    this.http.post<any>(`${this.apiBase}/Process/execute`, this.currentServiceSetup, { headers }).subscribe({
+
+    const body = {
+      inputParameters: filledParams,
+      myTag: processItem.myTags || processItem.tags || '',
+      name: processItem.name || ''
+    };
+
+    console.log('Executing process:', processItem.name);
+    console.log('UUID:', uuid);
+    console.log('Request body:', body);
+    // Add this line right before the http.post call in onServiceSubmit:
+    this.serviceRunService.lastExecutedServiceName = processItem.name || '';
+
+    this.http.post<any>(
+      `${this.apiBase}/ScheduledProcess/${uuid}/executeProcess`,
+      body,
+      { headers }
+    ).subscribe({
       next: data => {
         console.log('Execution response:', data);
+        // Refresh immediately to show the new run
+        this.serviceRunService.refresh();
+        // Poll again at 5s, 10s, and 20s to pick up status updates from execution lambda
+        setTimeout(() => this.serviceRunService.refresh(), 5000);
+        setTimeout(() => this.serviceRunService.refresh(), 10000);
+        setTimeout(() => this.serviceRunService.refresh(), 20000);
       },
       error: error => {
-        console.log('Execution error:', error);
+        console.error('Execution error:', error);
         this.uiState.setErrorNotification(String(error.message));
+        this.serviceRunService.refresh();
       },
     });
   }
@@ -271,4 +300,3 @@ export class ServiceSetupService {
     return this.currentServiceFields;
   }
 }
-

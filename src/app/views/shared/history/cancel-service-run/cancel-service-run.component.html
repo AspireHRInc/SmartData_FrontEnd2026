@@ -1,15 +1,23 @@
 <kendo-dialog
-  title="Cancel The Process"
+  title="Cancel Process"
   *ngIf="uiState.cancelServiceRunOpen$ | async"
   (close)="close()"
   [minWidth]="250"
-  [width]="350"
+  [width]="400"
 >
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-  </p>
+  <div *ngIf="serviceRun">
+    <p><strong>Process:</strong> {{ serviceRun.serviceName }}</p>
+    <p><strong>Status:</strong> {{ serviceRun.status[0] }}</p>
+    <p><strong>Submitted:</strong> {{ serviceRun.submittedDate | date:'short' }}</p>
+    <p><strong>Owner:</strong> {{ serviceRun.userName }}</p>
+    <p style="margin-top: 16px; color: var(--color-text-secondary);">
+      Are you sure you want to cancel this process? This action cannot be undone.
+    </p>
+  </div>
   <kendo-dialog-actions>
-    <button kendoButton [disabled]="false" (click)="cancel()" themeColor="primary">Confirm</button>
+    <button kendoButton (click)="close()">Keep Running</button>
+    <button kendoButton [disabled]="canceling" (click)="cancel()" themeColor="primary">
+      {{ canceling ? 'Canceling...' : 'Cancel Process' }}
+    </button>
   </kendo-dialog-actions>
 </kendo-dialog>

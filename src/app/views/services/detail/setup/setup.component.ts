@@ -58,13 +58,21 @@ export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDea
   }
 
   onSubmit(formResults: FormGroup) {
-    this.fieldsWithValues = this.serviceSetup.currentServiceFields.Parameters.map(field => {
-      return { ...field, value: this.formGroup.value[field.ParameterName] };
-    });
-    this.changesSaved = true;
-    this.serviceSetup.currentServiceSetup = this.fieldsWithValues;
-    this.router.navigate(['confirm'], { relativeTo: this.route.parent });
-  }
+  console.log('Form values:', this.formGroup.value);
+  console.log('Current fields:', this.serviceSetup.currentServiceFields.Parameters.map(f => f.ParameterName));
+
+  this.fieldsWithValues = this.serviceSetup.currentServiceFields.Parameters.map(field => {
+    const value = this.formGroup.value[field.ParameterName];
+    console.log(`Field ${field.ParameterName}: value = ${value}`);
+    return { ...field, value: value || field.DefaultValue || '' };
+  });
+
+  console.log('Fields with values:', this.fieldsWithValues);
+  this.changesSaved = true;
+  this.serviceSetup.currentServiceSetup = this.fieldsWithValues;
+  this.router.navigate(['confirm'], { relativeTo: this.route.parent });
+}
+
 
   onAbortFile(fileName: string) {
     this.serviceSetup.onFileRemove(fileName);

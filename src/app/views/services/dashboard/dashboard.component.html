@@ -5,7 +5,7 @@
   headerSubtitle="Select Your Process"
   [headerUserObject]="(loggedInUserObj$ | async)!"
 ></ss-header>
-<ss-filters [data]="servicesService.allTags" (selectedFilters)="onFiltersSelected($event)"></ss-filters>
+<ss-filters></ss-filters>
 <main class="dashboard">
   <div class="controls">
     <div class="buttons">

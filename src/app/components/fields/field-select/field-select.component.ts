@@ -39,22 +39,27 @@ export class FieldSelectComponent implements OnInit, AfterViewInit {
           .get(this.parameters.ParameterName)!
           .setValue({ Pvalue: this.parameters.DefaultValue, Plabel: this.parameters.DefaultValue });
         this.currentValue = { Pvalue: this.parameters.DefaultValue, Plabel: this.parameters.DefaultValue };
+        this.parameters.value = this.parameters.DefaultValue;
       } else {
         this.formGroup.get(this.parameters.ParameterName)!.setValue({ Pvalue: '', Plabel: '' });
         this.currentValue = { Pvalue: '', Plabel: '' };
       }
 
-      if (this.parameters.Required) {
-        this.formGroup.get(this.parameters.ParameterName)!.valueChanges.subscribe(result => {
-          this.currentValue = result;
+      // Sync form control value back to parameters.value
+      this.formGroup.get(this.parameters.ParameterName)!.valueChanges.subscribe(result => {
+        this.currentValue = result;
+        // Store the Pvalue as the canonical value
+        this.parameters.value = result?.Pvalue || '';
+
+        if (this.parameters.Required) {
           if (result.Pvalue === null || result.value === null || result === undefined) {
             this.formGroup.get(this.parameters.ParameterName)!.setErrors({ incorrect: true });
             this.formGroup.get(this.parameters.ParameterName)!.markAsTouched();
           } else {
             this.formGroup.get(this.parameters.ParameterName)!.setErrors(null);
           }
-        });
-      }
+        }
+      });
     }
   }
 

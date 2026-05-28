@@ -23,12 +23,20 @@ export class FieldTextComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.static) {
-      this.formGroup.addControl(this.parameters.ParameterName, this.fb.control(''));
+      this.formGroup.addControl(
+        this.parameters.ParameterName,
+        this.fb.control(this.parameters.value || this.parameters.DefaultValue || '')
+      );
       if (this.parameters.Required) {
         this.formGroup.get(this.parameters.ParameterName)!.addValidators(Validators.required);
       } else {
         this.formGroup.get(this.parameters.ParameterName)!.clearValidators();
       }
+
+      // Sync form control value back to parameters.value
+      this.formGroup.get(this.parameters.ParameterName)!.valueChanges.subscribe(val => {
+        this.parameters.value = val;
+      });
     }
   }
 

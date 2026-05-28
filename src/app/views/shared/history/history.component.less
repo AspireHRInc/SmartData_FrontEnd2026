@@ -510,15 +510,6 @@
     }
   }
 
-  .date,
-  .comment,
-  .duration {
-    font-weight: 400;
-    font-size: 0.875rem;
-    line-height: 1rem;
-    color: var(--color-text-secondary);
-  }
-
   .info .button {
     border-radius: 50%;
     border: none;
@@ -534,4 +525,17 @@
     align-items: center;
     box-shadow: none;
   }
+
+  .comment {
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: var(--color-text-secondary);
+}
+
 }

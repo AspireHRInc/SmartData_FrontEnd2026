@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, HostListener, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { UserService, User } from 'src/app/services/user.service';
@@ -13,7 +13,6 @@ import { AccentColor } from 'src/app/services/color.service';
 import { LocalizationService } from 'src/app/services/localization.service';
 
 import { SelectionRange } from '@progress/kendo-angular-dateinputs';
-import { Query } from '@angular/compiler/src/core';
 
 export class ServiceRunExtended extends ServiceRun {
   userObject: User = new User();
@@ -40,7 +39,7 @@ export class ServiceRunExtended extends ServiceRun {
     ]),
   ],
 })
-export class HistoryComponent implements OnInit {
+export class HistoryComponent implements OnInit, OnDestroy {
   public toggleText = 'Show';
   public show = false;
 
@@ -92,6 +91,8 @@ export class HistoryComponent implements OnInit {
 
   serviceId = 'all';
 
+  private updatesSub!: Subscription;
+
   constructor(
     public userService: UserService,
     public serviceRunService: ServiceRunService,
@@ -106,6 +107,7 @@ export class HistoryComponent implements OnInit {
       this.allServicesHistory = true;
       this.serviceId = 'all';
       this.serviceRunService.currentServiceRunsId = 'all';
+      this.serviceRunService.currentServiceName = '';
     }
 
     this.route.parent!.params.subscribe(params => {
@@ -115,6 +117,30 @@ export class HistoryComponent implements OnInit {
       }
     });
 
+    this.serviceRunService.initialize();
+
+    this.loadDataFromService();
+
+    this.animateProcessingStatusBar();
+
+    this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
+      this.serviceRuns = this.getExtendedServices(
+        this.serviceRunService.filterServiceRuns(this.searchString, this.filtersObj)
+      );
+    });
+
+    this.updatesSub = this.serviceRunService.serviceRunsUpdated$.subscribe(() => {
+      this.loadDataFromService();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.updatesSub) {
+      this.updatesSub.unsubscribe();
+    }
+  }
+
+  private loadDataFromService(): void {
     if (this.allServicesHistory === true) {
       this.serviceRunsRaw = this.serviceRunService.getServiceRuns();
       this.filters = this.serviceRunService.serviceRunsFilters;
@@ -123,24 +149,7 @@ export class HistoryComponent implements OnInit {
       this.filters = this.serviceRunService.singleServiceRunsFilters;
     }
 
-    this.serviceRuns = this.serviceRunsRaw.map(serviceRun => {
-      return {
-        ...serviceRun,
-        status: serviceRun.status.filter(status => status !== ServiceRunStatus.Scheduled),
-        statusString: serviceRun.status.filter(status => status !== ServiceRunStatus.Scheduled).toString(),
-        comment: serviceRun.comment.slice(0, 60),
-        userObject: this.userService.getUserById(serviceRun.userId)!,
-        scheduled: serviceRun.status.includes(ServiceRunStatus.Scheduled),
-        statusColor: serviceRun.status.includes(ServiceRunStatus.Completed)
-          ? 'var(--color-cta)'
-          : serviceRun.status.includes(ServiceRunStatus.Processing)
-          ? 'var(--color-accent-6)'
-          : serviceRun.status.includes(ServiceRunStatus['Processed with Errors'])
-          ? 'var(--color-accent-2)'
-          : '',
-        durationString: DateTimeService.hoursToGreatesUnit(serviceRun.durationHours),
-      };
-    });
+    this.serviceRuns = this.getExtendedServices(this.serviceRunsRaw);
 
     this.filters = this.filters.map(filterGroup => {
       return {
@@ -149,14 +158,6 @@ export class HistoryComponent implements OnInit {
           return filter.name;
         }),
       };
-    });
-
-    this.animateProcessingStatusBar();
-
-    this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
-      this.serviceRuns = this.getExtendedServices(
-        this.serviceRunService.filterServiceRuns(this.searchString, this.filtersObj)
-      );
     });
   }
 
@@ -223,18 +224,27 @@ export class HistoryComponent implements OnInit {
 
   getExtendedServices(services: ServiceRun[]): ServiceRunExtended[] {
     let serviceRunExtended: ServiceRunExtended[] = services.map(serviceRun => {
+      // Map Missing → Processing for display, but keep Error as Error
+      const displayStatus = serviceRun.status.map(s => 
+        s === ServiceRunStatus.Missing ? ServiceRunStatus.Processing : s
+      );
+
       return {
         ...serviceRun,
-        status: serviceRun.status.filter(status => status !== ServiceRunStatus.Scheduled),
-        statusString: serviceRun.status.filter(status => status !== ServiceRunStatus.Scheduled).toString(),
+        status: displayStatus.filter((status: ServiceRunStatus) => status !== ServiceRunStatus.Scheduled),
+        statusString: displayStatus
+          .filter((status: ServiceRunStatus) => status !== ServiceRunStatus.Scheduled)
+          .toString(),
         comment: serviceRun.comment.slice(0, 60),
-        userObject: this.userService.getUserById(serviceRun.userId)!,
+        userObject: this.userService.getUserById(serviceRun.userId) || new User(),
         scheduled: serviceRun.status.includes(ServiceRunStatus.Scheduled),
-        statusColor: serviceRun.status.includes(ServiceRunStatus.Completed)
+        statusColor: displayStatus.includes(ServiceRunStatus.Completed)
           ? 'var(--color-cta)'
-          : serviceRun.status.includes(ServiceRunStatus.Processing)
+          : displayStatus.includes(ServiceRunStatus.Processing)
           ? 'var(--color-accent-6)'
-          : serviceRun.status.includes(ServiceRunStatus['Processed with Errors'])
+          : displayStatus.includes(ServiceRunStatus['Processed with Errors'])
+          ? 'var(--color-accent-2)'
+          : displayStatus.includes(ServiceRunStatus.Error)
           ? 'var(--color-accent-2)'
           : '',
         durationString: DateTimeService.hoursToGreatesUnit(serviceRun.durationHours),
@@ -324,4 +334,10 @@ export class HistoryComponent implements OnInit {
   onNavigateHistory() {
     this.router.navigate(['history'], { relativeTo: this.route });
   }
+
+  // TrackBy function to prevent DOM flicker on refresh
+  trackByRunId(index: number, item: ServiceRunExtended): string {
+    return item.id + item.statusString;
+  }
 }
+

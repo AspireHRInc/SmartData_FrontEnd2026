@@ -10,6 +10,7 @@ import { UiStateService } from 'src/app/services/ui-state.service';
   templateUrl: './field-group.component.html',
   styleUrls: ['./field-group.component.less'],
   host: { class: 'field-group' },
+  
 })
 export class FieldGroupComponent implements OnInit, AfterViewChecked {
   @Input() fields: Field[] = [];
@@ -59,4 +60,7 @@ export class FieldGroupComponent implements OnInit, AfterViewChecked {
   onFileAbort(fileName: string) {
     this.abortFile.emit(fileName);
   }
+  trackByFieldName(index: number, field: Field): string {
+  return field.ParameterName;
+}
 }

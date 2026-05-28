@@ -5,7 +5,7 @@
   </ng-container>
   <form class="form" [formGroup]="formGroup" *ngIf="!static">
     <ng-template
-      *ngFor="let field of fields; let i = index"
+      *ngFor="let field of fields; let i = index; trackBy: trackByFieldName"
       [field]="field"
       [tabindex]="0"
       [formGroup]="formGroup"
@@ -20,7 +20,7 @@
 
   <ul class="form-summary" *ngIf="static">
     <ng-template
-      *ngFor="let field of staticData; let i = index"
+      *ngFor="let field of staticData; let i = index; trackBy: trackByFieldName"
       [staticField]="field"
       [tabindex]="0"
       [static]="static"

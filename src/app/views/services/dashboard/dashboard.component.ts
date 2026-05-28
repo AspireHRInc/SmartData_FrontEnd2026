@@ -112,8 +112,35 @@ export class DashboardComponent implements OnInit {
   }
 
   onToggleFavorite(serviceId: string, metaTags: Tag[]) {
-    this.servicesService.toggleFavorite(serviceId, metaTags);
+  // Find the service
+  const service = this.services[0]?.services.find(s => s.id === serviceId);
+  if (!service) return;
+
+  // Toggle favorite locally
+  const favoriteTag = service.metaTags.find(t => t.name === 'Favorites');
+  if (favoriteTag) {
+    service.metaTags = service.metaTags.filter(t => t.name !== 'Favorites');
+  } else {
+    service.metaTags.push({ id: '3-1', name: 'Favorites' });
   }
+
+  // Save to localStorage
+  const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  if (favoriteTag) {
+    // Remove from favorites
+    const index = favorites.indexOf(serviceId);
+    if (index > -1) favorites.splice(index, 1);
+  } else {
+    // Add to favorites
+    if (!favorites.includes(serviceId)) favorites.push(serviceId);
+  }
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+
+  console.log('Favorite toggled:', serviceId);
+}
+
+
+
 
   openInfo(serviceId: string) {
     this.uiState.setIdServiceDetailId(serviceId);

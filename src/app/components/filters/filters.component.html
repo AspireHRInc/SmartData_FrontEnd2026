@@ -1,5 +1,5 @@
 <kendo-window
-  title="Filters"
+  title="Insights"
   *ngIf="this.uiState.serviceFiltersOpen$ | async"
   (close)="close()"
   [width]="width"
@@ -10,53 +10,57 @@
   class="window"
 >
   <kendo-window-titlebar>
-    <div class="k-window-title"><h2 class="title">Filters</h2></div>
+    <div class="k-window-title"><h2 class="title">Insights</h2></div>
     <button kendoWindowCloseAction aria-label="close"></button>
   </kendo-window-titlebar>
 
-  <form class="k-form form" [formGroup]="filters">
-    <fieldset class="fieldset subscribed">
-      <div class="k-form-field field-wrapper">
-        <kendo-switch
-          [checked]="subscribedVisible"
-          (valueChange)="subscribedVisible = !subscribedVisible"
-          onLabel="On"
-          offLabel="Off"
-          [tabindex]="-1"
-          id="subscribed"
-          autofocus
-          aria-label="show subscribed"
-        ></kendo-switch>
-        <label class="k-form-field label">
-          <input
-            type="checkbox"
-            kendoCheckBox
-            class="checkbox subscribed"
-            tabindex="0"
-            #subscribed
-            [checked]="subscribedVisible"
-            (change)="subscribedVisible = !subscribedVisible"
-          />
-          <span id="subscribed-label" class="title">Subscribed</span>
-        </label>
+  <div class="insights-container">
+    <!-- Quick Stats -->
+    <fieldset class="fieldset stats">
+      <legend class="name">Today's Stats</legend>
+      <div class="stat-grid">
+        <div class="stat-item">
+          <div class="stat-value">{{ totalRunsToday }}</div>
+          <div class="stat-label">Total Runs</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ successRate }}%</div>
+          <div class="stat-label">Success Rate</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ failedRuns }}</div>
+          <div class="stat-label">Failed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ averageDuration | number: '1.1-1' }}h</div>
+          <div class="stat-label">Avg Duration</div>
+        </div>
       </div>
     </fieldset>
-    <fieldset *ngFor="let category of data; let cati = index" class="fieldset category">
-      <legend class="name">{{ category.name }}</legend>
 
-      <label class="k-form-field label" *ngFor="let filter of category.tags; let i = index">
-        <input type="checkbox" kendoCheckBox class="checkbox" [formControlName]="filter.name" tabindex="0" />
-        <span>
-          {{ filter.name }}
-          <span class="subscribed" *ngIf="subscribedVisible">({{ filter.subscribed }})</span>
-        </span>
-      </label>
+    <!-- Recently Used -->
+    <fieldset class="fieldset recent">
+      <legend class="name">Recently Used</legend>
+      <div class="recent-list">
+        <div
+          class="recent-item"
+          *ngFor="let run of recentlyUsed; trackBy: trackByRunId"
+          (click)="quickAccess(run)"
+        >
+          <div class="recent-name">{{ run.serviceName }}</div>
+          <div class="recent-status" [style.color]="run.status[0] === 'Completed' ? 'var(--color-cta)' : 'var(--color-accent-6)'">
+            {{ run.status[0] }}
+          </div>
+          <div class="recent-time">{{ run.submittedDate | date: 'short' }}</div>
+        </div>
+        <div *ngIf="recentlyUsed.length === 0" class="empty-state">
+          No recent runs
+        </div>
+      </div>
     </fieldset>
-  </form>
+  </div>
+
   <div class="k-actions k-actions-end buttons">
-    <button kendoButton type="button" class="button reset" (click)="reset()" tabindex="0">Reset</button>
-    <button kendoButton themeColor="primary" type="button" class="button submit" (click)="submit()" tabindex="0">
-      Show Results
-    </button>
+    <button kendoButton type="button" class="button close" (click)="close()" tabindex="0">Close</button>
   </div>
 </kendo-window>

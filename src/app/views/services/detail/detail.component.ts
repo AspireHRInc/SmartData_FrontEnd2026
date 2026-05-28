@@ -6,6 +6,7 @@ import { UserService, User } from 'src/app/services/user.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
 import { ServicesService } from 'src/app/services/services.service';
 import { ServiceSetupService } from 'src/app/services/service-setup.service';
+import { ServiceRunService } from 'src/app/services/service-run.service';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -28,6 +29,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private servicesService: ServicesService,
     private serviceSetupService: ServiceSetupService,
+    private serviceRunService: ServiceRunService,
     private _location: Location,
     public uiState: UiStateService
   ) {}
@@ -65,6 +67,12 @@ export class DetailComponent implements OnInit, OnDestroy {
             console.log('Process item:', processItem);
             console.log('Input parameters:', processItem.inputParameters);
 
+            // Set the service name for history filtering
+            const processName = processItem.name || this.currentServiceName || '';
+            this.currentServiceName = processName;
+            this.serviceRunService.currentServiceName = processName;
+            this.serviceRunService.currentServiceRunsId = this.currentServiceId;
+
             // Check if we need to fetch parameters from the PTV
             const ptvRef = processItem.processTypeSSObjectKey?.ssObjectKey
                         || processItem.referencedObjects?.ssObjectKey;
@@ -80,7 +88,7 @@ export class DetailComponent implements OnInit, OnDestroy {
                   console.log('PTV response:', ptvResponse);
                   const ptvItems = ptvResponse.Items || [];
                   if (ptvItems.length > 0) {
-                    const ptvItem = ptvItems[0];
+                    const ptvItem = ptvItems;
                     console.log('PTV inputParameters:', ptvItem.inputParameters);
 
                     // Merge: use PTV's inputParameters on the process item
@@ -121,4 +129,3 @@ export class DetailComponent implements OnInit, OnDestroy {
     }
   }
 }
-
