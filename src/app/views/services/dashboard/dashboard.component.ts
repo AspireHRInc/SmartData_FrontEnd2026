@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,7 +6,6 @@ import { UserService, User } from 'src/app/services/user.service';
 import { ServicesService, ServiceCategory, Tag } from 'src/app/services/services.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
 
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 
 import { AuthService } from '../../../services/auth.service';
@@ -35,7 +33,7 @@ export class DashboardComponent implements OnInit {
   services: ServiceCategory[] = [];
   allServices: ServiceCategory[] = [];
 
-  filters = ['all', 'filters', 'favorites'];
+  filters = ['all', 'insights'];
   activeFilter = '';
   searchField = '';
   currentSearch: string[] = [];
@@ -60,10 +58,6 @@ export class DashboardComponent implements OnInit {
       return;
     }
 
-    // Test: fetch details for a known process
-    this.servicesService.getProcessDetails('f3f2f39f-9a78-4d47-8e98-1f2b54319514')
-      .subscribe(res => console.log('FULL RESPONSE:', res));
-
     this.isReady = true;
     this.loggedInUserObj$ = this.userService.loggedInUserObj$;
 
@@ -76,16 +70,12 @@ export class DashboardComponent implements OnInit {
         clearInterval(interval);
       }
     }, 500);
-
-    this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
-      this.services = this.servicesService.onServiceSearch(value);
-    });
   }
 
   selectedFilter(filter: string): void {
     this.searchField = '';
 
-    if (filter !== 'filters') {
+    if (filter !== 'insights') {
       if (this.servicesService.currentFilter !== filter) {
         this.servicesService.currentFilter = filter;
       } else {
@@ -93,7 +83,7 @@ export class DashboardComponent implements OnInit {
       }
     }
 
-    if (filter !== 'filters') {
+    if (filter !== 'insights') {
       this.uiState.hideServiceFilters();
       this.services = [...this.servicesService.getServices()];
     } else {
@@ -102,49 +92,20 @@ export class DashboardComponent implements OnInit {
   }
 
   requestService(serviceId: string) {
-    console.log(serviceId);
-    this.uiState.setIdServiceDetailId(serviceId);
-    this.uiState.showServiceDetail();
+    // Find the service to get its name for a clean URL slug
+    let slug = serviceId;
+    for (const category of this.servicesService.allServices) {
+      const service = category.services.find(s => s.id === serviceId);
+      if (service) {
+        slug = service.name.toLowerCase().replace(/\s+/g, '-');
+        break;
+      }
+    }
+    this.router.navigate(['services', slug], { relativeTo: this.route.parent });
   }
 
   onCatgoryViewAll(categoryId: string) {
     this.services.find(service => service.id === categoryId)!.defaultMaxTiles = 0;
-  }
-
-  onToggleFavorite(serviceId: string, metaTags: Tag[]) {
-  // Find the service
-  const service = this.services[0]?.services.find(s => s.id === serviceId);
-  if (!service) return;
-
-  // Toggle favorite locally
-  const favoriteTag = service.metaTags.find(t => t.name === 'Favorites');
-  if (favoriteTag) {
-    service.metaTags = service.metaTags.filter(t => t.name !== 'Favorites');
-  } else {
-    service.metaTags.push({ id: '3-1', name: 'Favorites' });
-  }
-
-  // Save to localStorage
-  const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-  if (favoriteTag) {
-    // Remove from favorites
-    const index = favorites.indexOf(serviceId);
-    if (index > -1) favorites.splice(index, 1);
-  } else {
-    // Add to favorites
-    if (!favorites.includes(serviceId)) favorites.push(serviceId);
-  }
-  localStorage.setItem('favorites', JSON.stringify(favorites));
-
-  console.log('Favorite toggled:', serviceId);
-}
-
-
-
-
-  openInfo(serviceId: string) {
-    this.uiState.setIdServiceDetailId(serviceId);
-    this.uiState.showServiceDetail();
   }
 
   onServiceSearch(event: any) {

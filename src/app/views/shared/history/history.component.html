@@ -13,29 +13,36 @@
       class="k-input field"
       (keyup)="onSearchStringUpdate($event)"
       [(ngModel)]="searchField"
-      (focus)="onSearchStringUpdate($event)"
-      (ngModelChange)="this.searchFieldUpdate.next($event)"
     />
     <button kendoButton icon="search" aria-label="search history" (click)="onSearchStringUpdate($event)"></button>
   </div>
 </div>
 
-<ss-navigation-buttons>
-  <ss-navigation-button
-    *ngIf="!allServicesHistory"
-    label="Create New Run"
-    class="secondary"
-    (click)="onSetupRun()"
-  ></ss-navigation-button>
-  <ss-navigation-button label="History of Runs" class="active"></ss-navigation-button>
-</ss-navigation-buttons>
+<div class="navigation-row">
+  <ss-navigation-buttons>
+    <ss-navigation-button
+      *ngIf="!allServicesHistory"
+      label="Create New Run"
+      class="secondary"
+      (click)="onSetupRun()"
+    ></ss-navigation-button>
+    <ss-navigation-button label="History of Runs" class="active"></ss-navigation-button>
+  </ss-navigation-buttons>
+  <button
+    kendoButton
+    icon="refresh"
+    aria-label="refresh history"
+    (click)="refreshHistory()"
+    class="refresh-button"
+    tabindex="0"
+  ></button>
+</div>
 
 <ss-cancel-service-run [serviceId]="cancelServiceId"></ss-cancel-service-run>
 <ss-service-run-results
   [serviceId]="serviceDetailsId"
   *ngIf="uiState.serviceRunResultsOpen$ | async"
 ></ss-service-run-results>
-<ss-service-run-info *ngIf="uiState.serviceRunInfoOpen$ | async" [serviceId]="serviceDetailsId"></ss-service-run-info>
 
 <div class="content-wrapper">
   <div class="filters">
@@ -149,11 +156,9 @@
         <span class="arrow">&#8597;</span>
       </button>
     </div>
-    <div class="comment"></div>
-    <div class="info"></div>
   </div>
 
-<kendo-listview [data]="serviceRuns" containerClass="k-d-flex k-flex-col k-flex-nowrap">
+  <kendo-listview [data]="serviceRuns" containerClass="k-d-flex k-flex-col k-flex-nowrap">
     <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst">
       <div class="history-item" [class.new]="dataItem.newlyCompleted" [@listItemInOutAnimation]="dataItem.newlyCompleted ? 'in' : 'out'">
         <div class="icon">
@@ -161,8 +166,8 @@
         </div>
         <div class="info">
           <h2 class="title">{{ dataItem.serviceName }}</h2>
+          <p class="comment" *ngIf="dataItem.comment">{{ dataItem.comment }}</p>
           <div class="details">
-            <ss-user-badge [user]="dataItem.userObject"></ss-user-badge>
             <ss-status-badge
               *ngIf="dataItem.scheduled"
               [title]="dataItem.scheduled ? 'SCHEDULED' : ''"
@@ -224,24 +229,20 @@
             Get Results
           </button>
           <button
-            (click)="info(dataItem.id)"
+            (click)="details(dataItem.id)"
             class="button medium action primary complete"
             *ngIf="dataItem.statusString === 'Processed with Errors'"
           >
             Details
           </button>
         </div>
-        <p class="date">{{ dataItem.submittedDate | date: "MMM d, h:mm aaaaa'm'" }}</p>
+        <p class="date">{{ dataItem.submittedDate | date: 'MMM d, y, h:mm a' }}</p>
         <div class="duration">
           {{ dataItem.durationString }}
-        </div>
-        <div class="comment">
-          {{ dataItem.comment }}
-        </div>
-        <div class="info">
-          <button class="button" (click)="info(dataItem.id)">i</button>
         </div>
       </div>
     </ng-template>
   </kendo-listview>
 </div>
+
+```

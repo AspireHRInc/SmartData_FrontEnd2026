@@ -37,7 +37,10 @@ export class ConfirmComponent implements OnInit {
   }
 
   onSubmit(event: any) {
-    this.serviceSetup.onServiceSubmit(this.formGroup.get('comment')!.value);
-    this.router.navigate(['history'], { relativeTo: this.route.parent });
-  }
+  const comment = this.formGroup.get('comment')?.value || '';
+  this.serviceSetup.onServiceSubmit(comment);
+  this.router.navigate(['history'], { relativeTo: this.route.parent });
+  
+}
+
 }

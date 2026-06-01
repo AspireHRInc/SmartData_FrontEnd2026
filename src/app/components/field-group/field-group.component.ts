@@ -10,7 +10,6 @@ import { UiStateService } from 'src/app/services/ui-state.service';
   templateUrl: './field-group.component.html',
   styleUrls: ['./field-group.component.less'],
   host: { class: 'field-group' },
-  
 })
 export class FieldGroupComponent implements OnInit, AfterViewChecked {
   @Input() fields: Field[] = [];
@@ -22,6 +21,7 @@ export class FieldGroupComponent implements OnInit, AfterViewChecked {
   @Input() buttonText = 'Submit';
   @Output() formTouchedAndInvalid = new EventEmitter<boolean>();
   @Input() step = '';
+  @Input() title = 'Setup Parameters';
 
   fieldsWithValues: any;
 
@@ -60,7 +60,9 @@ export class FieldGroupComponent implements OnInit, AfterViewChecked {
   onFileAbort(fileName: string) {
     this.abortFile.emit(fileName);
   }
+
   trackByFieldName(index: number, field: Field): string {
-  return field.ParameterName;
+    return field.ParameterName;
+  }
 }
-}
+

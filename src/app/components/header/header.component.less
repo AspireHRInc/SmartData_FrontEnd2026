@@ -6,7 +6,6 @@
   background-blend-mode: soft-light;
   background-repeat: no-repeat;
   background-position: 100% 10%;
-
   background-size: cover;
   padding: 1rem;
   position: relative;
@@ -33,59 +32,136 @@
 
     .content-wrapper {
       display: flex;
-      justify-content: center;
+      align-items: center;
       max-width: 90em;
       width: 100%;
       flex: 1 100%;
       position: relative;
 
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
       a.home-link {
         font-size: 0;
-        width: 2rem;
-        height: 2rem;
+        width: 2.5rem;
+        height: 2.5rem;
         cursor: pointer;
-        border-radius: 2rem;
-        display: block;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease;
+
+        ss-icon-logo-light {
+          width: 2rem;
+          height: 2rem;
+        }
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.15);
+        }
+
         &:focus,
         &:focus-visible {
           outline: 2px solid white !important;
         }
       }
 
-      .logo {
-        position: absolute;
-        top: 0;
-        left: 0;
-        font-size: 0;
-        ss-icon-logo-light {
-          width: 2rem;
-          border-radius: 2rem;
-          &:focus,
-          &:focus-visible {
-            outline: 2px solid white !important;
-          }
+      .back-button {
+        background: none;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        color: var(--color-background-primary);
+        cursor: pointer;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease;
+
+        .k-icon {
+          color: var(--color-background-primary);
+          font-size: 1.4rem;
+        }
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        &:focus,
+        &:focus-visible,
+        &:active {
+          box-shadow: none;
+          outline: none;
+        }
+      }
+
+      .user-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-left: auto;
+      }
+
+      .user-icon-button,
+      .logout-icon-button {
+        background: none;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        cursor: pointer;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease;
+
+        .k-icon {
+          color: var(--color-background-primary);
+          font-size: 1.4rem;
+        }
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.15);
+          box-shadow: none;
+        }
+
+        &:focus,
+        &:focus-visible,
+        &:active {
+          box-shadow: none;
+          outline: none;
         }
       }
 
       .text {
-        max-width: 70em;
-        width: 100%;
-        padding: 2rem 0;
+        flex: 1;
+        padding: 1.5rem 1.5rem 2.5rem 1.5rem;
+        text-align: left;
 
         .title {
           font-weight: 800;
-          font-size: 2.75rem;
-          line-height: 60px;
+          font-size: 2.25rem;
+          line-height: 1.2;
           margin: 0;
         }
 
         .subtitle {
           font-weight: 400;
-          font-size: 2.3125rem;
-          line-height: 60px;
-          margin: 0;
+          font-size: 1.75rem;
+          line-height: 1.3;
+          margin: 0.25rem 0 0 0;
         }
       }
+
       .user-badge {
         position: absolute;
         top: 0;
@@ -97,30 +173,13 @@
       .content-wrapper {
         .text {
           color: var(--color-background-primary);
-          display: flex;
-          align-items: baseline;
-          justify-content: center;
-          padding: 2.15rem 0;
-
-          .back {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--color-background-primary);
-            text-transform: uppercase;
-            cursor: pointer;
-
-            &:focus,
-            &:focus-visible {
-              outline: 2px solid white !important;
-            }
-          }
+          padding: 1.5rem 0;
+          text-align: center;
 
           .title {
             font-weight: 700;
             font-size: 1.5625rem;
             line-height: 125%;
-            margin-left: auto;
-            margin-right: auto;
           }
         }
       }
@@ -132,3 +191,4 @@
     color: var(--color-background-primary);
   }
 }
+

@@ -3,7 +3,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject, Observable, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 
 import { UserService, User } from 'src/app/services/user.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
@@ -79,7 +79,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   selectedDateRangeFilter = { start: new Date(), end: new Date() };
 
-  filtersObj: any = { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
+  filtersObj: any = { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
 
   searchString = '';
   filterActive = {};
@@ -119,19 +119,16 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     this.serviceRunService.initialize();
 
+    // Subscribe once to get initial data, then unsubscribe automatically
+    this.updatesSub = this.serviceRunService.serviceRunsUpdated$.pipe(
+      take(1)
+    ).subscribe(() => {
+      this.loadDataFromService();
+    });
+
     this.loadDataFromService();
 
     this.animateProcessingStatusBar();
-
-    this.searchFieldUpdate.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
-      this.serviceRuns = this.getExtendedServices(
-        this.serviceRunService.filterServiceRuns(this.searchString, this.filtersObj)
-      );
-    });
-
-    this.updatesSub = this.serviceRunService.serviceRunsUpdated$.subscribe(() => {
-      this.loadDataFromService();
-    });
   }
 
   ngOnDestroy(): void {
@@ -140,18 +137,31 @@ export class HistoryComponent implements OnInit, OnDestroy {
     }
   }
 
+  refreshHistory(): void {
+    this.serviceRunService.initialize();
+    this.loadDataFromService();
+  }
+
   private loadDataFromService(): void {
     if (this.allServicesHistory === true) {
       this.serviceRunsRaw = this.serviceRunService.getServiceRuns();
-      this.filters = this.serviceRunService.serviceRunsFilters;
+      this.filters = this.serviceRunService.serviceRunsFilters
+        .filter((filterGroup: any) => filterGroup.name !== 'Requester');
     } else {
       this.serviceRunsRaw = this.serviceRunService.getServiceRuns();
-      this.filters = this.serviceRunService.singleServiceRunsFilters;
+      this.filters = this.serviceRunService.singleServiceRunsFilters
+        .filter((filterGroup: any) => filterGroup.name !== 'Service' && filterGroup.name !== 'Requester');
     }
 
     this.serviceRuns = this.getExtendedServices(this.serviceRunsRaw);
 
     this.filters = this.filters.map(filterGroup => {
+      if (filterGroup.name === 'Status') {
+        return {
+          ...filterGroup,
+          filters: ['Completed', 'Processing', 'Processed with Errors'],
+        };
+      }
       return {
         ...filterGroup,
         filters: filterGroup.filters!.map((filter: any) => {
@@ -159,6 +169,28 @@ export class HistoryComponent implements OnInit, OnDestroy {
         }),
       };
     });
+  }
+
+  /**
+   * Maps the UI filter values to include the underlying data values.
+   * "Processing" in the UI should also match "Missing" in the data.
+   * "Processed with Errors" in the UI should also match "Error" in the data.
+   */
+  private getEffectiveFiltersObj(): any {
+    const effectiveFilters = { ...this.filtersObj };
+
+    if (effectiveFilters.status && effectiveFilters.status.length > 0) {
+      const expandedStatus = [...effectiveFilters.status];
+      if (expandedStatus.includes('Processing') && !expandedStatus.includes('Missing')) {
+        expandedStatus.push('Missing');
+      }
+      if (expandedStatus.includes('Processed with Errors') && !expandedStatus.includes('Error')) {
+        expandedStatus.push('Error');
+      }
+      effectiveFilters.status = expandedStatus;
+    }
+
+    return effectiveFilters;
   }
 
   onCheckboxChange(filterGroup: string, filter: string) {
@@ -174,7 +206,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     if (
       this.filtersObj ===
-      { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] }
+      { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] }
     ) {
       this.filterClearActive = false;
     } else {
@@ -208,43 +240,68 @@ export class HistoryComponent implements OnInit, OnDestroy {
   }
 
   onSearchStringUpdate(event: any) {
-    this.searchString = event.target.value;
+    if (event.target && event.target.value !== undefined) {
+      this.searchString = event.target.value;
+    }
     if (event.key === 'Enter' || event.type === 'click') {
+      this.searchString = this.searchField;
       this.serviceRuns = this.getExtendedServices(
-        this.serviceRunService.filterServiceRuns(this.searchString, this.filtersObj)
+        this.serviceRunService.filterServiceRuns(this.searchString, this.getEffectiveFiltersObj())
       );
     }
   }
 
   onServiceFilter(event: any = '') {
     this.serviceRuns = this.getExtendedServices(
-      this.serviceRunService.filterServiceRuns(this.searchString, this.filtersObj)
+      this.serviceRunService.filterServiceRuns(this.searchString, this.getEffectiveFiltersObj())
     );
+  }
+
+  private getStatusDisplayString(status: ServiceRunStatus): string {
+    switch (status) {
+      case ServiceRunStatus.Processing:
+        return 'Processing';
+      case ServiceRunStatus.Completed:
+        return 'Completed';
+      case ServiceRunStatus.Error:
+        return 'Processed with Errors';
+      case ServiceRunStatus['Processed with Errors']:
+        return 'Processed with Errors';
+      case ServiceRunStatus.Missing:
+        return 'Processing';
+      default:
+        return '';
+    }
   }
 
   getExtendedServices(services: ServiceRun[]): ServiceRunExtended[] {
     let serviceRunExtended: ServiceRunExtended[] = services.map(serviceRun => {
-      // Map Missing → Processing for display, but keep Error as Error
-      const displayStatus = serviceRun.status.map(s => 
+      const displayStatus = serviceRun.status.map(s =>
         s === ServiceRunStatus.Missing ? ServiceRunStatus.Processing : s
       );
 
+      const filteredStatus = displayStatus.filter(
+        (status: ServiceRunStatus) => status !== ServiceRunStatus.Scheduled
+      );
+
+      const statusString = filteredStatus
+        .map(s => this.getStatusDisplayString(s))
+        .join(',');
+
       return {
         ...serviceRun,
-        status: displayStatus.filter((status: ServiceRunStatus) => status !== ServiceRunStatus.Scheduled),
-        statusString: displayStatus
-          .filter((status: ServiceRunStatus) => status !== ServiceRunStatus.Scheduled)
-          .toString(),
+        status: filteredStatus,
+        statusString: statusString,
         comment: serviceRun.comment.slice(0, 60),
         userObject: this.userService.getUserById(serviceRun.userId) || new User(),
         scheduled: serviceRun.status.includes(ServiceRunStatus.Scheduled),
-        statusColor: displayStatus.includes(ServiceRunStatus.Completed)
+        statusColor: filteredStatus.includes(ServiceRunStatus.Completed)
           ? 'var(--color-cta)'
-          : displayStatus.includes(ServiceRunStatus.Processing)
+          : filteredStatus.includes(ServiceRunStatus.Processing)
           ? 'var(--color-accent-6)'
-          : displayStatus.includes(ServiceRunStatus['Processed with Errors'])
+          : filteredStatus.includes(ServiceRunStatus['Processed with Errors'])
           ? 'var(--color-accent-2)'
-          : displayStatus.includes(ServiceRunStatus.Error)
+          : filteredStatus.includes(ServiceRunStatus.Error)
           ? 'var(--color-accent-2)'
           : '',
         durationString: DateTimeService.hoursToGreatesUnit(serviceRun.durationHours),
@@ -317,7 +374,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   clearAllFilters() {
     this.showFilterPopupIndex = -1;
-    this.filtersObj = { status: [], requester: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
+    this.filtersObj = { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
     this.selectedDateRangeFilter = { start: new Date(), end: new Date() };
     this.serviceRunService.filtersActive = false;
     this.onServiceFilter();
@@ -335,7 +392,6 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.router.navigate(['history'], { relativeTo: this.route });
   }
 
-  // TrackBy function to prevent DOM flicker on refresh
   trackByRunId(index: number, item: ServiceRunExtended): string {
     return item.id + item.statusString;
   }

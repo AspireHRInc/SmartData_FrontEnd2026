@@ -18,11 +18,29 @@ export class TilesTileComponent implements OnInit {
   @HostBinding('attr.role') ariaRole = 'button';
 
   favorite = false;
+  imagePath = '';
+
+  private readonly tileImageMap: Record<string, string> = {
+    'Template Script': 'assets/images/tiles/template_script.jpg',
+    'EC Diamond Data Capture': 'assets/images/tiles/diamond_data.jpg',
+    'HeartBeat': 'assets/images/tiles/heartbeat.jpg',
+    'Test PT': 'assets/images/tiles/test_pt.jpg',
+    'Test SmartData Cloud Connector': 'assets/images/tiles/cloud_connector.jpg',
+    'Clone of Test PT': 'assets/images/tiles/clone_testpt.jpg',
+    'I9 Research': 'assets/images/tiles/i9_research.jpg',
+  };
+
+  private readonly defaultImage = 'assets/images/tiles/default.png';
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.favorite = this.data.metaTags.find(tag => tag.name === 'Favorites') === undefined ? false : true;
+    this.imagePath = this.getDefaultImage(this.data.name);
+  }
+
+  getDefaultImage(serviceName: string): string {
+    return this.tileImageMap[serviceName] || this.defaultImage;
   }
 
   onFavorite(event: Event) {
@@ -40,6 +58,7 @@ export class TilesTileComponent implements OnInit {
     event.stopPropagation();
     this.openInfo.emit();
   }
+
   onClickService(event: Event) {
     if (this.data.subscribed) {
       if (
@@ -47,7 +66,8 @@ export class TilesTileComponent implements OnInit {
         (event.type === 'keyup' &&
           ((event as KeyboardEvent).code === 'Space' || (event as KeyboardEvent).code === 'Enter'))
       ) {
-        this.router.navigate(['/services', this.data.id, 'detail', 'setup']);
+        const slug = this.data.name.toLowerCase().replace(/\s+/g, '-');
+        this.router.navigate(['/services', slug, 'detail', 'setup']);
       }
     }
   }

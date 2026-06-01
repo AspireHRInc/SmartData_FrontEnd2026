@@ -3,28 +3,17 @@
   <ss-icon-logo-dark class="logo"></ss-icon-logo-dark>
   <div class="panel">
     <h1 class="title">
-      <em>Unlock more Possibility</em>
-      to your business with SmartSuite
+      <em>SmartData</em>
+      <br />
+      Smarter starts here.
     </h1>
 
     <p class="detail">
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-      standard dummy text ev
+      Welcome to SmartData - the modern HR platform by AspireHR. 
+      
     </p>
     <div class="ratings">
       <div class="users">
-        <div class="user-badges">
-          <ss-user-badges [users]="usersObjects" size="60px"></ss-user-badges>
-        </div>
-      </div>
-      <div class="happy-customers">
-        <h2 class="number">{{ loginService.numberOfHappyCustomers | number }}</h2>
-        <p>Happy Customers</p>
-      </div>
-      <div class="vertical-divider"></div>
-      <div class="star-rating">
-        <h2 class="number">{{ loginService.userRating }}/5</h2>
-        <rr-star-rating [rating]="loginService.userRating" [showRatingNumber]="false"></rr-star-rating>
       </div>
     </div>
   </div>
@@ -91,17 +80,23 @@
               &nbsp;{{ messages }}
             </div>
           </kendo-formfield>
-          <button
-            class="primary"
-            (click)="signin()"
-            type="submit"
-            [class.disabled]="signInFormGroup.status !== 'VALID'"
-            [disabled]="signInFormGroup.status !== 'VALID'"
-          >
-            Sign In
-          </button>
+          <div class="button-group">
+            <button class="secondary back" (click)="back()" type="button">
+              Back
+            </button>
+            <button
+              class="primary"
+              (click)="signin()"
+              type="submit"
+              [class.disabled]="signInFormGroup.status !== 'VALID'"
+              [disabled]="signInFormGroup.status !== 'VALID'"
+            >
+              Sign In
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+

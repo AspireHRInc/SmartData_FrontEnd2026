@@ -1,9 +1,7 @@
-
 import { Component, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { CanComponentDeactivate } from 'src/app/services/can-deactivate-guard.service';
 import { ServiceSetupService, Field, Fields } from 'src/app/services/service-setup.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
 
@@ -12,8 +10,7 @@ import { UiStateService } from 'src/app/services/ui-state.service';
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.less'],
 })
-export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDeactivate {
-  // CHANGED: Use a getter so it always reads the CURRENT value from the service
+export class SetupComponent implements OnInit, AfterViewChecked {
   get serviceSetupFields(): Fields {
     return this.serviceSetup.currentServiceFields;
   }
@@ -41,8 +38,6 @@ export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDea
       this.serviceId = params['id'];
       this.uiState.setIdServiceDetailId(params['id']);
     });
-    // REMOVED: this.serviceSetupFields = this.serviceSetup.getServiceSetup(this.serviceId);
-    // No longer needed — the getter reads directly from the service
   }
 
   ngAfterViewChecked(): void {
@@ -57,22 +52,35 @@ export class SetupComponent implements OnInit, AfterViewChecked, CanComponentDea
     this.uiState.showServiceDetail();
   }
 
-  onSubmit(formResults: FormGroup) {
-  console.log('Form values:', this.formGroup.value);
-  console.log('Current fields:', this.serviceSetup.currentServiceFields.Parameters.map(f => f.ParameterName));
+  onSubmit(formResults: any) {
+    let formValues: any = {};
 
-  this.fieldsWithValues = this.serviceSetup.currentServiceFields.Parameters.map(field => {
-    const value = this.formGroup.value[field.ParameterName];
-    console.log(`Field ${field.ParameterName}: value = ${value}`);
-    return { ...field, value: value || field.DefaultValue || '' };
-  });
+    if (formResults?.controls) {
+      Object.keys(formResults.controls).forEach(key => {
+        formValues[key] = formResults.controls[key].value;
+      });
+    } else if (formResults?.value) {
+      formValues = formResults.value;
+    } else {
+      formValues = formResults || {};
+    }
 
-  console.log('Fields with values:', this.fieldsWithValues);
-  this.changesSaved = true;
-  this.serviceSetup.currentServiceSetup = this.fieldsWithValues;
-  this.router.navigate(['confirm'], { relativeTo: this.route.parent });
-}
+    this.fieldsWithValues = this.serviceSetup.currentServiceFields.Parameters.map((field, index) => {
+      const value = formValues[field.ParameterName]
+        ?? formValues[field.Caption]
+        ?? formValues[index]
+        ?? formValues[`field_${index}`]
+        ?? field.value
+        ?? field.DefaultValue
+        ?? '';
+      return { ...field, value };
+    });
 
+    this.changesSaved = true;
+    this.serviceSetup.currentServiceSetup = this.fieldsWithValues;
+    this.serviceSetup.lockSetup();
+    this.router.navigate(['confirm'], { relativeTo: this.route.parent });
+  }
 
   onAbortFile(fileName: string) {
     this.serviceSetup.onFileRemove(fileName);

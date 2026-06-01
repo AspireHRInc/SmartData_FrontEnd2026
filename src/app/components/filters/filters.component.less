@@ -3,13 +3,13 @@
 
   .window {
     padding: 0;
-    max-height: 100vh;
-    max-width: 100vw;
+    max-height: 70vh;
+    max-width: 50vw;
 
     .title {
       margin: 0;
       font-weight: 700;
-      font-size: 1.5625rem;
+      font-size: 1.25rem;
       color: var(--color-text-primary);
     }
 
@@ -20,22 +20,22 @@
     }
 
     .insights-container {
-      max-height: calc(100vh - 7rem);
+      max-height: calc(60vh - 5rem);
       overflow-y: auto;
       background: rgba(var(--color-background-secondary-rgb), 1);
-      padding: 1.5rem;
+      padding: 1rem 1.25rem;
 
       .fieldset {
-        margin-bottom: 2rem;
+        margin-bottom: 1.25rem;
         border: none;
         padding: 0;
 
         .name {
           font-weight: 700;
-          font-size: 1.125rem;
+          font-size: 0.9375rem;
           line-height: 125%;
           color: var(--color-text-primary);
-          margin-bottom: 1rem;
+          margin-bottom: 0.75rem;
           text-transform: uppercase;
           letter-spacing: 0.5px;
           opacity: 0.8;
@@ -45,13 +45,13 @@
           .stat-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 0.75rem;
 
             .stat-item {
               background: rgba(var(--color-background-primary-rgb), 0.5);
               border: 1px solid rgba(var(--color-text-primary-rgb), 0.1);
               border-radius: 0.5rem;
-              padding: 1.25rem;
+              padding: 0.875rem;
               text-align: center;
               transition: all 200ms ease;
 
@@ -63,15 +63,15 @@
 
               .stat-value {
                 font-weight: 800;
-                font-size: 2rem;
+                font-size: 1.5rem;
                 line-height: 125%;
                 color: var(--color-cta);
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.25rem;
               }
 
               .stat-label {
                 font-weight: 500;
-                font-size: 0.875rem;
+                font-size: 0.75rem;
                 line-height: 125%;
                 color: rgba(var(--color-text-primary-rgb), 0.6);
                 text-transform: uppercase;
@@ -85,13 +85,13 @@
           .recent-list {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.5rem;
 
             .recent-item {
               background: rgba(var(--color-background-primary-rgb), 0.5);
               border: 1px solid rgba(var(--color-text-primary-rgb), 0.1);
               border-radius: 0.5rem;
-              padding: 1rem;
+              padding: 0.75rem;
               display: flex;
               justify-content: space-between;
               align-items: center;
@@ -107,7 +107,7 @@
 
               .recent-name {
                 font-weight: 600;
-                font-size: 0.9375rem;
+                font-size: 0.875rem;
                 line-height: 125%;
                 color: var(--color-text-primary);
                 flex: 1;
@@ -115,30 +115,30 @@
 
               .recent-status {
                 font-weight: 600;
-                font-size: 0.75rem;
+                font-size: 0.6875rem;
                 line-height: 125%;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
-                margin: 0 1rem;
-                min-width: 80px;
+                margin: 0 0.75rem;
+                min-width: 70px;
                 text-align: center;
               }
 
               .recent-time {
                 font-weight: 400;
-                font-size: 0.75rem;
+                font-size: 0.6875rem;
                 line-height: 125%;
                 color: rgba(var(--color-text-primary-rgb), 0.6);
                 text-align: right;
-                min-width: 120px;
+                min-width: 100px;
               }
             }
 
             .empty-state {
               text-align: center;
-              padding: 2rem 1rem;
+              padding: 1.5rem 1rem;
               color: rgba(var(--color-text-primary-rgb), 0.5);
-              font-size: 0.875rem;
+              font-size: 0.8125rem;
               font-style: italic;
             }
           }
@@ -150,7 +150,7 @@
       display: flex;
       justify-content: flex-end;
       gap: 0.5rem;
-      padding: 1rem 1.5rem;
+      padding: 0.75rem 1.25rem;
       border-top: 1px solid rgba(var(--color-text-primary-rgb), 0.1);
       background: rgba(var(--color-background-secondary-rgb), 0.5);
 

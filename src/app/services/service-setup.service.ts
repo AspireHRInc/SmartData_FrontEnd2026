@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -52,6 +53,7 @@ export class ServiceSetupService {
   currentServiceFields: Fields = new Fields();
   currentServiceSetup: Field[] = [];
   currentProcessItem: any = null;
+  private setupLocked = false;
 
   private apiBase = '/api';
 
@@ -63,6 +65,14 @@ export class ServiceSetupService {
     this.uiState.abandonCurrentForm$.subscribe(() => {
       this.currentFormAbandoned();
     });
+  }
+
+  lockSetup(): void {
+    this.setupLocked = true;
+  }
+
+  unlockSetup(): void {
+    this.setupLocked = false;
   }
 
   private getIdToken(): string {
@@ -140,6 +150,11 @@ export class ServiceSetupService {
   }
 
   loadServiceSetup(processItem: any): void {
+    if (this.setupLocked) {
+      console.log('loadServiceSetup skipped — setup is locked');
+      return;
+    }
+
     console.log('loadServiceSetup called with:', processItem);
 
     // RESET first — prevents stale data when switching tiles
@@ -267,8 +282,8 @@ export class ServiceSetupService {
     console.log('Executing process:', processItem.name);
     console.log('UUID:', uuid);
     console.log('Request body:', body);
-    // Add this line right before the http.post call in onServiceSubmit:
     this.serviceRunService.lastExecutedServiceName = processItem.name || '';
+    console.log('currentServiceSetup values:', this.currentServiceSetup.map(f => ({ name: f.ParameterName, value: f.value })));
 
     this.http.post<any>(
       `${this.apiBase}/ScheduledProcess/${uuid}/executeProcess`,
@@ -277,15 +292,15 @@ export class ServiceSetupService {
     ).subscribe({
       next: data => {
         console.log('Execution response:', data);
-        // Refresh immediately to show the new run
+        this.unlockSetup();
         this.serviceRunService.refresh();
-        // Poll again at 5s, 10s, and 20s to pick up status updates from execution lambda
         setTimeout(() => this.serviceRunService.refresh(), 5000);
         setTimeout(() => this.serviceRunService.refresh(), 10000);
         setTimeout(() => this.serviceRunService.refresh(), 20000);
       },
       error: error => {
         console.error('Execution error:', error);
+        this.unlockSetup();
         this.uiState.setErrorNotification(String(error.message));
         this.serviceRunService.refresh();
       },
@@ -300,3 +315,4 @@ export class ServiceSetupService {
     return this.currentServiceFields;
   }
 }
+

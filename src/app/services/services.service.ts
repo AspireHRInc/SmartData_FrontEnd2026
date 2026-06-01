@@ -79,22 +79,64 @@ export class ServicesService {
   private initialized = false;
   private baseUrl = '/api';
 
+  private readonly tileImageMap: Record<string, string> = {
+    'Template Script': 'assets/images/tiles/template_script_icon.png',
+    'EC Diamond Data Capture': 'assets/images/tiles/ec_diamond_data_capture_icon.png',
+    'HeartBeat': 'assets/images/tiles/heartbeat_icon.png',
+    'Test PT': 'assets/images/tiles/test_pt_icon.png',
+    'Test SmartData Cloud Connector': 'assets/images/tiles/smartdata_cloud_connector_icon.png',
+    'Clone of Test PT': 'assets/images/tiles/clone_test_pt_icon.png',
+    'I9 Research': 'assets/images/tiles/i9_research_icon.png',
+  };
+
+  private readonly defaultTileImage = 'assets/images/tiles/default.png';
+
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  private getHeaders(): HttpHeaders {
-    const token = this.authService.getIdToken();
-    const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-    const partition = (payload['custom:Org'] || '').replace(/#$/, '');
+ private getHeaders(): HttpHeaders {
+  // Read token directly from localStorage (avoids race condition with AuthService)
+  const keys = Object.keys(localStorage);
+  const idTokenKey = keys.find(k => k.includes('idToken'));
+  const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
 
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      Partition: partition,
-    });
+  if (!token) {
+    console.warn('Token not available yet');
+    return new HttpHeaders({ Authorization: '', Partition: '' });
+  }
+
+  const parts = token.split('.');
+  if (parts.length !== 3) {
+    return new HttpHeaders({ Authorization: `Bearer ${token}`, Partition: '' });
+  }
+
+  const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+  const partition = (payload['custom:Org'] || '').replace(/#$/, '');
+
+  return new HttpHeaders({
+    Authorization: `Bearer ${token}`,
+    Partition: partition,
+  });
+}
+
+  private getDefaultImage(serviceName: string): string {
+    return this.tileImageMap[serviceName] || this.defaultTileImage;
   }
 
   initialize(): void {
     if (this.initialized) return;
     this.initialized = true;
+
+    // Retry loading if token isn't ready yet
+    const token = this.authService.getIdToken();
+    if (!token) {
+      console.warn('Token not ready, retrying in 1s...');
+      setTimeout(() => {
+        this.initialized = false;
+        this.initialize();
+      }, 1000);
+      return;
+    }
+
     this.loadProcessTypes();
   }
 
@@ -104,11 +146,17 @@ export class ServicesService {
     this.http.get<any>(`${this.baseUrl}/ScheduledProcess/list`, { headers }).subscribe(
       (response) => {
         console.log('Process list response:', response);
-        const items = response.Items || [];
+
+        // Filter out metadata/schema records (e.g. SK: "ScheduledProcess#ScheduledProcess")
+        const items = (response.Items || []).filter((item: any) => {
+          const sk = item.SK || '';
+          return sk !== 'ScheduledProcess#ScheduledProcess' && item.name;
+        });
+
         const services: Service[] = items.map((item: any) => ({
           id: item.SK || item.id || '0',
           name: item.name || item.processTypeName || '',
-          imagePath: item.defaultProcessTypeVersionSSObjectKey || '',
+          imagePath: this.getDefaultImage(item.name || item.processTypeName || ''),
           weighting: 0,
           subscribed: true,
           displayTags: (item.tags || []).map((t: any) => ({ id: t.id || '0', name: t.name || t })),
@@ -130,7 +178,17 @@ export class ServicesService {
         this.allServices = [category];
         this.defaultServices = [category];
       },
-      (error) => console.error('Error loading process types:', error)
+      (error) => {
+        console.error('Error loading process types:', error);
+        // If 401, retry after a delay (token may not have been ready)
+        if (error.status === 401) {
+          console.warn('Got 401, retrying in 2s...');
+          setTimeout(() => {
+            this.initialized = false;
+            this.initialize();
+          }, 2000);
+        }
+      }
     );
   }
 
@@ -224,29 +282,28 @@ export class ServicesService {
   }
 
   toggleFavorite(serviceId: string, tags: Tag[]): Observable<any> {
-  let favorite = tags.find(tag => tag.name === 'Favorites') === undefined ? false : true;
+    let favorite = tags.find(tag => tag.name === 'Favorites') === undefined ? false : true;
 
-  if (!favorite) {
-    favorite = true;
-    tags.push({
-      id: '3-1',
-      name: 'Favorites',
-    });
-  } else {
-    favorite = false;
-    tags = tags.filter(tag => {
-      return tag.name !== 'Favorites';
-    });
+    if (!favorite) {
+      favorite = true;
+      tags.push({
+        id: '3-1',
+        name: 'Favorites',
+      });
+    } else {
+      favorite = false;
+      tags = tags.filter(tag => {
+        return tag.name !== 'Favorites';
+      });
+    }
+
+    // Save to backend
+    return this.http.put<any>(
+      `${this.baseUrl}/ScheduledProcess/${serviceId}`,
+      { tags: tags },
+      { headers: this.getHeaders() }
+    );
   }
-
-  // Save to backend
-  return this.http.put<any>(
-    `${this.baseUrl}/ScheduledProcess/${serviceId}`,
-    { tags: tags },
-    { headers: this.getHeaders() }
-  );
-}
-
 
   getServiceById(id: string): Service {
     return this.allServices[0]?.services.find(service => service.id === id)!;
@@ -265,12 +322,8 @@ export class ServicesService {
   }
 
   getProcessTypeVersion(ssObjectKey: string): Observable<any> {
-  // ssObjectKey = "PTM#29e4718e-...#PTV#148973ee-..."
-  // Just fetch the PTM item — it likely contains the PTV data
-  const ptmId = ssObjectKey.split('#')[1];  // "29e4718e-f24b-421f-90f8-0ec3be068d71"
-  return this.http.get(`/api/PTM/${ptmId}`, { headers: this.getHeaders() });
-}
-
-
+    const ptmId = ssObjectKey.split('#')[1];
+    return this.http.get(`/api/PTM/${ptmId}`, { headers: this.getHeaders() });
+  }
 }
 

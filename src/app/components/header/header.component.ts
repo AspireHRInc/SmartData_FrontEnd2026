@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { trigger, style, animate, transition } from '@angular/animations';
-
+import { Router } from '@angular/router';
 import { User } from 'src/app/services/user.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'ss-header',
@@ -30,7 +31,12 @@ export class HeaderComponent implements OnInit {
   @Input() type = 'dashboard';
   menuOpenState = false;
 
-  constructor(private location: Location, public uiState: UiStateService) {}
+  constructor(
+    private location: Location,
+    public uiState: UiStateService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -39,10 +45,10 @@ export class HeaderComponent implements OnInit {
       event.type === 'keyup' &&
       ((event as KeyboardEvent).code === 'Space' || (event as KeyboardEvent).code === 'Enter')
     ) {
-      this.location.back();
+      this.router.navigate(['/services/dashboard']);
     }
     if (event.type === 'click') {
-      this.location.back();
+      this.router.navigate(['/services/dashboard']);
     }
   }
 
@@ -51,10 +57,27 @@ export class HeaderComponent implements OnInit {
     this.uiState.toggleMenu(this.menuOpenState);
   }
 
+  goHome(event: Event) {
+    event.preventDefault();
+    this.router.navigate(['/services/dashboard']);
+  }
+
+  keyGoHome(event: KeyboardEvent) {
+    if (event.key === ' ' || event.key === 'Enter') {
+      event.preventDefault();
+      this.router.navigate(['/services/dashboard']);
+    }
+  }
+
   keyToggleMenu(event: KeyboardEvent) {
     if (event.key === ' ' || event.key === 'Enter') {
       this.menuOpenState = !this.menuOpenState;
       this.uiState.toggleMenu(this.menuOpenState);
     }
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

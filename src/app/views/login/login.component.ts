@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,6 +26,8 @@ import { LoginService } from 'src/app/services/login.service';
   ],
 })
 export class LoginComponent implements OnInit {
+  @HostBinding('style.background')
+  hostBackground = 'linear-gradient(to right, #ffffff 0%, #ffffff 20%, #dce6f5 70%, #dce6f5 100%)';
   username = '';
   password = '';
   messages = '';
@@ -57,6 +59,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.users = this.loginService.loginUserBadgeIds;
     this.usersObjects = this.userService.getUsersByIds(this.users);
+  }
+
+  back(): void {
+    this.step = 0;
+    this.messages = '';
   }
 
   onKeyUp(e: KeyboardEvent) {

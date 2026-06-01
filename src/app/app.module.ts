@@ -1,4 +1,3 @@
-
 // ANGULAR
 import { NgModule, ElementRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,6 +20,7 @@ import { AppComponent } from './app.component';
 
 // INTERCEPTORS
 import { UploadInterceptorService } from './services/upload-interceptor.service';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 // VIEWS
 import { LoginComponent } from './views/login/login.component';
@@ -33,13 +33,12 @@ import { DashboardComponent } from './views/services/dashboard/dashboard.compone
 
 import { CancelServiceRunComponent } from './views/shared/history/cancel-service-run/cancel-service-run.component';
 import { ServiceRunResultsComponent } from './views/shared/history/service-run-results/service-run-results.component';
-import { ServiceRunInfoComponent } from './views/shared/history/service-run-info/service-run-info.component';
-import { ServiceDetailComponent } from './views/shared/service-detail/service-detail.component';
 import { NavigationComponent } from './views/services/detail/navigation/navigation.component';
 import { AdminComponent } from './views/admin/admin.component';
 import { UsersComponent } from './views/admin/users/users.component';
 import { RemoveGroupConfirmComponent } from './views/admin/remove-group-confirm/remove-group-confirm.component';
 import { UserDetailComponent } from './views/admin/user-detail/user-detail.component';
+import { SessionExpiredComponent } from './components/session-expired/session-expired.component';
 import { NotificationModule, NOTIFICATION_CONTAINER } from '@progress/kendo-angular-notification';
 
 @NgModule({
@@ -54,13 +53,12 @@ import { NotificationModule, NOTIFICATION_CONTAINER } from '@progress/kendo-angu
     DashboardComponent,
     CancelServiceRunComponent,
     ServiceRunResultsComponent,
-    ServiceRunInfoComponent,
-    ServiceDetailComponent,
     NavigationComponent,
     AdminComponent,
     UsersComponent,
     RemoveGroupConfirmComponent,
     UserDetailComponent,
+    SessionExpiredComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,6 +78,11 @@ import { NotificationModule, NOTIFICATION_CONTAINER } from '@progress/kendo-angu
       multi: true,
     },
     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
       provide: NOTIFICATION_CONTAINER,
       useFactory: () => {
         return { nativeElement: document.body } as ElementRef;
@@ -91,4 +94,3 @@ import { NotificationModule, NOTIFICATION_CONTAINER } from '@progress/kendo-angu
 export class AppModule {}
 
 platformBrowserDynamic().bootstrapModule(AppModule);
-

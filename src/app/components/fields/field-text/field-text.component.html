@@ -1,36 +1,15 @@
 <div
-  kendoTooltip
   class="right"
-  position="bottom"
-  [title]="parameters.HelpText"
-  [tooltipTemplate]="template"
-  tooltipClass="tool-tip"
-  showOn="none"
-  #anchor
   *ngIf="!static"
 >
   <kendo-label class="label" [text]="parameters.Caption" [formGroup]="formGroup">
     <span class="required" *ngIf="parameters.Required">*</span>
-    <button
-      class="info"
-      [tabindex]="0"
-      (click)="toggleToolTip(anchor)"
-      [attr.aria-label]="'Field Help ' + parameters.HelpText"
-      type="button"
-    >
-      ?
-    </button>
     <kendo-textbox
       [formControlName]="parameters.ParameterName"
-      (focus)="showToolTip(anchor)"
-      (blur)="hideToolTip(anchor)"
       [tabindex]="0"
     ></kendo-textbox>
   </kendo-label>
 </div>
-<ng-template #template let-anchor>
-  <span>{{ parameters.HelpText }}</span>
-</ng-template>
 
 <li class="item" *ngIf="static">
   <p class="label">{{ parameters.Caption }}</p>

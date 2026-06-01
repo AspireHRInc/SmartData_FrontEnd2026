@@ -22,6 +22,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   processDetails: any = null;
 
   private routeSub!: Subscription;
+  private lastLoadedSlug = '';  // Track the last loaded slug
 
   constructor(
     private route: ActivatedRoute,
@@ -37,23 +38,46 @@ export class DetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Subscribe to route params — fires every time the :id changes
     this.routeSub = this.route.params.subscribe(params => {
-      const rawId = params['id'];
-      this.currentServiceId = rawId;
+      const slug = params['id'];
 
-      // Guard against data not loaded yet
+      // ONLY re-fetch if the slug actually changed
+      if (this.lastLoadedSlug === slug) {
+        return;  // Skip re-fetch when navigating to child routes (setup → confirm)
+      }
+      this.lastLoadedSlug = slug;
+
+      // Resolve slug to actual service ID and name
+      let resolvedId = slug;
+      let resolvedName = '';
+
       if (this.servicesService.allServices.length && this.servicesService.allServices[0]?.services) {
-        const found = this.servicesService.allServices[0].services.find(
-          (service: any) => service.id === this.currentServiceId.toString()
+        // First try to match by slug (name-based URL)
+        const foundBySlug = this.servicesService.allServices[0].services.find(
+          (service: any) => service.name.toLowerCase().replace(/\s+/g, '-') === slug
         );
-        if (found) {
-          this.currentServiceName = found.name;
+
+        if (foundBySlug) {
+          resolvedId = foundBySlug.id;
+          resolvedName = foundBySlug.name;
+        } else {
+          // Fallback: try to match by raw ID (for backwards compatibility)
+          const foundById = this.servicesService.allServices[0].services.find(
+            (service: any) => service.id === slug
+          );
+          if (foundById) {
+            resolvedId = foundById.id;
+            resolvedName = foundById.name;
+          }
         }
       }
 
+      this.currentServiceId = resolvedId;
+      this.currentServiceName = resolvedName;
+
       // Strip the SK prefix if present (e.g., "ScheduledProcess#uuid" → "uuid")
-      const id = rawId.includes('#')
-        ? rawId.split('#')[1]
-        : rawId;
+      const id = resolvedId.includes('#')
+        ? resolvedId.split('#')[1]
+        : resolvedId;
 
       // Fetch the process details (ScheduledProcess data)
       this.servicesService.getProcessDetails(id).subscribe(

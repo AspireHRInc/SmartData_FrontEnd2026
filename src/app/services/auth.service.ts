@@ -15,6 +15,8 @@ const userPool = new CognitoUserPool(poolData);
 })
 export class AuthService {
   isAuthenticated = new BehaviorSubject<boolean>(!environment.production);
+  sessionExpired$ = new BehaviorSubject<boolean>(false);
+  private sessionExpiredShown = false;
   private idToken: string = '';
   private accessToken: string = '';
   private refreshToken: string = '';
@@ -79,6 +81,18 @@ export class AuthService {
     return this.accessToken;
   }
 
+  showSessionExpired(): void {
+    if (!this.sessionExpiredShown) {
+      this.sessionExpiredShown = true;
+      this.sessionExpired$.next(true);
+    }
+  }
+
+  dismissSessionExpired(): void {
+    this.sessionExpiredShown = false;
+    this.sessionExpired$.next(false);
+  }
+
   logout(): void {
     const currentUser = userPool.getCurrentUser();
     if (currentUser) {
@@ -94,3 +108,4 @@ export class AuthService {
     this.messages = '';
   }
 }
+
