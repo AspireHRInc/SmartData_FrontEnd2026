@@ -1,3 +1,4 @@
+
 <ss-navigation></ss-navigation>
 <ss-field-group
   [fields]="serviceSetup.currentServiceFields.Parameters"
@@ -6,8 +7,8 @@
   [staticData]="currentSetup"
   step="2"
 >
-  <kendo-label [for]="comments" text="Comments" class="customizing-label" [formGroup]="formGroup">
-    <kendo-textarea #comments formControlName="comment" resizable="none" [rows]="3" [maxlength]="1000"></kendo-textarea>
+  <kendo-label [for]="taskNameInput" text="Task Name" class="customizing-label" [formGroup]="formGroup">
+    <input #taskNameInput kendoTextBox formControlName="taskName" placeholder="Name this run (optional)" />
   </kendo-label>
   <ng-container actions></ng-container>
 </ss-field-group>

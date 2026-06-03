@@ -7,7 +7,8 @@ import { UiStateService } from 'src/app/services/ui-state.service';
 import { ServicesService } from 'src/app/services/services.service';
 import { ServiceSetupService } from 'src/app/services/service-setup.service';
 import { ServiceRunService } from 'src/app/services/service-run.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'ss-detail',
@@ -22,7 +23,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   processDetails: any = null;
 
   private routeSub!: Subscription;
-  private lastLoadedSlug = '';  // Track the last loaded slug
+  private lastLoadedSlug = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -36,33 +37,73 @@ export class DetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Subscribe to route params — fires every time the :id changes
     this.routeSub = this.route.params.subscribe(params => {
       const slug = params['id'];
 
       // ONLY re-fetch if the slug actually changed
       if (this.lastLoadedSlug === slug) {
-        return;  // Skip re-fetch when navigating to child routes (setup → confirm)
+        return;
       }
       this.lastLoadedSlug = slug;
 
-      // Resolve slug to actual service ID and name
-      let resolvedId = slug;
-      let resolvedName = '';
+      // Wait for services to be loaded before resolving the slug
+      this.waitForServicesAndLoad(slug);
+    });
+  }
 
-      if (this.servicesService.allServices.length && this.servicesService.allServices[0]?.services) {
-        // First try to match by slug (name-based URL)
-        const foundBySlug = this.servicesService.allServices[0].services.find(
-          (service: any) => service.name.toLowerCase().replace(/\s+/g, '-') === slug
+  private waitForServicesAndLoad(slug: string): void {
+    // If services are already loaded, resolve immediately
+    if (this.servicesService.allServices.length > 0 && this.servicesService.allServices[0]?.services?.length > 0) {
+      this.resolveAndLoad(slug);
+      return;
+    }
+
+    // Otherwise, wait for the services to load (poll via servicesService)
+    // The servicesService loads on init — we just need to wait for it
+    const checkInterval = setInterval(() => {
+      if (this.servicesService.allServices.length > 0 && this.servicesService.allServices[0]?.services?.length > 0) {
+        clearInterval(checkInterval);
+        this.resolveAndLoad(slug);
+      }
+    }, 100);
+
+    // Safety timeout — if services don't load within 5 seconds, try with raw slug
+    setTimeout(() => {
+      clearInterval(checkInterval);
+      if (!this.currentServiceId || this.currentServiceId === slug) {
+        console.warn('Services did not load in time, attempting with raw slug:', slug);
+        this.resolveAndLoad(slug);
+      }
+    }, 5000);
+  }
+
+  private resolveAndLoad(slug: string): void {
+    // Resolve slug to actual service ID and name
+    let resolvedId = slug;
+    let resolvedName = '';
+
+    if (this.servicesService.allServices.length && this.servicesService.allServices[0]?.services) {
+      // First try to match by slug (name-based URL)
+      const foundBySlug = this.servicesService.allServices[0].services.find(
+        (service: any) => service.name.toLowerCase().replace(/\s+/g, '-') === slug.toLowerCase()
+      );
+
+      if (foundBySlug) {
+        resolvedId = foundBySlug.id;
+        resolvedName = foundBySlug.name;
+      } else {
+        // Try exact name match (case-insensitive)
+        const foundByName = this.servicesService.allServices[0].services.find(
+          (service: any) => service.name.toLowerCase() === slug.toLowerCase()
         );
 
-        if (foundBySlug) {
-          resolvedId = foundBySlug.id;
-          resolvedName = foundBySlug.name;
+        if (foundByName) {
+          resolvedId = foundByName.id;
+          resolvedName = foundByName.name;
         } else {
-          // Fallback: try to match by raw ID (for backwards compatibility)
+          // Fallback: try to match by raw ID (for backwards compatibility with UUID URLs)
           const foundById = this.servicesService.allServices[0].services.find(
-            (service: any) => service.id === slug
+            (service: any) => service.id === slug || service.id.includes(slug)
           );
           if (foundById) {
             resolvedId = foundById.id;
@@ -70,81 +111,79 @@ export class DetailComponent implements OnInit, OnDestroy {
           }
         }
       }
+    }
 
-      this.currentServiceId = resolvedId;
-      this.currentServiceName = resolvedName;
+    this.currentServiceId = resolvedId;
+    this.currentServiceName = resolvedName;
 
-      // Strip the SK prefix if present (e.g., "ScheduledProcess#uuid" → "uuid")
-      const id = resolvedId.includes('#')
-        ? resolvedId.split('#')[1]
-        : resolvedId;
+    // Strip the SK prefix if present (e.g., "ScheduledProcess#uuid" → "uuid")
+    const id = resolvedId.includes('#')
+      ? resolvedId.split('#')[1]
+      : resolvedId;
 
-      // Fetch the process details (ScheduledProcess data)
-      this.servicesService.getProcessDetails(id).subscribe(
-        (response: any) => {
-          console.log('Process details:', response);
-          this.processDetails = response;
+    console.log('Resolved slug:', slug, '→ ID:', id, '→ Name:', resolvedName);
 
-          const items = response.Items || [];
-          if (items.length > 0) {
-            const processItem = items[0];
-            console.log('Process item:', processItem);
-            console.log('Input parameters:', processItem.inputParameters);
+    // Fetch the process details (ScheduledProcess data)
+    this.servicesService.getProcessDetails(id).subscribe(
+      (response: any) => {
+        console.log('Process details:', response);
+        this.processDetails = response;
 
-            // Set the service name for history filtering
-            const processName = processItem.name || this.currentServiceName || '';
-            this.currentServiceName = processName;
-            this.serviceRunService.currentServiceName = processName;
-            this.serviceRunService.currentServiceRunsId = this.currentServiceId;
+        const items = response.Items || [];
+        if (items.length > 0) {
+          const processItem = items[0];
+          console.log('Process item:', processItem);
+          console.log('Input parameters:', processItem.inputParameters);
 
-            // Check if we need to fetch parameters from the PTV
-            const ptvRef = processItem.processTypeSSObjectKey?.ssObjectKey
-                        || processItem.referencedObjects?.ssObjectKey;
+          // Set the service name for history filtering
+          const processName = processItem.name || this.currentServiceName || '';
+          this.currentServiceName = processName;
+          this.serviceRunService.currentServiceName = processName;
+          this.serviceRunService.currentServiceRunsId = this.currentServiceId;
 
-            const hasLocalParams = processItem.inputParameters && processItem.inputParameters.length > 0;
+          // Check if we need to fetch parameters from the PTV
+          const ptvRef = processItem.processTypeSSObjectKey?.ssObjectKey
+                      || processItem.referencedObjects?.ssObjectKey;
 
-            if (!hasLocalParams && ptvRef && ptvRef.includes('PTV#')) {
-              // Pass the FULL ssObjectKey — the Lambda needs it to build the correct SK
-              console.log('Fetching PTV for parameters, ssObjectKey:', ptvRef);
+          const hasLocalParams = processItem.inputParameters && processItem.inputParameters.length > 0;
 
-              this.servicesService.getProcessTypeVersion(ptvRef).subscribe(
-                (ptvResponse: any) => {
-                  console.log('PTV response:', ptvResponse);
-                  const ptvItems = ptvResponse.Items || [];
-                  if (ptvItems.length > 0) {
-                    const ptvItem = ptvItems;
-                    console.log('PTV inputParameters:', ptvItem.inputParameters);
+          if (!hasLocalParams && ptvRef && ptvRef.includes('PTV#')) {
+            console.log('Fetching PTV for parameters, ssObjectKey:', ptvRef);
 
-                    // Merge: use PTV's inputParameters on the process item
-                    const merged = {
-                      ...processItem,
-                      inputParameters: ptvItem.inputParameters || []
-                    };
-                    this.serviceSetupService.loadServiceSetup(merged);
-                  } else {
-                    console.warn('No PTV items found for ssObjectKey:', ptvRef);
-                    this.serviceSetupService.loadServiceSetup(processItem);
-                  }
-                },
-                (error: any) => {
-                  console.error('Error fetching PTV:', error);
-                  // Fall back to whatever is on the ScheduledProcess
+            this.servicesService.getProcessTypeVersion(ptvRef).subscribe(
+              (ptvResponse: any) => {
+                console.log('PTV response:', ptvResponse);
+                const ptvItems = ptvResponse.Items || [];
+                if (ptvItems.length > 0) {
+                  const ptvItem = ptvItems;
+                  console.log('PTV inputParameters:', ptvItem.inputParameters);
+
+                  const merged = {
+                    ...processItem,
+                    inputParameters: ptvItem.inputParameters || []
+                  };
+                  this.serviceSetupService.loadServiceSetup(merged);
+                } else {
+                  console.warn('No PTV items found for ssObjectKey:', ptvRef);
                   this.serviceSetupService.loadServiceSetup(processItem);
                 }
-              );
-            } else {
-              // Parameters exist on the ScheduledProcess item directly (e.g., HeartBeat)
-              this.serviceSetupService.loadServiceSetup(processItem);
-            }
+              },
+              (error: any) => {
+                console.error('Error fetching PTV:', error);
+                this.serviceSetupService.loadServiceSetup(processItem);
+              }
+            );
           } else {
-            console.warn('No ScheduledProcess items found for ID:', id);
+            this.serviceSetupService.loadServiceSetup(processItem);
           }
-        },
-        (error: any) => {
-          console.error('Error fetching process details:', error);
+        } else {
+          console.warn('No ScheduledProcess items found for ID:', id);
         }
-      );
-    });
+      },
+      (error: any) => {
+        console.error('Error fetching process details:', error);
+      }
+    );
   }
 
   ngOnDestroy(): void {

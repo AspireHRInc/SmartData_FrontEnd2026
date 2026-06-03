@@ -1,4 +1,3 @@
-
 :host {
   display: block;
   min-height: 100vh;
@@ -168,7 +167,6 @@
     color: var(--color-text-secondary);
 
     .actions,
-    .history-header,
     .info,
     .icon {
       display: none;
@@ -198,6 +196,20 @@
       }
     }
 
+    .owner {
+      display: none;
+      @media screen and (min-width: 54rem) {
+        display: inherit;
+      }
+    }
+
+    .last-updated {
+      display: none;
+      @media screen and (min-width: 54rem) {
+        display: inherit;
+      }
+    }
+
     .button {
       font-weight: 500;
       font-size: 0.75rem;
@@ -223,7 +235,7 @@
     }
 
     @media screen and (min-width: 54rem) {
-      grid-template-columns: 35px 2.3fr 1.6fr 7rem 7rem 0.5fr 0.2fr;
+      grid-template-columns: 35px 2fr 1.2fr 7rem 1fr 1fr 1fr 0.5fr;
     }
   }
 
@@ -232,9 +244,8 @@
   }
 
   .history-item {
-    box-shadow: var(--drop-shadow);
-    border-radius: 6px;
     box-shadow: 0px 4px 12px #cad6e5;
+    border-radius: 6px;
     padding: 1rem;
     margin: 0.4rem 1rem;
 
@@ -244,40 +255,83 @@
       justify-content: center;
     }
 
-    .title {
-      margin: 0;
-    }
-
-    .comment {
-      margin: 0.2rem 0 0 0;
-      font-weight: 400;
-      font-size: 0.75rem;
-      line-height: 1rem;
-      color: var(--color-text-secondary);
+    .info {
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 100%;
-    }
 
-    .details {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      .title {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .process-type {
+        margin: 0.2rem 0 0 0;
+        font-weight: 400;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        color: var(--color-text-secondary);
+        font-style: italic;
+      }
+
+      .comment {
+        margin: 0.2rem 0 0 0;
+        font-weight: 400;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        color: var(--color-text-secondary);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+      }
+
+      .details {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
     }
 
     .actions {
       display: flex;
       justify-content: center;
     }
+
     .status {
       .label {
         margin: 0;
+        font-size: 0.875rem;
       }
       kendo-chunkprogressbar {
         max-width: 6.25rem;
         height: 0.8rem;
       }
+    }
+
+    .owner {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .date {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+    }
+
+    .last-updated {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+    }
+
+    .duration {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
     }
 
     &.new {
@@ -307,7 +361,6 @@
           59deg,
           rgba(var(--color-cta-lighter-rgb), 1) 8%,
           rgba(var(--color-cta-lighter-rgb), 0.6) 8%,
-
           rgba(var(--color-cta-lighter-rgb), 0.6) 16%,
           rgba(var(--color-cta-lighter-rgb), 1) 16%
         );
@@ -326,7 +379,6 @@
     50% {
       box-shadow: 0px 0px 12px rgba(var(--color-cta-rgb), 0.9);
     }
-
     100% {
       box-shadow: 0px 0px 12px rgba(var(--color-cta-rgb), 0.3);
     }
@@ -336,7 +388,6 @@
     0% {
       filter: blur(5px);
     }
-
     100% {
       filter: blur(0px);
     }
@@ -358,17 +409,14 @@
       max-width: 0%;
       padding: 0.5rem 0rem;
     }
-
     60% {
       max-width: 100%;
       padding: 0.5rem 0.8rem;
     }
-
     70% {
       max-width: 80%;
       padding: 0.5rem 0.8rem;
     }
-
     80% {
       max-width: 100%;
       padding: 0.5rem 0.8rem;
@@ -405,7 +453,6 @@
     12% {
       background-position: -105% -40%;
     }
-
     100% {
       background-position: -105% -40%;
     }
@@ -478,7 +525,6 @@
     0% {
       opacity: 0;
     }
-
     100% {
       opacity: 1;
     }
@@ -486,6 +532,7 @@
 
   @keyframes pause {
   }
+
   @keyframes wiggleSkew {
     0% {
       transform: skewX(9deg);
@@ -529,21 +576,4 @@
       color: var(--color-accent-3);
     }
   }
-
-  .info .button {
-    border-radius: 50%;
-    border: none;
-    color: var(--color-background-primary);
-    font-weight: 700;
-    background-color: rgba(var(--color-text-secondary-rgb), 0.5);
-    height: 1.125rem;
-    width: 1.125rem;
-    line-height: 1.4;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: none;
-  }
 }
-

@@ -1,88 +1,55 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { UserService } from './user.service';
-import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 import { ServicesService } from './services.service';
+import { DateTimeService } from './date-time.service';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
-export enum ServiceRunStatus {
-  'none' = 'none',
-  'Scheduled' = 'Scheduled',
-  'Processing' = 'Processing',
-  'Processed with Errors' = 'Processed with Errors',
-  'Completed' = 'Completed',
-  'Missing' = 'Missing',
-  'Error' = 'Error',
-}
-
-export class ServiceRun {
-  id = '0';
-  userId = '0';
-  userName = '';
-  processCode = '';
-  targetSystemId = '';
-  serviceId = '';
-  serviceName = '';
-  status: ServiceRunStatus[] = [ServiceRunStatus.none];
-  submittedDate = new Date();
-  startDate = new Date();
-  endDate = new Date();
-  durationHours = 0;
-  newlyCompleted = false;
-  comment = '';
-  type = '';
-  results?: ServiceRunResult[] = [];
-  parameters: ServiceRunParameter[] = [];
-  info?: (infoItem | ServiceRunResult)[] = [];
-
-  constructor() {}
-}
-
-export class infoItem {
-  id = '';
-  type = '';
-  label = '';
-  detail = '';
-}
-
-export class ServiceRunResult {
-  id = '';
-  type = '';
-  label = '';
-  fileName?: string;
-  filePath?: string;
-  createDate? = new Date();
-  textResult? = '';
-}
-
-export class ServiceRunParameter {
-  parameterName = '';
-  parameterType = '';
-  caption = '';
-  required? = true;
-  defaultValue = '';
-  templateS3Path = '';
-  displayOrder = 0;
-  options? = [];
-
-  constructor() {}
+// Exported interfaces used by other components
+export class Filter {
+  name = '';
+  constructor(name?: string) {
+    if (name) this.name = name;
+  }
 }
 
 export class FilterGroup {
   name = '';
   filters: Filter[] = [];
+  constructor(name?: string, filters?: Filter[]) {
+    if (name) this.name = name;
+    if (filters) this.filters = filters;
+  }
 }
 
-export class Filter {
-  value?: string | number;
-  name = '';
+export enum ServiceRunStatus {
+  Completed = 'Completed',
+  Processing = 'Processing',
+  Error = 'Error',
+  'Processed with Errors' = 'Processed with Errors',
+  Queued = 'Queued',
+  Cancelled = 'Cancelled',
+  Missing = 'Missing',
+  Scheduled = 'Scheduled',
 }
 
-export class Filters {
-  dateRange = { start: new Date(0), end: new Date(0) };
-  requester: string[] = [];
-  service: string[] = [];
-  status: string[] = [];
+export class ServiceRun {
+  id = '';
+  serviceId = '';
+  serviceName = '';
+  taskName = '';
+  status: ServiceRunStatus[] = [];
+  statusIndex = 0;
+  submittedDate: Date = new Date();
+  durationHours = 0;
+  owner = '';
+  userName = '';
+  userId = '';
+  comment = '';
+  inputParameters: any[] = [];
+  results: any[] = [];
+  lastUpdated: Date = new Date();
 }
 
 @Injectable({
@@ -90,358 +57,372 @@ export class Filters {
 })
 export class ServiceRunService {
   serviceRuns: ServiceRun[] = [];
-  singleServiceRuns: ServiceRun[] = [];
-  serviceRunsFilters: FilterGroup[] = [];
-  singleServiceRunsFilters: FilterGroup[] = [];
-  currentServiceRunsId = 'all';
-  currentServiceName = '';
-  currentServicesRuns: ServiceRun[] = [];
-  currentFilters: string[] = [];
-  filtersActive = false;
-  private initialized = false;
-
-  // Track the last executed service name to apply to unnamed items
-  lastExecutedServiceName = '';
-  private currentUsername = '';
-
+  serviceRuns$ = new BehaviorSubject<ServiceRun[]>([]);
   serviceRunsUpdated$ = new Subject<void>();
+  filtersActive = false;
+  currentServiceRunsId = '';
+  currentServiceName = '';
+  lastExecutedServiceName = '';
 
-  private apiBase = '/api';
+  private baseUrl = '/api';
 
-  constructor(private userService: UserService, private http: HttpClient, private servicesService: ServicesService) {
-    // Get current username from token
-    try {
-      const idToken = this.getIdToken();
-      if (idToken && idToken.split('.').length === 3) {
-        const payload = JSON.parse(atob(idToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-        this.currentUsername = payload['cognito:username'] || payload['email'] || '';
-      }
-    } catch (e) {}
-  }
-
-  private getProcessNameById(processId: string): string {
-    const allServices = this.servicesService.allServices;
-
-    if (!allServices || allServices.length === 0) {
-      return '';
-    }
-    const service = allServices[0].services.find(s => s.id === processId);
-    return service?.name || '';
-  }
-
-  private getIdToken(): string {
-    const keys = Object.keys(localStorage);
-    const idTokenKey = keys.find(k => k.includes('idToken'));
-    if (idTokenKey) {
-      return localStorage.getItem(idTokenKey) || '';
-    }
-    return '';
-  }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private servicesService: ServicesService,
+    private dateTimeService: DateTimeService
+  ) {}
 
   private getHeaders(): HttpHeaders {
-    const idToken = this.getIdToken();
+    const keys = Object.keys(localStorage);
+    const idTokenKey = keys.find(k => k.includes('idToken'));
+    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
 
-    //let partition = 'Org#99889cf5-670f-4460-8461-7556e88505d4'; //Get from user
-    let partition = '';
-    let email = '';
-    try {
-      if (idToken && idToken.split('.').length === 3) {
-        const payload = JSON.parse(atob(idToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-        partition = (payload['custom:Org'] || partition).replace(/#$/, '');
-        email = payload['email'] || '';
-      }
-    } catch (e) {
-      console.warn('Could not decode token for Partition header');
+    if (!token) {
+      return new HttpHeaders({ Authorization: '', Partition: '' });
     }
 
-    return new HttpHeaders({
-      'Authorization': idToken,
-      'Partition': partition,
-      'Query': '"owner" = \'' + email + '\''
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      return new HttpHeaders({ Authorization: `Bearer ${token}`, Partition: '' });
+    }
 
-      //Add only the user specific processes
-      
+    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+    const partition = (payload['custom:Org'] || '').replace(/#$/, '');
+    const email = payload['email'] || '';
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      Partition: partition,
+      Action: 'ListRef',
+      Query: '"owner" = \'' + email + '\''
     });
   }
 
-  initialize(): void {
-    if (this.initialized) return;
-    this.initialized = true;
-    this.loadProcesses();
-  }
-
-  refresh(): void {
+  initialize(serviceId?: string): void {
+    if (serviceId) {
+      this.currentServiceRunsId = serviceId;
+    }
     this.loadProcesses();
   }
 
   private loadProcesses(): void {
-    const headers = this.getHeaders();
-
-    this.http.get<any>(`${this.apiBase}/Process/list`, { headers }).subscribe(
-      (response) => {
-        const items = response.Items || [];
-        const newRuns = items.map((item: any) => this.mapToServiceRun(item));
-
-        // Sort by date descending
-        newRuns.sort((a: ServiceRun, b: ServiceRun) => b.submittedDate.getTime() - a.submittedDate.getTime());
-
-        this.serviceRuns = newRuns;
-        this.singleServiceRuns = [...this.serviceRuns];
-        this.currentServicesRuns = [...this.serviceRuns];
-        this.serviceRunsFilters = this.buildFilters(this.serviceRuns);
-        this.singleServiceRunsFilters = this.buildFilters(this.singleServiceRuns);
-        this.serviceRunsUpdated$.next();
-
-        console.log('Loaded process runs:', this.serviceRuns.length);
-      },
-      (error) => console.error('Error loading processes:', error)
-    );
+    const checkServices = () => {
+      if (this.servicesService.allServices?.length > 0 && this.servicesService.allServices[0]?.services?.length > 0) {
+        this.fetchAndMapRuns();
+      } else {
+        setTimeout(checkServices, 500);
+      }
+    };
+    checkServices();
   }
 
-  getProcessDetails(processId: string) {
+  private fetchAndMapRuns(): void {
     const headers = this.getHeaders();
-    const uuid = processId.includes('#') ? processId.split('#')[1] : processId;
-    console.log('Fetching process details for UUID:', uuid);
-    return this.http.get<any>(`${this.apiBase}/Process/${uuid}`, { headers });
+
+    this.http.get<any>(`${this.baseUrl}/Process/list`, { headers }).subscribe(
+      (response) => {
+        const items = response.Items || [];
+
+        this.serviceRuns = items
+          .filter((item: any) => {
+            const sk = item.SK || '';
+            if (!sk.startsWith('Process#') && !sk.startsWith('PTV#')) return false;
+            const owner = item.owner || '';
+            if (owner === 'SmartDataScheduler' || owner === 'system') return false;
+            const name = item.name || '';
+            if (name === 'AspireHR') return false;
+            return true;
+          })
+          .map((item: any) => this.mapToServiceRun(item));
+
+        console.log('Loaded process runs:', this.serviceRuns.length);
+        this.serviceRuns$.next(this.serviceRuns);
+        this.serviceRunsUpdated$.next();
+      },
+      (error) => {
+        console.error('Error loading process runs:', error);
+      }
+    );
   }
 
   private mapToServiceRun(item: any): ServiceRun {
-    const id = item.SK;
-    const sk = item.SK || '';
-    const created = item.created || item.lastModifiedAt || '';
-    const status = this.mapStatus(item.status);
-    const owner = item.owner || '';
-    const name = item.name || '';
+    const run = new ServiceRun();
 
-    const startDate = new Date(created || Date.now());
-    const endDate = item.completedAt ? new Date(item.completedAt) : new Date(item.lastModifiedAt || created || Date.now());
-    const durationMs = endDate.getTime() - startDate.getTime();
-    const durationHours = durationMs > 0 ? durationMs / (1000 * 60 * 60) : 0;
+    run.id = (item.SK || '').replace('Process#', '').replace('PTV#', '');
 
-    const inputParams = item.inputParameters || [];
-    const commentParam = inputParams.find((p: any) => p.name === 'Comment');
-    const comment = commentParam?.value || '';
+    // Task name = item.name (user-defined name like "Run1")
+    run.taskName = item.name || '';
 
-    // Determine serviceName with fallback chain
-    let serviceName = name;
+    // Process type name = resolved from referencedObjects GUID
+    run.serviceName = this.getProcessNameByScheduledProcessKey(item.referencedObjects);
 
-    // Skip names that are clearly not process names
-    if (serviceName === 'AspireHR' || serviceName === 'SmartDataScheduler') {
-      serviceName = '';
+    // Fallbacks for service name
+    if (!run.serviceName && item.referencedObjects?.ssObjectKey) {
+      run.serviceName = 'HeartBeat';
+    }
+    if (!run.serviceName && !item.referencedObjects) {
+      run.serviceName = item.name || 'Unknown Process';
     }
 
-    if (!serviceName) {
-      // Try to look it up from ServicesService by ID
-      const uuid = sk.includes('#') ? sk.split('#')[1] : sk;
-      serviceName = this.getProcessNameById(uuid);
+    // Service ID from referencedObjects
+    run.serviceId = this.getScheduledProcessId(item.referencedObjects);
+
+    // Status - as array for compatibility with history component
+    const statusRaw = item.status || item.statusIndex || '';
+    const statusEnum = this.getStatusEnum(statusRaw);
+    run.status = [statusEnum];
+    run.statusIndex = this.getStatusIndex(statusRaw);
+
+    // Dates
+    const submittedDate = item.createdAt || item.lastModifiedAt || '';
+    run.submittedDate = submittedDate ? new Date(submittedDate) : new Date();
+
+    const lastUpdated = item.lastModifiedAt || '';
+    run.lastUpdated = lastUpdated ? new Date(lastUpdated) : run.submittedDate;
+
+    // Duration
+    if (run.submittedDate && run.lastUpdated) {
+      const diffMs = run.lastUpdated.getTime() - run.submittedDate.getTime();
+      run.durationHours = diffMs / (1000 * 60 * 60);
     }
 
-    if (!serviceName) {
-      // If recently created, use lastExecutedServiceName
-      const itemAge = Date.now() - startDate.getTime();
-      if (itemAge < 120000 && this.lastExecutedServiceName) {
-        serviceName = this.lastExecutedServiceName;
-      }
-    }
+    // Owner
+    run.owner = item.owner || '';
+    run.userName = item.owner || '';
+    run.userId = item.owner || '';
 
-    if (!serviceName) {
-  if (owner === 'SmartDataScheduler') {
-    serviceName = 'HeartBeat';
-  } else if (owner && !owner.includes('@')) {
-    serviceName = owner;
-  } else {
-    serviceName = 'Unnamed Process';
-  }
-}
+    // Input parameters
+    run.inputParameters = item.inputParameters || [];
 
-    return {
-      id: sk,
-      userId: '0',
-      userName: owner,
-      processCode: '',
-      targetSystemId: '',
-      serviceId: name,
-      serviceName: serviceName,
-      status: [status],
-      submittedDate: startDate,
-      startDate: startDate,
-      endDate: endDate,
-      durationHours: durationHours,
-      newlyCompleted: false,
-      comment: comment,
-      type: '',
-      results: [],
-      parameters: inputParams.map((p: any) => ({
-        parameterName: p.name || '',
-        parameterType: p.parameterMetadata?.parameterType || 'text',
-        caption: p.parameterMetadata?.caption || p.name || '',
-        required: p.parameterMetadata?.required || false,
-        defaultValue: p.defaultValue || '',
-        templateS3Path: '',
-        displayOrder: p.parameterMetadata?.displayOrder || 0,
-        options: [],
-      })),
-      info: [],
-    };
+    // Comment
+    run.comment = item.comment || '';
+
+    // Results (if available)
+    run.results = item.results || item.outputResults || [];
+
+    return run;
   }
 
-  private mapStatus(status: string | string[]): ServiceRunStatus {
-    const statusStr: string = Array.isArray(status) ? (status[0] || 'none') : (status || 'none');
+  private getProcessNameByScheduledProcessKey(referencedObjects: any): string {
+    if (!referencedObjects?.ssObjectKey) return '';
 
-    switch (statusStr.toLowerCase()) {
-      case 'completed':
-      case 'complete':
-      case 'success':
-        return ServiceRunStatus.Completed;
-      case 'processing':
-      case 'running':
-      case 'in progress':
-        return ServiceRunStatus.Processing;
-      case 'error':
-      case 'failed':
-      case 'exited':
-        return ServiceRunStatus.Error;
-      case 'processed with errors':
-        return ServiceRunStatus['Processed with Errors'];
-      case 'scheduled':
-        return ServiceRunStatus.Scheduled;
-      case 'missing':
-        return ServiceRunStatus.Missing;
-      default:
-        return ServiceRunStatus.none;
-    }
+    const ssObjectKey = referencedObjects.ssObjectKey;
+    const spMatch = ssObjectKey.match(/ScheduledProcess#[a-f0-9-]+/);
+    if (!spMatch) return '';
+
+    const spKey = spMatch[0];
+    const allServices = this.servicesService.allServices;
+
+    if (!allServices || allServices.length === 0 || !allServices[0]?.services) return '';
+
+    const service = allServices[0].services.find((s: any) => s.id === spKey);
+    return service?.name || '';
   }
 
-  private buildFilters(runs: ServiceRun[]): FilterGroup[] {
-    const statuses = [...new Set(runs.flatMap(r => r.status))];
-    const services = [...new Set(runs.map(r => r.serviceName).filter(n => n && n !== 'Unnamed Process'))];
-    const requesters = [...new Set(runs.map(r => r.userName).filter(n => n && n !== 'SmartDataScheduler'))];
+  private getScheduledProcessId(referencedObjects: any): string {
+    if (!referencedObjects?.ssObjectKey) return '';
 
-    return [
-      { name: 'Status', filters: statuses.map(s => ({ name: s, value: s })) },
-      { name: 'Service', filters: services.map(s => ({ name: s, value: s })) },
-      { name: 'Requester', filters: requesters.map(r => ({ name: r, value: r })) },
-      { name: 'Date Range', filters: [] },
-    ];
+    const ssObjectKey = referencedObjects.ssObjectKey;
+    const spMatch = ssObjectKey.match(/ScheduledProcess#[a-f0-9-]+/);
+    if (!spMatch) return '';
+
+    return spMatch[0];
   }
 
-  filterServiceRuns(searchString: string, filters: Filters) {
-    this.currentServicesRuns = [...this.getServiceRuns()];
-
-    this.filtersActive = false;
-
-    if (
-      filters.status.length > 0 ||
-      filters.service.length > 0 ||
-      (filters.requester && filters.requester.length > 0) ||
-      filters.dateRange.start.toString() !== new Date(0).toString()
-    ) {
-      this.filtersActive = true;
-    }
-
-    if (filters.status.length > 0) {
-      this.currentServicesRuns = [
-        ...this.currentServicesRuns.filter(run => {
-          return filters.status.some((status: any) => run.status.includes(status));
-        }),
-      ];
-    }
-
-    if (filters.requester && filters.requester.length > 0) {
-      this.currentServicesRuns = [
-        ...this.currentServicesRuns.filter(run => {
-          return filters.requester.some(
-            (requesterName: string) => run.userName === requesterName || this.userService.getUserFullNameById(run.userId) === requesterName
-          );
-        }),
-      ];
-    }
-
-    if (filters.service.length > 0) {
-      this.currentServicesRuns = [
-        ...this.currentServicesRuns.filter(run => {
-          return filters.service.some((serviceName: string) => run.serviceName.includes(serviceName));
-        }),
-      ];
-    }
-
-    if (filters.dateRange.start.getTime() !== new Date(0).getTime()) {
-      this.currentServicesRuns = [
-        ...this.currentServicesRuns.filter(run => {
-          return (
-            run.submittedDate.getTime() >= filters.dateRange.start.getTime() &&
-            run.submittedDate.getTime() <= filters.dateRange.end.getTime()
-          );
-        }),
-      ];
-    }
-
-    if (searchString !== '') {
-      let searchStringArr: string[] = searchString.toLocaleLowerCase().split(' ');
-
-      this.currentServicesRuns = [
-        ...this.currentServicesRuns.filter(run => {
-          return searchStringArr.every(
-            searchWord =>
-              run.serviceName.toLocaleLowerCase().includes(searchWord) ||
-              run.comment.toString().toLowerCase().includes(searchWord) ||
-              run.userName.toString().toLowerCase().includes(searchWord)
-          );
-        }),
-      ];
-      return [...this.currentServicesRuns];
-    }
-
-    if (searchString === '' && !this.filtersActive) {
-      this.currentServicesRuns = [...this.getServiceRuns()];
-      return this.currentServicesRuns;
-    }
-
-    return this.currentServicesRuns;
+  private getStatusEnum(status: string): ServiceRunStatus {
+    if (!status) return ServiceRunStatus.Missing;
+    const s = status.toLowerCase();
+    if (s === 'completed' || s === '3') return ServiceRunStatus.Completed;
+    if (s === 'processing' || s === '1' || s === '2') return ServiceRunStatus.Processing;
+    if (s === 'error' || s === 'failed' || s === '4') return ServiceRunStatus.Error;
+    if (s === 'queued' || s === '0') return ServiceRunStatus.Queued;
+    if (s === 'cancelled' || s === '5') return ServiceRunStatus.Cancelled;
+    if (s === 'missing') return ServiceRunStatus.Missing;
+    if (s === 'scheduled') return ServiceRunStatus.Scheduled;
+    return ServiceRunStatus.Missing;
   }
 
-  cancelServiceRun(id: string): Observable<any> {
-    const headers = this.getHeaders();
-    const uuid = id.includes('#') ? id.split('#')[1] : id;
+  private getStatusIndex(status: string): number {
+    const s = (status || '').toLowerCase();
+    if (s === 'completed' || s === '3') return 3;
+    if (s === 'processing' || s === '2') return 2;
+    if (s === '1') return 1;
+    if (s === 'error' || s === 'failed' || s === '4') return 4;
+    if (s === 'queued' || s === '0') return 0;
+    if (s === 'cancelled' || s === '5') return 5;
+    return 0;
+  }
 
-    console.log('Canceling process:', uuid);
+  // --- Public methods used by history.component.ts ---
 
-    // Find the run in memory to get its lastModifiedAt
-    const run = this.serviceRuns.find(r => r.id.includes(uuid));
-    if (!run) {
-      return new Observable(obs => {
-        obs.error('Run not found');
-        obs.complete();
+  getServiceRuns(): ServiceRun[] {
+    if (this.currentServiceRunsId && this.currentServiceRunsId !== 'all') {
+      const targetId = this.currentServiceRunsId;
+      return this.serviceRuns.filter(run => {
+        if (!run.serviceId) return false;
+        const runUuid = run.serviceId.replace('ScheduledProcess#', '');
+        return run.serviceId === targetId ||
+          runUuid === targetId ||
+          targetId.includes(runUuid) ||
+          run.serviceId.includes(targetId);
+      });
+    }
+    return this.serviceRuns;
+  }
+
+  filterServiceRuns(searchString: string, filtersObj: any): ServiceRun[] {
+    let filtered = this.getServiceRuns();
+
+    // Filter by status
+    if (filtersObj.status && filtersObj.status.length > 0) {
+      filtered = filtered.filter(run => {
+        return run.status.some(s => filtersObj.status.includes(s));
       });
     }
 
-    // Add LastModifiedCached header so the Lambda's condition check passes
-    const headersWithCache = headers.set('LastModifiedCached', run.submittedDate.toISOString());
+    // Filter by owner
+    if (filtersObj.owner && filtersObj.owner.length > 0) {
+      filtered = filtered.filter(run => {
+        return filtersObj.owner.includes(run.owner);
+      });
+    }
 
-    // POST with status update
-    return this.http.post<any>(
-      `${this.apiBase}/Process/${uuid}`,
-      { status: 'Cancelled' },
-      { headers: headersWithCache }
-    );
+    // Filter by date range
+    if (filtersObj.dateRange && filtersObj.dateRange.start && filtersObj.dateRange.end) {
+      const start = new Date(filtersObj.dateRange.start).getTime();
+      const end = new Date(filtersObj.dateRange.end).getTime();
+      if (start > 0 && end > 0) {
+        filtered = filtered.filter(run => {
+          const runTime = run.submittedDate.getTime();
+          return runTime >= start && runTime <= end;
+        });
+      }
+    }
+
+    // Filter by service
+    if (filtersObj.service && filtersObj.service.length > 0) {
+      filtered = filtered.filter(run => {
+        return filtersObj.service.includes(run.serviceName);
+      });
+    }
+
+    // Search string
+    if (searchString && searchString.trim() !== '') {
+      const search = searchString.toLowerCase();
+      filtered = filtered.filter(run => {
+        return (
+          run.serviceName.toLowerCase().includes(search) ||
+          run.taskName.toLowerCase().includes(search) ||
+          run.owner.toLowerCase().includes(search) ||
+          run.comment.toLowerCase().includes(search)
+        );
+      });
+    }
+
+    this.filtersActive = filtersObj.status?.length > 0 ||
+      filtersObj.owner?.length > 0 ||
+      (filtersObj.dateRange?.start?.getTime() > 0) ||
+      filtersObj.service?.length > 0;
+
+    return filtered;
   }
 
-  getServiceRuns(): ServiceRun[] {
-    if (this.currentServiceRunsId === 'all') {
-      return (this.currentServicesRuns = [...this.serviceRuns]);
-    } else {
-      // Filter by service name — matches items whose name matches the current tile
-      const filterName = this.currentServiceName.toLowerCase();
-      return (this.currentServicesRuns = [
-        ...this.serviceRuns.filter(run => {
-          const runName = run.serviceName.toLowerCase();
-          const runServiceId = run.serviceId.toLowerCase();
-          return runName === filterName ||
-                 runServiceId === filterName ||
-                 (runName === run.userName.toLowerCase() && run.serviceId === '');
-        })
-      ]);
+  get serviceRunsFilters(): any[] {
+    const services = [...new Set(this.serviceRuns.map(r => r.serviceName).filter(n => n))];
+    const owners = [...new Set(this.serviceRuns.map(r => r.owner).filter(n => n))];
+    return [
+      {
+        name: 'Status',
+        filters: [
+          { name: 'Completed' },
+          { name: 'Processing' },
+          { name: 'Processed with Errors' },
+        ],
+      },
+      {
+        name: 'Service',
+        filters: services.map(s => ({ name: s })),
+      },
+      {
+        name: 'Owner',
+        filters: owners.map(o => ({ name: o })),
+      },
+    ];
+  }
+
+  get singleServiceRunsFilters(): any[] {
+    return [
+      {
+        name: 'Status',
+        filters: [
+          { name: 'Completed' },
+          { name: 'Processing' },
+          { name: 'Processed with Errors' },
+        ],
+      },
+      {
+        name: 'Service',
+        filters: [...new Set(this.serviceRuns.map(r => r.serviceName).filter(n => n))].map(s => ({ name: s })),
+      },
+    ];
+  }
+
+  // --- Methods used by cancel and results components ---
+
+  cancelServiceRun(serviceId: string): Observable<any> {
+    const keys = Object.keys(localStorage);
+    const idTokenKey = keys.find(k => k.includes('idToken'));
+    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
+
+    let partition = '';
+    if (token) {
+      const parts = token.split('.');
+      if (parts.length === 3) {
+        const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+        partition = (payload['custom:Org'] || '').replace(/#$/, '');
+      }
     }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      Partition: partition,
+      Action: 'Cancel',
+    });
+
+    return this.http.post<any>(`${this.baseUrl}/Process/${serviceId}/cancel`, {}, { headers });
+  }
+
+  getProcessDetails(processId: string): Observable<any> {
+    const keys = Object.keys(localStorage);
+    const idTokenKey = keys.find(k => k.includes('idToken'));
+    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
+
+    let partition = '';
+    if (token) {
+      const parts = token.split('.');
+      if (parts.length === 3) {
+        const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+        partition = (payload['custom:Org'] || '').replace(/#$/, '');
+      }
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      Partition: partition,
+      Action: 'ListRef',
+      Query: '"SK" = \'Process#' + processId + '\''
+    });
+
+    return this.http.get<any>(`${this.baseUrl}/Process/list`, { headers });
+  }
+
+  getResultsForRun(runId: string): ServiceRun | undefined {
+    return this.serviceRuns.find(r => r.id === runId);
+  }
+
+  refresh(): void {
+    this.loadProcesses();
   }
 }
 

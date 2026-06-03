@@ -1,3 +1,4 @@
+
 import { Component, OnInit, OnDestroy, ViewChild, HostListener, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -79,7 +80,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   selectedDateRangeFilter = { start: new Date(), end: new Date() };
 
-  filtersObj: any = { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
+  filtersObj: any = { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [], owner: [] };
 
   searchString = '';
   filterActive = {};
@@ -206,7 +207,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     if (
       this.filtersObj ===
-      { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] }
+      { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [], owner: [] }
     ) {
       this.filterClearActive = false;
     } else {
@@ -367,6 +368,22 @@ export class HistoryComponent implements OnInit, OnDestroy {
     } else if (type === 'duration' && this.previousType === 'duration') {
       this.previousType = '';
       return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (b.durationHours > a.durationHours ? 1 : -1)));
+    } else if (type === 'owner' && this.previousType !== 'owner') {
+      this.previousType = 'owner';
+      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (a.owner || '').localeCompare(b.owner || '')));
+    } else if (type === 'owner' && this.previousType === 'owner') {
+      this.previousType = '';
+      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (b.owner || '').localeCompare(a.owner || '')));
+    } else if (type === 'lastUpdated' && this.previousType !== 'lastUpdated') {
+      this.previousType = 'lastUpdated';
+      return (this.serviceRuns = this.serviceRuns
+        .slice()
+        .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()));
+    } else if (type === 'lastUpdated' && this.previousType === 'lastUpdated') {
+      this.previousType = '';
+      return (this.serviceRuns = this.serviceRuns
+        .slice()
+        .sort((a, b) => new Date(a.lastUpdated).getTime() - new Date(b.lastUpdated).getTime()));
     }
 
     return this.serviceRuns;
@@ -374,7 +391,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   clearAllFilters() {
     this.showFilterPopupIndex = -1;
-    this.filtersObj = { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [] };
+    this.filtersObj = { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [], owner: [] };
     this.selectedDateRangeFilter = { start: new Date(), end: new Date() };
     this.serviceRunService.filtersActive = false;
     this.onServiceFilter();

@@ -9,7 +9,7 @@
 <div class="search-wrapper">
   <div class="search">
     <input
-      placeholder="Search comment, service, name...etc."
+      placeholder="Search name, service, owner...etc."
       class="k-input field"
       (keyup)="onSearchStringUpdate($event)"
       [(ngModel)]="searchField"
@@ -144,9 +144,21 @@
       </button>
     </div>
     <div class="actions"></div>
+    <div class="owner">
+      <button class="button" (click)="toggleSort('owner')">
+        Owner
+        <span class="arrow">&#8597;</span>
+      </button>
+    </div>
     <div class="date">
       <button class="button" (click)="toggleSort('date')">
         Submitted Date
+        <span class="arrow">&#8597;</span>
+      </button>
+    </div>
+    <div class="last-updated">
+      <button class="button" (click)="toggleSort('lastUpdated')">
+        Last Updated
         <span class="arrow">&#8597;</span>
       </button>
     </div>
@@ -165,8 +177,8 @@
           <ss-icon-file-w-status-dot [dotColor]="dataItem.statusColor"></ss-icon-file-w-status-dot>
         </div>
         <div class="info">
-          <h2 class="title">{{ dataItem.serviceName }}</h2>
-          <p class="comment" *ngIf="dataItem.comment">{{ dataItem.comment }}</p>
+          <h2 class="title">{{ dataItem.taskName }}</h2>
+          <p class="process-type">{{ dataItem.serviceName }}</p>
           <div class="details">
             <ss-status-badge
               *ngIf="dataItem.scheduled"
@@ -180,7 +192,7 @@
         <div class="status">
           <h3 class="label">
             <ss-status-dot [color]="dataItem.statusColor"></ss-status-dot>
-            {{ dataItem.status }}
+            {{ dataItem.statusString }}
           </h3>
 
           <kendo-chunkprogressbar
@@ -213,7 +225,6 @@
           ></kendo-chunkprogressbar>
         </div>
         <div class="actions">
-          {{ dataItem.statuString }}
           <button
             (click)="cancel(dataItem.id)"
             class="button medium action outline cancel"
@@ -236,7 +247,9 @@
             Details
           </button>
         </div>
+        <p class="owner">{{ dataItem.owner }}</p>
         <p class="date">{{ dataItem.submittedDate | date: 'MMM d, y, h:mm a' }}</p>
+        <p class="last-updated">{{ dataItem.lastUpdated | date: 'MMM d, y, h:mm a' }}</p>
         <div class="duration">
           {{ dataItem.durationString }}
         </div>
@@ -245,4 +258,3 @@
   </kendo-listview>
 </div>
 
-```

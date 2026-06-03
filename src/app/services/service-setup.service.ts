@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UiStateService } from './ui-state.service';
-import { ServiceRunService } from './service-run.service';
 
 export class Field {
   ParameterName = '';
@@ -59,8 +58,7 @@ export class ServiceSetupService {
 
   constructor(
     private uiState: UiStateService,
-    private http: HttpClient,
-    private serviceRunService: ServiceRunService
+    private http: HttpClient
   ) {
     this.uiState.abandonCurrentForm$.subscribe(() => {
       this.currentFormAbandoned();
@@ -87,7 +85,7 @@ export class ServiceSetupService {
   private getHeaders(): HttpHeaders {
     const idToken = this.getIdToken();
 
-    let partition = 'Org#99889cf5-670f-4460-8461-7556e88505d4';
+    let partition = '';
     try {
       if (idToken && idToken.split('.').length === 3) {
         const payload = JSON.parse(atob(idToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
@@ -157,7 +155,6 @@ export class ServiceSetupService {
 
     console.log('loadServiceSetup called with:', processItem);
 
-    // RESET first — prevents stale data when switching tiles
     this.currentServiceFields = new Fields();
     this.currentServiceSetup = [];
     this.currentProcessItem = processItem;
@@ -225,13 +222,16 @@ export class ServiceSetupService {
     console.log('service: on file remove/cancel ', fileName);
   }
 
-  onServiceSubmit(comment: string) {
+  /**
+   * Executes the process. Returns the Observable so the caller can handle refresh.
+   */
+  executeProcess(taskName: string): Observable<any> {
     const processItem = this.currentProcessItem;
 
     if (!processItem) {
       console.error('No process item available for execution');
       this.uiState.setErrorNotification('Unable to execute: no process loaded');
-      return;
+      return of(null);
     }
 
     const filledParams = this.currentServiceSetup.map(field => ({
@@ -247,28 +247,13 @@ export class ServiceSetupService {
       }
     }));
 
-    if (comment) {
-      filledParams.push({
-        name: 'Comment',
-        value: comment,
-        defaultValue: '',
-        parameterMetadata: {
-          caption: 'Comment',
-          parameterType: 'text',
-          required: false,
-          displayOrder: 9999,
-          additionalMetadata: ''
-        }
-      });
-    }
-
     const sk = processItem.SK || '';
     const uuid = sk.includes('#') ? sk.split('#')[1] : sk;
 
     if (!uuid) {
       console.error('No process UUID available for execution');
       this.uiState.setErrorNotification('Unable to execute: missing process ID');
-      return;
+      return of(null);
     }
 
     const headers = this.getHeaders();
@@ -276,35 +261,20 @@ export class ServiceSetupService {
     const body = {
       inputParameters: filledParams,
       myTag: processItem.myTags || processItem.tags || '',
-      name: processItem.name || ''
+      name: taskName || processItem.name || ''
     };
 
     console.log('Executing process:', processItem.name);
+    console.log('Task name:', taskName);
     console.log('UUID:', uuid);
     console.log('Request body:', body);
-    this.serviceRunService.lastExecutedServiceName = processItem.name || '';
     console.log('currentServiceSetup values:', this.currentServiceSetup.map(f => ({ name: f.ParameterName, value: f.value })));
 
-    this.http.post<any>(
+    return this.http.post<any>(
       `${this.apiBase}/ScheduledProcess/${uuid}/executeProcess`,
       body,
       { headers }
-    ).subscribe({
-      next: data => {
-        console.log('Execution response:', data);
-        this.unlockSetup();
-        this.serviceRunService.refresh();
-        setTimeout(() => this.serviceRunService.refresh(), 5000);
-        setTimeout(() => this.serviceRunService.refresh(), 10000);
-        setTimeout(() => this.serviceRunService.refresh(), 20000);
-      },
-      error: error => {
-        console.error('Execution error:', error);
-        this.unlockSetup();
-        this.uiState.setErrorNotification(String(error.message));
-        this.serviceRunService.refresh();
-      },
-    });
+    );
   }
 
   currentFormAbandoned() {

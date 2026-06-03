@@ -38,7 +38,6 @@ export class ServiceRunResultsComponent implements OnInit {
           const items = response.Items || [];
           if (items.length > 0) {
             const processItem = items[0];
-            // Build results from the process item data
             this.results = this.buildResultsFromItem(processItem);
           } else {
             this.results = [];
@@ -70,7 +69,7 @@ export class ServiceRunResultsComponent implements OnInit {
       });
     }
 
-    // Name
+    // Process Name
     if (item.name) {
       results.push({
         id: 'name',
@@ -90,35 +89,35 @@ export class ServiceRunResultsComponent implements OnInit {
       });
     }
 
-    // Timing
-    if (item.created) {
+    // Submitted
+    if (item.created || item.lastModifiedAt) {
       results.push({
-        id: 'created',
+        id: 'submitted',
         type: 'info',
         label: 'Submitted',
-        textResult: new Date(item.created).toLocaleString()
+        textResult: new Date(item.created || item.lastModifiedAt).toLocaleString()
       });
     }
+
+    // Last Updated
     if (item.lastModifiedAt) {
       results.push({
-        id: 'modified',
+        id: 'lastUpdated',
         type: 'info',
         label: 'Last Updated',
         textResult: new Date(item.lastModifiedAt).toLocaleString()
       });
     }
 
-    // Input parameters
+    // Input parameters (if they exist on the item)
     if (item.inputParameters && item.inputParameters.length > 0) {
       item.inputParameters.forEach((param: any) => {
-        if (param.name !== 'Comment') {
-          results.push({
-            id: param.name,
-            type: 'parameter',
-            label: param.parameterMetadata?.caption || param.name,
-            textResult: param.value || param.defaultValue || ''
-          });
-        }
+        results.push({
+          id: param.name,
+          type: 'parameter',
+          label: param.parameterMetadata?.caption || param.name,
+          textResult: param.value || param.defaultValue || ''
+        });
       });
     }
 
