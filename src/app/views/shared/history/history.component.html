@@ -47,7 +47,7 @@
 <div class="content-wrapper">
   <div class="filters">
     <ng-container *ngFor="let filterGroup of filters; let i = index">
-      <ng-container *ngIf="filterGroup.filters.length > 1 || filterGroup.name === 'Date Range'">
+      <ng-container *ngIf="filterGroup.filters.length > 1 || filterGroup.name === 'Date Range' || filterGroup.name === 'Owner'">
         <button
           kendoButton
           rounded="full"
@@ -71,7 +71,7 @@
           <div class="content">
             <ul class="filter-list" *ngIf="filterGroup.name !== 'Date Range'">
               <ng-container *ngFor="let filter of filterGroup.filters; let i = index">
-                <li class="filter-item" *ngIf="filterGroup.filters.length > 1">
+                <li class="filter-item">
                   <label class="k-checkbox-label">
                     <input
                       type="checkbox"
@@ -136,48 +136,49 @@
 
   <div class="history-header">
     <div class="icon"></div>
-    <div class="info"></div>
+    <div class="info">
+      <button class="button" (click)="toggleSort('taskName')">
+        Task Name
+        <span class="arrow" *ngIf="currentSortType !== 'taskName'">&#8645;</span>
+        <span class="arrow active" *ngIf="currentSortType === 'taskName' && currentSortDirection === 'asc'">&#8593;</span>
+        <span class="arrow active" *ngIf="currentSortType === 'taskName' && currentSortDirection === 'desc'">&#8595;</span>
+      </button>
+    </div>
     <div class="status">
       <button class="button" (click)="toggleSort('status')">
         Status
-        <span class="arrow">&#8597;</span>
+        <span class="arrow" *ngIf="currentSortType !== 'status'">&#8645;</span>
+        <span class="arrow active" *ngIf="currentSortType === 'status' && currentSortDirection === 'asc'">&#8593;</span>
+        <span class="arrow active" *ngIf="currentSortType === 'status' && currentSortDirection === 'desc'">&#8595;</span>
       </button>
     </div>
     <div class="actions"></div>
     <div class="owner">
       <button class="button" (click)="toggleSort('owner')">
         Owner
-        <span class="arrow">&#8597;</span>
-      </button>
-    </div>
-    <div class="date">
-      <button class="button" (click)="toggleSort('date')">
-        Submitted Date
-        <span class="arrow">&#8597;</span>
+        <span class="arrow" *ngIf="currentSortType !== 'owner'">&#8645;</span>
+        <span class="arrow active" *ngIf="currentSortType === 'owner' && currentSortDirection === 'asc'">&#8593;</span>
+        <span class="arrow active" *ngIf="currentSortType === 'owner' && currentSortDirection === 'desc'">&#8595;</span>
       </button>
     </div>
     <div class="last-updated">
       <button class="button" (click)="toggleSort('lastUpdated')">
         Last Updated
-        <span class="arrow">&#8597;</span>
-      </button>
-    </div>
-    <div class="duration">
-      <button class="button" (click)="toggleSort('duration')">
-        Duration
-        <span class="arrow">&#8597;</span>
+        <span class="arrow" *ngIf="currentSortType !== 'lastUpdated'">&#8645;</span>
+        <span class="arrow active" *ngIf="currentSortType === 'lastUpdated' && currentSortDirection === 'asc'">&#8593;</span>
+        <span class="arrow active" *ngIf="currentSortType === 'lastUpdated' && currentSortDirection === 'desc'">&#8595;</span>
       </button>
     </div>
   </div>
 
   <kendo-listview [data]="serviceRuns" containerClass="k-d-flex k-flex-col k-flex-nowrap">
     <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst">
-      <div class="history-item" [class.new]="dataItem.newlyCompleted" [@listItemInOutAnimation]="dataItem.newlyCompleted ? 'in' : 'out'">
+      <div class="history-item" [class.new]="dataItem.newlyCompleted" [class.cancelled]="dataItem.statusString === 'Cancelled'" [@listItemInOutAnimation]="dataItem.newlyCompleted ? 'in' : 'out'">
         <div class="icon">
           <ss-icon-file-w-status-dot [dotColor]="dataItem.statusColor"></ss-icon-file-w-status-dot>
         </div>
         <div class="info">
-          <h2 class="title">{{ dataItem.taskName }}</h2>
+          <h2 class="title">{{ dataItem.taskName || dataItem.serviceName || 'Unnamed' }}</h2>
           <p class="process-type">{{ dataItem.serviceName }}</p>
           <div class="details">
             <ss-status-badge
@@ -248,13 +249,8 @@
           </button>
         </div>
         <p class="owner">{{ dataItem.owner }}</p>
-        <p class="date">{{ dataItem.submittedDate | date: 'MMM d, y, h:mm a' }}</p>
-        <p class="last-updated">{{ dataItem.lastUpdated | date: 'MMM d, y, h:mm a' }}</p>
-        <div class="duration">
-          {{ dataItem.durationString }}
-        </div>
+        <p class="last-updated">{{ dataItem.lastUpdatedLocal }}</p>
       </div>
     </ng-template>
   </kendo-listview>
 </div>
-

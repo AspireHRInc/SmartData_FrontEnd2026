@@ -1,23 +1,74 @@
-<kendo-dialog title="Results" (close)="close()" [minWidth]="250" [width]="500">
+<kendo-dialog title="Results" (close)="close()" [minWidth]="250" [width]="600">
   <div *ngIf="loading" class="loading">Loading...</div>
   <div *ngIf="error" class="error">{{ error }}</div>
-  <ul class="results" *ngIf="!loading && results?.length > 0">
-    <li class="result" *ngFor="let result of results">
-      <label>{{ result.label }}</label>
-      <button
-        *ngIf="result.type === 'file'"
-        kendoButton
-        icon="download"
-        (click)="onButtonClick(result.filePath)"
-        class="button primary result-button"
-      >
-        {{ result.fileName }}
-      </button>
 
-      <p *ngIf="result.type === 'text' || result.type === 'info' || result.type === 'parameter'" class="result-text">
-        {{ result.textResult }}
-      </p>
-    </li>
-  </ul>
-  <p *ngIf="!loading && (!results || results.length === 0) && !error">No results available.</p>
+  <div *ngIf="!loading && !error" class="results-container">
+
+    <div class="results-section">
+      <h3 class="section-title">Status</h3>
+      <div class="section-content">
+        <div class="result-row">
+          <label>Status</label>
+          <p class="result-text">{{ status }}</p>
+        </div>
+        <div class="result-row">
+          <label>Success Count</label>
+          <p class="result-text">{{ successCount }}</p>
+        </div>
+        <div class="result-row">
+          <label>Technical Error Count</label>
+          <p class="result-text">{{ errorCount }}</p>
+        </div>
+        <div class="result-row">
+          <label>User Error Count</label>
+          <p class="result-text">{{ userErrorCount }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-section">
+      <h3 class="section-title">Info</h3>
+      <div class="section-content">
+        <div class="result-row">
+          <label>Name</label>
+          <p class="result-text">{{ taskName }}</p>
+        </div>
+        <div class="result-row">
+          <label>Created</label>
+          <p class="result-text">{{ createdDate }}</p>
+        </div>
+        <div class="result-row">
+          <label>Last Modified</label>
+          <p class="result-text">{{ lastModifiedDate }}</p>
+        </div>
+        <div class="result-row">
+          <label>Last Modified By</label>
+          <p class="result-text">{{ lastModifiedBy }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-section" *ngIf="results && results.length > 0">
+      <h3 class="section-title">Parameters</h3>
+      <div class="section-content">
+        <div class="result-row" *ngFor="let result of results">
+          <label>{{ result.label }}</label>
+          <button
+            *ngIf="result.type === 'file'"
+            kendoButton
+            icon="download"
+            (click)="onButtonClick(result.filePath)"
+            class="button primary result-button"
+          >
+            {{ result.fileName }}
+          </button>
+          <p *ngIf="result.type === 'text' || result.type === 'info' || result.type === 'parameter'" class="result-text">
+            {{ result.textResult }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <p *ngIf="!results || results.length === 0" class="no-params">No parameters available.</p>
+  </div>
 </kendo-dialog>

@@ -1,4 +1,3 @@
-
 import { Component, OnInit, OnDestroy, ViewChild, HostListener, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,6 +20,7 @@ export class ServiceRunExtended extends ServiceRun {
   statusColor = 'rgba(var(--color-text-secondary-rgb),0.2)';
   statusString = '';
   durationString = '';
+  lastUpdatedLocal = '';
 }
 
 @Component({
@@ -92,7 +92,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   serviceId = 'all';
 
+  currentSortType = '';
+  currentSortDirection: 'asc' | 'desc' | '' = '';
+
   private updatesSub!: Subscription;
+  private refreshSub!: Subscription;
 
   constructor(
     public userService: UserService,
@@ -120,7 +124,6 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     this.serviceRunService.initialize();
 
-    // Subscribe once to get initial data, then unsubscribe automatically
     this.updatesSub = this.serviceRunService.serviceRunsUpdated$.pipe(
       take(1)
     ).subscribe(() => {
@@ -136,11 +139,64 @@ export class HistoryComponent implements OnInit, OnDestroy {
     if (this.updatesSub) {
       this.updatesSub.unsubscribe();
     }
+    if (this.refreshSub) {
+      this.refreshSub.unsubscribe();
+    }
   }
 
   refreshHistory(): void {
     this.serviceRunService.initialize();
-    this.loadDataFromService();
+
+    if (this.refreshSub) {
+      this.refreshSub.unsubscribe();
+    }
+
+    this.refreshSub = this.serviceRunService.serviceRunsUpdated$.pipe(
+      take(1)
+    ).subscribe(() => {
+      this.loadDataFromService();
+      this.onServiceFilter();
+      this.reapplySort();
+    });
+  }
+
+  private reapplySort(): void {
+    if (this.currentSortType && this.currentSortDirection) {
+      this.applySort(this.currentSortType, this.currentSortDirection);
+    }
+  }
+
+  private applySort(type: string, direction: 'asc' | 'desc'): void {
+    switch (type) {
+      case 'taskName':
+        if (direction === 'asc') {
+          this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (a.taskName || a.serviceName || '').localeCompare(b.taskName || b.serviceName || ''));
+        } else {
+          this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (b.taskName || b.serviceName || '').localeCompare(a.taskName || a.serviceName || ''));
+        }
+        break;
+      case 'status':
+        if (direction === 'asc') {
+          this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (a.statusString > b.statusString ? 1 : -1));
+        } else {
+          this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (b.statusString > a.statusString ? 1 : -1));
+        }
+        break;
+      case 'owner':
+        if (direction === 'asc') {
+          this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (a.owner || '').localeCompare(b.owner || ''));
+        } else {
+          this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (b.owner || '').localeCompare(a.owner || ''));
+        }
+        break;
+      case 'lastUpdated':
+        if (direction === 'asc') {
+          this.serviceRuns = this.serviceRuns.slice().sort((a, b) => new Date(a.lastUpdated).getTime() - new Date(b.lastUpdated).getTime());
+        } else {
+          this.serviceRuns = this.serviceRuns.slice().sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime());
+        }
+        break;
+    }
   }
 
   private loadDataFromService(): void {
@@ -160,8 +216,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
       if (filterGroup.name === 'Status') {
         return {
           ...filterGroup,
-          filters: ['Completed', 'Processing', 'Processed with Errors'],
+          filters: ['Completed', 'Processing', 'Processed with Errors', 'Cancelled'],
         };
+      }
+      if (filterGroup.name === 'Date Range') {
+        return filterGroup;
       }
       return {
         ...filterGroup,
@@ -172,11 +231,6 @@ export class HistoryComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * Maps the UI filter values to include the underlying data values.
-   * "Processing" in the UI should also match "Missing" in the data.
-   * "Processed with Errors" in the UI should also match "Error" in the data.
-   */
   private getEffectiveFiltersObj(): any {
     const effectiveFilters = { ...this.filtersObj };
 
@@ -249,6 +303,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
       this.serviceRuns = this.getExtendedServices(
         this.serviceRunService.filterServiceRuns(this.searchString, this.getEffectiveFiltersObj())
       );
+      this.reapplySort();
     }
   }
 
@@ -256,6 +311,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.serviceRuns = this.getExtendedServices(
       this.serviceRunService.filterServiceRuns(this.searchString, this.getEffectiveFiltersObj())
     );
+    this.reapplySort();
   }
 
   private getStatusDisplayString(status: ServiceRunStatus): string {
@@ -270,9 +326,25 @@ export class HistoryComponent implements OnInit, OnDestroy {
         return 'Processed with Errors';
       case ServiceRunStatus.Missing:
         return 'Processing';
+      case ServiceRunStatus.Cancelled:
+        return 'Cancelled';
       default:
         return '';
     }
+  }
+
+  formatLocalDate(date: Date): string {
+    if (!date || isNaN(date.getTime())) return '';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12;
+    return `${month} ${day}, ${year}, ${displayHours}:${minutes}:${seconds} ${ampm}`;
   }
 
   getExtendedServices(services: ServiceRun[]): ServiceRunExtended[] {
@@ -304,8 +376,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
           ? 'var(--color-accent-2)'
           : filteredStatus.includes(ServiceRunStatus.Error)
           ? 'var(--color-accent-2)'
+          : filteredStatus.includes(ServiceRunStatus.Cancelled)
+          ? 'var(--color-text-secondary)'
           : '',
         durationString: DateTimeService.hoursToGreatesUnit(serviceRun.durationHours),
+        lastUpdatedLocal: this.formatLocalDate(serviceRun.lastUpdated),
       };
     });
     return serviceRunExtended;
@@ -344,48 +419,22 @@ export class HistoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  previousType = '';
   toggleSort(type: string) {
-    if (type === 'status' && this.previousType !== 'status') {
-      this.previousType = 'status';
-      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (a.statusString > b.statusString ? 1 : -1)));
-    } else if (type === 'status' && this.previousType === 'status') {
-      this.previousType = '';
-      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (b.statusString > a.statusString ? 1 : -1)));
-    } else if (type === 'date' && this.previousType !== 'date') {
-      this.previousType = 'date';
-      return (this.serviceRuns = this.serviceRuns
-        .slice()
-        .sort((a, b) => b.submittedDate.getTime() - a.submittedDate.getTime()));
-    } else if (type === 'date' && this.previousType === 'date') {
-      this.previousType = '';
-      return (this.serviceRuns = this.serviceRuns
-        .slice()
-        .sort((a, b) => a.submittedDate.getTime() - b.submittedDate.getTime()));
-    } else if (type === 'duration' && this.previousType !== 'duration') {
-      this.previousType = 'duration';
-      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (a.durationHours > b.durationHours ? 1 : -1)));
-    } else if (type === 'duration' && this.previousType === 'duration') {
-      this.previousType = '';
-      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (b.durationHours > a.durationHours ? 1 : -1)));
-    } else if (type === 'owner' && this.previousType !== 'owner') {
-      this.previousType = 'owner';
-      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (a.owner || '').localeCompare(b.owner || '')));
-    } else if (type === 'owner' && this.previousType === 'owner') {
-      this.previousType = '';
-      return (this.serviceRuns = this.serviceRuns.slice().sort((a, b) => (b.owner || '').localeCompare(a.owner || '')));
-    } else if (type === 'lastUpdated' && this.previousType !== 'lastUpdated') {
-      this.previousType = 'lastUpdated';
-      return (this.serviceRuns = this.serviceRuns
-        .slice()
-        .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()));
-    } else if (type === 'lastUpdated' && this.previousType === 'lastUpdated') {
-      this.previousType = '';
-      return (this.serviceRuns = this.serviceRuns
-        .slice()
-        .sort((a, b) => new Date(a.lastUpdated).getTime() - new Date(b.lastUpdated).getTime()));
+    if (this.currentSortType === type) {
+      if (this.currentSortDirection === 'asc') {
+        this.currentSortDirection = 'desc';
+      } else {
+        this.currentSortType = '';
+        this.currentSortDirection = '';
+        this.onServiceFilter();
+        return this.serviceRuns;
+      }
+    } else {
+      this.currentSortType = type;
+      this.currentSortDirection = 'asc';
     }
 
+    this.applySort(this.currentSortType, this.currentSortDirection);
     return this.serviceRuns;
   }
 
@@ -413,4 +462,3 @@ export class HistoryComponent implements OnInit, OnDestroy {
     return item.id + item.statusString;
   }
 }
-

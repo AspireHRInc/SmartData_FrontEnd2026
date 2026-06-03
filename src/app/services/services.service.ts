@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
@@ -77,6 +76,7 @@ export class ServicesService {
   currentFilter = '';
   currentFilters: string[] = [];
   private initialized = false;
+  private loading = false;
   private baseUrl = '/api';
 
   private readonly tileImageMap: Record<string, string> = {
@@ -93,50 +93,50 @@ export class ServicesService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
- private getHeaders(): HttpHeaders {
-  // Read token directly from localStorage (avoids race condition with AuthService)
-  const keys = Object.keys(localStorage);
-  const idTokenKey = keys.find(k => k.includes('idToken'));
-  const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
+  private getHeaders(): HttpHeaders {
+    const keys = Object.keys(localStorage);
+    const idTokenKey = keys.find(k => k.includes('idToken'));
+    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
 
-  if (!token) {
-    console.warn('Token not available yet');
-    return new HttpHeaders({ Authorization: '', Partition: '' });
+    if (!token) {
+      console.warn('Token not available yet');
+      return new HttpHeaders({ Authorization: '', Partition: '' });
+    }
+
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      return new HttpHeaders({ Authorization: `Bearer ${token}`, Partition: '' });
+    }
+
+    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+    const partition = (payload['custom:Org'] || '').replace(/#$/, '');
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      Partition: partition,
+    });
   }
-
-  const parts = token.split('.');
-  if (parts.length !== 3) {
-    return new HttpHeaders({ Authorization: `Bearer ${token}`, Partition: '' });
-  }
-
-  const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
-  const partition = (payload['custom:Org'] || '').replace(/#$/, '');
-
-  return new HttpHeaders({
-    Authorization: `Bearer ${token}`,
-    Partition: partition,
-  });
-}
 
   private getDefaultImage(serviceName: string): string {
     return this.tileImageMap[serviceName] || this.defaultTileImage;
   }
 
   initialize(): void {
-    if (this.initialized) return;
-    this.initialized = true;
+    if (this.initialized || this.loading) return;
+    this.loading = true;
 
-    // Retry loading if token isn't ready yet
+    this.attemptLoad();
+  }
+
+  private attemptLoad(): void {
     const token = this.authService.getIdToken();
     if (!token) {
       console.warn('Token not ready, retrying in 1s...');
-      setTimeout(() => {
-        this.initialized = false;
-        this.initialize();
-      }, 1000);
+      setTimeout(() => this.attemptLoad(), 1000);
       return;
     }
 
+    this.initialized = true;
     this.loadProcessTypes();
   }
 
@@ -147,7 +147,6 @@ export class ServicesService {
       (response) => {
         console.log('Process list response:', response);
 
-        // Filter out metadata/schema records (e.g. SK: "ScheduledProcess#ScheduledProcess")
         const items = (response.Items || []).filter((item: any) => {
           const sk = item.SK || '';
           return sk !== 'ScheduledProcess#ScheduledProcess' && item.name;
@@ -177,16 +176,15 @@ export class ServicesService {
 
         this.allServices = [category];
         this.defaultServices = [category];
+        this.loading = false;
       },
       (error) => {
         console.error('Error loading process types:', error);
-        // If 401, retry after a delay (token may not have been ready)
+        this.loading = false;
         if (error.status === 401) {
           console.warn('Got 401, retrying in 2s...');
-          setTimeout(() => {
-            this.initialized = false;
-            this.initialize();
-          }, 2000);
+          this.initialized = false;
+          setTimeout(() => this.initialize(), 2000);
         }
       }
     );
@@ -297,7 +295,6 @@ export class ServicesService {
       });
     }
 
-    // Save to backend
     return this.http.put<any>(
       `${this.baseUrl}/ScheduledProcess/${serviceId}`,
       { tags: tags },
@@ -326,4 +323,3 @@ export class ServicesService {
     return this.http.get(`/api/PTM/${ptmId}`, { headers: this.getHeaders() });
   }
 }
-

@@ -6,12 +6,14 @@ const PROXY_CONFIG = [
     changeOrigin: true,
     pathRewrite: { '^/api': '/default' },
     onProxyReq: function(proxyReq, req, res) {
-      // Ensure custom headers are forwarded
       if (req.headers['partition']) {
         proxyReq.setHeader('Partition', req.headers['partition']);
       }
       if (req.headers['query']) {
         proxyReq.setHeader('Query', req.headers['query']);
+      }
+      if (req.headers['lastmodifiedcached']) {
+        proxyReq.setHeader('LastModifiedCached', req.headers['lastmodifiedcached']);
       }
       console.log('Proxying:', req.method, req.url);
       console.log('Partition header:', req.headers['partition']);

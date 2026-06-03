@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
@@ -6,7 +5,6 @@ import { ServicesService } from './services.service';
 import { DateTimeService } from './date-time.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
-// Exported interfaces used by other components
 export class Filter {
   name = '';
   constructor(name?: string) {
@@ -99,6 +97,57 @@ export class ServiceRunService {
     });
   }
 
+  private getMinimalHeaders(): HttpHeaders {
+    const keys = Object.keys(localStorage);
+    const idTokenKey = keys.find(k => k.includes('idToken'));
+    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
+
+    if (!token) {
+      return new HttpHeaders({ Authorization: '', Partition: '' });
+    }
+
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      return new HttpHeaders({ Authorization: `Bearer ${token}`, Partition: '' });
+    }
+
+    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+    const partition = (payload['custom:Org'] || '').replace(/#$/, '');
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      Partition: partition
+    });
+  }
+
+  private getTokenPayload(): any {
+    const keys = Object.keys(localStorage);
+    const idTokenKey = keys.find(k => k.includes('idToken'));
+    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
+    if (!token) return {};
+    const parts = token.split('.');
+    if (parts.length !== 3) return {};
+    return JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+  }
+
+  private parseUTCDate(value: any): Date | null {
+    if (!value) return null;
+
+    if (typeof value === 'number') {
+      const ms = value < 10000000000 ? value * 1000 : value;
+      return new Date(ms);
+    }
+
+    let dateStr = String(value).trim();
+
+    if (dateStr && !dateStr.endsWith('Z') && !dateStr.match(/[+-]\d{2}:\d{2}$/) && !dateStr.match(/[+-]\d{4}$/)) {
+      dateStr += 'Z';
+    }
+
+    const parsed = new Date(dateStr);
+    return isNaN(parsed.getTime()) ? null : parsed;
+  }
+
   initialize(serviceId?: string): void {
     if (serviceId) {
       this.currentServiceRunsId = serviceId;
@@ -132,6 +181,7 @@ export class ServiceRunService {
             if (owner === 'SmartDataScheduler' || owner === 'system') return false;
             const name = item.name || '';
             if (name === 'AspireHR') return false;
+            if (!item.referencedObjects?.ssObjectKey) return false;
             return true;
           })
           .map((item: any) => this.mapToServiceRun(item));
@@ -150,56 +200,54 @@ export class ServiceRunService {
     const run = new ServiceRun();
 
     run.id = (item.SK || '').replace('Process#', '').replace('PTV#', '');
-
-    // Task name = item.name (user-defined name like "Run1")
     run.taskName = item.name || '';
-
-    // Process type name = resolved from referencedObjects GUID
     run.serviceName = this.getProcessNameByScheduledProcessKey(item.referencedObjects);
 
-    // Fallbacks for service name
-    if (!run.serviceName && item.referencedObjects?.ssObjectKey) {
-      run.serviceName = 'HeartBeat';
-    }
-    if (!run.serviceName && !item.referencedObjects) {
-      run.serviceName = item.name || 'Unknown Process';
+    if (!run.serviceName) {
+      const ssKey = item.referencedObjects.ssObjectKey;
+      const hasScheduledProcessGuid = /ScheduledProcess#[a-f0-9-]+/.test(ssKey);
+      if (!hasScheduledProcessGuid) {
+        run.serviceName = 'HeartBeat';
+      } else {
+        run.serviceName = 'Unknown Process';
+      }
     }
 
-    // Service ID from referencedObjects
     run.serviceId = this.getScheduledProcessId(item.referencedObjects);
 
-    // Status - as array for compatibility with history component
     const statusRaw = item.status || item.statusIndex || '';
     const statusEnum = this.getStatusEnum(statusRaw);
     run.status = [statusEnum];
     run.statusIndex = this.getStatusIndex(statusRaw);
 
-    // Dates
-    const submittedDate = item.createdAt || item.lastModifiedAt || '';
-    run.submittedDate = submittedDate ? new Date(submittedDate) : new Date();
+    const submittedRaw = item.startTime || item.submittedDate || item.created || item.createdAt || item.lastModifiedAt || '';
+    const parsedSubmitted = this.parseUTCDate(submittedRaw);
+    run.submittedDate = parsedSubmitted || new Date();
 
-    const lastUpdated = item.lastModifiedAt || '';
-    run.lastUpdated = lastUpdated ? new Date(lastUpdated) : run.submittedDate;
+    const lastUpdatedRaw = item.endTime || item.lastModifiedAt || '';
+    const parsedLastUpdated = this.parseUTCDate(lastUpdatedRaw);
+    run.lastUpdated = parsedLastUpdated || run.submittedDate;
 
-    // Duration
     if (run.submittedDate && run.lastUpdated) {
       const diffMs = run.lastUpdated.getTime() - run.submittedDate.getTime();
-      run.durationHours = diffMs / (1000 * 60 * 60);
+      run.durationHours = Math.max(0, diffMs / (1000 * 60 * 60));
     }
 
-    // Owner
     run.owner = item.owner || '';
     run.userName = item.owner || '';
     run.userId = item.owner || '';
-
-    // Input parameters
     run.inputParameters = item.inputParameters || [];
-
-    // Comment
     run.comment = item.comment || '';
 
-    // Results (if available)
-    run.results = item.results || item.outputResults || [];
+    const inputParams = item.inputParameters || [];
+    run.results = inputParams
+      .filter((p: any) => p.name !== 'Comment')
+      .map((p: any) => ({
+        id: p.name,
+        type: 'parameter',
+        label: p.parameterMetadata?.caption || p.name,
+        textResult: p.value || p.defaultValue || ''
+      }));
 
     return run;
   }
@@ -254,18 +302,21 @@ export class ServiceRunService {
     return 0;
   }
 
-  // --- Public methods used by history.component.ts ---
-
   getServiceRuns(): ServiceRun[] {
     if (this.currentServiceRunsId && this.currentServiceRunsId !== 'all') {
       const targetId = this.currentServiceRunsId;
+      const targetSlug = targetId.toLowerCase().replace(/-/g, '').replace(/ /g, '');
+
       return this.serviceRuns.filter(run => {
-        if (!run.serviceId) return false;
+        if (!run.serviceId && !run.serviceName) return false;
         const runUuid = run.serviceId.replace('ScheduledProcess#', '');
+        const runNameSlug = run.serviceName.toLowerCase().replace(/-/g, '').replace(/ /g, '');
+
         return run.serviceId === targetId ||
           runUuid === targetId ||
           targetId.includes(runUuid) ||
-          run.serviceId.includes(targetId);
+          run.serviceId.includes(targetId) ||
+          runNameSlug === targetSlug;
       });
     }
     return this.serviceRuns;
@@ -274,21 +325,18 @@ export class ServiceRunService {
   filterServiceRuns(searchString: string, filtersObj: any): ServiceRun[] {
     let filtered = this.getServiceRuns();
 
-    // Filter by status
     if (filtersObj.status && filtersObj.status.length > 0) {
       filtered = filtered.filter(run => {
         return run.status.some(s => filtersObj.status.includes(s));
       });
     }
 
-    // Filter by owner
     if (filtersObj.owner && filtersObj.owner.length > 0) {
       filtered = filtered.filter(run => {
         return filtersObj.owner.includes(run.owner);
       });
     }
 
-    // Filter by date range
     if (filtersObj.dateRange && filtersObj.dateRange.start && filtersObj.dateRange.end) {
       const start = new Date(filtersObj.dateRange.start).getTime();
       const end = new Date(filtersObj.dateRange.end).getTime();
@@ -300,14 +348,12 @@ export class ServiceRunService {
       }
     }
 
-    // Filter by service
     if (filtersObj.service && filtersObj.service.length > 0) {
       filtered = filtered.filter(run => {
         return filtersObj.service.includes(run.serviceName);
       });
     }
 
-    // Search string
     if (searchString && searchString.trim() !== '') {
       const search = searchString.toLowerCase();
       filtered = filtered.filter(run => {
@@ -345,6 +391,10 @@ export class ServiceRunService {
         filters: services.map(s => ({ name: s })),
       },
       {
+        name: 'Date Range',
+        filters: [],
+      },
+      {
         name: 'Owner',
         filters: owners.map(o => ({ name: o })),
       },
@@ -352,6 +402,7 @@ export class ServiceRunService {
   }
 
   get singleServiceRunsFilters(): any[] {
+    const owners = [...new Set(this.serviceRuns.map(r => r.owner).filter(n => n))];
     return [
       {
         name: 'Status',
@@ -362,59 +413,73 @@ export class ServiceRunService {
         ],
       },
       {
-        name: 'Service',
-        filters: [...new Set(this.serviceRuns.map(r => r.serviceName).filter(n => n))].map(s => ({ name: s })),
+        name: 'Date Range',
+        filters: [],
+      },
+      {
+        name: 'Owner',
+        filters: owners.map(o => ({ name: o })),
       },
     ];
   }
 
-  // --- Methods used by cancel and results components ---
+  cancelServiceRun(processId: string): Observable<any> {
+    return new Observable(observer => {
+      const uuid = processId.includes('#') ? processId.split('#')[1] : processId;
+      const headers = this.getMinimalHeaders();
+      const payload = this.getTokenPayload();
+      const username = payload['email'] || payload['cognito:username'] || '';
 
-  cancelServiceRun(serviceId: string): Observable<any> {
-    const keys = Object.keys(localStorage);
-    const idTokenKey = keys.find(k => k.includes('idToken'));
-    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
+      this.http.get<any>(`${this.baseUrl}/Process/${uuid}`, { headers }).subscribe(
+        (response: any) => {
+          const items = response.Items || [];
+          if (items.length === 0) {
+            observer.error('Process not found');
+            return;
+          }
 
-    let partition = '';
-    if (token) {
-      const parts = token.split('.');
-      if (parts.length === 3) {
-        const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
-        partition = (payload['custom:Org'] || '').replace(/#$/, '');
-      }
-    }
+          const item = items[0];
+          const currentLastModified = item.lastModifiedAt || '';
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      Partition: partition,
-      Action: 'Cancel',
+          const updatedItem = {
+            ...item,
+            status: 'Cancelled',
+            lastModifiedAt: new Date().toISOString(),
+            lastModifiedBy: username
+          };
+
+          delete updatedItem.PK;
+          delete updatedItem.SK;
+
+          const postHeaders = this.getMinimalHeaders()
+          .set('lastmodifiedcached', 'new');
+
+          this.http.post<any>(`${this.baseUrl}/Process/${uuid}`, updatedItem, { headers: postHeaders }).subscribe(
+            (postResponse) => {
+              console.log('Process cancelled successfully');
+              observer.next(postResponse);
+              observer.complete();
+              this.refresh();
+            },
+            (postError) => {
+              console.error('Error cancelling process:', postError);
+              observer.error(postError);
+            }
+          );
+        },
+        (getError) => {
+          console.error('Error fetching process for cancel:', getError);
+          observer.error(getError);
+        }
+      );
     });
-
-    return this.http.post<any>(`${this.baseUrl}/Process/${serviceId}/cancel`, {}, { headers });
   }
 
   getProcessDetails(processId: string): Observable<any> {
-    const keys = Object.keys(localStorage);
-    const idTokenKey = keys.find(k => k.includes('idToken'));
-    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
-
-    let partition = '';
-    if (token) {
-      const parts = token.split('.');
-      if (parts.length === 3) {
-        const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
-        partition = (payload['custom:Org'] || '').replace(/#$/, '');
-      }
-    }
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      Partition: partition,
-      Action: 'ListRef',
-      Query: '"SK" = \'Process#' + processId + '\''
-    });
-
-    return this.http.get<any>(`${this.baseUrl}/Process/list`, { headers });
+    const headers = this.getMinimalHeaders();
+    const uuid = processId.includes('#') ? processId.split('#')[1] : processId;
+    console.log('Fetching process details for UUID:', uuid);
+    return this.http.get<any>(`${this.baseUrl}/Process/${uuid}`, { headers });
   }
 
   getResultsForRun(runId: string): ServiceRun | undefined {
@@ -425,4 +490,3 @@ export class ServiceRunService {
     this.loadProcesses();
   }
 }
-
