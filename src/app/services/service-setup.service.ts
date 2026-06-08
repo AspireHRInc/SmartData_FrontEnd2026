@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UiStateService } from './ui-state.service';
+import { environment } from '../../environments/environment';
 
 export class Field {
   ParameterName = '';
@@ -54,7 +55,7 @@ export class ServiceSetupService {
   currentProcessItem: any = null;
   private setupLocked = false;
 
-  private apiBase = '/api';
+ private apiBase = environment.apiUrl;
 
   constructor(
     private uiState: UiStateService,

@@ -1,3 +1,4 @@
+
 import { Component, OnInit, OnDestroy, ViewChild, HostListener, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -145,8 +146,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   }
 
   refreshHistory(): void {
-    this.serviceRunService.initialize();
-
+    // Subscribe BEFORE calling refresh() to eliminate race condition
     if (this.refreshSub) {
       this.refreshSub.unsubscribe();
     }
@@ -158,6 +158,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
       this.onServiceFilter();
       this.reapplySort();
     });
+
+    this.serviceRunService.refresh();
   }
 
   private reapplySort(): void {
@@ -462,3 +464,4 @@ export class HistoryComponent implements OnInit, OnDestroy {
     return item.id + item.statusString;
   }
 }
+

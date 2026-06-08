@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   services: ServiceCategory[] = [];
   allServices: ServiceCategory[] = [];
 
-  filters = ['all', 'insights'];
+  filters = [];
   activeFilter = '';
   searchField = '';
   currentSearch: string[] = [];

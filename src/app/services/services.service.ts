@@ -1,8 +1,10 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { File } from './file.service';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export enum ServiceTag {
   'Favorites' = 'Favorites',
@@ -77,7 +79,7 @@ export class ServicesService {
   currentFilters: string[] = [];
   private initialized = false;
   private loading = false;
-  private baseUrl = '/api';
+  private baseUrl = environment.apiUrl;
 
   private readonly tileImageMap: Record<string, string> = {
     'Template Script': 'assets/images/tiles/template_script_icon.png',
@@ -315,11 +317,12 @@ export class ServicesService {
   }
 
   getProcessDetails(id: string): Observable<any> {
-    return this.http.get(`/api/ScheduledProcess/${id}`, { headers: this.getHeaders() });
+    return this.http.get(`${this.baseUrl}/ScheduledProcess/${id}`, { headers: this.getHeaders() });
   }
 
   getProcessTypeVersion(ssObjectKey: string): Observable<any> {
     const ptmId = ssObjectKey.split('#')[1];
-    return this.http.get(`/api/PTM/${ptmId}`, { headers: this.getHeaders() });
+    return this.http.get(`${this.baseUrl}/PTM/${ptmId}`, { headers: this.getHeaders() });
   }
 }
+

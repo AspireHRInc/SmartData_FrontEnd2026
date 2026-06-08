@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { ServicesService } from './services.service';
 import { DateTimeService } from './date-time.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export class Filter {
   name = '';
@@ -62,7 +63,9 @@ export class ServiceRunService {
   currentServiceName = '';
   lastExecutedServiceName = '';
 
-  private baseUrl = '/api';
+  private baseUrl = environment.apiUrl;
+  private loading = false;
+  private initialized = false;
 
   constructor(
     private http: HttpClient,
@@ -148,10 +151,19 @@ export class ServiceRunService {
     return isNaN(parsed.getTime()) ? null : parsed;
   }
 
+  private toSlug(name: string): string {
+    return (name || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
   initialize(serviceId?: string): void {
     if (serviceId) {
       this.currentServiceRunsId = serviceId;
     }
+    if (this.initialized || this.loading) return;
+    this.loading = true;
     this.loadProcesses();
   }
 
@@ -188,11 +200,16 @@ export class ServiceRunService {
 
         console.log('Loaded process runs:', this.serviceRuns.length);
         this.serviceRuns$.next(this.serviceRuns);
+        this.loading = false;
+        this.initialized = true;
         this.serviceRunsUpdated$.next();
       },
       (error) => {
-        console.error('Error loading process runs:', error);
-      }
+    console.error('Error loading process runs:', error);
+    this.loading = false;
+    this.initialized = true;
+    this.serviceRunsUpdated$.next();
+}
     );
   }
 
@@ -204,13 +221,7 @@ export class ServiceRunService {
     run.serviceName = this.getProcessNameByScheduledProcessKey(item.referencedObjects);
 
     if (!run.serviceName) {
-      const ssKey = item.referencedObjects.ssObjectKey;
-      const hasScheduledProcessGuid = /ScheduledProcess#[a-f0-9-]+/.test(ssKey);
-      if (!hasScheduledProcessGuid) {
-        run.serviceName = 'HeartBeat';
-      } else {
-        run.serviceName = 'Unknown Process';
-      }
+      run.serviceName = 'Unknown Process';
     }
 
     run.serviceId = this.getScheduledProcessId(item.referencedObjects);
@@ -284,6 +295,7 @@ export class ServiceRunService {
     if (s === 'completed' || s === '3') return ServiceRunStatus.Completed;
     if (s === 'processing' || s === '1' || s === '2') return ServiceRunStatus.Processing;
     if (s === 'error' || s === 'failed' || s === '4') return ServiceRunStatus.Error;
+    if (s === 'processed with errors') return ServiceRunStatus['Processed with Errors'];
     if (s === 'queued' || s === '0') return ServiceRunStatus.Queued;
     if (s === 'cancelled' || s === '5') return ServiceRunStatus.Cancelled;
     if (s === 'missing') return ServiceRunStatus.Missing;
@@ -305,18 +317,36 @@ export class ServiceRunService {
   getServiceRuns(): ServiceRun[] {
     if (this.currentServiceRunsId && this.currentServiceRunsId !== 'all') {
       const targetId = this.currentServiceRunsId;
-      const targetSlug = targetId.toLowerCase().replace(/-/g, '').replace(/ /g, '');
+      const targetSlug = this.toSlug(targetId);
 
+      const allServices = this.servicesService.allServices;
+      if (allServices?.length > 0) {
+        // Search across ALL service groups (indices), not just 
+        for (let i = 0; i < allServices.length; i++) {
+          const serviceGroup = allServices[i];
+          if (!serviceGroup?.services?.length) continue;
+
+          const matchedService = serviceGroup.services.find((s: any) => {
+            if (this.toSlug(s.name) === targetSlug) return true;
+            if (s.id === targetId) return true;
+            const bareId = (s.id || '').replace('ScheduledProcess#', '');
+            if (bareId === targetId) return true;
+            return false;
+          });
+
+          if (matchedService) {
+            const scheduledProcessKey = matchedService.id;
+            return this.serviceRuns.filter(run => run.serviceId === scheduledProcessKey);
+          }
+        }
+      }
+
+      // Fallback: direct matching against run properties
       return this.serviceRuns.filter(run => {
         if (!run.serviceId && !run.serviceName) return false;
-        const runUuid = run.serviceId.replace('ScheduledProcess#', '');
-        const runNameSlug = run.serviceName.toLowerCase().replace(/-/g, '').replace(/ /g, '');
-
         return run.serviceId === targetId ||
-          runUuid === targetId ||
-          targetId.includes(runUuid) ||
-          run.serviceId.includes(targetId) ||
-          runNameSlug === targetSlug;
+          run.serviceId.replace('ScheduledProcess#', '') === targetId ||
+          this.toSlug(run.serviceName) === targetSlug;
       });
     }
     return this.serviceRuns;
@@ -439,7 +469,6 @@ export class ServiceRunService {
           }
 
           const item = items[0];
-          const currentLastModified = item.lastModifiedAt || '';
 
           const updatedItem = {
             ...item,
@@ -452,7 +481,7 @@ export class ServiceRunService {
           delete updatedItem.SK;
 
           const postHeaders = this.getMinimalHeaders()
-          .set('lastmodifiedcached', 'new');
+            .set('lastmodifiedcached', 'new');
 
           this.http.post<any>(`${this.baseUrl}/Process/${uuid}`, updatedItem, { headers: postHeaders }).subscribe(
             (postResponse) => {
@@ -487,6 +516,8 @@ export class ServiceRunService {
   }
 
   refresh(): void {
+    this.initialized = false;
+    this.loading = true;
     this.loadProcesses();
   }
 }
