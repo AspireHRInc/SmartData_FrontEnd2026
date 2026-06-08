@@ -43,8 +43,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Updated Local Development
 
-Install Dependencies
+Install Dependencies (auto-runs on new Codespace)
 npm install --legacy-peer-deps
 
-Run Server
+Run Locally
 npx ng serve --proxy-config proxy.conf.js
+
+Push to CloudFront
+Commit changes and push to main
