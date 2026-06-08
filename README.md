@@ -43,7 +43,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Updated Local Development
 
-Install Dependecies
+Install Dependencies
 npm install --legacy-peer-deps
 
 Run Server
