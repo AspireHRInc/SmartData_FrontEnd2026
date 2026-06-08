@@ -50,4 +50,6 @@ Run Locally
 npx ng serve --proxy-config proxy.conf.js
 
 Push to CloudFront
-Commit changes and push to main
+Automatic: Commit changes and push to main
+Manual: Repo → Actions → Deploy SmartSuite → Run Workflow → select main → Run Workflow
+
