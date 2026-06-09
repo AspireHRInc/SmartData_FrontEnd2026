@@ -44,7 +44,7 @@
   *ngIf="uiState.serviceRunResultsOpen$ | async"
 ></ss-service-run-results>
 
-<div class="content-wrapper">
+<div class="content-wrapper" style="background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(208,223,252,0.3); border-radius: 12px;">
   <div class="filters">
     <ng-container *ngFor="let filterGroup of filters; let i = index">
       <ng-container *ngIf="filterGroup.filters.length > 1 || filterGroup.name === 'Date Range' || filterGroup.name === 'Owner'">
@@ -171,86 +171,89 @@
     </div>
   </div>
 
-  <kendo-listview [data]="serviceRuns" containerClass="k-d-flex k-flex-col k-flex-nowrap">
-    <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst">
-      <div class="history-item" [class.new]="dataItem.newlyCompleted" [class.cancelled]="dataItem.statusString === 'Cancelled'" [@listItemInOutAnimation]="dataItem.newlyCompleted ? 'in' : 'out'">
-        <div class="icon">
-          <ss-icon-file-w-status-dot [dotColor]="dataItem.statusColor"></ss-icon-file-w-status-dot>
-        </div>
-        <div class="info">
-          <h2 class="title">{{ dataItem.taskName || dataItem.serviceName || 'Unnamed' }}</h2>
-          <p class="process-type">{{ dataItem.serviceName }}</p>
-          <div class="details">
-            <ss-status-badge
-              *ngIf="dataItem.scheduled"
-              [title]="dataItem.scheduled ? 'SCHEDULED' : ''"
-              textColor="var(--color-text-secondary)"
-              [color]="statusBadgeColor"
-              [rounded]="true"
-            ></ss-status-badge>
+  <div style="background: transparent !important;">
+    <kendo-listview [data]="serviceRuns" containerClass="k-d-flex k-flex-col k-flex-nowrap" style="background: transparent !important; background-color: transparent !important; border: none !important; box-shadow: none !important;">
+      <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-isFirst="isFirst">
+        <div class="history-item" [class.new]="dataItem.newlyCompleted" [class.cancelled]="dataItem.statusString === 'Cancelled'" [@listItemInOutAnimation]="dataItem.newlyCompleted ? 'in' : 'out'">
+          <div class="icon">
+            <ss-icon-file-w-status-dot [dotColor]="dataItem.statusColor"></ss-icon-file-w-status-dot>
           </div>
-        </div>
-        <div class="status">
-          <h3 class="label">
-            <ss-status-dot [color]="dataItem.statusColor"></ss-status-dot>
-            {{ dataItem.statusString }}
-          </h3>
+          <div class="info">
+            <h2 class="title">{{ dataItem.taskName || dataItem.serviceName || 'Unnamed' }}</h2>
+            <p class="process-type">{{ dataItem.serviceName }}</p>
+            <div class="details">
+              <ss-status-badge
+                *ngIf="dataItem.scheduled"
+                [title]="dataItem.scheduled ? 'SCHEDULED' : ''"
+                textColor="var(--color-text-secondary)"
+                [color]="statusBadgeColor"
+                [rounded]="true"
+              ></ss-status-badge>
+            </div>
+          </div>
+          <div class="status">
+            <h3 class="label">
+              <ss-status-dot [color]="dataItem.statusColor"></ss-status-dot>
+              {{ dataItem.statusString }}
+            </h3>
 
-          <kendo-chunkprogressbar
-            *ngIf="dataItem.statusString === 'Processing'"
-            [value]="processingStatusBarValue"
-            [chunkCount]="16"
-            [max]="16"
-            [min]="0"
-            [reverse]="processingStatusBarDirection"
-            [progressCssStyle]="{ background: dataItem.statusColor }"
-            [emptyCssStyle]="{ background: 'rgba(var(--color-text-secondary-rgb),0.5)' }"
-          ></kendo-chunkprogressbar>
+            <kendo-chunkprogressbar
+              *ngIf="dataItem.statusString === 'Processing'"
+              [value]="processingStatusBarValue"
+              [chunkCount]="16"
+              [max]="16"
+              [min]="0"
+              [reverse]="processingStatusBarDirection"
+              [progressCssStyle]="{ background: dataItem.statusColor }"
+              [emptyCssStyle]="{ background: 'rgba(var(--color-text-secondary-rgb),0.5)' }"
+            ></kendo-chunkprogressbar>
 
-          <kendo-chunkprogressbar
-            *ngIf="dataItem.statusString === 'Completed'"
-            [value]="16"
-            [chunkCount]="16"
-            [max]="16"
-            [min]="0"
-            [progressCssStyle]="{ background: dataItem.statusColor }"
-            [emptyCssStyle]="{ background: 'rgba(var(--color-text-secondary-rgb),0.5)' }"
-          ></kendo-chunkprogressbar>
+            <kendo-chunkprogressbar
+              *ngIf="dataItem.statusString === 'Completed'"
+              [value]="16"
+              [chunkCount]="16"
+              [max]="16"
+              [min]="0"
+              [progressCssStyle]="{ background: dataItem.statusColor }"
+              [emptyCssStyle]="{ background: 'rgba(var(--color-text-secondary-rgb),0.5)' }"
+            ></kendo-chunkprogressbar>
 
-          <kendo-chunkprogressbar
-            *ngIf="dataItem.statusString === 'Processed with Errors'"
-            [value]="16"
-            [chunkCount]="16"
-            [max]="16"
-            [min]="0"
-          ></kendo-chunkprogressbar>
+            <kendo-chunkprogressbar
+              *ngIf="dataItem.statusString === 'Processed with Errors'"
+              [value]="16"
+              [chunkCount]="16"
+              [max]="16"
+              [min]="0"
+            ></kendo-chunkprogressbar>
+          </div>
+          <div class="actions">
+            <button
+              (click)="cancel(dataItem.id)"
+              class="button medium action outline cancel"
+              *ngIf="dataItem.statusString === 'Processing'"
+            >
+              Cancel
+            </button>
+            <button
+              (click)="details(dataItem.id)"
+              class="button medium action primary complete"
+              *ngIf="dataItem.statusString === 'Completed'"
+            >
+              Get Results
+            </button>
+            <button
+              (click)="details(dataItem.id)"
+              class="button medium action primary complete"
+              *ngIf="dataItem.statusString === 'Processed with Errors'"
+            >
+              Details
+            </button>
+          </div>
+          <p class="owner">{{ dataItem.owner }}</p>
+          <p class="last-updated">{{ dataItem.lastUpdatedLocal }}</p>
         </div>
-        <div class="actions">
-          <button
-            (click)="cancel(dataItem.id)"
-            class="button medium action outline cancel"
-            *ngIf="dataItem.statusString === 'Processing'"
-          >
-            Cancel
-          </button>
-          <button
-            (click)="details(dataItem.id)"
-            class="button medium action primary complete"
-            *ngIf="dataItem.statusString === 'Completed'"
-          >
-            Get Results
-          </button>
-          <button
-            (click)="details(dataItem.id)"
-            class="button medium action primary complete"
-            *ngIf="dataItem.statusString === 'Processed with Errors'"
-          >
-            Details
-          </button>
-        </div>
-        <p class="owner">{{ dataItem.owner }}</p>
-        <p class="last-updated">{{ dataItem.lastUpdatedLocal }}</p>
-      </div>
-    </ng-template>
-  </kendo-listview>
+      </ng-template>
+    </kendo-listview>
+  </div>
 </div>
+

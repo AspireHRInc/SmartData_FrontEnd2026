@@ -1,79 +1,80 @@
 <ng-container *ngIf="isReady">
-<ss-header
-  headerTitle="Hello."
-  headerSubtitle="Select Your Process"
-  [headerUserObject]="(loggedInUserObj$ | async)!"
-></ss-header>
-<ss-filters></ss-filters>
-<main class="dashboard">
-  <div class="controls">
-    <div class="buttons">
-      <div class="filters">
+  <ss-header
+    headerTitle="Hello."
+    headerSubtitle="Select Your Process"
+    [headerUserObject]="(loggedInUserObj$ | async)!"
+  ></ss-header>
+  <ss-filters></ss-filters>
+  <main class="dashboard">
+    <div class="controls">
+      <div class="buttons">
+        <div class="filters">
+          <button
+            kendoButton
+            *ngFor="let filter of filters; let i = index"
+            [toggleable]="true"
+            [class.selected]="servicesService.currentFilter === filter"
+            (click)="selectedFilter(filter)"
+            class="filter button outline"
+            tabindex="0"
+            [disabled]="false"
+            [rounded]="'full'"
+            [size]="'small'"
+            [attr.aria-label]="'filter services by ' + filter"
+          >
+            {{ filter }}
+          </button>
+        </div>
+      </div>
+
+      <div class="search">
+        <input
+          placeholder="Search services"
+          class="k-input field"
+          (keyup)="onServiceSearch($event)"
+          [(ngModel)]="searchField"
+          tabindex="0"
+        />
         <button
           kendoButton
-          *ngFor="let filter of filters; let i = index"
-          [toggleable]="true"
-          [class.selected]="servicesService.currentFilter === filter"
-          (click)="selectedFilter(filter)"
-          class="filter button outline"
+          icon="search"
+          aria-label="search services"
+          (click)="onServiceSearch($event)"
           tabindex="0"
-          [disabled]="false"
-          [rounded]="'full'"
-          [size]="'small'"
-          [attr.aria-label]="'filter services by ' + filter"
-        >
-          {{ filter }}
-        </button>
+        ></button>
       </div>
+
+      <button class="k-button primary history" (click)="onNavigateHistory()" tabindex="0">View History</button>
     </div>
 
-    <div class="search">
-      <input
-        placeholder="Search services"
-        class="k-input field"
-        (keyup)="onServiceSearch($event)"
-        [(ngModel)]="searchField"
-        tabindex="0"
-      />
-      <button
-        kendoButton
-        icon="search"
-        aria-label="search services"
-        (click)="onServiceSearch($event)"
-        tabindex="0"
-      ></button>
-    </div>
-
-    <button class="k-button primary history" (click)="onNavigateHistory()" tabindex="0">View History</button>
-  </div>
-
-  <ss-tiles-section
-    [data]="category"
-    *ngFor="let category of services; let cati = index"
-    [largerTiles]="category.featured"
-    [showViewAll]="category.defaultMaxTiles < category.services.length + 1 && category.defaultMaxTiles !== 0"
-    (viewAll)="onCatgoryViewAll(category.id)"
-  >
-    <ng-container *ngFor="let service of category.services; let i = index">
-      <ss-tiles-tile
-        *ngIf="category.defaultMaxTiles === 0 || i < category.defaultMaxTiles"
-        [data]="service"
-        [larger]="category.featured"
-        [class.subscribed]="service.subscribed"
-        [class.featured]="category.featured"
-        [@tileInOutAnimation]
-        tabindex="0"
-      >
-        <button
-          class="k-button primary request"
-          *ngIf="!service.subscribed"
-          (click)="requestService(service.id)"
+    <ss-tiles-section
+      [data]="category"
+      *ngFor="let category of services; let cati = index"
+      [largerTiles]="category.featured"
+      [showViewAll]="category.defaultMaxTiles < category.services.length + 1 && category.defaultMaxTiles !== 0"
+      (viewAll)="onCatgoryViewAll(category.id)"
+    >
+      <ng-container *ngFor="let service of category.services; let i = index">
+        <ss-tiles-tile
+          *ngIf="category.defaultMaxTiles === 0 || i < category.defaultMaxTiles"
+          [data]="service"
+          [larger]="category.featured"
+          [class.subscribed]="service.subscribed"
+          [class.featured]="category.featured"
+          [@tileInOutAnimation]
           tabindex="0"
         >
-          Learn More
-        </button>
-      </ss-tiles-tile>
-    </ng-container>
-  </ss-tiles-section>
-</main>
+          <button
+            class="k-button primary request"
+            *ngIf="!service.subscribed"
+            (click)="requestService(service.id)"
+            tabindex="0"
+          >
+            Learn More
+          </button>
+        </ss-tiles-tile>
+      </ng-container>
+    </ss-tiles-section>
+  </main>
 </ng-container>
+

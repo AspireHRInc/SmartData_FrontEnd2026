@@ -2,21 +2,28 @@
   display: block;
 
   .button {
-    box-shadow: var(--drop-shadow);
+    box-shadow: none;
     font-weight: 700;
     font-size: 0.8125rem;
     line-height: 0.9375rem;
     text-transform: uppercase;
-    background: var(--color-background-secondary);
-    color: var(--color-text-secondary);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 3rem;
+    color: rgba(255, 255, 255, 0.7);
     padding-left: min(2rem, 3vw);
     padding-right: min(2rem, 3vw);
   }
 
   &.active {
     .button {
-      background: var(--color-cta-gradient);
-      color: var(--color-background-primary);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      color: white;
+      box-shadow: none;
     }
   }
 }
+

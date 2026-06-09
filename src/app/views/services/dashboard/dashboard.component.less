@@ -1,21 +1,49 @@
 :host {
   display: block;
-  background-color: var(--color-background-secondary);
+  background-color: var(--color-cta-lighter) !important;
   min-height: 100vh;
-  overflow-y: hidden;
+  max-height: 100vh;
+  overflow-y: auto;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 0%, transparent 250px, #d0dffc 1000px);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  ss-header {
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
+
+  ss-filters {
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
 
   .dashboard {
-    padding: 1rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     max-width: 70rem;
     margin: auto;
-    margin-top: -2rem;
-    background: var(--color-background-primary);
-    border-radius: 6px;
-    z-index: 1;
-    box-shadow: var(--drop-shadow);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(208, 223, 252, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 0 40px rgba(208, 223, 252, 0.4), 0 0 80px rgba(208, 223, 252, 0.2);
     position: relative;
+    z-index: 1;
 
     .controls {
       display: flex;
@@ -28,10 +56,12 @@
         gap: 1rem;
 
         .filter {
-          background: var(--color-background-primary);
-          border-radius: 6.25rem;
-          border: 2px solid var(--color-cta-lighter);
-          color: var(--color-cta-lighter);
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border-radius: 3rem;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          color: white;
           padding: 0.5rem 1rem;
           align-self: center;
           box-shadow: none;
@@ -41,13 +71,11 @@
           line-height: 0.875rem;
           transition: 150ms;
           height: 2rem;
-          border-radius: 3rem;
-          text-transform: uppercase;
-          border-width: 2px;
 
           &.selected {
-            background-color: var(--color-cta-lighter);
-            color: var(--color-background-primary);
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.5);
             transition: 150ms;
           }
         }
@@ -62,11 +90,57 @@
         font-weight: 700;
         font-size: 15px;
         line-height: 125%;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 3rem;
+        color: white;
+        padding: 0.5rem 1.25rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
       }
 
       .search {
         max-width: 25rem;
         min-width: 15rem;
+
+        input {
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 3rem;
+          color: white;
+          padding: 0.5rem 1rem;
+          height: 2rem;
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+          }
+
+          &:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.1);
+          }
+        }
+
+        button {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 50%;
+          color: white;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.1);
+          }
+        }
       }
     }
 
@@ -76,9 +150,11 @@
       font-size: 0.875rem;
       height: 2rem;
       margin-top: auto;
+
       &:focus {
         outline: 2px solid var(--color-cta-lighter);
       }
     }
   }
 }
+

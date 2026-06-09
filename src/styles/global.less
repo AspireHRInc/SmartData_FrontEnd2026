@@ -168,3 +168,30 @@ fieldset {
   position: relative;
   top: -0.05rem;
 }
+
+
+ss-header .header.detail .content-wrapper {
+  display: grid !important;
+  grid-template-columns: auto 1fr auto !important;
+  align-items: center !important;
+  width: 100% !important;
+
+  .nav-left {
+    grid-column: 1;
+  }
+
+  .text {
+    grid-column: 2;
+    text-align: center !important;
+
+    h1 {
+      text-align: center !important;
+      margin: 0 !important;
+    }
+  }
+
+  .user-actions {
+    grid-column: 3;
+  }
+}
+
