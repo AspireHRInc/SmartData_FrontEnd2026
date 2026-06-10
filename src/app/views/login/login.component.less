@@ -1,7 +1,9 @@
 :host {
   display: grid;
   grid-template-columns: 1fr;
-  height: 100%;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
 
   @media screen and (min-width: 50em) {
     grid-template-columns: 1fr min(min-content, 1fr);
@@ -21,6 +23,11 @@
       left: max(1rem, 4vw);
       width: 2.8125rem;
       height: 2.8125rem;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    .logo {
+      display: none;
     }
 
     .ratings {
@@ -61,6 +68,8 @@
 
       .detail {
         font-size: 1.05rem;
+        color: #6b7280;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
     }
 
@@ -72,14 +81,29 @@
         width: 100vw;
         position: absolute;
         z-index: 0;
-        left: -5vw;
+        left: 50%;
         top: 50%;
-        transform: translateY(-50%);
+        transform: translate(-50%, -50%);
         opacity: 0.8;
+
+        &.spin-slow {
+          animation: gearNudge 1.5s ease-in-out forwards;
+        }
+
+        &.spin-fast {
+          animation: gearSpinFast 0.6s linear infinite;
+        }
+
+        &.spin-reverse {
+          animation: gearNudgeReverse 1s ease-out forwards;
+        }
       }
 
       .login {
-        background-color: var(--color-background-primary);
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         width: min(100%, 32.5rem);
         display: flex;
         justify-content: stretch;
@@ -87,7 +111,7 @@
         text-align: center;
         padding: 2rem;
         border-radius: 12px;
-        box-shadow: var(--drop-shadow);
+        box-shadow: 0 0 40px rgba(208, 223, 252, 0.4), 0 0 80px rgba(208, 223, 252, 0.2);
         z-index: 1;
 
         .panel {
@@ -99,6 +123,8 @@
 
           .title {
             margin-bottom: 0.5rem;
+            color: white;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
           }
 
           .k-floating-label-container {
@@ -108,6 +134,8 @@
 
           kendo-floatinglabel {
             overflow: visible;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
           }
 
           kendo-formfield {
@@ -117,6 +145,22 @@
           .k-textbox,
           .k-input {
             overflow: visible;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 3rem !important;
+            color: white !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+            &::placeholder {
+              color: rgba(255, 255, 255, 0.6);
+              text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            }
+
+            &:focus {
+              border-color: rgba(255, 255, 255, 0.6) !important;
+              background: rgba(255, 255, 255, 0.1) !important;
+              outline: none;
+            }
           }
 
           .sign-in-form {
@@ -138,6 +182,22 @@
                 align-self: center;
                 padding-right: clamp(1rem, 5vw, 4.5rem);
                 padding-left: clamp(1rem, 5vw, 4.5rem);
+                background: rgba(255, 255, 255, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                border-radius: 3rem;
+                color: white;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: none !important;
+
+                &:hover {
+                  background: rgba(255, 255, 255, 0.25);
+                }
+
+                &.disabled {
+                  opacity: 0.4;
+                  cursor: not-allowed;
+                }
               }
 
               .button-group {
@@ -148,19 +208,20 @@
                 align-items: stretch;
 
                 .back {
-                  background: var(--color-background-primary);
-                  border: 1px solid rgba(var(--color-text-secondary-rgb), 0.3);
-                  color: var(--color-text-primary);
+                  background: rgba(255, 255, 255, 0.05);
+                  border: 1px solid rgba(255, 255, 255, 0.3);
+                  color: white;
                   cursor: pointer;
                   padding: 0.5rem 1.25rem;
-                  border-radius: 4px;
+                  border-radius: 3rem;
                   font-size: inherit;
                   font-weight: 500;
                   transition: border-color 0.2s, background-color 0.2s;
+                  box-shadow: none !important;
 
                   &:hover {
-                    border-color: rgba(var(--color-text-secondary-rgb), 0.6);
-                    background-color: var(--color-background-secondary);
+                    border-color: rgba(255, 255, 255, 0.6);
+                    background: rgba(255, 255, 255, 0.15);
                   }
                 }
 
@@ -170,6 +231,22 @@
                   align-self: auto;
                   padding-right: clamp(1rem, 5vw, 4.5rem);
                   padding-left: clamp(1rem, 5vw, 4.5rem);
+                  background: rgba(255, 255, 255, 0.15);
+                  border: 1px solid rgba(255, 255, 255, 0.4);
+                  border-radius: 3rem;
+                  color: white;
+                  font-weight: 600;
+                  cursor: pointer;
+                  box-shadow: none !important;
+
+                  &:hover {
+                    background: rgba(255, 255, 255, 0.25);
+                  }
+
+                  &.disabled {
+                    opacity: 0.4;
+                    cursor: not-allowed;
+                  }
                 }
               }
             }
@@ -178,4 +255,19 @@
       }
     }
   }
+}
+
+@keyframes gearNudge {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(30deg); }
+}
+
+@keyframes gearSpinFast {
+  0% { transform: translate(-50%, -50%) rotate(30deg); }
+  100% { transform: translate(-50%, -50%) rotate(390deg); }
+}
+
+@keyframes gearNudgeReverse {
+  0% { transform: translate(-50%, -50%) rotate(30deg); }
+  100% { transform: translate(-50%, -50%) rotate(0deg); }
 }

@@ -1,3 +1,59 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-cta-lighter) !important;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 0%, transparent 250px, #d0dffc 1000px);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  ss-header {
+    display: block;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .content-wrapper {
+    position: relative;
+    z-index: 1;
+    padding: 0;
+    width: 100%;
+    flex: 1;
+
+    ::ng-deep {
+      ss-history {
+        display: block;
+        min-height: unset !important;
+        max-height: unset !important;
+        overflow-y: visible !important;
+        overflow: visible !important;
+        background: transparent !important;
+        background-color: transparent !important;
+
+        .content-wrapper {
+          background: transparent !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          border: none !important;
+          box-shadow: none !important;
+        }
+      }
+    }
+  }
 }
+
+
+

@@ -1,170 +1,399 @@
 @import '../assets/fonts/material-icons/icons.less';
 @import 'vars';
 
-*,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-button:not(.k-button),
-input,
-textarea {
+*, h1, h2, h3, h4, h5, h6, p, button:not(.k-button), input, textarea {
   font-family: var(--font);
+}
+
+h1, h2, h3, h4, h5, h6, p, button:not(.k-button), input, textarea {
   color: var(--color-text-primary);
 }
 
-h1 {
-  font-size: clamp(2rem, 4vw, 3.125rem);
+ss-card *,
+ss-card h1, ss-card h2, ss-card h3, ss-card h4, ss-card h5, ss-card h6,
+ss-card p, ss-card label, ss-card input, ss-card textarea, ss-card small, ss-card span,
+ss-card .k-label, ss-card .k-input-inner,
+ss-card kendo-label,
+ss-card kendo-floatinglabel .k-label,
+ss-card .k-floating-label-container .k-label,
+ss-card .k-floating-label-container.k-empty .k-label,
+ss-card .k-floating-label-container.k-state-empty .k-label,
+ss-card .k-floating-label-container.k-focus .k-label,
+ss-card .k-floating-label-container.k-state-focused .k-label {
+  color: white !important;
 }
 
-h2 {
-  font-size: 1.75;
-}
-
-em {
-  color: var(--color-cta);
-  font-style: normal;
-}
-
-p {
-  color: var(--color-text-secondary);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-}
+h1 { font-size: clamp(2rem, 4vw, 3.125rem); }
+h2 { font-size: 1.75; }
+em { color: var(--color-cta); font-style: normal; }
+p { color: var(--color-text-secondary); font-weight: 400; font-size: 16px; line-height: 24px; }
 
 button {
   box-shadow: 0px 4px 12px var(--color-shadow);
   cursor: pointer;
-
-  &.disabled {
-    opacity: 0.5;
-    cursor: default;
-  }
+  &.disabled { opacity: 0.5; cursor: default; }
   &.primary {
     color: var(--color-background-primary);
     background: var(--color-cta-gradient);
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 125%;
-    border-radius: 6px;
-    padding: 0.8rem;
-    border: none;
-
+    font-weight: 700; font-size: 20px; line-height: 125%;
+    border-radius: 6px; padding: 0.8rem; border: none;
     &.outline {
       color: var(--color-cta-lighter);
       border: 1px solid var(--color-cta-lighter);
       background: transparent;
     }
   }
-
   &.medium {
-    font-weight: 700;
-    font-size: 13px;
-    line-height: 18px;
-    text-transform: uppercase;
-    border-radius: 6px;
-    padding: 0.5rem 0.8rem;
-    border-radius: 3px;
-
-    &.outline {
-      border: 1px solid var(--color-text-secondary);
-      background-color: transparent;
-    }
+    font-weight: 700; font-size: 13px; line-height: 18px;
+    text-transform: uppercase; border-radius: 3px; padding: 0.5rem 0.8rem;
+    &.outline { border: 1px solid var(--color-text-secondary); background-color: transparent; }
   }
 }
 
-input {
-  height: 50px;
-  font-weight: 500;
-  font-size: 14px;
-  padding: 1rem 1rem 0 1rem;
+input { height: 50px; font-weight: 500; font-size: 14px; padding: 1rem 1rem 0 1rem; }
+.spacer { width: 100%; }
+fieldset { border: none; border-bottom: 1px solid gainsboro; }
+
+.form .info {
+  border-radius: 50%;
+  color: var(--color-background-primary) !important;
+  background-color: rgba(var(--color-text-secondary-rgb), 0.6);
+  border: none; font-size: 0.8rem; width: 1rem; height: 1rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-left: 0.5rem; box-shadow: none;
 }
-
-.spacer {
-  width: 100%;
-}
-
-// forms
-
-fieldset {
-  border: none;
-  border-bottom: 1px solid gainsboro;
-}
-
-.form {
-  .info {
-    border-radius: 50%;
-    color: var(--color-background-primary) !important;
-    background-color: rgba(var(--color-text-secondary-rgb), 0.6);
-    border: none;
-    font-size: 0.8rem;
-    width: 1rem;
-    height: 1rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0.5rem;
-    box-shadow: none;
-  }
-}
-
-// searchbar
 
 .search {
-  display: flex;
-  height: 2.3125rem;
-  flex: 1 50%;
-  min-width: 15rem;
-
+  display: flex; height: 2.3125rem; flex: 1 50%; min-width: 15rem;
   .field {
-    display: flex;
-    height: 100%;
-    flex: 1 50%;
+    display: flex; height: 100%; flex: 1 50%;
     border-radius: 2rem 0 0 2rem;
-    border-color: var(--color-cta-lighter);
-    border-width: 2px;
-    padding-top: 0;
+    border-color: var(--color-cta-lighter); border-width: 2px; padding-top: 0;
   }
   .k-icon-button.k-button-md {
     background-color: var(--color-cta-lighter);
     color: var(--color-background-primary);
-    border-radius: 0 2rem 2rem 0;
-    padding: 0.7rem;
+    border-radius: 0 2rem 2rem 0; padding: 0.7rem;
   }
 }
 
-// notification
-
-// .button.notification-close {
-//   background: transparent;
-//   border: none;
-//   box-shadow: none;
-//   color: white;
-//   font-size: 2rem;
-//   margin: 0;
-//   padding: 0;
-//   padding-left: 1rem;
-//   line-height: 1rem;
-//   position: relative;
-//   top: 0.2rem;
-// }
-
 .button.notification-close {
-  background: transparent;
-  border: 1px solid var(--color-background-primary);
-  box-shadow: none;
-  color: var(--color-background-primary);
-  font-size: 0.9rem;
-  margin: 0;
-  padding: 0.4rem 0.3rem;
-  position: relative;
-  top: 0.2rem;
-  border-radius: 0.254rem;
-  margin-left: 1rem;
-  position: relative;
-  top: -0.05rem;
+  background: transparent; border: 1px solid var(--color-background-primary);
+  box-shadow: none; color: var(--color-background-primary);
+  font-size: 0.9rem; padding: 0.4rem 0.3rem; border-radius: 0.254rem;
+  margin-left: 1rem; position: relative; top: -0.05rem;
+}
+
+ss-header .header.detail .content-wrapper {
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
+  width: 100% !important;
+  .nav-left { grid-column: 1; justify-self: start; }
+  .text {
+    grid-column: 2;
+    text-align: center !important;
+    h1 { text-align: center !important; margin: 0 !important; }
+  }
+  .user-actions { grid-column: 3; justify-self: end; }
+}
+
+ss-history ss-header .header.detail .content-wrapper {
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  .nav-left {
+    grid-column: 1 !important;
+    justify-self: start !important;
+    min-width: 0 !important;
+  }
+  .text {
+    grid-column: 2 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    h1, .title {
+      text-align: center !important;
+      margin: 0 !important;
+      width: auto !important;
+    }
+  }
+  .user-actions {
+    grid-column: 3 !important;
+    justify-self: end !important;
+    position: fixed !important;
+    top: 1rem !important;
+    right: 1rem !important;
+  }
+}
+
+kendo-popup.k-animation-container,
+kendo-popup.k-animation-container-fixed,
+kendo-popup.filter-popup {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+body > kendo-popup,
+body > .k-animation-container,
+body > .k-animation-container > .k-child-animation-container {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.k-animation-container .k-popup.filter-popup,
+.k-popup.filter-popup,
+.filter-popup.k-popup,
+.k-animation-container .k-popup,
+body > .k-animation-container .k-popup,
+body > .k-animation-container .k-list-container,
+body > kendo-popup .k-popup,
+kendo-popup.filter-popup .k-popup,
+kendo-popup.k-animation-container .k-popup,
+.k-animation-container .filter-popup.k-popup,
+.k-child-animation-container .filter-popup.k-popup,
+.k-child-animation-container .k-popup.filter-popup,
+.k-animation-container > .k-child-animation-container > .k-popup {
+  background: linear-gradient(180deg, var(--color-cta-lighter) 0%, #d0dffc 100%) !important;
+  background-color: var(--color-cta-lighter) !important;
+  border: none !important;
+  outline: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  padding: 1rem !important;
+  overflow: visible !important;
+  color: white !important;
+
+  .content {
+    background: transparent !important;
+  }
+
+  .filter-list {
+    background: transparent !important;
+    border: none !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .filter-item {
+    background: transparent !important;
+    padding: 0.5rem 0.3rem !important;
+    color: white !important;
+    border-radius: 4px !important;
+    font-weight: 400 !important;
+    font-size: 12px !important;
+    line-height: 14px !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15) !important;
+    }
+
+    label, .k-checkbox-label {
+      color: white !important;
+    }
+  }
+
+  .k-checkbox, input[type="checkbox"] {
+    border: 2px solid white !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 3px !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+
+    &:checked, &.k-checked {
+      background: white !important;
+      border-color: white !important;
+    }
+  }
+
+  .date-inputs {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+    max-width: 100% !important;
+    padding: 0.5rem !important;
+    align-items: center !important;
+
+    label {
+      color: white !important;
+    }
+
+    .k-input, .k-dateinput, .k-datepicker, .k-input-sm {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 3rem !important;
+      color: white !important;
+
+      .k-input-inner {
+        color: white !important;
+      }
+
+      .k-button, .k-select {
+        color: white !important;
+        background: transparent !important;
+        border: none !important;
+      }
+    }
+
+    .clear {
+      margin-left: auto !important;
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 3rem !important;
+      color: white !important;
+      padding: 0.4rem 1rem !important;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+      }
+    }
+  }
+
+  kendo-multiviewcalendar,
+  .k-calendar {
+    background: linear-gradient(180deg, var(--color-cta-lighter) 0%, #d0dffc 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    color: white !important;
+
+    .k-header, .k-calendar-header {
+      background: transparent !important;
+      color: white !important;
+    }
+
+    .k-button {
+      color: white !important;
+      background: transparent !important;
+    }
+
+    .k-content, .k-calendar-view {
+      background: transparent !important;
+      color: white !important;
+    }
+
+    .k-today {
+      color: white !important;
+      font-weight: 700 !important;
+    }
+
+    td, .k-calendar-td {
+      color: white !important;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+      }
+
+      &.k-selected, &.k-range-start, &.k-range-end {
+        background: rgba(255, 255, 255, 0.3) !important;
+        color: white !important;
+      }
+
+      &.k-range-mid {
+        background: rgba(255, 255, 255, 0.15) !important;
+      }
+    }
+
+    .k-weekend {
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    .k-other-month {
+      color: rgba(255, 255, 255, 0.4) !important;
+    }
+  }
+}
+
+body > .k-overlay,
+.k-overlay {
+  position: fixed !important;
+  top: 0 !important; left: 0 !important;
+  width: 100vw !important; height: 100vh !important;
+  z-index: 10000 !important;
+  background: rgba(0, 20, 60, 0.8) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.k-dialog-wrapper {
+  z-index: 10001 !important;
+  .k-window {
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(208, 223, 252, 0.3) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 0 60px rgba(208, 223, 252, 0.3), 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+    overflow: hidden !important;
+  }
+  .k-window-titlebar, .k-dialog-titlebar {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+    .k-window-title, .k-dialog-title {
+      color: white !important; font-weight: 700 !important;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+    .k-button {
+      color: white !important;
+      &:hover { background: rgba(255, 255, 255, 0.15) !important; border-radius: 50%; }
+    }
+  }
+  .k-window-content, .k-dialog-content {
+    background: transparent !important;
+    color: white !important;
+  }
+}
+
+ss-history, ss-detail {
+  z-index: auto !important;
+}
+
+ss-history,
+ss-detail {
+  .k-listview,
+  .k-listview-content,
+  .k-listview-item,
+  kendo-listview,
+  [kendolistview],
+  .k-listview .k-listview-content,
+  .k-listview .k-listview-item {
+    background: transparent !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+}
+
+.k-listview,
+kendo-listview {
+  background: transparent !important;
+  background-color: transparent !important;
+  .k-listview-content {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+  .k-listview-item {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+  .k-list-content,
+  .k-list-item {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+}
+
+[class*="k-listview"],
+[class*="k-list-content"] {
+  background: transparent !important;
+  background-color: transparent !important;
 }

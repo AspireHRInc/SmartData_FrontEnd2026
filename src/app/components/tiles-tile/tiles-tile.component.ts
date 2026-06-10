@@ -21,13 +21,14 @@ export class TilesTileComponent implements OnInit {
   imagePath = '';
 
   private readonly tileImageMap: Record<string, string> = {
-    'Template Script': 'assets/images/tiles/template_script.jpg',
-    'EC Diamond Data Capture': 'assets/images/tiles/diamond_data.jpg',
-    'HeartBeat': 'assets/images/tiles/heartbeat.jpg',
-    'Test PT': 'assets/images/tiles/test_pt.jpg',
-    'Test SmartData Cloud Connector': 'assets/images/tiles/cloud_connector.jpg',
-    'Clone of Test PT': 'assets/images/tiles/clone_testpt.jpg',
-    'I9 Research': 'assets/images/tiles/i9_research.jpg',
+    'Template Script': 'assets/images/tiles/template_script.png',
+    'EC Diamond Data Capture': 'assets/images/tiles/diamond_data.png',
+    'HeartBeat': 'assets/images/tiles/heartbeat.png',
+    'Test PT': 'assets/images/tiles/test_pt.png',
+    'Test SmartData Cloud Connector': 'assets/images/tiles/cloud_connector.png',
+    'Clone of Test PT': 'assets/images/tiles/clone_testpt.png',
+    'I9 Research': 'assets/images/tiles/i9_research.png',
+    'HeartBeat Clone': 'assets/images/tiles/heartbeat_clone.png'
   };
 
   private readonly defaultImage = 'assets/images/tiles/default.png';

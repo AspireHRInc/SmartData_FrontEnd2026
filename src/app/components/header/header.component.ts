@@ -31,6 +31,8 @@ export class HeaderComponent implements OnInit {
   @Input() type = 'dashboard';
   menuOpenState = false;
 
+  logoAnimationDelay: string = '0ms';
+
   constructor(
     private location: Location,
     public uiState: UiStateService,
@@ -38,7 +40,11 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const cycleDuration = 90000;
+    const offset = Date.now() % cycleDuration;
+    this.logoAnimationDelay = `-${offset}ms`;
+  }
 
   back(event: Event): void {
     if (

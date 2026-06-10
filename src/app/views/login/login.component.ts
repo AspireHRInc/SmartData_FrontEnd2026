@@ -39,6 +39,8 @@ export class LoginComponent implements OnInit {
   step = 0;
   isEmailFieldVisible = true;
 
+  logoState: 'idle' | 'slow' | 'fast' | 'reverse' = 'idle';
+
   signInFormGroup = this.fb.group({
     email: ['', Validators.email],
     password: ['', Validators.required],
@@ -62,6 +64,10 @@ export class LoginComponent implements OnInit {
   }
 
   back(): void {
+    this.logoState = 'reverse';
+    setTimeout(() => {
+      this.logoState = 'idle';
+    }, 1500);
     this.step = 0;
     this.messages = '';
   }
@@ -80,6 +86,7 @@ export class LoginComponent implements OnInit {
         this.step = 0;
       } else {
         this.step++;
+        this.logoState = 'slow';
       }
     }, 300);
   }
@@ -99,18 +106,27 @@ export class LoginComponent implements OnInit {
       next: (success) => {
         this.isLoading = false;
         if (success) {
+          this.logoState = 'fast';
           setTimeout(() => {
             this.userService.initialize();
             this.router.navigateByUrl('/services/dashboard');
-          }, 200);
+          }, 500);
         } else {
           this.messages = 'Invalid username or password.';
+          this.logoState = 'reverse';
+          setTimeout(() => {
+            this.logoState = 'idle';
+          }, 1500);
           this.step = 0;
         }
       },
       error: (err) => {
         this.isLoading = false;
         this.messages = err.message || 'Authentication failed.';
+        this.logoState = 'reverse';
+        setTimeout(() => {
+          this.logoState = 'idle';
+        }, 1500);
         this.step = 0;
       }
     });
