@@ -22,13 +22,13 @@
     .background {
       position: fixed;
       width: 1400px;
-      top: -150px;
-      left: 45%;
+      top: -50px;
       opacity: 0.1;
       pointer-events: none;
       z-index: 0;
       mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.3) 100%);
       -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.3) 100%);
+      animation: driftSpin 90s linear infinite;
     }
 
     .content-wrapper {
@@ -176,24 +176,28 @@
 
     &.detail {
       .content-wrapper {
-        display: grid;
-        grid-template-columns: auto 1fr auto;
+        display: flex;
         align-items: center;
+        justify-content: center;
         width: 100%;
+        position: relative;
 
         .nav-left {
-          grid-column: 1;
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
           display: flex;
           align-items: center;
           gap: 0.5rem;
+          z-index: 2;
         }
 
         .text {
-          grid-column: 2;
+          flex: none;
+          width: 100%;
           text-align: center;
           padding: 1.5rem 0;
-          flex: none;
-          width: auto;
           min-width: 0;
           color: var(--color-background-primary);
 
@@ -208,7 +212,6 @@
         }
 
         .user-actions {
-          grid-column: 3;
           position: fixed;
           top: 1.5rem;
           right: 1.5rem;
@@ -227,3 +230,13 @@
   }
 }
 
+@keyframes driftSpin {
+  0% {
+    left: -40%;
+    transform: rotate(0deg);
+  }
+  100% {
+    left: 100%;
+    transform: rotate(360deg);
+  }
+}

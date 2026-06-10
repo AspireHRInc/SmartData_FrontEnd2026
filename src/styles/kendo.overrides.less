@@ -1,424 +1,244 @@
-// forms
-
-input.k-input {
-  padding: 1rem 1rem 0 1rem;
+ss-setup .k-floating-label-container .k-label,
+ss-setup .k-floating-label-container.k-state-empty .k-label,
+ss-setup .k-floating-label-container.k-empty .k-label,
+ss-setup .k-floating-label-container.k-state-focused .k-label,
+ss-setup .k-floating-label-container.k-focus .k-label,
+ss-confirm .k-floating-label-container .k-label,
+ss-confirm .k-floating-label-container.k-state-empty .k-label,
+ss-confirm .k-floating-label-container.k-empty .k-label,
+ss-confirm .k-floating-label-container.k-state-focused .k-label,
+ss-confirm .k-floating-label-container.k-focus .k-label,
+ss-field-group .k-floating-label-container .k-label,
+ss-field-group .k-floating-label-container.k-state-empty .k-label,
+ss-field-group .k-floating-label-container.k-empty .k-label,
+ss-field-group .k-floating-label-container.k-state-focused .k-label,
+ss-field-group .k-floating-label-container.k-focus .k-label,
+ss-card .k-floating-label-container .k-label,
+ss-card .k-floating-label-container.k-state-empty .k-label,
+ss-card .k-floating-label-container.k-empty .k-label,
+ss-card .k-floating-label-container.k-state-focused .k-label,
+ss-card .k-floating-label-container.k-focus .k-label {
+  color: white !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
-.k-floating-label-container.k-state-empty > .k-label,
-.k-floating-label-container.k-empty > .k-label {
-  top: 2.2rem;
-  left: 1rem;
-  transform: scale(1);
-  font-size: 14px;
+ss-setup .k-input,
+ss-setup .k-textbox,
+ss-setup input.k-input,
+ss-setup .k-input-inner,
+ss-confirm .k-input,
+ss-confirm .k-textbox,
+ss-confirm input.k-input,
+ss-confirm .k-input-inner,
+ss-field-group .k-input,
+ss-field-group .k-textbox,
+ss-field-group input.k-input,
+ss-field-group .k-input-inner,
+ss-card .k-input,
+ss-card .k-textbox,
+ss-card input.k-input,
+ss-card .k-input-inner {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
-.k-floating-label-container > .k-label,
-.k-floating-label-container.k-state-focused > .k-label,
-.k-floating-label-container.k-focus > .k-label {
-  top: 1.5rem;
-  left: 1rem;
-  transform: scale(0.8);
-}
-
-.k-form-error,
-.k-text-error,
-.k-form-field-error .k-label {
-  color: var(--color-accent-3);
-  // position: absolute;
-  top: 4.2rem;
-}
-
-.k-input.k-invalid,
-.k-input.ng-invalid.ng-touched,
-.k-input.ng-invalid.ng-dirty {
-  border-color: rgba(var(--color-accent-3-rgb), 0.5);
-}
-
-.k-checkbox:checked,
-.k-checkbox.k-checked {
-  border-color: var(--color-cta-lighter);
-  color: var(--color-background-primary);
-  background-color: var(--color-cta-lighter);
-}
-
-.k-upload {
-  border-color: rgba(var(--color-text-secondary-rgb), 0.15);
-  color: var(--color-text-secondary);
-  background-color: var(--color-background-primary);
-  min-height: 3rem;
-}
-
-.k-upload {
-  .k-dropzone {
-    border-color: rgba(var(--color-text-secondary-rgb), 0.08);
-    color: var(--color-text-secondary);
-    background-color: var(--color-background-primary);
-    height: 2.8rem;
+.k-animation-container {
+  .k-popup {
+    background: rgba(20, 40, 80, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(208, 223, 252, 0.3) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+    overflow: hidden !important;
   }
-  .k-upload-button {
-    border: none;
-    span {
-      color: var(--color-cta-lighter);
-      text-decoration: underline;
-      font-weight: 500;
-      font-size: 12px;
-      line-height: 125%;
+
+  .k-list,
+  .k-list-container,
+  .k-list-content {
+    background: transparent !important;
+  }
+
+  .k-list-item,
+  .k-item {
+    color: white !important;
+    background: transparent !important;
+
+    &:hover,
+    &.k-hover,
+    &.k-state-focused,
+    &.k-focus {
+      background: rgba(255, 255, 255, 0.15) !important;
+      color: white !important;
+    }
+
+    &.k-selected,
+    &.k-state-selected {
+      background: rgba(255, 255, 255, 0.25) !important;
+      color: white !important;
+    }
+  }
+
+  .k-checkbox,
+  .k-checkbox-wrapper {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    background: transparent !important;
+
+    &:checked,
+    &.k-checked,
+    &.k-state-checked {
+      background: var(--color-cta-lighter) !important;
+      border-color: var(--color-cta-lighter) !important;
+    }
+  }
+
+  label,
+  .k-label,
+  .k-list-item-text {
+    color: white !important;
+  }
+
+  .k-textbox,
+  .k-input {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+  }
+
+  .k-datepicker,
+  .k-dateinput {
+    .k-input-inner {
+      color: white !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .k-input-button {
+      color: white !important;
+      background: transparent !important;
+      border-color: rgba(255, 255, 255, 0.3) !important;
+    }
+  }
+
+  .k-calendar {
+    background: rgba(20, 40, 80, 0.95) !important;
+    color: white !important;
+    border: none !important;
+
+    .k-calendar-header,
+    .k-calendar-title {
+      color: white !important;
+    }
+
+    .k-calendar-td {
+      color: white !important;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+      }
+
+      &.k-selected,
+      &.k-state-selected {
+        background: var(--color-cta-lighter) !important;
+        color: white !important;
+      }
+    }
+
+    .k-today {
+      color: var(--color-cta-lighter) !important;
+      font-weight: 700;
+    }
+
+    .k-nav-prev,
+    .k-nav-next,
+    .k-button {
+      color: white !important;
     }
   }
 }
 
-.k-icon-button.k-button-lg > .k-button-icon {
-  color: var(--color-cta-lighter);
-}
+.filter-popup {
+  padding: 1rem !important;
+  background-color: rgba(20, 40, 80, 0.95) !important;
+  background: rgba(20, 40, 80, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(208, 223, 252, 0.3) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
 
-.k-picker.k-picker-flat {
-  outline: 1px solid rgba(var(--color-text-secondary-rgb), 0.15);
-  height: 3rem;
-}
-
-.settings-drop-down {
-  background-color: var(--color-background-secondary);
-  box-shadow: var(--drop-shadow);
-
-  & > .k-list {
-    background-color: var(--color-background-secondary);
-  }
-}
-
-.k-picker-flat.k-invalid,
-.k-picker-flat.ng-invalid.ng-touched,
-.k-picker-flat.ng-invalid.ng-dirty {
-  border-color: transparent;
-  outline: 1px solid #f31700;
-}
-
-:focus {
-  outline: 2px solid var(--color-cta-lighter);
-}
-
-// switch
-
-.k-switch-off .k-switch-track {
-  border-color: rgba(var(--color-text-primary-rgb), 0.1);
-  color: rgba(var(--color-text-primary-rgb), 0.5);
-  background-color: rgba(var(--color-text-primary-rgb), 0.5);
-}
-
-.k-switch-on .k-switch-track {
-  border-color: var(--color-cta-lighter);
-  color: var(--color-background-primary);
-  background-color: var(--color-cta-lighter);
-}
-
-.k-switch-on:focus .k-switch-track,
-.k-switch-on.k-focus .k-switch-track {
-  outline: 2px solid rgba(var(--color-text-secondary-rgb), 1);
-}
-
-// .k-switch-on .k-switch-track:focus {
-//   outline: 2px solid red;
-// }
-
-.k-switch-off:focus .k-switch-track,
-.k-switch-off.k-focus .k-switch-track {
-  outline: 2px solid rgba(var(--color-cta-lighter-rgb), 1);
-}
-
-.k-switch-thumb-wrap {
-  transform: scale(0.85);
-}
-
-.k-list-item.k-selected,
-.k-selected.k-list-optionlabel {
-  color: var(--color-background-primary);
-  background-color: var(--color-cta);
-
-  .k-list-item-text {
-    color: var(--color-background-primary);
-  }
-}
-
-// buttons
-
-.k-button {
-  box-shadow: none;
-
-  &:focus-visible,
-  &:focus {
-    outline: 1px solid var(--color-cta-lighter);
-  }
-  .k-button-text {
-    font-weight: 700;
-    font-size: 0.875rem;
-    line-height: 125%;
-  }
-}
-
-.k-button-solid-base {
-  border-color: var(--color-cta-lighter);
-  color: var(--color-cta-lighter);
-  background-color: var(--color-background-primary);
-  background-image: none;
-
-  .k-button-text {
-    color: var(--color-cta-lighter);
-  }
-}
-
-.k-button-solid-primary {
-  border-color: var(--color-cta-lighter);
-  color: var(--color-background-primary);
-  background-color: var(--color-cta-lighter);
-  background-image: none;
-  .k-button-text {
-    color: var(--color-background-primary);
-  }
-}
-
-.k-button-outline-base:hover,
-.k-button-outline-base.k-hover {
-  border-color: #424242;
-  color: white;
-  background-color: #424242;
-}
-
-.k-button.k-button-solid-primary.k-button-solid.k-disabled,
-.k-button-solid-primary.disabled {
-  background-color: #f0f2f4;
-  border: none;
-  opacity: 1;
-
-  .k-button-text {
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-  }
-}
-
-:focus-visible {
-  outline-color: var(--color-cta-lighter);
-}
-
-button .info:focus-visible {
-  outline-color: var(--color-cta-lighter);
-}
-
-.button.info {
-  &:focus-visible {
-    outline-color: var(--color-text-primary);
-  }
-}
-
-.k-checkbox {
-  border-color: var(--color-text-secondary);
-  width: 1.2rem;
-  height: 1.28rem;
-}
-
-.k-button-solid-primary:hover,
-.k-button-solid-primary.k-hover {
-  border-color: var(--color-cta-lighter);
-  background-color: var(--color-background-primary);
-
-  span.k-button-text {
-    color: var(--color-cta-lighter);
-  }
-}
-
-// progress bar
-
-.k-progressbar .k-state-selected {
-  border-color: var(--color-background-primary);
-  color: var(--color-background-primary);
-  background-color: var(--color-accent-2);
-}
-
-// window/dialog
-
-.k-window {
-  border-color: var(--color-text-primary);
-  color: var(--color-text-primary);
-  background-color: var(--color-background-primary);
-  box-shadow: var(--drop-shadow);
-  max-width: 100vw;
-  max-height: 100vh;
-  border-radius: 0.375rem;
-  overflow: hidden;
-
-  .k-window-title {
-    white-space: normal;
-  }
-
-  .k-window-titlebar.k-dialog-titlebar {
-    background-color: var(--color-background-primary);
-    color: var(--color-text-primary);
-    border-bottom-color: rgba(var(--color-text-primary-rgb), 0.1);
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-
-  .k-i-close::before,
-  .k-i-x::before {
-    color: rgba(var(--color-text-primary-rgb), 0.5);
-    font-size: 1.5rem;
-  }
-
-  .k-window-title {
-    font-weight: 700;
-    font-size: 1rem;
-    line-height: 125%;
-  }
-
-  .k-dialog-buttongroup {
-    border-top: none;
-    padding: 1rem 2rem;
-  }
-
-  .k-window-content,
-  .k-prompt-container {
-    padding: 1rem 2rem;
-  }
-}
-
-// list view
-
-.k-listview {
-  border: none;
-  .k-listview-content {
-    padding-bottom: 1rem;
-  }
-}
-
-// calendar
-
-.k-calendar .k-calendar-td.k-state-selected .k-link {
-  border-color: rgba(0, 0, 0, 0.08);
-  color: white;
-  background-color: var(--color-cta-lighter);
-
-  &:hover {
-    background-color: var(--color-cta);
-  }
-}
-
-.k-calendar .k-range-start,
-.k-calendar .k-range-end,
-.k-calendar .k-range-mid {
-  background-image: linear-gradient(
-    transparent 1px,
-    rgba(var(--color-cta-lighter-rgb), 0.25) 1px,
-    rgba(var(--color-cta-lighter-rgb), 0.25) calc(100% - 1px),
-    transparent calc(100% - 1px)
-  );
-}
-
-.k-calendar .k-nav-today {
-  color: var(--color-cta-lighter);
-}
-
-.k-calendar .k-range-split-start::after {
-  left: -5px;
-  right: auto;
-  background-image: linear-gradient(to left, rgba(var(--color-cta-lighter-rgb), 0.25), transparent 100%);
-}
-
-.k-calendar .k-range-split-end::after {
-  right: -5px;
-  left: auto;
-  background-image: linear-gradient(to right, rgba(var(--color-cta-lighter-rgb), 0.25), transparent 100%);
-}
-
-.k-calendar .k-calendar-view .k-today {
-  color: var(--color-cta);
-}
-
-.k-calendar-range .k-calendar-view {
-  max-width: 100vw;
-  white-space: normal;
-  flex-wrap: wrap;
-}
-
-.tool-tip {
-  background-color: var(--color-background-primary);
-  max-width: calc(100vw - 2rem);
-  @media screen and (min-width: 37.5rem) {
-    max-width: 35.5rem;
-  }
-  kendo-tooltip.k-tooltip.k-widget {
-    background-color: rgba(var(--color-text-secondary-rgb), 0.4);
-  }
-  .k-callout.k-callout-n {
-    color: rgba(var(--color-background-secondary-rgb), 1);
-    color: rgba(var(--color-text-secondary-rgb), 0.4);
-    left: 1rem;
-  }
-
-  .k-callout {
-    color: rgba(var(--color-background-secondary-rgb), 1);
-    color: rgba(var(--color-text-secondary-rgb), 0.4);
-    left: 1rem;
-  }
-
-  .k-tooltip-content {
-    padding: 0.5rem;
-  }
-}
-
-// notifications
-.k-notification-wrap.k-hstack {
-  color: var(--color-background-primary);
-  text-align: center;
-  justify-content: center;
-  display: flex;
-  align-items: center;
-}
-
-span.k-icon.k-i-error.ng-star-inserted {
-  color: var(--color-background-primary);
-  font-size: 1.2rem;
-}
-
-.k-notification-content {
-  color: var(--color-background-primary);
-  font-size: 1.2rem;
-  span {
-    color: var(--color-background-primary);
-  }
-}
-
-.k-widget.k-notification.k-notification-error {
-  width: 100%;
-  padding: 1;
-  padding: 1rem;
-  background-color: var(--color-accent-3);
-  border-color: var(--color-accent-3);
-}
-
-.k-notification-wrap > .k-i-close {
-  font-size: 1.5rem;
-}
-
-.k-notification-group {
-  z-index: 1;
-
-  // hiding default notification button and manually adding accessible button
-  a.k-icon.k-i-close.ng-star-inserted {
-    display: none;
-  }
-}
-ss-history {
-  .k-listview {
+  .filter-list {
     background: transparent !important;
     background-color: transparent !important;
     border: none !important;
-    box-shadow: none !important;
   }
 
-  .k-listview-content {
+  .filter-item {
     background: transparent !important;
     background-color: transparent !important;
+    padding: 0.4rem 0.3rem !important;
+    font-weight: 500 !important;
+    font-size: 12px !important;
+    color: white !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15) !important;
+      border-radius: 4px;
+    }
+
+    label,
+    .k-checkbox-label {
+      color: white !important;
+    }
   }
 
-  .k-d-flex.k-flex-col.k-flex-nowrap {
+  .k-checkbox {
+    border-color: rgba(255, 255, 255, 0.5) !important;
     background: transparent !important;
+
+    &:checked,
+    &.k-checked {
+      background: var(--color-cta-lighter) !important;
+      border-color: var(--color-cta-lighter) !important;
+    }
+  }
+
+  .date-inputs {
+    label {
+      color: white !important;
+    }
+
+    .k-input,
+    .k-dateinput,
+    .k-datepicker {
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-color: rgba(255, 255, 255, 0.3) !important;
+      color: white !important;
+
+      .k-input-inner {
+        color: white !important;
+      }
+    }
+
+    .clear {
+      color: white !important;
+      border-color: rgba(255, 255, 255, 0.3) !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
   }
 }
+
+kendo-popup,
+.k-animation-container {
+  .filter-popup {
+    background-color: rgba(20, 40, 80, 0.95) !important;
+    background: rgba(20, 40, 80, 0.95) !important;
+  }
+}
+
+
+

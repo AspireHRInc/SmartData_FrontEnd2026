@@ -1,4 +1,4 @@
-<section class="splash">
+<section class="splash" style="background: linear-gradient(to right, #ffffff 0%, #ffffff 70%, #d0dffc 100%);">
   <ss-icon-logo-dark></ss-icon-logo-dark>
   <ss-icon-logo-dark class="logo"></ss-icon-logo-dark>
   <div class="panel">
@@ -9,8 +9,7 @@
     </h1>
 
     <p class="detail">
-      Welcome to SmartData - by AspireHR. 
-      
+      Welcome to SmartData - by AspireHR.
     </p>
     <div class="ratings">
       <div class="users">
@@ -18,8 +17,8 @@
     </div>
   </div>
 </section>
-<section class="splash login-splash">
-  <div class="background">
+<section class="splash login-splash" style="background: linear-gradient(to right, #d0dffc 0%, #d0dffc 30%, var(--color-cta-lighter) 100%);">
+  <div class="background" [class.spin-slow]="logoState === 'slow'" [class.spin-fast]="logoState === 'fast'" [class.spin-reverse]="logoState === 'reverse'">
     <ss-icon-logo-light class="background"></ss-icon-logo-light>
   </div>
   <div class="login" [formGroup]="signInFormGroup">
@@ -99,4 +98,3 @@
     </div>
   </div>
 </section>
-

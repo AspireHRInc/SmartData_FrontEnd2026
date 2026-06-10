@@ -44,7 +44,7 @@
   *ngIf="uiState.serviceRunResultsOpen$ | async"
 ></ss-service-run-results>
 
-<div class="content-wrapper" style="background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(208,223,252,0.3); border-radius: 12px;">
+<div class="content-wrapper">
   <div class="filters">
     <ng-container *ngFor="let filterGroup of filters; let i = index">
       <ng-container *ngIf="filterGroup.filters.length > 1 || filterGroup.name === 'Date Range' || filterGroup.name === 'Owner'">
@@ -66,60 +66,6 @@
           <span class="name">{{ filterGroup.name }}</span>
           <span class="arrow">&#9660;</span>
         </button>
-
-        <kendo-popup #popup [anchor]="anchor" *ngIf="showFilterPopupIndex === i" class="filter-popup">
-          <div class="content">
-            <ul class="filter-list" *ngIf="filterGroup.name !== 'Date Range'">
-              <ng-container *ngFor="let filter of filterGroup.filters; let i = index">
-                <li class="filter-item">
-                  <label class="k-checkbox-label">
-                    <input
-                      type="checkbox"
-                      kendoCheckBox
-                      (change)="onCheckboxChange(filterGroup.name, filter)"
-                      [checked]="filtersObj[filterGroup.name.toLowerCase()].indexOf(filter) !== -1"
-                    />
-                    {{ filter }}
-                  </label>
-                </li>
-              </ng-container>
-            </ul>
-
-            <ng-container *ngIf="filterGroup.name === 'Date Range'">
-              <kendo-popup #popup [anchor]="anchor" *ngIf="showFilterPopupIndex === i">
-                <div class="content">
-                  <div class="date-inputs">
-                    <label>
-                      Start:
-                      <kendo-dateinput
-                        [(value)]="selectedDateRangeFilter.start"
-                        (valueChange)="onDateRangeValueChange(selectedDateRangeFilter)"
-                        size="small"
-                        [format]="localizationService.dateFormat"
-                      ></kendo-dateinput>
-                    </label>
-                    <label>
-                      End:
-                      <kendo-dateinput
-                        [(value)]="selectedDateRangeFilter.end"
-                        (valueChange)="onDateRangeValueChange(selectedDateRangeFilter)"
-                        class="date-input"
-                        size="small"
-                        [format]="localizationService.dateFormat"
-                      ></kendo-dateinput>
-                    </label>
-                  </div>
-                  <kendo-multiviewcalendar
-                    kendoDateRangeSelection
-                    [selectionRange]="selectedDateRangeFilter"
-                    [focusedDate]="selectedDateRangeFilter.start || selectedDateRangeFilter.end"
-                    (selectionRangeChange)="onDateRangeValueChange($event)"
-                  ></kendo-multiviewcalendar>
-                </div>
-              </kendo-popup>
-            </ng-container>
-          </div>
-        </kendo-popup>
       </ng-container>
     </ng-container>
     <button
@@ -257,3 +203,60 @@
   </div>
 </div>
 
+<ng-container *ngFor="let filterGroup of filters; let i = index">
+  <kendo-popup
+    #popup
+    [anchor]="anchors.toArray()[i]"
+    *ngIf="showFilterPopupIndex === i"
+    class="filter-popup"
+    popupClass="filter-popup"
+  >
+    <div class="content" style="background: transparent !important;">
+      <ul class="filter-list" *ngIf="filterGroup.name !== 'Date Range'" style="background: transparent !important;">
+        <ng-container *ngFor="let filter of filterGroup.filters; let j = index">
+          <li class="filter-item" style="background: transparent !important;">
+            <label class="k-checkbox-label">
+              <input
+                type="checkbox"
+                kendoCheckBox
+                (change)="onCheckboxChange(filterGroup.name, filter)"
+                [checked]="filtersObj[filterGroup.name.toLowerCase()].indexOf(filter) !== -1"
+              />
+              {{ filter }}
+            </label>
+          </li>
+        </ng-container>
+      </ul>
+
+      <ng-container *ngIf="filterGroup.name === 'Date Range'">
+        <div class="date-inputs">
+          <label>
+            Start:
+            <kendo-dateinput
+              [(value)]="selectedDateRangeFilter.start"
+              (valueChange)="onDateRangeValueChange(selectedDateRangeFilter)"
+              size="small"
+              [format]="localizationService.dateFormat"
+            ></kendo-dateinput>
+          </label>
+          <label>
+            End:
+            <kendo-dateinput
+              [(value)]="selectedDateRangeFilter.end"
+              (valueChange)="onDateRangeValueChange(selectedDateRangeFilter)"
+              class="date-input"
+              size="small"
+              [format]="localizationService.dateFormat"
+            ></kendo-dateinput>
+          </label>
+        </div>
+        <kendo-multiviewcalendar
+          kendoDateRangeSelection
+          [selectionRange]="selectedDateRangeFilter"
+          [focusedDate]="selectedDateRangeFilter.start || selectedDateRangeFilter.end"
+          (selectionRangeChange)="onDateRangeValueChange($event)"
+        ></kendo-multiviewcalendar>
+      </ng-container>
+    </div>
+  </kendo-popup>
+</ng-container>

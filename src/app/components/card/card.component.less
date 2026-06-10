@@ -1,7 +1,10 @@
 :host {
   display: grid;
-
-  box-shadow: 0px 4px 24px #bdc8d7;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(208, 223, 252, 0.3);
+  box-shadow: 0 0 40px rgba(208, 223, 252, 0.4), 0 0 80px rgba(208, 223, 252, 0.2);
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -11,7 +14,7 @@
     padding: 1rem;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid rgba(var(--color-text-secondary-rgb), 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 
     .title {
       display: flex;
@@ -21,6 +24,8 @@
       line-height: 1rem;
       margin: 0;
       white-space: nowrap;
+      color: white;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 
       .spacer {
         margin-left: auto;
@@ -30,8 +35,8 @@
       .step {
         width: 1.4rem;
         height: 1.4rem;
-        color: var(--color-accent-2);
-        background: rgba(var(--color-accent-2-rgb), 0.1);
+        color: white;
+        background: rgba(255, 255, 255, 0.2);
         border-radius: 2rem;
         display: inline-flex;
         align-items: center;
@@ -49,17 +54,84 @@
       }
     }
   }
+
   ::ng-deep {
     .actions .button.info {
       box-shadow: none;
       border-radius: 50%;
       width: 1.625rem;
       height: 1.625rem;
-      border: 2px solid var(--color-cta-lighter);
-      color: var(--color-cta-lighter) !important;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      color: white !important;
       font-size: 1.2rem;
       font-weight: bold;
-      background-color: rgba(var(--color-cta-lighter-rgb), 0.1);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .k-label,
+    .k-input,
+    .k-textbox,
+    .k-input-inner,
+    label,
+    .customizing-label,
+    .k-checkbox-label,
+    .k-radio-label,
+    kendo-label,
+    .k-floating-label-container {
+      color: white !important;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .k-input,
+    .k-textbox,
+    .k-dropdown,
+    .k-combobox,
+    .k-dropdownlist,
+    .k-textbox .k-input-inner,
+    input.k-input-inner {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border-color: rgba(255, 255, 255, 0.3) !important;
+      color: white !important;
+      border-radius: 0.5rem;
+    }
+
+    .k-input-inner {
+      color: white !important;
+    }
+
+    .k-input-inner::placeholder,
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    small {
+      color: rgba(255, 255, 255, 0.6);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    .k-button.k-button-solid-primary,
+    .k-button.k-button-solid.k-button-solid-primary,
+    button[themecolor="primary"],
+    button[themeColor="primary"] {
+      background: rgba(255, 255, 255, 0.1) !important;
+      background-color: rgba(255, 255, 255, 0.1) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4) !important;
+      border-radius: 3rem !important;
+      color: white !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        border-color: rgba(255, 255, 255, 0.6) !important;
+      }
+
+      .k-button-text {
+        color: white !important;
+      }
     }
   }
 
@@ -71,6 +143,8 @@
     font-weight: 700;
     font-size: 0.875rem;
     line-height: 1rem;
+    color: white;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   }
 
   .footer {
@@ -79,8 +153,28 @@
     padding: 1rem;
 
     .button {
-      box-shadow: var(--drop-shadow);
       height: 34px;
+      background: rgba(255, 255, 255, 0.1) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4) !important;
+      border-radius: 3rem !important;
+      color: white !important;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-color: rgba(255, 255, 255, 0.6) !important;
+      }
+
+      &.disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
     }
   }
 }
+

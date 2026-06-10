@@ -3,6 +3,7 @@
   grid-template-columns: 1fr;
   gap: 2rem;
   border-radius: 1rem;
+  background: transparent !important;
 
   .form {
     display: grid;
@@ -31,12 +32,14 @@
           font-weight: 400;
           font-size: 14px;
           line-height: 16px;
+          color: white;
         }
         .deltails {
           font-weight: 500;
           font-size: 14px;
           line-height: 125%;
           margin: 0;
+          color: white;
         }
 
         .details {
@@ -45,7 +48,7 @@
           font-size: 14px;
           line-height: 125%;
           margin: 0;
-          color: var(--color-text-primary);
+          color: white;
         }
       }
     }
@@ -58,7 +61,26 @@
         font-weight: 400;
         font-size: 0.75rem;
         line-height: 1.5rem;
+        color: white !important;
       }
+    }
+
+    kendo-label,
+    .k-label,
+    .customizing-label,
+    label {
+      color: white !important;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    kendo-label .k-label {
+      color: white !important;
+    }
+
+    .k-floating-label-container > .k-label,
+    .k-floating-label-container > label {
+      color: white !important;
     }
   }
 }
+

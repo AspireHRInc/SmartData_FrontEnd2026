@@ -1,5 +1,4 @@
-
-import { Component, OnInit, OnDestroy, ViewChild, HostListener, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener, HostBinding, ElementRef, ViewChildren, QueryList, Renderer2, NgZone } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -45,10 +44,16 @@ export class HistoryComponent implements OnInit, OnDestroy {
   public toggleText = 'Show';
   public show = false;
 
+  @HostBinding('class.standalone') get isStandalone() {
+    return this.allServicesHistory;
+  }
+
   @ViewChildren('anchor') public anchors!: QueryList<ElementRef>;
   @ViewChildren('popup', { read: ElementRef }) public popups!: QueryList<ElementRef>;
 
   allElements!: ElementRef<any>[];
+
+  private popupObserver!: MutationObserver;
 
   @HostListener('document:click', ['$event'])
   public documentClick(event: KeyboardEvent): void {
@@ -105,7 +110,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
     public uiState: UiStateService,
     private route: ActivatedRoute,
     private router: Router,
-    public localizationService: LocalizationService
+    public localizationService: LocalizationService,
+    private renderer: Renderer2,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -134,6 +141,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.loadDataFromService();
 
     this.animateProcessingStatusBar();
+    this.initPopupObserver();
   }
 
   ngOnDestroy(): void {
@@ -143,10 +151,90 @@ export class HistoryComponent implements OnInit, OnDestroy {
     if (this.refreshSub) {
       this.refreshSub.unsubscribe();
     }
+    if (this.popupObserver) {
+      this.popupObserver.disconnect();
+    }
+  }
+
+  private initPopupObserver(): void {
+    this.ngZone.runOutsideAngular(() => {
+      this.popupObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (node instanceof HTMLElement) {
+              if (node.classList.contains('k-animation-container') ||
+                  node.classList.contains('k-popup') ||
+                  node.tagName.toLowerCase() === 'kendo-popup' ||
+                  node.querySelector('.k-popup')) {
+                setTimeout(() => this.styleFilterPopup(), 0);
+              }
+            }
+          });
+        });
+      });
+
+      this.popupObserver.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    });
+  }
+
+  private styleFilterPopup(): void {
+    const kendoPopupElements = document.querySelectorAll('kendo-popup.k-animation-container, kendo-popup.filter-popup');
+    kendoPopupElements.forEach(kp => {
+      const el = kp as HTMLElement;
+      el.style.setProperty('border', 'none', 'important');
+      el.style.setProperty('outline', 'none', 'important');
+      el.style.setProperty('box-shadow', 'none', 'important');
+      el.style.setProperty('background', 'transparent', 'important');
+      el.style.setProperty('background-color', 'transparent', 'important');
+    });
+
+    const popups = document.querySelectorAll('.k-popup');
+    popups.forEach(popup => {
+      const el = popup as HTMLElement;
+      el.style.setProperty('background', 'linear-gradient(180deg, var(--color-cta-lighter) 0%, #d0dffc 100%)', 'important');
+      el.style.setProperty('border', 'none', 'important');
+      el.style.setProperty('border-radius', '8px', 'important');
+      el.style.setProperty('box-shadow', '0 4px 20px rgba(0, 0, 0, 0.15)', 'important');
+      el.style.setProperty('outline', 'none', 'important');
+      el.style.setProperty('padding', '1rem', 'important');
+      el.style.setProperty('overflow', 'visible', 'important');
+      el.style.setProperty('color', 'white', 'important');
+
+      el.querySelectorAll('.content, .filter-list, .filter-item, ul, li, div').forEach(child => {
+        const childEl = child as HTMLElement;
+        childEl.style.setProperty('background', 'transparent', 'important');
+        childEl.style.setProperty('background-color', 'transparent', 'important');
+        childEl.style.setProperty('border', 'none', 'important');
+        childEl.style.setProperty('outline', 'none', 'important');
+        childEl.style.setProperty('box-shadow', 'none', 'important');
+      });
+
+      el.querySelectorAll('input[type="checkbox"], .k-checkbox').forEach(cb => {
+        const cbEl = cb as HTMLElement;
+        cbEl.style.setProperty('width', '16px', 'important');
+        cbEl.style.setProperty('height', '16px', 'important');
+        cbEl.style.setProperty('min-width', '16px', 'important');
+        cbEl.style.setProperty('min-height', '16px', 'important');
+        cbEl.style.setProperty('border-radius', '3px', 'important');
+        cbEl.style.setProperty('box-shadow', 'none', 'important');
+        cbEl.style.setProperty('outline', 'none', 'important');
+        cbEl.style.setProperty('appearance', 'none', 'important');
+        cbEl.style.setProperty('-webkit-appearance', 'none', 'important');
+        if ((cbEl as HTMLInputElement).checked || cbEl.classList.contains('k-checked')) {
+          cbEl.style.setProperty('background', 'white', 'important');
+          cbEl.style.setProperty('border', '2px solid white', 'important');
+        } else {
+          cbEl.style.setProperty('background', 'rgba(255, 255, 255, 0.2)', 'important');
+          cbEl.style.setProperty('border', '2px solid white', 'important');
+        }
+      });
+    });
   }
 
   refreshHistory(): void {
-    // Subscribe BEFORE calling refresh() to eliminate race condition
     if (this.refreshSub) {
       this.refreshSub.unsubscribe();
     }
@@ -464,4 +552,3 @@ export class HistoryComponent implements OnInit, OnDestroy {
     return item.id + item.statusString;
   }
 }
-
