@@ -66,6 +66,8 @@ export class ServiceRunService {
   private baseUrl = environment.apiUrl;
   private loading = false;
   private initialized = false;
+  private currentDateStart: string = '';
+  private currentDateEnd: string = '';
 
   constructor(
     private http: HttpClient,
@@ -74,7 +76,17 @@ export class ServiceRunService {
     private dateTimeService: DateTimeService
   ) {}
 
-  private getHeaders(): HttpHeaders {
+  private getTodayRange(): { start: string; end: string } {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+    return {
+      start: startOfDay.toISOString(),
+      end: endOfDay.toISOString()
+    };
+  }
+
+  private getHeaders(dateStart?: string, dateEnd?: string): HttpHeaders {
     const keys = Object.keys(localStorage);
     const idTokenKey = keys.find(k => k.includes('idToken'));
     const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
@@ -92,11 +104,20 @@ export class ServiceRunService {
     const partition = (payload['custom:Org'] || '').replace(/#$/, '');
     const email = payload['email'] || '';
 
+    const effectiveDateStart = dateStart || this.currentDateStart;
+    const effectiveDateEnd = dateEnd || this.currentDateEnd;
+
+    let query = '"PK" = \'' + partition + '\' AND "owner" = \'' + email + '\'';
+
+    if (effectiveDateStart && effectiveDateEnd) {
+      query += ' AND "lastModifiedAt" >= \'' + effectiveDateStart + '\' AND "lastModifiedAt" <= \'' + effectiveDateEnd + '\'';
+    }
+
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
       Partition: partition,
       Action: 'ListRef',
-      Query: '"PK" = \'' + partition + '\' AND "owner" = \'' + email + '\''
+      Query: query
     });
   }
 
@@ -164,6 +185,31 @@ export class ServiceRunService {
     }
     if (this.initialized || this.loading) return;
     this.loading = true;
+
+    const today = this.getTodayRange();
+    this.currentDateStart = today.start;
+    this.currentDateEnd = today.end;
+
+    this.loadProcesses();
+  }
+
+  refreshWithDateRange(startDate: Date, endDate: Date): void {
+    const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 0, 0, 0, 0);
+    const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59, 999);
+
+    this.currentDateStart = start.toISOString();
+    this.currentDateEnd = end.toISOString();
+
+    this.initialized = false;
+    this.loading = true;
+    this.loadProcesses();
+  }
+
+  clearDateFilter(): void {
+    this.currentDateStart = '';
+    this.currentDateEnd = '';
+    this.initialized = false;
+    this.loading = true;
     this.loadProcesses();
   }
 
@@ -205,11 +251,11 @@ export class ServiceRunService {
         this.serviceRunsUpdated$.next();
       },
       (error) => {
-    console.error('Error loading process runs:', error);
-    this.loading = false;
-    this.initialized = true;
-    this.serviceRunsUpdated$.next();
-}
+        console.error('Error loading process runs:', error);
+        this.loading = false;
+        this.initialized = true;
+        this.serviceRunsUpdated$.next();
+      }
     );
   }
 
@@ -273,10 +319,15 @@ export class ServiceRunService {
     const spKey = spMatch[0];
     const allServices = this.servicesService.allServices;
 
-    if (!allServices || allServices.length === 0 || !allServices[0]?.services) return '';
+    if (!allServices || allServices.length === 0) return '';
 
-    const service = allServices[0].services.find((s: any) => s.id === spKey);
-    return service?.name || '';
+    for (let i = 0; i < allServices.length; i++) {
+      if (!allServices[i]?.services) continue;
+      const service = allServices[i].services.find((s: any) => s.id === spKey);
+      if (service) return service.name || '';
+    }
+
+    return '';
   }
 
   private getScheduledProcessId(referencedObjects: any): string {
@@ -321,7 +372,6 @@ export class ServiceRunService {
 
       const allServices = this.servicesService.allServices;
       if (allServices?.length > 0) {
-        // Search across ALL service groups (indices), not just 
         for (let i = 0; i < allServices.length; i++) {
           const serviceGroup = allServices[i];
           if (!serviceGroup?.services?.length) continue;
@@ -341,7 +391,6 @@ export class ServiceRunService {
         }
       }
 
-      // Fallback: direct matching against run properties
       return this.serviceRuns.filter(run => {
         if (!run.serviceId && !run.serviceName) return false;
         return run.serviceId === targetId ||
@@ -367,17 +416,6 @@ export class ServiceRunService {
       });
     }
 
-    if (filtersObj.dateRange && filtersObj.dateRange.start && filtersObj.dateRange.end) {
-      const start = new Date(filtersObj.dateRange.start).getTime();
-      const end = new Date(filtersObj.dateRange.end).getTime();
-      if (start > 0 && end > 0) {
-        filtered = filtered.filter(run => {
-          const runTime = run.submittedDate.getTime();
-          return runTime >= start && runTime <= end;
-        });
-      }
-    }
-
     if (filtersObj.service && filtersObj.service.length > 0) {
       filtered = filtered.filter(run => {
         return filtersObj.service.includes(run.serviceName);
@@ -398,7 +436,6 @@ export class ServiceRunService {
 
     this.filtersActive = filtersObj.status?.length > 0 ||
       filtersObj.owner?.length > 0 ||
-      (filtersObj.dateRange?.start?.getTime() > 0) ||
       filtersObj.service?.length > 0;
 
     return filtered;
@@ -521,3 +558,4 @@ export class ServiceRunService {
     this.loadProcesses();
   }
 }
+

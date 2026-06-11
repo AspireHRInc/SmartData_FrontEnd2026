@@ -374,13 +374,39 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   onDateRangeValueChange(range?: SelectionRange, action?: string) {
     if (action === 'clear') {
-      this.selectedDateRangeFilter = { start: new Date(0), end: new Date(0) };
+      this.selectedDateRangeFilter = { start: new Date(), end: new Date() };
       this.filtersObj.dateRange = { start: new Date(0), end: new Date(0) };
-      this.onServiceFilter();
-    } else {
-      this.selectedDateRangeFilter = range!;
+      this.showFilterPopupIndex = -1;
+
+      if (this.refreshSub) {
+        this.refreshSub.unsubscribe();
+      }
+      this.refreshSub = this.serviceRunService.serviceRunsUpdated$.pipe(
+        take(1)
+      ).subscribe(() => {
+        this.loadDataFromService();
+        this.onServiceFilter();
+        this.reapplySort();
+      });
+
+      this.serviceRunService.clearDateFilter();
+    } else if (range && range.start && range.end) {
+      this.selectedDateRangeFilter = range;
       this.filtersObj.dateRange = range;
-      this.onServiceFilter();
+      this.showFilterPopupIndex = -1;
+
+      if (this.refreshSub) {
+        this.refreshSub.unsubscribe();
+      }
+      this.refreshSub = this.serviceRunService.serviceRunsUpdated$.pipe(
+        take(1)
+      ).subscribe(() => {
+        this.loadDataFromService();
+        this.onServiceFilter();
+        this.reapplySort();
+      });
+
+      this.serviceRunService.refreshWithDateRange(range.start, range.end);
     }
   }
 
@@ -533,7 +559,20 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.filtersObj = { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [], owner: [] };
     this.selectedDateRangeFilter = { start: new Date(), end: new Date() };
     this.serviceRunService.filtersActive = false;
-    this.onServiceFilter();
+
+    if (this.refreshSub) {
+      this.refreshSub.unsubscribe();
+    }
+    this.refreshSub = this.serviceRunService.serviceRunsUpdated$.pipe(
+      take(1)
+    ).subscribe(() => {
+      this.loadDataFromService();
+      this.onServiceFilter();
+      this.reapplySort();
+    });
+
+    const today = new Date();
+    this.serviceRunService.refreshWithDateRange(today, today);
   }
 
   onSetupRun() {
