@@ -17,6 +17,7 @@ import { RestModule } from './rest.module';
 // COMPONENTS
 import { ComponentsModules } from './components/components.modules';
 import { AppComponent } from './app.component';
+import { AiChatComponent } from './components/ai-chat/ai-chat.component';
 
 // INTERCEPTORS
 import { UploadInterceptorService } from './services/upload-interceptor.service';
@@ -59,6 +60,7 @@ import { NotificationModule, NOTIFICATION_CONTAINER } from '@progress/kendo-angu
     RemoveGroupConfirmComponent,
     UserDetailComponent,
     SessionExpiredComponent,
+    AiChatComponent,
   ],
   imports: [
     BrowserModule,

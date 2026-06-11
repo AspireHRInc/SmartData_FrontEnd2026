@@ -1,0 +1,64 @@
+<div class="ai-chat-wrapper" [class.open]="isOpen">
+  <button class="ai-toggle" (click)="toggle()" aria-label="Toggle AI Chat">
+    <span class="ai-icon">✦</span>
+    <span class="ai-label">AI</span>
+  </button>
+
+  <div
+    class="ai-panel"
+    *ngIf="isOpen"
+    #aiPanel
+    [style.left.px]="panelX"
+    [style.top.px]="panelY"
+    [style.width.px]="panelWidth"
+    [style.height.px]="panelHeight"
+  >
+    <div class="resize-handle" (mousedown)="onResizeStart($event)"></div>
+    <div class="ai-header" (mousedown)="onDragStart($event)">
+      <span class="drag-indicator">⋮⋮</span>
+      <span class="ai-title">SmartSuite AI</span>
+      <button class="clear-btn" (click)="clearChat()" aria-label="Clear chat">Clear</button>
+      <button class="close-btn" (click)="toggle()" aria-label="Close AI chat">✕</button>
+    </div>
+
+    <div class="ai-messages" #messagesContainer>
+      <div class="empty-state" *ngIf="messages.length === 0">
+        <span class="empty-icon">✦</span>
+        <p>Ask me anything about your services, data, or processes.</p>
+      </div>
+
+      <div
+        *ngFor="let msg of messages"
+        class="message"
+        [class.user]="msg.role === 'user'"
+        [class.assistant]="msg.role === 'assistant'"
+        [class.loading]="msg.loading"
+      >
+        <div class="bubble">
+          <span *ngIf="msg.loading" class="typing-indicator">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </span>
+          <span *ngIf="!msg.loading" class="content">{{ msg.content }}</span>
+        </div>
+        <span class="timestamp" *ngIf="!msg.loading">
+          {{ msg.timestamp | date:'shortTime' }}
+        </span>
+      </div>
+    </div>
+
+    <div class="ai-input-area">
+      <textarea
+        #messageInput
+        [(ngModel)]="inputValue"
+        (keydown)="onKeyDown($event)"
+        placeholder="Type a message..."
+        rows="1"
+      ></textarea>
+      <button class="send-btn" (click)="sendMessage()" [disabled]="!inputValue.trim()" aria-label="Send message">
+        ➤
+      </button>
+    </div>
+  </div>
+</div>

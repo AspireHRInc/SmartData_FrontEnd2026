@@ -96,7 +96,7 @@ export class ServiceRunService {
       Authorization: `Bearer ${token}`,
       Partition: partition,
       Action: 'ListRef',
-      Query: '"owner" = \'' + email + '\''
+      Query: '"PK" = \'' + partition + '\' AND "owner" = \'' + email + '\''
     });
   }
 
