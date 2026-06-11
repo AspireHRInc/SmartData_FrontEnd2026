@@ -464,7 +464,7 @@
   }
 
   .history-item {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 127, 255, 0.75);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(208, 223, 252, 0.2);
@@ -478,13 +478,33 @@
     }
 
     .icon {
-      display: none;
-      @media screen and (min-width: 54rem) {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+  display: none;
+  @media screen and (min-width: 54rem) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white !important;
+
+    ::ng-deep {
+      svg,
+      path {
+        fill: white !important;
+        stroke: white !important;
+      }
+
+      mat-icon,
+      .material-icons,
+      i {
+        color: white !important;
+      }
+
+      img {
+          filter: brightness(0) invert(1) opacity(0.3);
       }
     }
+  }
+}
+
 
     .info {
       overflow: hidden;
