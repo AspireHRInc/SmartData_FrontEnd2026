@@ -86,7 +86,12 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   selectedDateRangeFilter = { start: new Date(), end: new Date() };
 
-  filtersObj: any = { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [], owner: [] };
+  filtersObj: any = {
+    status: ['Completed', 'Processing', 'Processed with Errors', 'Cancelled'],
+    dateRange: { start: new Date(0), end: new Date(0) },
+    service: [],
+    owner: []
+  };
 
   searchString = '';
   filterActive = {};
@@ -116,6 +121,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.serviceRunService.reset();
+    this.serviceRunService.initialize();
     if (this.router.url.indexOf('/services/history') > -1) {
       this.allServicesHistory = true;
       this.serviceId = 'all';
@@ -129,8 +136,6 @@ export class HistoryComponent implements OnInit, OnDestroy {
         this.serviceRunService.currentServiceRunsId = params['id'];
       }
     });
-
-    this.serviceRunService.initialize();
 
     this.updatesSub = this.serviceRunService.serviceRunsUpdated$.pipe(
       take(1)
@@ -312,10 +317,24 @@ export class HistoryComponent implements OnInit, OnDestroy {
       if (filterGroup.name === 'Date Range') {
         return filterGroup;
       }
+      if (filterGroup.name === 'Owner') {
+        const ownerFilters = filterGroup.filters!.map((filter: any) => filter.name || filter);
+        if (ownerFilters.length === 0) {
+          return {
+            ...filterGroup,
+            filters: [],
+            emptyMessage: 'No users available for this date'
+          };
+        }
+        return {
+          ...filterGroup,
+          filters: ownerFilters,
+        };
+      }
       return {
         ...filterGroup,
         filters: filterGroup.filters!.map((filter: any) => {
-          return filter.name;
+          return filter.name || filter;
         }),
       };
     });
@@ -556,7 +575,12 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   clearAllFilters() {
     this.showFilterPopupIndex = -1;
-    this.filtersObj = { status: [], dateRange: { start: new Date(0), end: new Date(0) }, service: [], owner: [] };
+    this.filtersObj = {
+      status: ['Completed', 'Processing', 'Processed with Errors', 'Cancelled'],
+      dateRange: { start: new Date(0), end: new Date(0) },
+      service: [],
+      owner: []
+    };
     this.selectedDateRangeFilter = { start: new Date(), end: new Date() };
     this.serviceRunService.filtersActive = false;
 

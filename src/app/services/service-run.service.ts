@@ -144,6 +144,7 @@ export class ServiceRunService {
     });
   }
 
+  
   private getTokenPayload(): any {
     const keys = Object.keys(localStorage);
     const idTokenKey = keys.find(k => k.includes('idToken'));
@@ -192,6 +193,11 @@ export class ServiceRunService {
 
     this.loadProcesses();
   }
+  reset(): void {
+  this.initialized = false;
+  this.loading = false;
+}
+
 
   refreshWithDateRange(startDate: Date, endDate: Date): void {
     const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 0, 0, 0, 0);

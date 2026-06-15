@@ -6,18 +6,6 @@
   [headerUserObject]="(loggedInUserObj$ | async)!"
 ></ss-header>
 
-<div class="search-wrapper">
-  <div class="search">
-    <input
-      placeholder="Search name, service, owner...etc."
-      class="k-input field"
-      (keyup)="onSearchStringUpdate($event)"
-      [(ngModel)]="searchField"
-    />
-    <button kendoButton icon="search" aria-label="search history" (click)="onSearchStringUpdate($event)"></button>
-  </div>
-</div>
-
 <div class="navigation-row">
   <ss-navigation-buttons>
     <ss-navigation-button
@@ -45,39 +33,50 @@
 ></ss-service-run-results>
 
 <div class="content-wrapper">
-  <div class="filters">
-    <ng-container *ngFor="let filterGroup of filters; let i = index">
-      <ng-container *ngIf="filterGroup.filters.length > 1 || filterGroup.name === 'Date Range' || filterGroup.name === 'Owner'">
-        <button
-          kendoButton
-          rounded="full"
-          fillMode="outline"
-          #anchor
-          (click)="showFilterPopup(i)"
-          class="filter-button"
-          [class.active]="
-            filterGroup.name !== 'Date Range'
-              ? filtersObj[filterGroup.name.toLocaleLowerCase()].length > 0
-              : filtersObj['dateRange'].start.getTime() !== 0
-              ? true
-              : false
-          "
-        >
-          <span class="name">{{ filterGroup.name }}</span>
-          <span class="arrow">&#9660;</span>
-        </button>
-      </ng-container>
-    </ng-container>
-    <button
-      kendoButton
-      rounded="full"
-      fillMode="outline"
-      [class.active]="serviceRunService.filtersActive === true"
-      (click)="clearAllFilters()"
-      class="filter-button"
-    >
-      <span class="name">Clear</span>
-    </button>
+  <div class="filters-row">
+    <div class="filters">
+      <ng-container *ngFor="let filterGroup of filters; let i = index">
+  <button
+    kendoButton
+    rounded="full"
+    fillMode="outline"
+    #anchor
+    (click)="showFilterPopup(i)"
+    class="filter-button"
+    [hidden]="!(filterGroup.filters.length > 1 || filterGroup.name === 'Date Range' || filterGroup.name === 'Owner')"
+    [class.active]="
+      filterGroup.name !== 'Date Range'
+        ? filtersObj[filterGroup.name.toLocaleLowerCase()].length > 0
+        : filtersObj['dateRange'].start.getTime() !== 0
+        ? true
+        : false
+    "
+  >
+    <span class="name">{{ filterGroup.name }}</span>
+    <span class="arrow">&#9660;</span>
+  </button>
+</ng-container>
+
+      <button
+        kendoButton
+        rounded="full"
+        fillMode="outline"
+        [class.active]="serviceRunService.filtersActive === true"
+        (click)="clearAllFilters()"
+        class="filter-button"
+      >
+        <span class="name">Clear</span>
+      </button>
+    </div>
+    <div class="search-inline">
+      <input
+        placeholder="Search..."
+        class="k-input field search-input-inline"
+        (keyup)="onSearchStringUpdate($event)"
+        [(ngModel)]="searchField"
+      />
+      <button kendoButton icon="search" aria-label="search history" (click)="onSearchStringUpdate($event)" class="search-btn-inline"></button>
+    </div>
   </div>
 
   <div class="history-header">
@@ -212,7 +211,7 @@
     popupClass="filter-popup"
   >
     <div class="content" style="background: transparent !important;">
-      <ul class="filter-list" *ngIf="filterGroup.name !== 'Date Range'" style="background: transparent !important;">
+      <ul class="filter-list" *ngIf="filterGroup.name !== 'Date Range' && filterGroup.filters.length > 0" style="background: transparent !important;">
         <ng-container *ngFor="let filter of filterGroup.filters; let j = index">
           <li class="filter-item" style="background: transparent !important;">
             <label class="k-checkbox-label">
@@ -227,6 +226,10 @@
           </li>
         </ng-container>
       </ul>
+
+      <div class="empty-filter-message" *ngIf="filterGroup.name !== 'Date Range' && filterGroup.filters.length === 0">
+        <p>No users available for this date</p>
+      </div>
 
       <ng-container *ngIf="filterGroup.name === 'Date Range'">
         <div class="date-inputs">
