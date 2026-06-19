@@ -7,6 +7,9 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService, User } from 'src/app/services/user.service';
 import { LoginService } from 'src/app/services/login.service';
+//ricky modifications here
+import { ServicesService } from 'src/app/services/services.service';
+import { ServiceRunService } from 'src/app/services/service-run.service';
 
 @Component({
   selector: 'ss-login',
@@ -55,7 +58,9 @@ export class LoginComponent implements OnInit {
     private auth: AuthService,
     private fb: FormBuilder,
     private userService: UserService,
-    public loginService: LoginService
+    public loginService: LoginService,
+    private servicesService: ServicesService,
+    private serviceRunService: ServiceRunService
   ) {}
 
   ngOnInit(): void {
@@ -108,6 +113,9 @@ export class LoginComponent implements OnInit {
         if (success) {
           this.logoState = 'fast';
           setTimeout(() => {
+            this.servicesService.reset();
+            this.serviceRunService.reset();
+            this.servicesService.initialize();
             this.userService.initialize();
             this.router.navigateByUrl('/services/dashboard');
           }, 500);

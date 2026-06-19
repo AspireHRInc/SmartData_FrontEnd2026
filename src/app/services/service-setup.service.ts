@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UiStateService } from './ui-state.service';
 import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
 export class Field {
   ParameterName = '';
@@ -59,7 +60,8 @@ export class ServiceSetupService {
 
   constructor(
     private uiState: UiStateService,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) {
     this.uiState.abandonCurrentForm$.subscribe(() => {
       this.currentFormAbandoned();
@@ -75,12 +77,13 @@ export class ServiceSetupService {
   }
 
   private getIdToken(): string {
-    const keys = Object.keys(localStorage);
+    /*const keys = Object.keys(localStorage);
     const idTokenKey = keys.find(k => k.includes('idToken'));
     if (idTokenKey) {
       return localStorage.getItem(idTokenKey) || '';
     }
-    return '';
+    return '';*/
+    return this.authService.getIdToken();
   }
 
   private getHeaders(): HttpHeaders {
@@ -97,7 +100,7 @@ export class ServiceSetupService {
     }
 
     return new HttpHeaders({
-      'Authorization': idToken,
+      'Authorization': `Bearer ${idToken}`,
       'Partition': partition
     });
   }
