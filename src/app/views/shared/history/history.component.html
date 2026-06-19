@@ -14,7 +14,7 @@
       class="secondary"
       (click)="onSetupRun()"
     ></ss-navigation-button>
-    <ss-navigation-button label="History of Runs" class="active"></ss-navigation-button>
+    <ss-navigation-button *ngIf="!allServicesHistory" label="History of Runs" class="active"></ss-navigation-button>
   </ss-navigation-buttons>
   <button
     kendoButton
@@ -43,7 +43,7 @@
     #anchor
     (click)="showFilterPopup(i)"
     class="filter-button"
-    [hidden]="!(filterGroup.filters.length > 1 || filterGroup.name === 'Date Range' || filterGroup.name === 'Owner')"
+    [hidden]="!(filterGroup.filters.length > 1 || filterGroup.name === 'Date Range')" 
     [class.active]="
       filterGroup.name !== 'Date Range'
         ? filtersObj[filterGroup.name.toLocaleLowerCase()].length > 0

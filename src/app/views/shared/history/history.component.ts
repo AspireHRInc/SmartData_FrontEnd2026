@@ -103,8 +103,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   serviceId = 'all';
 
-  currentSortType = '';
-  currentSortDirection: 'asc' | 'desc' | '' = '';
+  currentSortType = 'lastUpdated';
+  currentSortDirection: 'asc' | 'desc' | '' = 'desc';
 
   private updatesSub!: Subscription;
   private refreshSub!: Subscription;
@@ -306,6 +306,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
     }
 
     this.serviceRuns = this.getExtendedServices(this.serviceRunsRaw);
+
+    // Apply default sort (lastUpdated desc) on every data load
+    this.reapplySort();
 
     this.filters = this.filters.map(filterGroup => {
       if (filterGroup.name === 'Status') {
@@ -615,3 +618,4 @@ export class HistoryComponent implements OnInit, OnDestroy {
     return item.id + item.statusString;
   }
 }
+

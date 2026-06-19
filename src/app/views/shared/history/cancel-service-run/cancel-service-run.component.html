@@ -3,21 +3,47 @@
   *ngIf="uiState.cancelServiceRunOpen$ | async"
   (close)="close()"
   [minWidth]="250"
-  [width]="400"
+  [width]="500"
 >
-  <div *ngIf="serviceRun">
-    <p><strong>Process:</strong> {{ serviceRun.serviceName }}</p>
-    <p><strong>Status:</strong> {{ serviceRun.status[0] }}</p>
-    <p><strong>Submitted:</strong> {{ serviceRun.submittedDate | date:'short' }}</p>
-    <p><strong>Owner:</strong> {{ serviceRun.userName }}</p>
-    <p style="margin-top: 16px; color: var(--color-text-secondary);">
-      Are you sure you want to cancel this process? This action cannot be undone.
-    </p>
+  <div *ngIf="serviceRun" class="cancel-container">
+
+    <div class="cancel-section">
+      <h3 class="section-title">Process Details</h3>
+      <div class="section-content">
+        <div class="result-row">
+          <label>Process</label>
+          <p class="result-text">{{ serviceRun.serviceName }}</p>
+        </div>
+        <div class="result-row">
+          <label>Status</label>
+          <p class="result-text">{{ serviceRun.status }}</p>
+        </div>
+        <div class="result-row">
+          <label>Submitted</label>
+          <p class="result-text">{{ serviceRun.submittedDate | date:'short' }}</p>
+        </div>
+        <div class="result-row">
+          <label>Owner</label>
+          <p class="result-text">{{ serviceRun.userName }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cancel-section warning-section">
+      <div class="warning-content">
+        <span class="warning-icon">⚠</span>
+        <p class="warning-text">Are you sure you want to cancel this process? This action cannot be undone.</p>
+      </div>
+    </div>
+
   </div>
+
   <kendo-dialog-actions>
-    <button kendoButton (click)="close()">Keep Running</button>
-    <button kendoButton [disabled]="canceling" (click)="cancel()" themeColor="primary">
+    <button kendoButton (click)="close()" class="action-button secondary">Keep Running</button>
+    <button kendoButton [disabled]="canceling" (click)="cancel()" class="action-button primary">
       {{ canceling ? 'Canceling...' : 'Cancel Process' }}
     </button>
   </kendo-dialog-actions>
 </kendo-dialog>
+
+```

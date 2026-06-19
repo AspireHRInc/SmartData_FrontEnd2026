@@ -2,9 +2,180 @@
   display: block;
 
   ::ng-deep {
-    .k-window-titlebar.k-dialog-titlebar {
-      border-bottom-color: none;
-      box-shadow: var(--drop-shadow);
+    .k-overlay {
+      background: rgba(0, 20, 60, 0.85) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(12px) !important;
+      z-index: 9999;
+    }
+
+    .k-dialog-wrapper {
+      z-index: 10000;
+    }
+
+    .k-window {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(208, 223, 252, 0.3);
+      border-radius: 16px;
+      box-shadow: 0 0 60px rgba(208, 223, 252, 0.3), 0 8px 32px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .k-window-titlebar,
+    .k-dialog-titlebar {
+      background: transparent;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 1rem 1.5rem;
+
+      .k-window-title,
+      .k-dialog-title {
+        color: white;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .k-window-actions,
+      .k-dialog-actions {
+        .k-button {
+          color: white;
+          opacity: 0.8;
+
+          &:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+
+    .k-window-content,
+    .k-dialog-content {
+      background: transparent;
+      color: white;
+      padding: 1.5rem;
+    }
+
+    .k-dialog-buttongroup,
+    .k-dialog-actions {
+      background: transparent;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 1rem 1.5rem;
+      gap: 0.75rem;
+    }
+  }
+}
+
+.cancel-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cancel-section {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+
+  .section-title {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.7);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.warning-section {
+  border-color: rgba(255, 180, 100, 0.3);
+  background: rgba(255, 150, 50, 0.08);
+
+  .warning-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .warning-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .warning-text {
+    margin: 0;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.result-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+
+  label {
+    font-weight: 500;
+    min-width: 120px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .result-text {
+    margin: 0;
+    font-size: 14px;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.action-button {
+  border-radius: 3rem !important;
+  padding: 0.5rem 1.25rem !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+  cursor: pointer;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: none !important;
+
+  &.secondary {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2) !important;
+    }
+  }
+
+  &.primary {
+    background: rgba(255, 100, 100, 0.3) !important;
+    border: 1px solid rgba(255, 150, 150, 0.5) !important;
+    color: white !important;
+
+    &:hover {
+      background: rgba(255, 100, 100, 0.45) !important;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 }

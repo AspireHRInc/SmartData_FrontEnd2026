@@ -1,7 +1,6 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UiStateService } from './ui-state.service';
 import { environment } from '../../environments/environment';
@@ -10,14 +9,14 @@ export class Field {
   ParameterName = '';
   Caption = '';
   Required = false;
-  DefaultValue? = '';
-  TemplateS3Path? = '';
+  DefaultValue?: string = '';
+  TemplateS3Path?: string = '';
   ParameterType = '';
   Options?: fieldOptions[] = [];
   DisplayOrder = 0;
-  UploadSaveUrl? = '';
-  UploadRemoveUrl? = '';
-  HelpText? = '';
+  UploadSaveUrl?: string = '';
+  UploadRemoveUrl?: string = '';
+  HelpText?: string = '';
   value?: any;
   ShowHelpOnFocus?: boolean;
 
@@ -25,8 +24,8 @@ export class Field {
 }
 
 export class fieldOptions {
-  Pvalue? = '';
-  Plabel? = '';
+  Pvalue?: string = '';
+  Plabel?: string = '';
 
   constructor() {}
 }
@@ -55,7 +54,20 @@ export class ServiceSetupService {
   currentProcessItem: any = null;
   private setupLocked = false;
 
- private apiBase = environment.apiUrl;
+  // FIX 1: BehaviorSubject to notify UI components when setup changes
+  private serviceFieldsSubject = new BehaviorSubject<Fields>(new Fields());
+  serviceFields$ = this.serviceFieldsSubject.asObservable();
+
+  private serviceSetupSubject = new BehaviorSubject<Field[]>([]);
+  serviceSetup$ = this.serviceSetupSubject.asObservable();
+
+  // FIX 2: Track whether setup has been loaded to prevent stale reads
+  private setupLoaded = false;
+  get isSetupLoaded(): boolean {
+    return this.setupLoaded;
+  }
+
+  private apiBase = environment.apiUrl;
 
   constructor(
     private uiState: UiStateService,
@@ -154,10 +166,16 @@ export class ServiceSetupService {
       return;
     }
 
+    
+
+    // FIX 3: Guard against null/undefined processItem on refresh
+    if (!processItem) {
+      console.warn('loadServiceSetup called with null/undefined processItem — skipping');
+      return;
+    }
+
     console.log('loadServiceSetup called with:', processItem);
 
-    this.currentServiceFields = new Fields();
-    this.currentServiceSetup = [];
     this.currentProcessItem = processItem;
 
     const inputParams = processItem.inputParameters || processItem.InputParameters || [];
@@ -165,6 +183,10 @@ export class ServiceSetupService {
 
     if (inputParams.length === 0) {
       console.log('No input parameters defined for this process');
+      this.currentServiceFields = new Fields();
+      this.currentServiceSetup = [];
+      this.setupLoaded = true;
+      this.emitUpdate();
       return;
     }
 
@@ -175,11 +197,19 @@ export class ServiceSetupService {
       field.ParameterName = param.name || '';
       field.Caption = metadata.caption || param.name || '';
       field.Required = metadata.required === true || metadata.required === 'true';
-      field.DefaultValue = param.defaultValue || param.value || '';
+
+      // FIX 4: Use null-aware checks instead of falsy coalescing
+      // This preserves "0", "false", empty-but-intentional defaults
+      field.DefaultValue = param.defaultValue !== undefined && param.defaultValue !== null
+        ? String(param.defaultValue)
+        : (param.value !== undefined && param.value !== null ? String(param.value) : '');
+
       field.ParameterType = this.mapParameterType(metadata.parameterType);
       field.HelpText = metadata.additionalMetadata || metadata.helpText || '';
       field.DisplayOrder = metadata.displayOrder || (index * 10);
-      field.value = param.defaultValue || param.value || '';
+
+      // FIX 5: Always set value from DefaultValue to ensure it's populated on refresh
+      field.value = field.DefaultValue;
 
       if (metadata.options && Array.isArray(metadata.options)) {
         field.Options = metadata.options.map((opt: any) => {
@@ -188,6 +218,20 @@ export class ServiceSetupService {
           option.Plabel = opt.label || opt.Plabel || opt;
           return option;
         });
+
+                // FIX 6: For selection fields, validate that the default value is in the options list
+        if (field.ParameterType === 'selection' && field.value && field.Options) {
+          const validOption = field.Options.find(
+            o => o.Pvalue === field.value || o.Plabel === field.value
+          );
+          if (!validOption && field.Options.length > 0) {
+            console.warn(
+              `Default value "${field.value}" for "${field.ParameterName}" not found in options.`
+            );
+          }
+        }
+
+
       }
 
       if (metadata.templateS3Path) {
@@ -213,10 +257,20 @@ export class ServiceSetupService {
 
     this.currentServiceFields = result;
     this.currentServiceSetup = fields;
+    this.setupLoaded = true;
+
+    // FIX 7: Emit the update so subscribers (UI components) get the new state
+    this.emitUpdate();
 
     console.log('Mapped service fields:', result);
     console.log('Parameters count:', fields.length);
-    console.log('Parameter types:', fields.map(f => `${f.ParameterName}: ${f.ParameterType}`));
+    console.log('Parameter defaults:', fields.map(f => `${f.ParameterName}: value="${f.value}" default="${f.DefaultValue}"`));
+  }
+
+  // Central emit method to push state to subscribers
+  private emitUpdate(): void {
+    this.serviceFieldsSubject.next(this.currentServiceFields);
+    this.serviceSetupSubject.next([...this.currentServiceSetup]);
   }
 
   onFileRemove(fileName: string) {
@@ -237,7 +291,7 @@ export class ServiceSetupService {
 
     const filledParams = this.currentServiceSetup.map(field => ({
       name: field.ParameterName,
-      value: field.value || field.DefaultValue || '',
+      value: field.value !== undefined && field.value !== null ? field.value : (field.DefaultValue || ''),
       defaultValue: field.DefaultValue || '',
       parameterMetadata: {
         caption: field.Caption,
@@ -280,10 +334,24 @@ export class ServiceSetupService {
 
   currentFormAbandoned() {
     console.log('current form abandoned');
+    // FIX 8: Reset the loaded flag so next load works cleanly
+    this.setupLoaded = false;
   }
 
   getServiceSetup(id: string): Fields {
     return this.currentServiceFields;
   }
-}
+  resetFieldValuesToDefaults(): void {
+    if (this.currentServiceSetup.length === 0) return;
 
+    this.currentServiceSetup.forEach(field => {
+      field.value = field.DefaultValue || '';
+    });
+
+    this.currentServiceFields.Parameters.forEach(field => {
+      field.value = field.DefaultValue || '';
+    });
+
+    this.emitUpdate();
+  }
+}
