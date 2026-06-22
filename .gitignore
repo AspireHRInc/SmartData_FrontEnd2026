@@ -75,7 +75,7 @@ node_modules
 angular.json
 data.json
 karma.conf.js
-package-lock.json
+# package-lock.json
 package.json
 proxy.conf.js
 README.md
