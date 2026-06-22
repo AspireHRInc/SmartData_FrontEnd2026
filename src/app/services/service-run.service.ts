@@ -87,9 +87,10 @@ export class ServiceRunService {
   }
 
   private getHeaders(dateStart?: string, dateEnd?: string): HttpHeaders {
-    const keys = Object.keys(localStorage);
-    const idTokenKey = keys.find(k => k.includes('idToken'));
-    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
+    //const keys = Object.keys(localStorage);
+    //const idTokenKey = keys.find(k => k.includes('idToken'));
+    //const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
+    const token = this.authService.getIdToken();
 
     if (!token) {
       return new HttpHeaders({ Authorization: '', Partition: '' });
@@ -122,9 +123,7 @@ export class ServiceRunService {
   }
 
   private getMinimalHeaders(): HttpHeaders {
-    const keys = Object.keys(localStorage);
-    const idTokenKey = keys.find(k => k.includes('idToken'));
-    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
+    const token = this.authService.getIdToken();
 
     if (!token) {
       return new HttpHeaders({ Authorization: '', Partition: '' });
@@ -146,9 +145,8 @@ export class ServiceRunService {
 
   
   private getTokenPayload(): any {
-    const keys = Object.keys(localStorage);
-    const idTokenKey = keys.find(k => k.includes('idToken'));
-    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
+    const token = this.authService.getIdToken();
+    
     if (!token) return {};
     const parts = token.split('.');
     if (parts.length !== 3) return {};

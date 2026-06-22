@@ -95,10 +95,33 @@ export class ServicesService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  private getHeaders(): HttpHeaders {
+  /*private getHeaders(): HttpHeaders {
     const keys = Object.keys(localStorage);
     const idTokenKey = keys.find(k => k.includes('idToken'));
     const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
+
+    if (!token) {
+      console.warn('Token not available yet');
+      return new HttpHeaders({ Authorization: '', Partition: '' });
+    }
+
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      return new HttpHeaders({ Authorization: `Bearer ${token}`, Partition: '' });
+    }
+
+    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+    const partition = (payload['custom:Org'] || '').replace(/#$/, '');
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      Partition: partition,
+    });
+  }*/
+
+  //get a new token from auth service each time to ensure we have the latest token with partition info
+  private getHeaders(): HttpHeaders {
+    const token = this.authService.getIdToken(); //get the latest token from auth service
 
     if (!token) {
       console.warn('Token not available yet');
@@ -323,6 +346,19 @@ export class ServicesService {
   getProcessTypeVersion(ssObjectKey: string): Observable<any> {
     const ptmId = ssObjectKey.split('#')[1];
     return this.http.get(`${this.baseUrl}/PTM/${ptmId}`, { headers: this.getHeaders() });
+  }
+
+  //resets the service to initial state - can be called on logout to clear out any data
+  reset(): void {
+    this.initialized = false;
+    this.loading = false;
+    this.allServices = [];
+    this.defaultServices = [];
+    this.currentServices = [];
+    this.allTags = [];
+    this.evironments = [];
+    this.currentFilter = '';
+    this.currentFilters = [];
   }
 }
 
