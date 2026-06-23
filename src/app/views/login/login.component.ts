@@ -7,7 +7,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService, User } from 'src/app/services/user.service';
 import { LoginService } from 'src/app/services/login.service';
-
+//RickyTest
 @Component({
   selector: 'ss-login',
   templateUrl: './login.component.html',
