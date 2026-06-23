@@ -17,6 +17,7 @@ const poolData = {
 
 const userPool = new CognitoUserPool(poolData);
 
+//aydyadhsaud
 //refresh buffer, refreshes 5 minutes before access token expires (in milliseconds)
 const REFRESH_BUFFER_MS = 5 * 60 * 1000;
 
