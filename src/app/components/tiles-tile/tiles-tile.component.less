@@ -2,6 +2,16 @@
   display: block;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 1em;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 24px rgba(0,0,0,0.2);
+    /*transform: translateY(-3px); //this whitens the tile when you hover over it
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.3);
+    background: var(--color-cta-gradient);
+    filter: brightness(1.15);*/
+  }
 
   &.subscribed {
     cursor: pointer;
