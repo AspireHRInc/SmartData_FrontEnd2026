@@ -1,0 +1,14 @@
+name: Admin Gatekeeper
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hold Merge
+        run: |
+          echo "This check forces non-admins to wait for an admin bypass."
+          exit 1
