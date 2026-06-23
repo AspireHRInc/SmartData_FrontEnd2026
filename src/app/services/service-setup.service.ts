@@ -163,57 +163,136 @@ export class ServiceSetupService {
     return typeMap[apiType] || 'text';
   }
 
-  loadServiceSetup(processItem: any): void {
-    if (this.setupLocked) {
-      console.log('loadServiceSetup skipped — setup is locked');
-      return;
-    }
+  
+loadServiceSetup(processItem: any): void {
+  if (this.setupLocked) {
+    console.log('loadServiceSetup skipped — setup is locked');
+    return;
+  }
 
-    
+  // FIX 3: Guard against null/undefined processItem on refresh
+  if (!processItem) {
+    console.warn('loadServiceSetup called with null/undefined processItem — skipping');
+    return;
+  }
 
-    // FIX 3: Guard against null/undefined processItem on refresh
-    if (!processItem) {
-      console.warn('loadServiceSetup called with null/undefined processItem — skipping');
-      return;
-    }
+  console.log('loadServiceSetup called with:', processItem);
 
-    console.log('loadServiceSetup called with:', processItem);
+  this.currentProcessItem = processItem;
 
-    this.currentProcessItem = processItem;
+  const inputParams = processItem.inputParameters || processItem.InputParameters || [];
+  console.log('Input parameters found:', inputParams);
 
-    const inputParams = processItem.inputParameters || processItem.InputParameters || [];
-    console.log('Input parameters found:', inputParams);
+  if (inputParams.length === 0) {
+    console.log('No input parameters defined for this process');
+    this.currentServiceFields = new Fields();
+    this.currentServiceSetup = [];
+    this.setupLoaded = true;
+    this.emitUpdate();
+    return;
+  }
 
-    if (inputParams.length === 0) {
-      console.log('No input parameters defined for this process');
-      this.currentServiceFields = new Fields();
-      this.currentServiceSetup = [];
-      this.setupLoaded = true;
-      this.emitUpdate();
-      return;
-    }
+  const fields: Field[] = inputParams.map((param: any, index: number) => {
+    const metadata = param.parameterMetadata || {};
+    const field = new Field();
 
-    const fields: Field[] = inputParams.map((param: any, index: number) => {
-      const metadata = param.parameterMetadata || {};
-      const field = new Field();
+    field.ParameterName = param.name || '';
+    field.Caption = metadata.caption || param.name || '';
+    field.Required = metadata.required === true || metadata.required === 'true';
 
-      field.ParameterName = param.name || '';
-      field.Caption = metadata.caption || param.name || '';
-      field.Required = metadata.required === true || metadata.required === 'true';
+    // FIX 4: Use null-aware checks instead of falsy coalescing
+    field.DefaultValue = param.defaultValue !== undefined && param.defaultValue !== null
+      ? String(param.defaultValue)
+      : (param.value !== undefined && param.value !== null ? String(param.value) : '');
 
-      // FIX 4: Use null-aware checks instead of falsy coalescing
-      // This preserves "0", "false", empty-but-intentional defaults
-      field.DefaultValue = param.defaultValue !== undefined && param.defaultValue !== null
-        ? String(param.defaultValue)
-        : (param.value !== undefined && param.value !== null ? String(param.value) : '');
+    field.ParameterType = this.mapParameterType(metadata.parameterType);
 
-      field.ParameterType = this.mapParameterType(metadata.parameterType);
-      field.HelpText = metadata.additionalMetadata || metadata.helpText || '';
-      field.DisplayOrder = metadata.displayOrder || (index * 10);
+    // For selection fields, don't use additionalMetadata as HelpText (it contains options data)
+    field.HelpText = field.ParameterType === 'selection'
+      ? (metadata.helpText || '')
+      : (metadata.additionalMetadata || metadata.helpText || '');
 
-      // FIX 5: Always set value from DefaultValue to ensure it's populated on refresh
-      field.value = field.DefaultValue;
+    field.DisplayOrder = metadata.displayOrder || (index * 10);
 
+    // FIX 5: Always set value from DefaultValue to ensure it's populated on refresh
+    field.value = field.DefaultValue;
+
+    // --- DROPDOWN OPTIONS MAPPING ---
+    if (field.ParameterType === 'selection') {
+      let rawOptions: any = metadata.options || null;
+
+      // Parse additionalMetadata for dropdown options
+      if (!rawOptions && metadata.additionalMetadata) {
+        const additional = metadata.additionalMetadata;
+
+        if (typeof additional === 'string') {
+          try {
+            const parsed = JSON.parse(additional);
+
+            if (typeof parsed === 'object' && !Array.isArray(parsed)) {
+              // Format: { "Label": "Value", "Label2": "Value2" }
+              rawOptions = Object.entries(parsed).map(([label, value]) => ({
+                Plabel: label,
+                Pvalue: value as string
+              }));
+            } else if (Array.isArray(parsed)) {
+              // Format: [{ "value": "x", "label": "X" }, ...]
+              rawOptions = parsed;
+            }
+          } catch (e) {
+            // Not JSON — try comma or pipe delimited
+            if (additional.includes('|')) {
+              rawOptions = additional.split('|').map((s: string) => s.trim());
+            } else if (additional.includes(',')) {
+              rawOptions = additional.split(',').map((s: string) => s.trim());
+            }
+            console.warn(`Could not JSON-parse additionalMetadata for "${field.ParameterName}", tried delimiter split:`, rawOptions);
+          }
+        } else if (Array.isArray(additional)) {
+          rawOptions = additional;
+        } else if (typeof additional === 'object' && additional.options) {
+          rawOptions = additional.options;
+        }
+      }
+
+      // Also check param-level options as fallback
+      if (!rawOptions) {
+        rawOptions = param.options || param.allowedValues || param.values || null;
+      }
+
+      if (Array.isArray(rawOptions) && rawOptions.length > 0) {
+        field.Options = rawOptions.map((opt: any) => {
+          const option = new fieldOptions();
+          if (typeof opt === 'string') {
+            option.Pvalue = opt;
+            option.Plabel = opt;
+          } else {
+            option.Pvalue = opt.Pvalue || opt.value || opt.id || String(opt);
+            option.Plabel = opt.Plabel || opt.label || opt.name || opt.text || option.Pvalue;
+          }
+          return option;
+        });
+      }
+
+      // Set default selection to matching option
+      if (field.Options && field.Options.length > 0 && field.DefaultValue) {
+        const matchingOption = field.Options.find(o => o.Pvalue === field.DefaultValue);
+        if (matchingOption) {
+          field.value = matchingOption.Pvalue;
+        } else {
+          // Try matching by label as fallback
+          const matchByLabel = field.Options.find(o => o.Plabel === field.DefaultValue);
+          if (matchByLabel) {
+            field.value = matchByLabel.Pvalue;
+          } else {
+            console.warn(
+              `Default value "${field.DefaultValue}" for "${field.ParameterName}" not found in options.`
+            );
+          }
+        }
+      }
+    } else {
+      // Non-selection fields: handle options if they exist (legacy support)
       if (metadata.options && Array.isArray(metadata.options)) {
         field.Options = metadata.options.map((opt: any) => {
           const option = new fieldOptions();
@@ -221,54 +300,45 @@ export class ServiceSetupService {
           option.Plabel = opt.label || opt.Plabel || opt;
           return option;
         });
-
-                // FIX 6: For selection fields, validate that the default value is in the options list
-        if (field.ParameterType === 'selection' && field.value && field.Options) {
-          const validOption = field.Options.find(
-            o => o.Pvalue === field.value || o.Plabel === field.value
-          );
-          if (!validOption && field.Options.length > 0) {
-            console.warn(
-              `Default value "${field.value}" for "${field.ParameterName}" not found in options.`
-            );
-          }
-        }
-
-
       }
+    }
 
-      if (metadata.templateS3Path) {
-        field.TemplateS3Path = metadata.templateS3Path;
-      }
-      if (metadata.uploadSaveUrl) {
-        field.UploadSaveUrl = metadata.uploadSaveUrl;
-      }
-      if (metadata.uploadRemoveUrl) {
-        field.UploadRemoveUrl = metadata.uploadRemoveUrl;
-      }
+    if (metadata.templateS3Path) {
+      field.TemplateS3Path = metadata.templateS3Path;
+    }
+    if (metadata.uploadSaveUrl) {
+      field.UploadSaveUrl = metadata.uploadSaveUrl;
+    }
+    if (metadata.uploadRemoveUrl) {
+      field.UploadRemoveUrl = metadata.uploadRemoveUrl;
+    }
 
-      return field;
-    });
+    return field;
+  });
 
-    fields.sort((a, b) => a.DisplayOrder - b.DisplayOrder);
+  fields.sort((a, b) => a.DisplayOrder - b.DisplayOrder);
 
-    const result = new Fields();
-    result.Parameters = fields;
-    result.tags = processItem.tags || [];
-    result.DXScriptS3Path = processItem.dxScriptS3Path || '';
-    result.longDescription = processItem.longDescription || processItem.description || '';
+  const result = new Fields();
+  result.Parameters = fields;
+  result.tags = processItem.tags || [];
+  result.DXScriptS3Path = processItem.dxScriptS3Path || '';
+  result.longDescription = processItem.longDescription || processItem.description || '';
 
-    this.currentServiceFields = result;
-    this.currentServiceSetup = fields;
-    this.setupLoaded = true;
+  this.currentServiceFields = result;
+  this.currentServiceSetup = fields;
+  this.setupLoaded = true;
 
-    // FIX 7: Emit the update so subscribers (UI components) get the new state
-    this.emitUpdate();
+  // FIX 7: Emit the update so subscribers (UI components) get the new state
+  this.emitUpdate();
 
-    console.log('Mapped service fields:', result);
-    console.log('Parameters count:', fields.length);
-    console.log('Parameter defaults:', fields.map(f => `${f.ParameterName}: value="${f.value}" default="${f.DefaultValue}"`));
-  }
+  console.log('Mapped service fields:', result);
+  console.log('Parameters count:', fields.length);
+  console.log('Parameter details:', fields.map(f =>
+    `${f.ParameterName}: type="${f.ParameterType}" value="${f.value}" default="${f.DefaultValue}" options=${f.Options?.length || 0}`
+  ));
+}
+
+
 
   // Central emit method to push state to subscribers
   private emitUpdate(): void {
