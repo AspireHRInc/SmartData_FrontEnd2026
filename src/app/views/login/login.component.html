@@ -1,24 +1,20 @@
-<section class="splash" style="background: linear-gradient(to right, #ffffff 0%, #ffffff 70%, #d0dffc 100%);">
+<section class="splash" style="background: var(--m3-surface);">
   <img src="assets/images/logos/smartdata-full.svg" alt="SmartData by AspireHR" class="brand-logo" />
   <div class="panel">
     <h1 class="title">
-      <em>SmartData</em>
+      <em>Unlock more possibility</em>
       <br />
-      Smarter starts here
+      for your business with SmartData
     </h1>
 
     <p class="detail">
-      Introducing AspireHR SmartData™
+      Self-service reporting — run, manage and export your AspireHR SmartData reports, all in one place.
     </p>
-    <div class="ratings">
-      <div class="users">
-      </div>
-    </div>
   </div>
 </section>
-<section class="splash login-splash" style="background: linear-gradient(to right, #d0dffc 0%, #d0dffc 30%, var(--color-cta-lighter) 100%);">
+<section class="splash login-splash" style="background: var(--m3-surface-container-low);">
   <div class="background" [class.spin-slow]="logoState === 'slow'" [class.spin-fast]="logoState === 'fast'" [class.spin-reverse]="logoState === 'reverse'">
-    <ss-icon-logo-light class="background"></ss-icon-logo-light>
+    <img src="assets/images/logos/emblem.svg" class="background-emblem" alt="" aria-hidden="true" />
   </div>
   <div class="login" [formGroup]="signInFormGroup">
     <div class="panel">
