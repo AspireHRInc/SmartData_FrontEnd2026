@@ -199,7 +199,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     const popups = document.querySelectorAll('.k-popup');
     popups.forEach(popup => {
       const el = popup as HTMLElement;
-      el.style.setProperty('background', 'linear-gradient(180deg, var(--color-cta-lighter) 0%, #d0dffc 100%)', 'important');
+      el.style.setProperty('background', 'var(--m3-surface)', 'important');
       el.style.setProperty('border', 'none', 'important');
       el.style.setProperty('border-radius', '8px', 'important');
       el.style.setProperty('box-shadow', '0 4px 20px rgba(0, 0, 0, 0.15)', 'important');

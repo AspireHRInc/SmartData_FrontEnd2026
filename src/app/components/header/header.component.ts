@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
   @Input() headerUserId = 1;
   @Input() headerUserObject = new User();
   @Input() type = 'dashboard';
+  @Input() light = false;
   menuOpenState = false;
 
   logoAnimationDelay: string = '0ms';

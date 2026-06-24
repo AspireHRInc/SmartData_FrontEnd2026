@@ -7,7 +7,7 @@
   position: relative;
 
   &.standalone {
-    background: linear-gradient(180deg, var(--color-cta-lighter) 0%, #d0dffc 100%) !important;
+    background: var(--m3-surface) !important;
     background-attachment: fixed !important;
   }
 
@@ -40,16 +40,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.05);
-      color: white;
+      border: 1px solid var(--m3-outline-variant);
+      background: var(--m3-surface-container-low);
+      color: var(--m3-on-surface);
       cursor: pointer;
       transition: background-color 0.2s ease;
       box-shadow: none !important;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.15);
-        color: white;
+        background: var(--m3-surface-container-low);
+        color: var(--m3-on-surface);
       }
     }
   }
@@ -73,12 +73,12 @@
     margin-right: auto;
     margin-left: auto;
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--m3-surface-container-low);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(208, 223, 252, 0.3);
     border-radius: 12px;
-    box-shadow: 0 0 40px rgba(208, 223, 252, 0.4), 0 0 80px rgba(208, 223, 252, 0.2);
+    box-shadow: 0 0 40px rgba(208, 223, 252, 0.4), 0 0 80px var(--m3-surface-container-low);
     position: relative;
     z-index: 1;
     margin-bottom: 2rem;
@@ -100,11 +100,11 @@
     align-items: center;
 
     .filter-button {
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--m3-surface-container-low);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
+      border: 1px solid var(--m3-outline-variant);
+      color: var(--m3-on-surface);
       text-transform: uppercase;
       border-radius: 3rem;
       padding: 0.5rem 1rem;
@@ -113,32 +113,32 @@
       align-items: center;
 
       &.active {
-        background: rgba(255, 255, 255, 0.2);
-        border-color: rgba(255, 255, 255, 0.5);
+        background: var(--m3-surface-container-low);
+        border-color: var(--m3-on-surface-variant);
         .name,
         .arrow {
-          color: white;
+          color: var(--m3-on-surface);
         }
       }
 
       &:hover {
-        background: rgba(255, 255, 255, 0.15);
+        background: var(--m3-surface-container-low);
 
         .name,
         .arrow {
-          color: white;
+          color: var(--m3-on-surface);
         }
       }
 
       .name {
-        color: white;
+        color: var(--m3-on-surface);
         font-weight: 700;
         font-size: 0.75rem;
         line-height: 0.875rem;
       }
       .arrow {
         font-size: 0.75rem;
-        color: white;
+        color: var(--m3-on-surface);
         margin-left: 0.4rem;
       }
     }
@@ -155,22 +155,22 @@
       padding: 0.4rem 0.75rem;
       font-size: 0.75rem;
       border-radius: 3rem;
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--m3-surface-container-low);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
+      border: 1px solid var(--m3-outline-variant);
+      color: var(--m3-on-surface);
       outline: none;
       height: 2rem;
       transition: border-color 0.2s ease;
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.5);
+        color: var(--m3-on-surface-variant);
       }
 
       &:focus {
-        border-color: rgba(255, 255, 255, 0.6);
-        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--m3-on-surface-variant);
+        background: var(--m3-surface-container-low);
       }
     }
 
@@ -183,22 +183,22 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
+      background: var(--m3-surface-container-low);
+      border: 1px solid var(--m3-outline-variant);
+      color: var(--m3-on-surface);
       cursor: pointer;
       box-shadow: none !important;
 
       &:hover {
-        border-color: rgba(255, 255, 255, 0.6);
-        background: rgba(255, 255, 255, 0.15);
+        border-color: var(--m3-on-surface-variant);
+        background: var(--m3-surface-container-low);
       }
     }
   }
 
   .filter-popup {
     padding: 1rem;
-    background: rgba(var(--color-cta-rgb), 0.75) !important;
+    background: var(--m3-surface-container-high) !important;
     border: none !important;
     border-radius: 8px !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
@@ -207,7 +207,7 @@
     ::ng-deep {
       kendo-progressbar,
       .k-progressbar {
-        background: rgba(208, 223, 252, 0.2) !important;
+        background: var(--m3-surface-container-low) !important;
         border: none !important;
         border-radius: 3rem !important;
         overflow: hidden !important;
@@ -216,7 +216,7 @@
 
         .k-progressbar-value,
         .k-selected {
-          background: rgba(100, 160, 255, 0.6) !important;
+          background: var(--m3-surface-container-highest) !important;
           border-radius: 3rem !important;
           border: none !important;
         }
@@ -252,16 +252,16 @@
       font-weight: 400;
       font-size: 12px;
       line-height: 14px;
-      color: white;
+      color: var(--m3-on-surface);
       border-radius: 4px;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.15);
+        background: var(--m3-surface-container-low);
       }
 
       label,
       .k-checkbox-label {
-        color: white;
+        color: var(--m3-on-surface);
       }
     }
 
@@ -272,7 +272,7 @@
       p {
         margin: 0;
         font-size: 0.8125rem;
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--m3-on-surface-variant);
         font-style: italic;
       }
     }
@@ -280,7 +280,7 @@
     .k-checkbox,
     input[type="checkbox"] {
       border: 2px solid white !important;
-      background: rgba(255, 255, 255, 0.2) !important;
+      background: var(--m3-surface-container-low) !important;
       width: 16px !important;
       height: 16px !important;
       border-radius: 3px !important;
@@ -291,7 +291,7 @@
       &:checked,
       &.k-checked {
         background: white !important;
-        border-color: white !important;
+        border-color: var(--m3-on-surface) !important;
       }
     }
 
@@ -308,7 +308,7 @@
         flex-wrap: wrap;
         flex: 1 50%;
         max-width: calc(50% - 0.5rem);
-        color: white;
+        color: var(--m3-on-surface);
       }
 
       ::ng-deep {
@@ -316,40 +316,40 @@
         .k-dateinput,
         .k-datepicker,
         .k-input-sm {
-          background: rgba(255, 255, 255, 0.05) !important;
+          background: var(--m3-surface-container-low) !important;
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.3) !important;
+          border: 1px solid var(--m3-outline-variant) !important;
           border-radius: 3rem !important;
-          color: white !important;
+          color: var(--m3-on-surface) !important;
 
           .k-input-inner {
-            color: white !important;
+            color: var(--m3-on-surface) !important;
             max-width: 6rem;
             max-height: 2.125rem;
           }
 
           .k-button,
           .k-select {
-            color: white !important;
+            color: var(--m3-on-surface) !important;
             background: transparent !important;
             border: none !important;
           }
 
           &:focus,
           &:focus-within {
-            border-color: rgba(255, 255, 255, 0.6) !important;
-            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: var(--m3-on-surface-variant) !important;
+            background: var(--m3-surface-container-low) !important;
           }
         }
 
         .k-datepicker {
-          background: rgba(255, 255, 255, 0.05) !important;
-          border: 1px solid rgba(255, 255, 255, 0.3) !important;
+          background: var(--m3-surface-container-low) !important;
+          border: 1px solid var(--m3-outline-variant) !important;
           border-radius: 3rem !important;
 
           .k-input-inner {
-            color: white !important;
+            color: var(--m3-on-surface) !important;
           }
         }
       }
@@ -357,15 +357,15 @@
       .clear {
         margin-left: auto;
         max-height: 2.125rem;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: var(--m3-surface-container-low);
+        border: 1px solid var(--m3-outline-variant);
         border-radius: 3rem;
-        color: white;
+        color: var(--m3-on-surface);
         padding: 0.4rem 1rem;
         cursor: pointer;
 
         &:hover {
-          background: rgba(255, 255, 255, 0.15);
+          background: var(--m3-surface-container-low);
         }
       }
     }
@@ -375,7 +375,7 @@
     font-weight: 400;
     font-size: 0.875rem;
     line-height: 1rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--m3-on-surface-variant);
     padding: 0.5rem 1.5rem;
 
     .actions,
@@ -401,7 +401,7 @@
       .track {
         width: 100%;
         height: 100%;
-        background: rgba(255, 255, 255, 0.15);
+        background: var(--m3-surface-container-low);
         border-radius: 3rem;
         overflow: hidden;
       }
@@ -447,14 +447,14 @@
       display: inline;
       border: none;
       box-shadow: none;
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--m3-on-surface-variant);
       text-align: left;
       cursor: pointer;
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 
       .arrow {
         &.active {
-          color: white;
+          color: var(--m3-on-surface);
         }
       }
     }
@@ -477,10 +477,10 @@
   }
 
   .history-item {
-    background: rgba(var(--color-cta-rgb), 0.75);
+    background: var(--m3-surface-container-high);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(208, 223, 252, 0.2);
+    border: 1px solid var(--m3-surface-container-low);
     border-radius: 6px;
     padding: 1rem 1.5rem;
     margin: 0.4rem 0;
@@ -496,7 +496,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white !important;
+        color: var(--m3-on-surface) !important;
 
         ::ng-deep {
           svg,
@@ -508,7 +508,7 @@
           mat-icon,
           .material-icons,
           i {
-            color: white !important;
+            color: var(--m3-on-surface) !important;
           }
 
           img {
@@ -528,7 +528,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: white;
+        color: var(--m3-on-surface);
         text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
       }
 
@@ -537,7 +537,7 @@
         font-weight: 400;
         font-size: 0.75rem;
         line-height: 1rem;
-        color: rgba(255, 255, 255, 0.85);
+        color: var(--m3-on-surface-variant);
         font-style: italic;
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       }
@@ -547,7 +547,7 @@
         font-weight: 400;
         font-size: 0.75rem;
         line-height: 1rem;
-        color: rgba(255, 255, 255, 0.85);
+        color: var(--m3-on-surface-variant);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -571,7 +571,7 @@
       .label {
         margin: 0;
         font-size: 0.875rem;
-        color: white;
+        color: var(--m3-on-surface);
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
       }
       kendo-chunkprogressbar {
@@ -582,7 +582,7 @@
 
     .owner {
       font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--m3-on-surface-variant);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -595,7 +595,7 @@
 
     .last-updated {
       font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--m3-on-surface-variant);
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       display: none;
       @media screen and (min-width: 54rem) {
@@ -730,9 +730,9 @@
 
   .button {
     &.cancel {
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
-      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--m3-outline-variant);
+      color: var(--m3-on-surface);
+      background: var(--m3-surface-container-low);
       border-radius: 3rem;
       padding: 0.4rem 1rem;
       font-weight: 600;
@@ -746,9 +746,9 @@
       }
     }
     &.complete {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
+      background: var(--m3-surface-container-low);
+      border: 1px solid var(--m3-outline-variant);
+      color: var(--m3-on-surface);
       border-radius: 3rem;
       padding: 0.4rem 1rem;
       font-weight: 600;
@@ -758,7 +758,7 @@
       box-shadow: none !important;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.25);
+        background: var(--m3-surface-container-low);
       }
     }
   }

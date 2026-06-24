@@ -7,7 +7,7 @@
   </div>
 </header>
 
-<header class="header detail" *ngIf="type === 'serviceDetail' || type === 'admin'">
+<header class="header detail" [class.light]="light || type === 'admin'" *ngIf="type === 'serviceDetail' || type === 'admin'">
   <div class="content-wrapper">
     <div class="nav-left">
       <button

@@ -245,6 +245,22 @@
   }
 }
 
+// Light-context detail header (e.g. Admin sits on a light surface).
+.header.detail.light .text .title {
+  color: var(--m3-on-surface) !important;
+  text-shadow: none !important;
+}
+.header.detail.light .back-button,
+.header.detail.light .user-icon-button,
+.header.detail.light .logout-icon-button {
+  color: var(--m3-on-surface-variant) !important;
+}
+.header.detail.light .back-button .k-icon,
+.header.detail.light .user-icon-button .k-icon,
+.header.detail.light .logout-icon-button .k-icon {
+  color: var(--m3-on-surface-variant) !important;
+}
+
 @keyframes driftSpin {
   0% {
     left: -40%;
