@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewContainerRef, HostListener } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { filter, map } from 'rxjs';
@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   title = 'smart-suite';
   @HostBinding('class.show-menu') showMenu = false;
   isAuthPage = false;
+  accountMenuOpen = false;
 
   constructor(
     public uiState: UiStateService,
@@ -61,7 +62,28 @@ export class AppComponent implements OnInit {
     this.uiState.setErrorNotification(String(new Date()));
   }
 
+  get userEmail(): string {
+    return this.authService.getUserEmail();
+  }
+
+  get userInitial(): string {
+    const email = this.userEmail;
+    return email ? email.charAt(0).toUpperCase() : '';
+  }
+
+  toggleAccountMenu(event: Event) {
+    event.stopPropagation();
+    this.accountMenuOpen = !this.accountMenuOpen;
+  }
+
+  // Close the account menu on any click elsewhere in the document.
+  @HostListener('document:click')
+  closeAccountMenu() {
+    this.accountMenuOpen = false;
+  }
+
   logout() {
+    this.accountMenuOpen = false;
     this.authService.logout();
     this.router.navigate(['/login']);
   }

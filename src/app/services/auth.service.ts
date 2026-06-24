@@ -122,6 +122,20 @@ export class AuthService {
     return this.accessToken;
   }
 
+  // Pull the signed-in user's email from the ID token (JWT payload). Falls back
+  // to an empty string if the token is missing or can't be decoded.
+  getUserEmail(): string {
+    if (!this.idToken) {
+      return '';
+    }
+    try {
+      const payload = JSON.parse(atob(this.idToken.split('.')[1]));
+      return payload.email || payload['cognito:username'] || '';
+    } catch {
+      return '';
+    }
+  }
+
   showSessionExpired(): void {
     if (!this.sessionExpiredShown) {
       this.sessionExpiredShown = true;
