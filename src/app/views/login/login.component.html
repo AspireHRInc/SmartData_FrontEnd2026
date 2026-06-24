@@ -34,15 +34,13 @@
               />
             </kendo-floatinglabel>
             <div role="alert" class="k-form-error k-text-start ng-star-inserted">
-              <ng-container
-                *ngIf="
-                  signInFormGroup.controls['email'].invalid &&
-                  (signInFormGroup.controls['email'].dirty || signInFormGroup.controls['email'].touched)
-                "
-              >
-                Error: Email is required
+              <ng-container *ngIf="email!.touched && email!.hasError('required')">
+                Email is required
               </ng-container>
-              &nbsp;{{ messages }}
+              <ng-container *ngIf="email!.touched && email!.hasError('email')">
+                Enter a valid email address
+              </ng-container>
+              {{ messages }}
             </div>
           </kendo-formfield>
           <button class="primary" (click)="next()" [class.disabled]="email!.invalid" [disabled]="email!.invalid">
@@ -63,15 +61,10 @@
               />
             </kendo-floatinglabel>
             <div role="alert" class="k-form-error k-text-start ng-star-inserted">
-              <ng-container
-                *ngIf="
-                  signInFormGroup.controls['password'].invalid &&
-                  (signInFormGroup.controls['password'].dirty || signInFormGroup.controls['password'].touched)
-                "
-              >
-                Error: Password is required
+              <ng-container *ngIf="signInFormGroup.controls['password'].touched && signInFormGroup.controls['password'].hasError('required')">
+                Password is required
               </ng-container>
-              &nbsp;{{ messages }}
+              {{ messages }}
             </div>
           </kendo-formfield>
           <div class="button-group">
@@ -103,15 +96,10 @@
               />
             </kendo-floatinglabel>
             <div role="alert" class="k-form-error k-text-start ng-star-inserted">
-              <ng-container
-                *ngIf="
-                  signInFormGroup.controls['newPassword'].invalid &&
-                  (signInFormGroup.controls['newPassword'].dirty || signInFormGroup.controls['newPassword'].touched)
-                "
-              >
-                Error: Use at least 8 characters
+              <ng-container *ngIf="signInFormGroup.controls['newPassword'].touched && signInFormGroup.controls['newPassword'].invalid">
+                Use at least 8 characters
               </ng-container>
-              &nbsp;{{ messages }}
+              {{ messages }}
             </div>
           </kendo-formfield>
           <button

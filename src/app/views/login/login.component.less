@@ -129,6 +129,16 @@
           .k-floating-label-container {
             width: 100%;
             overflow: visible;
+
+            // remove the Kendo Material underline so only the outlined border shows
+            &::after {
+              display: none !important;
+            }
+
+            // label is rendered inside the Kendo component -> pierce encapsulation
+            ::ng-deep .k-label {
+              color: var(--m3-on-surface-variant) !important;
+            }
           }
 
           kendo-floatinglabel {
@@ -157,6 +167,12 @@
               box-shadow: 0 0 0 1px var(--m3-primary) !important;
               outline: none;
             }
+          }
+
+          // error border only after the field is left (touched), not while typing
+          .k-input.ng-invalid.ng-touched,
+          .k-textbox.ng-invalid.ng-touched {
+            border-color: var(--m3-danger) !important;
           }
 
           .sign-in-form {
