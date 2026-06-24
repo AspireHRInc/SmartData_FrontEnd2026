@@ -48,7 +48,7 @@
           (click)="quickAccess(run)"
         >
           <div class="recent-name">{{ run.serviceName }}</div>
-          <div class="recent-status" [style.color]="run.status[0] === 'Completed' ? 'var(--color-cta)' : 'var(--color-accent-6)'">
+          <div class="recent-status" [style.color]="run.status[0] === 'Completed' ? 'var(--m3-success)' : 'var(--color-accent-6)'">
             {{ run.status[0] }}
           </div>
           <div class="recent-time">{{ run.submittedDate | date: 'short' }}</div>

@@ -507,7 +507,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
         userObject: this.userService.getUserById(serviceRun.userId) || new User(),
         scheduled: serviceRun.status.includes(ServiceRunStatus.Scheduled),
         statusColor: filteredStatus.includes(ServiceRunStatus.Completed)
-          ? 'var(--color-cta)'
+          ? 'var(--m3-success)'
           : filteredStatus.includes(ServiceRunStatus.Processing)
           ? 'var(--color-accent-6)'
           : filteredStatus.includes(ServiceRunStatus['Processed with Errors'])
