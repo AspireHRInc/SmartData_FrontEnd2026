@@ -1,10 +1,54 @@
-<div class="app-wrapper">
-  <ss-menu></ss-menu>
-  <div class="content-wrapper" [class.show-menu]="uiState.menuOpen$ | async">
-    <router-outlet></router-outlet>
+<ng-container *ngIf="!isAuthPage; else authPage">
+  <div class="app-shell">
+    <nav class="nav-rail" aria-label="Primary navigation">
+      <a class="rail-logo" routerLink="/services/dashboard" aria-label="SmartData home">
+        <span class="material-icons-outlined">ac_unit</span>
+      </a>
+      <div class="rail-items">
+        <a class="rail-item" routerLink="/services/dashboard" routerLinkActive="active">
+          <span class="rail-pill"><span class="material-icons-outlined">grid_view</span></span>
+          <span class="rail-label">Services</span>
+        </a>
+        <a class="rail-item" routerLink="/services/history" routerLinkActive="active">
+          <span class="rail-pill"><span class="material-icons-outlined">history</span></span>
+          <span class="rail-label">History</span>
+        </a>
+        <a class="rail-item" routerLink="/admin" routerLinkActive="active">
+          <span class="rail-pill"><span class="material-icons-outlined">admin_panel_settings</span></span>
+          <span class="rail-label">Admin</span>
+        </a>
+      </div>
+      <button class="rail-item rail-foot" type="button" (click)="logout()" aria-label="Log out">
+        <span class="rail-pill"><span class="material-icons-outlined">logout</span></span>
+        <span class="rail-label">Logout</span>
+      </button>
+    </nav>
+
+    <div class="shell-content">
+      <header class="top-bar">
+        <span class="top-brand">Smart<b>Data</b></span>
+        <div class="top-actions">
+          <button class="top-icon ai" type="button" aria-label="AI assistant">
+            <span class="material-icons-outlined">auto_awesome</span>
+          </button>
+          <button class="top-icon" type="button" aria-label="Notifications">
+            <span class="material-icons-outlined">notifications</span>
+          </button>
+          <span class="top-avatar" aria-label="Account">
+            <span class="material-icons-outlined">person</span>
+          </span>
+        </div>
+      </header>
+      <div class="page">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
-</div>
-<!-- !remove for production only to demo error notifications -->
-<!-- <button kendoButton (click)="showErrorUI()" class="show-error">Show error</button> -->
+</ng-container>
+
+<ng-template #authPage>
+  <router-outlet></router-outlet>
+</ng-template>
+
 <ss-errors></ss-errors>
 <ss-session-expired></ss-session-expired>

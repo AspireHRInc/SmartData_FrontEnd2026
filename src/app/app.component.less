@@ -1,38 +1,193 @@
 :host {
-  &.show-menu {
-    overflow-x: hidden;
-  }
+  display: block;
+}
 
-  .show-error {
-    position: absolute;
-    top: 4rem;
-    right: 0;
-    background: red;
-    color: white;
-    span {
-      color: white;
+.app-shell {
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+  width: 100%;
+  background: var(--m3-surface);
+}
+
+.nav-rail {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  width: 88px;
+  flex: 0 0 88px;
+  background: var(--m3-surface-container-low);
+  border-right: 1px solid var(--m3-outline-variant);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 0 16px;
+  gap: 4px;
+  z-index: 50;
+
+  .rail-logo {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--m3-primary);
+    margin-bottom: 12px;
+    border-radius: 50%;
+    transition: background 0.15s;
+
+    .material-icons-outlined {
+      font-size: 28px;
+    }
+
+    &:hover {
+      background: var(--m3-state-hover);
     }
   }
 
-  .app-wrapper {
-    overflow-x: hidden;
-    display: block;
-    position: relative;
-    width: 100vw;
-    height: 100vh;
+  .rail-items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    align-items: center;
+  }
 
-    .content-wrapper {
-      position: absolute;
-      transition: transform 150ms;
-      width: 100%;
-      height: 100%;
-      background: var(--color-background-primary);
-      &.show-menu {
-        position: absolute;
-        transform: translateX(var(--application-menu-width));
+  .rail-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 6px 0;
+    color: var(--m3-on-surface-variant);
+    font-family: inherit;
 
-        transition: transform 150ms;
+    .rail-pill {
+      width: 56px;
+      height: 32px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s;
+
+      .material-icons-outlined {
+        font-size: 22px;
       }
     }
+
+    .rail-label {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    &:hover .rail-pill {
+      background: var(--m3-state-hover);
+    }
+
+    &.active .rail-pill {
+      background: var(--m3-secondary-container);
+      color: var(--m3-on-secondary-container);
+    }
+
+    &.active .rail-label {
+      color: var(--m3-on-surface);
+    }
   }
+
+  .rail-foot {
+    margin-top: auto;
+  }
+}
+
+.shell-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--m3-surface);
+}
+
+.top-bar {
+  height: 60px;
+  flex: 0 0 60px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 1.5rem;
+  background: var(--m3-surface);
+  border-bottom: 1px solid var(--m3-outline-variant);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+
+  .top-brand {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--m3-on-surface);
+
+    b {
+      font-weight: 500;
+      color: var(--m3-primary);
+    }
+  }
+
+  .top-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .top-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--m3-on-surface-variant);
+    transition: background 0.15s;
+
+    .material-icons-outlined {
+      font-size: 22px;
+    }
+
+    &:hover {
+      background: var(--m3-state-hover);
+    }
+
+    &.ai {
+      color: var(--m3-secondary);
+    }
+  }
+
+  .top-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--m3-secondary-container);
+    color: var(--m3-on-secondary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .material-icons-outlined {
+      font-size: 20px;
+    }
+  }
+}
+
+.page {
+  flex: 1;
+  min-height: 0;
 }

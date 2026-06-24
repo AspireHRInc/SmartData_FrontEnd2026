@@ -6,6 +6,20 @@
   ></ss-header>
   <ss-filters></ss-filters>
   <main class="dashboard">
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-value">{{ totalServices }}</div>
+        <div class="stat-label">Services</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">{{ subscribedCount }}</div>
+        <div class="stat-label">Subscribed</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">{{ favoritesCount }}</div>
+        <div class="stat-label">Favorites</div>
+      </div>
+    </div>
     <div class="controls">
       <div class="buttons">
         <div class="filters">

@@ -2,8 +2,6 @@
 :host {
   display: block;
   background-color: var(--m3-surface);
-  min-height: 100vh;
-  overflow-y: auto;
   position: relative;
 }
 
@@ -27,6 +25,32 @@ ss-filters {
   margin: auto;
   position: relative;
   z-index: 1;
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 1.5rem;
+
+    .stat {
+      background: var(--m3-surface-container-low);
+      border-radius: 12px;
+      padding: 14px 16px;
+
+      .stat-value {
+        font-size: 1.75rem;
+        font-weight: 500;
+        color: var(--m3-on-surface);
+        line-height: 1;
+      }
+
+      .stat-label {
+        font-size: 0.8125rem;
+        color: var(--m3-on-surface-variant);
+        margin-top: 0.4rem;
+      }
+    }
+  }
 
   .controls {
     display: flex;

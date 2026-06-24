@@ -1,56 +1,15 @@
 <header class="header" *ngIf="type === 'dashboard'">
-  <img src="../../../assets/images/logos/logo-aspire-light.svg" alt="Aspire Logo" class="background" [style.animation-delay]="logoAnimationDelay" />
   <div class="content-wrapper">
-    <div class="nav-left">
-      <a
-        class="home-link"
-        (click)="goHome($event)"
-        (keyup)="keyGoHome($event)"
-        role="button"
-        arial-label="Go Home"
-        tabindex="0"
-      >
-        <ss-icon-logo-light></ss-icon-logo-light>
-      </a>
-    </div>
     <div class="text">
       <h1 class="title">{{ headerTitle }}</h1>
       <h2 class="subtitle">{{ headerSubtitle }}</h2>
-    </div>
-    <div class="user-actions">
-      <button
-        class="user-icon-button"
-        aria-label="user profile"
-        tabindex="0"
-      >
-        <span class="k-icon k-i-user"></span>
-      </button>
-      <button
-        class="logout-icon-button"
-        aria-label="logout"
-        (click)="logout()"
-        tabindex="0"
-      >
-        <span class="k-icon k-i-logout"></span>
-      </button>
     </div>
   </div>
 </header>
 
 <header class="header detail" *ngIf="type === 'serviceDetail' || type === 'admin'">
-  <img src="../../../assets/images/logos/logo-aspire-light.svg" alt="Aspire Logo" class="background" [style.animation-delay]="logoAnimationDelay" />
   <div class="content-wrapper">
     <div class="nav-left">
-      <a
-        class="home-link"
-        (click)="goHome($event)"
-        (keyup)="keyGoHome($event)"
-        role="button"
-        arial-label="Go Home"
-        tabindex="0"
-      >
-        <ss-icon-logo-light></ss-icon-logo-light>
-      </a>
       <button
         class="back-button"
         aria-label="navigate back"
@@ -63,23 +22,6 @@
     </div>
     <div class="text">
       <h1 class="title">{{ headerTitle }}</h1>
-    </div>
-    <div class="user-actions">
-      <button
-        class="user-icon-button"
-        aria-label="user profile"
-        tabindex="0"
-      >
-        <span class="k-icon k-i-user"></span>
-      </button>
-      <button
-        class="logout-icon-button"
-        aria-label="logout"
-        (click)="logout()"
-        tabindex="0"
-      >
-        <span class="k-icon k-i-logout"></span>
-      </button>
     </div>
   </div>
 </header>

@@ -53,6 +53,21 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService
   ) {}
 
+  get totalServices(): number {
+    return this.services.reduce((n, c) => n + (c.services?.length || 0), 0);
+  }
+
+  get subscribedCount(): number {
+    return this.services.reduce((n, c) => n + (c.services?.filter(s => s.subscribed).length || 0), 0);
+  }
+
+  get favoritesCount(): number {
+    return this.services.reduce(
+      (n, c) => n + (c.services?.filter(s => s.metaTags?.some(t => t.name === 'Favorites')).length || 0),
+      0
+    );
+  }
+
   ngOnInit(): void {
     if (!this.authService.getIdToken()) {
       return;

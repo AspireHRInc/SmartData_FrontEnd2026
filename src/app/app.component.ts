@@ -5,6 +5,7 @@ import { filter, map } from 'rxjs';
 
 import { Title } from '@angular/platform-browser';
 import { UiStateService } from './services/ui-state.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -14,17 +15,25 @@ import { UiStateService } from './services/ui-state.service';
 export class AppComponent implements OnInit {
   title = 'smart-suite';
   @HostBinding('class.show-menu') showMenu = false;
+  isAuthPage = false;
 
   constructor(
     public uiState: UiStateService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
-    public viewContainerRef: ViewContainerRef
+    public viewContainerRef: ViewContainerRef,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.uiState.menuOpen$.subscribe(state => (this.showMenu = state));
+
+    // The app shell (nav rail + top bar) shows on every page except login.
+    this.isAuthPage = this.router.url.startsWith('/login');
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => (this.isAuthPage = this.router.url.startsWith('/login')));
 
     this.router.events
       .pipe(
@@ -50,5 +59,10 @@ export class AppComponent implements OnInit {
 
   showErrorUI() {
     this.uiState.setErrorNotification(String(new Date()));
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
