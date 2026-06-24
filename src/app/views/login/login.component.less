@@ -6,7 +6,7 @@
   overflow: hidden;
 
   @media screen and (min-width: 50em) {
-    grid-template-columns: 1fr min(min-content, 1fr);
+    grid-template-columns: 1.1fr 0.9fr;
   }
 
   .splash {
@@ -21,7 +21,7 @@
       position: absolute;
       top: max(1.5rem, 4vh);
       left: max(1.5rem, 4vw);
-      width: clamp(160px, 18vw, 220px);
+      width: clamp(160px, 18vw, 210px);
       height: auto;
     }
 
@@ -42,10 +42,8 @@
         flex-wrap: wrap;
       }
 
-      .happy-customers {
-        .number {
-          margin: 0;
-        }
+      .happy-customers .number {
+        margin: 0;
       }
 
       .vertical-divider {
@@ -53,11 +51,8 @@
         border-left: 1px solid rgba(var(--color-text-secondary-rgb), 0.15);
       }
 
-      .star-rating {
-        .number {
-          margin: 0;
-          margin-bottom: 0.1rem;
-        }
+      .star-rating .number {
+        margin: 0 0 0.1rem;
       }
     }
 
@@ -67,23 +62,24 @@
 
       .detail {
         font-size: 1.05rem;
-        color: #6b7280;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        color: var(--m3-on-surface-variant);
       }
     }
 
+    // ── Right side: brand panel + crisp solid sign-in card ──
     &.login-splash {
       background: none;
-      overflow: visible;
+      overflow: hidden;
 
       .background {
-        width: 90vw;
+        width: 92%;
         position: absolute;
         z-index: 0;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        opacity: 0.8;
+        opacity: 0.55;
+        pointer-events: none;
 
         &.spin-slow {
           animation: gearNudge 1.5s ease-in-out forwards;
@@ -99,18 +95,16 @@
       }
 
       .login {
-        background: rgba(var(--color-cta-rgb), 0.75);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        width: min(100%, 32.5rem);
+        background: var(--m3-surface);
+        border: 1px solid var(--m3-outline-variant);
+        width: min(100%, 30rem);
         display: flex;
         justify-content: stretch;
         align-items: center;
         text-align: center;
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 0 40px rgba(var(--color-cta-rgb), 0.8), 0 0 80px rgba(255, 255, 255, 0.2);
+        padding: 2.5rem 2rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(18, 46, 77, 0.16), 0 2px 8px rgba(18, 46, 77, 0.08);
         z-index: 1;
 
         .panel {
@@ -121,9 +115,9 @@
           flex-direction: column;
 
           .title {
-            margin-bottom: 0.5rem;
-            color: white;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            margin: 0 0 1.5rem;
+            color: var(--m3-on-surface);
+            font-weight: 500;
           }
 
           .k-floating-label-container {
@@ -133,8 +127,7 @@
 
           kendo-floatinglabel {
             overflow: visible;
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            color: var(--m3-on-surface-variant);
           }
 
           kendo-formfield {
@@ -144,20 +137,18 @@
           .k-textbox,
           .k-input {
             overflow: visible;
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-            border-radius: 3rem !important;
-            color: white !important;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            background: var(--m3-surface) !important;
+            border: 1px solid var(--m3-outline) !important;
+            border-radius: 0.75rem !important;
+            color: var(--m3-on-surface) !important;
 
             &::placeholder {
-              color: rgba(255, 255, 255, 0.6);
-              text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+              color: var(--m3-on-surface-variant);
             }
 
             &:focus {
-              border-color: rgba(255, 255, 255, 0.6) !important;
-              background: rgba(255, 255, 255, 0.1) !important;
+              border-color: var(--m3-primary) !important;
+              box-shadow: 0 0 0 1px var(--m3-primary) !important;
               outline: none;
             }
           }
@@ -178,19 +169,19 @@
               gap: 1rem;
 
               .primary {
-                align-self: center;
-                padding-right: clamp(1rem, 5vw, 4.5rem);
-                padding-left: clamp(1rem, 5vw, 4.5rem);
-                background: rgba(255, 255, 255, 0.15);
-                border: 1px solid rgba(255, 255, 255, 0.4);
+                align-self: stretch;
+                background: var(--m3-primary);
+                border: none;
                 border-radius: 3rem;
-                color: white;
-                font-weight: 600;
+                color: var(--m3-on-primary);
+                font-weight: 500;
+                padding: 0.75rem 1.5rem;
                 cursor: pointer;
-                box-shadow: none !important;
+                transition: filter 0.15s;
+                box-shadow: 0 1px 2px rgba(18, 46, 77, 0.18) !important;
 
                 &:hover {
-                  background: rgba(255, 255, 255, 0.25);
+                  filter: brightness(1.05);
                 }
 
                 &.disabled {
@@ -203,43 +194,39 @@
                 display: flex;
                 gap: 0.75rem;
                 width: 100%;
-                justify-content: center;
                 align-items: stretch;
 
                 .back {
-                  background: rgba(255, 255, 255, 0.05);
-                  border: 1px solid rgba(255, 255, 255, 0.3);
-                  color: white;
+                  background: transparent;
+                  border: 1px solid var(--m3-outline);
+                  color: var(--m3-on-surface);
                   cursor: pointer;
-                  padding: 0.5rem 1.25rem;
+                  padding: 0.75rem 1.25rem;
                   border-radius: 3rem;
-                  font-size: inherit;
                   font-weight: 500;
-                  transition: border-color 0.2s, background-color 0.2s;
+                  transition: background-color 0.2s;
                   box-shadow: none !important;
 
                   &:hover {
-                    border-color: rgba(255, 255, 255, 0.6);
-                    background: rgba(255, 255, 255, 0.15);
+                    background: var(--m3-state-hover);
                   }
                 }
 
                 .primary {
                   flex: 1;
-                  max-width: 65%;
                   align-self: auto;
-                  padding-right: clamp(1rem, 5vw, 4.5rem);
-                  padding-left: clamp(1rem, 5vw, 4.5rem);
-                  background: rgba(255, 255, 255, 0.15);
-                  border: 1px solid rgba(255, 255, 255, 0.4);
+                  background: var(--m3-primary);
+                  border: none;
                   border-radius: 3rem;
-                  color: white;
-                  font-weight: 600;
+                  color: var(--m3-on-primary);
+                  font-weight: 500;
+                  padding: 0.75rem 1.5rem;
                   cursor: pointer;
-                  box-shadow: none !important;
+                  transition: filter 0.15s;
+                  box-shadow: 0 1px 2px rgba(18, 46, 77, 0.18) !important;
 
                   &:hover {
-                    background: rgba(255, 255, 255, 0.25);
+                    filter: brightness(1.05);
                   }
 
                   &.disabled {
