@@ -16,15 +16,36 @@
   --color-background-secondary-darker-rgb: 196, 196, 196;
   --color-background-secondary-darker: rgb(var(--color-background-secondary-darker-rgb));
 
-  --swatch: #0072e5;
-  --color-cta-rgb: 0, 114, 229;
+  --swatch: #4e6e9e; // AspireHR Blue — M3 primary (Aspire Twilight)
+  --color-cta-rgb: 78, 110, 158;
   --color-cta: rgb(var(--color-cta-rgb));
 
-  --swatch: #007fff;
-  --color-cta-lighter-rgb: 0, 127, 255;
+  --swatch: #6b87b1; // AspireHR Blue — lighter tint for gradient/hover
+  --color-cta-lighter-rgb: 107, 135, 177;
   --color-cta-lighter: rgb(var(--color-cta-lighter-rgb));
 
   --color-cta-gradient: linear-gradient(134.9deg, var(--color-cta-lighter) 25.04%, var(--color-cta) 94.59%);
+
+  // ── AspireHR brand palette (Brand Guidelines p.11) ──
+  --swatch: #6786b8; // primary use color
+  --color-aspire-blue-rgb: 103, 134, 184;
+  --color-aspire-blue: rgb(var(--color-aspire-blue-rgb));
+
+  --swatch: #ffb259; // secondary use color
+  --color-aspire-orange-rgb: 255, 178, 89;
+  --color-aspire-orange: rgb(var(--color-aspire-orange-rgb));
+
+  --swatch: #b68150; // accent — tan
+  --color-aspire-tan-rgb: 182, 129, 80;
+  --color-aspire-tan: rgb(var(--color-aspire-tan-rgb));
+
+  --swatch: #a67cb7; // accent — AspireHR purple (M3 secondary, Aspire Twilight)
+  --color-aspire-purple-rgb: 166, 124, 183;
+  --color-aspire-purple: rgb(var(--color-aspire-purple-rgb));
+
+  --swatch: #abd36e; // accent — green (guide misprints hex as #A10683; swatch+RGB are green)
+  --color-aspire-green-rgb: 171, 211, 110;
+  --color-aspire-green: rgb(var(--color-aspire-green-rgb));
 
   --swatch: #122e4d;
   --color-text-primary-rgb: 18, 46, 77;
@@ -78,4 +99,27 @@
   --font: 'Roboto';
 
   --application-menu-width: 286px;
+
+  // ══ Material Design 3 role tokens — Aspire Twilight ══
+  // Consumed by the new app shell + redesigned screens.
+  --m3-primary: #4e6e9e;             --m3-on-primary: #ffffff;
+  --m3-primary-container: #d5e2f4;   --m3-on-primary-container: #0e2a4a;
+  --m3-secondary: #a67cb7;           --m3-on-secondary: #2e1138;
+  --m3-secondary-container: #f0ddf6; --m3-on-secondary-container: #3a1747;
+  --m3-tertiary: #c9772a;            --m3-on-tertiary: #ffffff;
+  --m3-tertiary-container: #fce6cc;  --m3-on-tertiary-container: #4a2a07;
+  --m3-surface: #fbfbfe;
+  --m3-surface-container-low: #f2f3f9;
+  --m3-surface-container: #eceef6;
+  --m3-surface-container-high: #e5e8f1;
+  --m3-surface-container-highest: #dfe2ee;
+  --m3-on-surface: #122e4d;
+  --m3-on-surface-variant: #525c6e;
+  --m3-outline: #7c8595;
+  --m3-outline-variant: #cbd2dd;
+  --m3-success: #3f7e12;
+  --m3-warning: #c0791f;
+  --m3-danger: #b5302a;
+  --m3-state-hover: rgba(18, 46, 77, 0.08);
+  --m3-state-press: rgba(18, 46, 77, 0.10);
 }

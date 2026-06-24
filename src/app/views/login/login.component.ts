@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
   signInFormGroup = this.fb.group({
     email: ['', Validators.email],
     password: ['', Validators.required],
+    newPassword: ['', [Validators.required, Validators.minLength(8)]],
   });
 
   get email() {
@@ -103,14 +104,19 @@ export class LoginComponent implements OnInit {
       this.signInFormGroup.value.email,
       this.signInFormGroup.value.password
     ).subscribe({
-      next: (success) => {
+      next: (result) => {
         this.isLoading = false;
-        if (success) {
+        if (result === 'SUCCESS') {
           this.logoState = 'fast';
           setTimeout(() => {
             this.userService.initialize();
             this.router.navigateByUrl('/services/dashboard');
           }, 500);
+        } else if (result === 'NEW_PASSWORD_REQUIRED') {
+          // Temporary password accepted — prompt for a permanent one (step 2).
+          this.messages = '';
+          this.step = 2;
+          this.logoState = 'slow';
         } else {
           this.messages = 'Invalid username or password.';
           this.logoState = 'reverse';
@@ -130,6 +136,45 @@ export class LoginComponent implements OnInit {
         this.step = 0;
       }
     });
+  }
+
+  submitNewPassword() {
+    const newPassword = this.signInFormGroup.value.newPassword;
+    if (!newPassword || this.signInFormGroup.controls['newPassword'].invalid) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.messages = '';
+
+    this.auth.completeNewPassword(newPassword).subscribe({
+      next: (success) => {
+        this.isLoading = false;
+        if (success) {
+          this.logoState = 'fast';
+          setTimeout(() => {
+            this.userService.initialize();
+            this.router.navigateByUrl('/services/dashboard');
+          }, 500);
+        } else {
+          this.messages = this.auth.messages || 'Could not set a new password.';
+          this.logoState = 'reverse';
+          setTimeout(() => {
+            this.logoState = 'idle';
+          }, 1500);
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.messages = err.message || 'Could not set a new password.';
+      },
+    });
+  }
+
+  newPasswordOnEnter(event: KeyboardEvent) {
+    if (event.key === 'Enter' && this.signInFormGroup.controls['newPassword'].valid) {
+      this.submitNewPassword();
+    }
   }
 
   clearMessages() {

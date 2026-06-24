@@ -10,6 +10,8 @@ const poolData = {
 
 const userPool = new CognitoUserPool(poolData);
 
+export type AuthResult = 'SUCCESS' | 'FAILURE' | 'NEW_PASSWORD_REQUIRED';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -20,6 +22,7 @@ export class AuthService {
   private idToken: string = '';
   private accessToken: string = '';
   private refreshToken: string = '';
+  private pendingUser: CognitoUser | null = null;
   messages: string = '';
 
   constructor() {
@@ -36,8 +39,8 @@ export class AuthService {
     }
   }
 
-  authenticate(username: string, password: string): Observable<boolean> {
-    return new Observable<boolean>((observer) => {
+  authenticate(username: string, password: string): Observable<AuthResult> {
+    return new Observable<AuthResult>((observer) => {
       const authDetails = new AuthenticationDetails({
         Username: username,
         Password: password,
@@ -50,27 +53,65 @@ export class AuthService {
 
       cognitoUser.authenticateUser(authDetails, {
         onSuccess: (result: any) => {
-          this.idToken = result.getIdToken().getJwtToken();
-          this.accessToken = result.getAccessToken().getJwtToken();
-          this.refreshToken = result.getRefreshToken().getToken();
-          this.isAuthenticated.next(true);
+          this.storeSession(result);
           this.messages = '';
-          observer.next(true);
+          observer.next('SUCCESS');
           observer.complete();
         },
         onFailure: (err: any) => {
           this.messages = err.message || 'Authentication failed';
           this.isAuthenticated.next(false);
-          observer.next(false);
+          observer.next('FAILURE');
           observer.complete();
         },
-        newPasswordRequired: (userAttributes) => {
-          this.messages = 'New password required';
-          observer.next(false);
+        newPasswordRequired: (userAttributes: any) => {
+          // First sign-in with a temporary password: Cognito requires the user
+          // to set a permanent one. Stash the user so the component can complete it.
+          delete userAttributes.email_verified;
+          delete userAttributes.email;
+          this.pendingUser = cognitoUser;
+          this.messages = '';
+          observer.next('NEW_PASSWORD_REQUIRED');
           observer.complete();
         },
       });
     });
+  }
+
+  completeNewPassword(newPassword: string): Observable<boolean> {
+    return new Observable<boolean>((observer) => {
+      if (!this.pendingUser) {
+        this.messages = 'Session expired — please sign in again.';
+        observer.next(false);
+        observer.complete();
+        return;
+      }
+      this.pendingUser.completeNewPasswordChallenge(
+        newPassword,
+        {},
+        {
+          onSuccess: (result: any) => {
+            this.storeSession(result);
+            this.messages = '';
+            this.pendingUser = null;
+            observer.next(true);
+            observer.complete();
+          },
+          onFailure: (err: any) => {
+            this.messages = err.message || 'Could not set new password';
+            observer.next(false);
+            observer.complete();
+          },
+        }
+      );
+    });
+  }
+
+  private storeSession(result: any): void {
+    this.idToken = result.getIdToken().getJwtToken();
+    this.accessToken = result.getAccessToken().getJwtToken();
+    this.refreshToken = result.getRefreshToken().getToken();
+    this.isAuthenticated.next(true);
   }
 
   getIdToken(): string {

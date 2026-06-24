@@ -87,12 +87,47 @@
               class="primary"
               (click)="signin()"
               type="submit"
-              [class.disabled]="signInFormGroup.status !== 'VALID'"
-              [disabled]="signInFormGroup.status !== 'VALID'"
+              [class.disabled]="signInFormGroup.controls['email'].invalid || signInFormGroup.controls['password'].invalid"
+              [disabled]="signInFormGroup.controls['email'].invalid || signInFormGroup.controls['password'].invalid"
             >
               Sign In
             </button>
           </div>
+        </div>
+
+        <div class="step" *ngIf="step === 2" [@inOutAnimation]>
+          <p class="detail">Set a new password to finish signing in.</p>
+          <kendo-formfield>
+            <kendo-floatinglabel text="New Password">
+              <input
+                kendoTextBox
+                type="password"
+                formControlName="newPassword"
+                (focus)="messages = ''"
+                (keydown)="newPasswordOnEnter($event)"
+              />
+            </kendo-floatinglabel>
+            <div role="alert" class="k-form-error k-text-start ng-star-inserted">
+              <ng-container
+                *ngIf="
+                  signInFormGroup.controls['newPassword'].invalid &&
+                  (signInFormGroup.controls['newPassword'].dirty || signInFormGroup.controls['newPassword'].touched)
+                "
+              >
+                Error: Use at least 8 characters
+              </ng-container>
+              &nbsp;{{ messages }}
+            </div>
+          </kendo-formfield>
+          <button
+            class="primary"
+            (click)="submitNewPassword()"
+            type="submit"
+            [class.disabled]="signInFormGroup.controls['newPassword'].invalid"
+            [disabled]="signInFormGroup.controls['newPassword'].invalid"
+          >
+            Set Password &amp; Sign In
+          </button>
         </div>
       </div>
     </div>

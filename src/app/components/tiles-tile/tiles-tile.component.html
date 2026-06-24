@@ -1,6 +1,5 @@
-
-<div class="image-wrapper">
-  <img class="image" [src]="imagePath" [alt]="data.name + ' tile image'" />
+<div class="icon-wrapper">
+  <span class="tile-icon" [innerHTML]="iconSvg" aria-hidden="true"></span>
 </div>
 <div class="text">
   <div class="status-badges">
@@ -16,4 +15,3 @@
   <p class="description">{{ data.shortDescription | slice: 0:75 }}</p>
   <ng-content></ng-content>
 </div>
-

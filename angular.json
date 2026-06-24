@@ -51,16 +51,15 @@
               "src/assets"
             ],
             "styles": [
-              {
-                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
-              },
+              "src/styles/kendo-theme.scss",
               "src/styles/normalize.css",
               "src/styles/global.less",
               "src/styles/kendo.overrides.less"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/styles"
+                "src/styles",
+                "node_modules"
               ]
             },
             "scripts": []

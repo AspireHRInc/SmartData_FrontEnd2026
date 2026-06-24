@@ -1,6 +1,40 @@
 import { Component, OnInit, Input, HostListener, Output, EventEmitter, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Service, Tag } from 'src/app/services/services.service';
+import { SERVICE_ICONS } from './service-icons';
+
+// Map a service name to a standardized icon id (first keyword match wins).
+// Keeps the tile icons consistent across the (user-defined) service catalog.
+const ICON_KEYWORDS: ReadonlyArray<[string, string]> = [
+  ['heartbeat', 'monitoring'], ['monitor', 'monitoring'], ['health', 'monitoring'],
+  ['script', 'script'],
+  ['excel', 'excel'],
+  ['successfactor', 'successfactors-odata'], ['odata', 'successfactors-odata'],
+  ['sap', 'sap'],
+  ['sharepoint', 'sharepoint'],
+  ['sftp', 'sftp-directory'], ['ftp', 'sftp-directory'],
+  ['odbc', 'odbc'],
+  ['xml', 'xml'],
+  ['cloud', 'save-cloud'], ['connector', 'save-cloud'],
+  ['api', 'generic-api'],
+  ['import', 'import'],
+  ['backup', 'backup-locally'],
+  ['translat', 'translation'],
+  ['setting', 'settings'], ['config', 'settings'],
+  ['param', 'parameters'],
+  ['transform', 'file-transform'],
+  ['clone', 'objects'], ['copy', 'objects'], ['duplicate', 'objects'],
+  ['message', 'message'], ['notif', 'message'],
+  ['group', 'group'], ['user', 'group'], ['employee', 'group'], ['team', 'group'],
+  ['capture', 'data-analysis'], ['diamond', 'data-analysis'], ['analy', 'data-analysis'],
+  ['report', 'data-analysis'], ['research', 'data-analysis'], ['data', 'data-analysis'],
+  ['test', 'tools'], ['tool', 'tools'],
+  ['view', 'view'], ['i9', 'view'],
+  ['text', 'text'], ['local', 'localdata'],
+];
+
+const DEFAULT_ICON = 'data-analysis';
 
 @Component({
   selector: 'ss-tiles-tile',
@@ -18,40 +52,29 @@ export class TilesTileComponent implements OnInit {
   @HostBinding('attr.role') ariaRole = 'button';
 
   favorite = false;
-  imagePath = '';
+  iconSvg: SafeHtml = '';
 
-  private readonly tileImageMap: Record<string, string> = {
-    'Template Script': 'assets/images/tiles/template_script.jpg',
-    'EC Diamond Data Capture': 'assets/images/tiles/default.png',
-    'HeartBeat': 'assets/images/tiles/heartbeat.jpg',
-    'Test PT': 'assets/images/tiles/test_pt.jpg',
-    'Test SmartData Cloud Connector': 'assets/images/tiles/cloud_connector.jpg',
-    'Clone of Test PT': 'assets/images/tiles/clone_testpt.jpg',
-    'I9 Research': 'assets/images/tiles/i9_research.jpg',
-    'HeartBeat Clone': 'assets/images/tiles/default.png'
-  };
-
-  private readonly defaultImage = 'assets/images/tiles/default.jpg';
-
-  constructor(private router: Router) {}
+  constructor(private router: Router, private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.favorite = this.data.metaTags.find(tag => tag.name === 'Favorites') === undefined ? false : true;
-    this.imagePath = this.getDefaultImage(this.data.name);
+    const iconId = this.getIconName(this.data.name);
+    this.iconSvg = this.sanitizer.bypassSecurityTrustHtml(SERVICE_ICONS[iconId] || SERVICE_ICONS[DEFAULT_ICON]);
   }
 
-  getDefaultImage(serviceName: string): string {
-    return this.tileImageMap[serviceName] || this.defaultImage;
+  getIconName(serviceName: string): string {
+    const name = (serviceName || '').toLowerCase();
+    for (const [keyword, icon] of ICON_KEYWORDS) {
+      if (name.includes(keyword)) {
+        return icon;
+      }
+    }
+    return DEFAULT_ICON;
   }
 
   onFavorite(event: Event) {
     event.stopPropagation();
-
-    if (!this.favorite) {
-      this.favorite = true;
-    } else {
-      this.favorite = false;
-    }
+    this.favorite = !this.favorite;
     this.toggleFavorite.emit(this.data.metaTags);
   }
 

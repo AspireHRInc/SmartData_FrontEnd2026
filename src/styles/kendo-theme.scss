@@ -1,0 +1,23 @@
+// ============================================================
+// AspireHR · SmartData — Material Design 3 foundation
+// ------------------------------------------------------------
+// Kendo's "Material" theme, compiled from source and branded at
+// the theme level (the native way — no !important overrides).
+// Brand is applied as a "slice": AspireHR Blue -> M3 primary,
+// AspireHR Orange -> M3 secondary. All other Kendo components
+// inherit Material Design 3 styling automatically.
+// ============================================================
+
+// --- Primary: AspireHR Blue, deepened to M3 tone ~40 (Aspire Twilight) ---
+$primary:            #4e6e9e;
+$primary-lighter:    #6b87b1;
+$primary-darker:     #3a567f;
+$primary-contrast:   #ffffff;
+
+// --- Secondary: AspireHR Purple ---
+$secondary:          #a67cb7;
+$secondary-lighter:  #c0a0cd;
+$secondary-darker:   #875b9a;
+$secondary-contrast: #2e1138;
+
+@import "@progress/kendo-theme-material/scss/all.scss";
