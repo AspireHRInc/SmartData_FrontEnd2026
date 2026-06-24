@@ -1,10 +1,7 @@
 :host {
   display: grid;
-  background: rgba(var(--color-cta-rgb), 0.75) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(208, 223, 252, 0.3);
-  box-shadow: 0 0 40px rgba(208, 223, 252, 0.4), 0 0 80px rgba(208, 223, 252, 0.2);
+  background: var(--m3-surface-container-low);
+  border: 1px solid var(--m3-outline-variant);
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -14,18 +11,17 @@
     padding: 1rem;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid var(--m3-outline-variant);
 
     .title {
       display: flex;
       align-items: center;
-      font-weight: 700;
-      font-size: 0.875rem;
-      line-height: 1rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+      line-height: 1.2;
       margin: 0;
       white-space: nowrap;
-      color: white;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      color: var(--m3-on-surface);
 
       .spacer {
         margin-left: auto;
@@ -33,10 +29,10 @@
       }
 
       .step {
-        width: 1.4rem;
-        height: 1.4rem;
-        color: white;
-        background: rgba(255, 255, 255, 0.2);
+        width: 1.5rem;
+        height: 1.5rem;
+        color: var(--m3-on-primary);
+        background: var(--m3-primary);
         border-radius: 2rem;
         display: inline-flex;
         align-items: center;
@@ -47,11 +43,8 @@
       }
     }
 
-    .actions {
-      .button {
-        box-shadow: none;
-        color: red;
-      }
+    .actions .button {
+      box-shadow: none;
     }
   }
 
@@ -61,76 +54,58 @@
       border-radius: 50%;
       width: 1.625rem;
       height: 1.625rem;
-      border: 2px solid rgba(255, 255, 255, 0.5);
-      color: white !important;
+      border: 1px solid var(--m3-outline-variant);
+      color: var(--m3-on-surface-variant) !important;
       font-size: 1.2rem;
       font-weight: bold;
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: transparent;
     }
 
     .k-label,
-    .k-input,
-    .k-textbox,
-    .k-input-inner,
     label,
     .customizing-label,
     .k-checkbox-label,
     .k-radio-label,
-    kendo-label,
-    .k-floating-label-container {
-      color: white !important;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    kendo-label {
+      color: var(--m3-on-surface-variant) !important;
     }
 
     .k-input,
     .k-textbox,
-    .k-dropdown,
-    .k-combobox,
-    .k-dropdownlist,
-    .k-textbox .k-input-inner,
+    .k-input-inner,
     input.k-input-inner {
-      background: rgba(255, 255, 255, 0.08) !important;
-      border-color: rgba(255, 255, 255, 0.3) !important;
-      color: white !important;
+      background: var(--m3-surface) !important;
+      border-color: var(--m3-outline) !important;
+      color: var(--m3-on-surface) !important;
       border-radius: 0.5rem;
-    }
-
-    .k-input-inner {
-      color: white !important;
     }
 
     .k-input-inner::placeholder,
     input::placeholder {
-      color: rgba(255, 255, 255, 0.5) !important;
+      color: var(--m3-on-surface-variant) !important;
     }
 
     small {
-      color: rgba(255, 255, 255, 0.6);
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+      color: var(--m3-on-surface-variant);
     }
 
     .k-button.k-button-solid-primary,
     .k-button.k-button-solid.k-button-solid-primary,
     button[themecolor="primary"],
     button[themeColor="primary"] {
-      background: rgba(255, 255, 255, 0.1) !important;
-      background-color: rgba(255, 255, 255, 0.1) !important;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.4) !important;
+      background: var(--m3-primary) !important;
+      background-color: var(--m3-primary) !important;
+      border: none !important;
       border-radius: 3rem !important;
-      color: white !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      color: var(--m3-on-primary) !important;
+      box-shadow: 0 1px 2px rgba(18, 46, 77, 0.18) !important;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.2) !important;
-        background-color: rgba(255, 255, 255, 0.2) !important;
-        border-color: rgba(255, 255, 255, 0.6) !important;
+        filter: brightness(1.05);
       }
 
       .k-button-text {
-        color: white !important;
+        color: var(--m3-on-primary) !important;
       }
     }
   }
@@ -140,11 +115,10 @@
   }
 
   .title {
-    font-weight: 700;
-    font-size: 0.875rem;
-    line-height: 1rem;
-    color: white;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    font-weight: 500;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    color: var(--m3-on-surface);
   }
 
   .footer {
@@ -153,21 +127,17 @@
     padding: 1rem;
 
     .button {
-      height: 34px;
-      background: rgba(255, 255, 255, 0.1) !important;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.4) !important;
+      height: 40px;
+      background: var(--m3-primary) !important;
+      border: none !important;
       border-radius: 3rem !important;
-      color: white !important;
-      font-weight: 700;
-      text-transform: uppercase;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      color: var(--m3-on-primary) !important;
+      font-weight: 500;
+      text-transform: none;
+      box-shadow: 0 1px 2px rgba(18, 46, 77, 0.18);
 
       &:hover {
-        background: rgba(255, 255, 255, 0.2) !important;
-        border-color: rgba(255, 255, 255, 0.6) !important;
+        filter: brightness(1.05);
       }
 
       &.disabled {
@@ -177,4 +147,3 @@
     }
   }
 }
-

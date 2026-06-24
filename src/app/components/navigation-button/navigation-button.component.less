@@ -7,21 +7,21 @@
     font-size: 0.8125rem;
     line-height: 0.9375rem;
     text-transform: uppercase;
-    background: rgba(255, 255, 255, 0.05) !important;
+    background: var(--m3-surface-container) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid var(--m3-outline-variant) !important;
     border-radius: 3rem;
-    color: rgba(255, 255, 255, 0.7) !important;
+    color: var(--m3-on-surface-variant) !important;
     padding-left: min(2rem, 3vw);
     padding-right: min(2rem, 3vw);
   }
 
   &.active {
     .button {
-      background: rgba(255, 255, 255, 0.15) !important;
-      border: 1px solid rgba(255, 255, 255, 0.5) !important;
-      color: white !important;
+      background: var(--m3-surface-container) !important;
+      border: 1px solid var(--m3-outline-variant) !important;
+      color: var(--m3-on-surface) !important;
       box-shadow: none !important;
     }
   }

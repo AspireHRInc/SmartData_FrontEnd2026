@@ -1,10 +1,8 @@
 :host {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-cta-lighter) !important;
+  background-color: var(--m3-surface);
   min-height: 100vh;
-  max-height: 100vh;
-  overflow-y: auto;
   position: relative;
 
   &::before {
@@ -14,7 +12,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to bottom, transparent 0%, transparent 250px, #d0dffc 1000px);
+    background: none;
     z-index: 0;
     pointer-events: none;
   }
