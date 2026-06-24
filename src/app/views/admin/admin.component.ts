@@ -75,8 +75,8 @@ export class AdminComponent implements OnInit {
     this.userGroups = this.userService.userGroups;
     this.loadUserGroups();
 
-    this.services = this.servicesService.allServices[0].services;
-    this.environments = this.servicesService.evironments;
+    this.services = this.servicesService.allServices?.[0]?.services ?? [];
+    this.environments = this.servicesService.evironments ?? [];
 
     this.generateFormModel();
 
