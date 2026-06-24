@@ -6,8 +6,8 @@
   [staticData]="currentSetup"
   step="2"
 >
-  <kendo-label [for]="taskNameInput" text="Task Name" class="customizing-label" [formGroup]="formGroup" style="color: white !important; text-shadow: 0 1px 4px rgba(0,0,0,0.2);">
-    <input #taskNameInput kendoTextBox formControlName="taskName" placeholder="Name this run (optional)" style="color: white;" />
+  <kendo-label [for]="taskNameInput" text="Task Name" class="customizing-label" [formGroup]="formGroup" style="color: var(--m3-on-surface-variant) !important;">
+    <input #taskNameInput kendoTextBox formControlName="taskName" placeholder="Name this run (optional)" style="color: var(--m3-on-surface);" />
   </kendo-label>
   <ng-container actions></ng-container>
 </ss-field-group>

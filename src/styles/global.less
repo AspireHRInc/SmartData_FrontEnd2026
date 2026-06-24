@@ -9,19 +9,8 @@ h1, h2, h3, h4, h5, h6, p, button:not(.k-button), input, textarea {
   color: var(--color-text-primary);
 }
 
-ss-card *,
-ss-card h1, ss-card h2, ss-card h3, ss-card h4, ss-card h5, ss-card h6,
-ss-card p, ss-card label, ss-card input, ss-card textarea, ss-card small, ss-card span,
-ss-card .k-label, ss-card .k-input-inner,
-ss-card kendo-label,
-ss-card kendo-floatinglabel .k-label,
-ss-card .k-floating-label-container .k-label,
-ss-card .k-floating-label-container.k-empty .k-label,
-ss-card .k-floating-label-container.k-state-empty .k-label,
-ss-card .k-floating-label-container.k-focus .k-label,
-ss-card .k-floating-label-container.k-state-focused .k-label {
-  color: white !important;
-}
+// (Removed: global ss-card white-text override — card.component.less now styles
+// card text with proper M3 light-surface tokens.)
 
 h1 { font-size: clamp(2rem, 4vw, 3.125rem); }
 h2 { font-size: 1.75; }
@@ -161,15 +150,15 @@ kendo-popup.k-animation-container .k-popup,
 .k-child-animation-container .filter-popup.k-popup,
 .k-child-animation-container .k-popup.filter-popup,
 .k-animation-container > .k-child-animation-container > .k-popup {
-  background: rgba(var(--color-cta-rgb), 0.75) !important;
-  background-color: rgba(var(--color-cta-rgb), 0.75) !important;
+  background: var(--m3-surface-container-high) !important;
+  background-color: var(--m3-surface-container-high) !important;
   border: none !important;
   outline: none !important;
   border-radius: 8px !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
   padding: 1rem !important;
   overflow: visible !important;
-  color: white !important;
+  color: var(--m3-on-surface) !important;
 
   .content {
     background: transparent !important;
@@ -186,24 +175,24 @@ kendo-popup.k-animation-container .k-popup,
   .filter-item {
     background: transparent !important;
     padding: 0.5rem 0.3rem !important;
-    color: white !important;
+    color: var(--m3-on-surface) !important;
     border-radius: 4px !important;
     font-weight: 400 !important;
     font-size: 12px !important;
     line-height: 14px !important;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.15) !important;
+      background: var(--m3-surface-container) !important;
     }
 
     label, .k-checkbox-label {
-      color: white !important;
+      color: var(--m3-on-surface) !important;
     }
   }
 
   .k-checkbox, input[type="checkbox"] {
-    border: 2px solid white !important;
-    background: rgba(255, 255, 255, 0.2) !important;
+    border: 2px solid var(--m3-outline) !important;
+    background: var(--m3-surface-container) !important;
     width: 16px !important;
     height: 16px !important;
     border-radius: 3px !important;
@@ -211,8 +200,8 @@ kendo-popup.k-animation-container .k-popup,
     -webkit-appearance: none !important;
 
     &:checked, &.k-checked {
-      background: white !important;
-      border-color: white !important;
+      background: var(--m3-primary) !important;
+      border-color: var(--m3-on-surface) !important;
     }
   }
 
@@ -225,21 +214,21 @@ kendo-popup.k-animation-container .k-popup,
     align-items: center !important;
 
     label {
-      color: white !important;
+      color: var(--m3-on-surface) !important;
     }
 
     .k-input, .k-dateinput, .k-datepicker, .k-input-sm {
-      background: rgba(255, 255, 255, 0.08) !important;
-      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      background: var(--m3-surface) !important;
+      border: 1px solid var(--m3-outline-variant) !important;
       border-radius: 3rem !important;
-      color: white !important;
+      color: var(--m3-on-surface) !important;
 
       .k-input-inner {
-        color: white !important;
+        color: var(--m3-on-surface) !important;
       }
 
       .k-button, .k-select {
-        color: white !important;
+        color: var(--m3-on-surface) !important;
         background: transparent !important;
         border: none !important;
       }
@@ -247,68 +236,68 @@ kendo-popup.k-animation-container .k-popup,
 
     .clear {
       margin-left: auto !important;
-      background: rgba(255, 255, 255, 0.08) !important;
-      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      background: var(--m3-surface) !important;
+      border: 1px solid var(--m3-outline-variant) !important;
       border-radius: 3rem !important;
-      color: white !important;
+      color: var(--m3-on-surface) !important;
       padding: 0.4rem 1rem !important;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.15) !important;
+        background: var(--m3-surface-container) !important;
       }
     }
   }
 
   kendo-multiviewcalendar,
   .k-calendar {
-    background: rgba(var(--color-cta-rgb), 0.75) !important;
+    background: var(--m3-surface-container-high) !important;
     border: none !important;
     border-radius: 8px !important;
-    color: white !important;
+    color: var(--m3-on-surface) !important;
 
     .k-header, .k-calendar-header {
       background: transparent !important;
-      color: white !important;
+      color: var(--m3-on-surface) !important;
     }
 
     .k-button {
-      color: white !important;
+      color: var(--m3-on-surface) !important;
       background: transparent !important;
     }
 
     .k-content, .k-calendar-view {
       background: transparent !important;
-      color: white !important;
+      color: var(--m3-on-surface) !important;
     }
 
     .k-today {
-      color: white !important;
+      color: var(--m3-on-surface) !important;
       font-weight: 700 !important;
     }
 
     td, .k-calendar-td {
-      color: white !important;
+      color: var(--m3-on-surface) !important;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.15) !important;
+        background: var(--m3-surface-container) !important;
       }
 
       &.k-selected, &.k-range-start, &.k-range-end {
-        background: rgba(255, 255, 255, 0.3) !important;
-        color: white !important;
+        background: var(--m3-surface-container) !important;
+        color: var(--m3-on-surface) !important;
       }
 
       &.k-range-mid {
-        background: rgba(255, 255, 255, 0.15) !important;
+        background: var(--m3-surface-container) !important;
       }
     }
 
     .k-weekend {
-      color: rgba(255, 255, 255, 0.7) !important;
+      color: var(--m3-on-surface-variant) !important;
     }
 
     .k-other-month {
-      color: rgba(255, 255, 255, 0.4) !important;
+      color: var(--m3-on-surface-variant) !important;
     }
   }
 }
@@ -327,30 +316,30 @@ body > .k-overlay,
 .k-dialog-wrapper {
   z-index: 10001 !important;
   .k-window {
-    background: rgba(255, 255, 255, 0.08) !important;
+    background: var(--m3-surface) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(208, 223, 252, 0.3) !important;
+    border: 1px solid var(--m3-outline-variant) !important;
     border-radius: 16px !important;
     box-shadow: 0 0 60px rgba(208, 223, 252, 0.3), 0 8px 32px rgba(0, 0, 0, 0.3) !important;
     overflow: hidden !important;
   }
   .k-window-titlebar, .k-dialog-titlebar {
     background: transparent !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-    color: white !important;
+    border-bottom: 1px solid var(--m3-outline-variant) !important;
+    color: var(--m3-on-surface) !important;
     .k-window-title, .k-dialog-title {
-      color: white !important; font-weight: 700 !important;
+      color: var(--m3-on-surface) !important; font-weight: 700 !important;
       text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
     }
     .k-button {
-      color: white !important;
-      &:hover { background: rgba(255, 255, 255, 0.15) !important; border-radius: 50%; }
+      color: var(--m3-on-surface) !important;
+      &:hover { background: var(--m3-surface-container) !important; border-radius: 50%; }
     }
   }
   .k-window-content, .k-dialog-content {
     background: transparent !important;
-    color: white !important;
+    color: var(--m3-on-surface) !important;
   }
 }
 

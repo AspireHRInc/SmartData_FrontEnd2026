@@ -3,7 +3,7 @@
 
   ::ng-deep {
   .k-overlay {
-    background: rgba(0, 20, 60, 0.85) !important;
+    background: var(--m3-surface) !important;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(12px) !important;
     z-index: 9999;
@@ -15,7 +15,7 @@
 
 
     .k-window {
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--m3-surface-container);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(208, 223, 252, 0.3);
@@ -28,12 +28,12 @@
     .k-dialog-titlebar {
       background: transparent;
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      color: white;
+      color: var(--m3-on-surface);
       padding: 1rem 1.5rem;
 
       .k-window-title,
       .k-dialog-title {
-        color: white;
+        color: var(--m3-on-surface);
         font-weight: 700;
         font-size: 1.1rem;
         text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
@@ -42,12 +42,12 @@
       .k-window-actions,
       .k-dialog-actions {
         .k-button {
-          color: white;
+          color: var(--m3-on-surface);
           opacity: 0.8;
 
           &:hover {
             opacity: 1;
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--m3-surface-container);
             border-radius: 50%;
           }
         }
@@ -57,7 +57,7 @@
     .k-window-content,
     .k-dialog-content {
       background: transparent;
-      color: white;
+      color: var(--m3-on-surface);
       padding: 1.5rem;
     }
   }
@@ -70,10 +70,10 @@
 }
 
 .results-section {
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--m3-outline-variant);
   border-radius: 10px;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--m3-surface-container);
 
   .section-title {
     margin: 0 0 12px 0;
@@ -81,7 +81,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--m3-on-surface-variant);
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
@@ -100,7 +100,7 @@
   label {
     font-weight: 500;
     min-width: 160px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--m3-on-surface-variant);
     font-size: 13px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
@@ -108,14 +108,14 @@
   .result-text {
     margin: 0;
     font-size: 14px;
-    color: white;
+    color: var(--m3-on-surface);
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
   .result-button {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    background: var(--m3-surface-container);
+    border: 1px solid var(--m3-outline-variant);
+    color: var(--m3-on-surface);
     border-radius: 3rem;
     padding: 0.4rem 1rem;
     font-weight: 600;
@@ -124,20 +124,20 @@
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 
     &:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--m3-surface-container);
     }
   }
 }
 
 .no-params {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--m3-on-surface-variant);
   font-style: italic;
 }
 
 .loading {
   padding: 20px;
   text-align: center;
-  color: white;
+  color: var(--m3-on-surface);
 }
 
 .error {
