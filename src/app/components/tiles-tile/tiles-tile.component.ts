@@ -28,7 +28,12 @@ export class TilesTileComponent implements OnInit {
     'Test SmartData Cloud Connector': 'assets/images/tiles/cloud_connector.jpg',
     'Clone of Test PT': 'assets/images/tiles/clone_testpt.jpg',
     'I9 Research': 'assets/images/tiles/i9_research.jpg',
-    'HeartBeat Clone': 'assets/images/tiles/default.png'
+    'HeartBeat Clone': 'assets/images/tiles/default.png',
+    'ApexTools PBP Report': 'assets/images/tiles/pbpreport.jpg',
+    'Production Conversion': 'assets/images/tiles/prod_conversion.jpg',
+    'UAT Conversion': 'assets/images/tiles/uat_conversion.jpg',
+    'LMS History Conversion': 'assets/images/tiles/lms_history.jpg',
+    'ApexTools Summit Report': 'assets/images/tiles/summit_report.jpg',
   };
 
   private readonly defaultImage = 'assets/images/tiles/default.jpg';
