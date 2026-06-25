@@ -279,19 +279,38 @@
 
     .k-checkbox,
     input[type="checkbox"] {
-      border: 2px solid white !important;
-      background: var(--m3-surface-container-low) !important;
-      width: 16px !important;
-      height: 16px !important;
-      border-radius: 3px !important;
+      position: relative;
+      border: 2px solid var(--m3-outline) !important;
+      background: var(--m3-surface) !important;
+      width: 18px !important;
+      height: 18px !important;
+      border-radius: 4px !important;
       appearance: none !important;
       -webkit-appearance: none !important;
       cursor: pointer;
+      flex: 0 0 auto;
+
+      &:hover {
+        border-color: var(--m3-primary) !important;
+      }
 
       &:checked,
       &.k-checked {
-        background: white !important;
-        border-color: var(--m3-on-surface) !important;
+        background: var(--m3-primary) !important;
+        border-color: var(--m3-primary) !important;
+
+        // white checkmark (drawn manually since native appearance is removed)
+        &::after {
+          content: "";
+          position: absolute;
+          left: 4px;
+          top: 0px;
+          width: 5px;
+          height: 9px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+        }
       }
     }
 
