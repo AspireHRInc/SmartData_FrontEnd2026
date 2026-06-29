@@ -27,6 +27,7 @@ export class Service {
   id = '0';
   name = '';
   imagePath = '';
+  imageJpgBase64 = '';
   weighting = 0;
   subscribed = false;
   displayTags: Tag[] = [];
@@ -95,30 +96,6 @@ export class ServicesService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  /*private getHeaders(): HttpHeaders {
-    const keys = Object.keys(localStorage);
-    const idTokenKey = keys.find(k => k.includes('idToken'));
-    const token = idTokenKey ? localStorage.getItem(idTokenKey) || '' : '';
-
-    if (!token) {
-      console.warn('Token not available yet');
-      return new HttpHeaders({ Authorization: '', Partition: '' });
-    }
-
-    const parts = token.split('.');
-    if (parts.length !== 3) {
-      return new HttpHeaders({ Authorization: `Bearer ${token}`, Partition: '' });
-    }
-
-    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
-    const partition = (payload['custom:Org'] || '').replace(/#$/, '');
-
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      Partition: partition,
-    });
-  }*/
-
   //get a new token from auth service each time to ensure we have the latest token with partition info
   private getHeaders(): HttpHeaders {
     const token = this.authService.getIdToken(); //get the latest token from auth service
@@ -174,13 +151,14 @@ export class ServicesService {
 
         const items = (response.Items || []).filter((item: any) => {
           const sk = item.SK || '';
-          return sk !== 'CPT#CPT' && item.name && (item.status || '').toLowerCase() != 'inactive';
+          return sk !== 'CPT#CPT' && item.name && (item.status || '').toLowerCase() !== 'inactive';
         });
 
         const services: Service[] = items.map((item: any) => ({
           id: item.SK || item.id || '0',
           name: item.name || item.processTypeName || '',
           imagePath: this.getDefaultImage(item.name || item.processTypeName || ''),
+          imageJpgBase64: '',
           weighting: 0,
           subscribed: true,
           displayTags: (item.tags || []).map((t: any) => ({ id: t.id || '0', name: t.name || t })),
@@ -202,6 +180,10 @@ export class ServicesService {
         this.allServices = [category];
         this.defaultServices = [category];
         this.loading = false;
+
+        // The /CPT/list response is thin and does NOT include imageJpgBase64.
+        // Fetch each CPT's detail to pull in its base64 image, then let the tile re-render.
+        this.enrichImages(services);
       },
       (error) => {
         console.error('Error loading process types:', error);
@@ -213,6 +195,26 @@ export class ServicesService {
         }
       }
     );
+  }
+
+  // Lazily enrich each service tile with its base64 image from the CPT detail endpoint.
+  // /CPT/{id} returns the full item (incl. imageJpgBase64) under response.Items[0].
+  private enrichImages(services: Service[]): void {
+    services.forEach((svc) => {
+      const uuid = (svc.id || '').includes('#') ? svc.id.split('#')[1] : svc.id;
+      if (!uuid || uuid === '0') return;
+
+      this.http.get<any>(`${this.baseUrl}/CPT/${uuid}`, { headers: this.getHeaders() }).subscribe(
+        (detail) => {
+          const item = detail?.Items?.[0] || detail;
+          if (item?.imageJpgBase64) {
+            // Mutating the same object the tile is bound to triggers a re-render.
+            svc.imageJpgBase64 = item.imageJpgBase64;
+          }
+        },
+        (err) => console.warn(`Could not load image for ${svc.name}:`, err?.status || err)
+      );
+    });
   }
 
   getServices() {
@@ -361,4 +363,3 @@ export class ServicesService {
     this.currentFilters = [];
   }
 }
-

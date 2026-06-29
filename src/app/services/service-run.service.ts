@@ -548,6 +548,7 @@ export class ServiceRunService {
   getProcessDetails(processId: string): Observable<any> {
     const headers = this.getMinimalHeaders();
     const uuid = processId.includes('#') ? processId.split('#')[1] : processId;
+
     console.log('Fetching process details for UUID:', uuid);
     return this.http.get<any>(`${this.baseUrl}/Process/${uuid}`, { headers });
   }
