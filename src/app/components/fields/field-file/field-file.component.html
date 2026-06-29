@@ -11,7 +11,7 @@
 >
   <kendo-label class="label" [formGroup]="formGroup" [text]="parameters.Caption">
     <span class="required" *ngIf="parameters.Required">*</span>
-    <button
+    <!--<button
       class="info"
       [tabindex]="0"
       (click)="toggleToolTip(anchor)"
@@ -19,7 +19,7 @@
       type="button"
     >
       ?
-    </button>
+    </button>-->
     <kendo-upload
       [saveUrl]="parameters.UploadSaveUrl!"
       [removeUrl]="parameters.UploadRemoveUrl!"
