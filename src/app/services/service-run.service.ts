@@ -317,7 +317,7 @@ export class ServiceRunService {
     if (!referencedObjects?.ssObjectKey) return '';
 
     const ssObjectKey = referencedObjects.ssObjectKey;
-    const spMatch = ssObjectKey.match(/ScheduledProcess#[a-f0-9-]+/);
+    const spMatch = ssObjectKey.match(/CPT#[a-f0-9-]+/);
     if (!spMatch) return '';
 
     const spKey = spMatch[0];
@@ -338,7 +338,7 @@ export class ServiceRunService {
     if (!referencedObjects?.ssObjectKey) return '';
 
     const ssObjectKey = referencedObjects.ssObjectKey;
-    const spMatch = ssObjectKey.match(/ScheduledProcess#[a-f0-9-]+/);
+    const spMatch = ssObjectKey.match(/CPT#[a-f0-9-]+/);
     if (!spMatch) return '';
 
     return spMatch[0];
@@ -383,7 +383,7 @@ export class ServiceRunService {
           const matchedService = serviceGroup.services.find((s: any) => {
             if (this.toSlug(s.name) === targetSlug) return true;
             if (s.id === targetId) return true;
-            const bareId = (s.id || '').replace('ScheduledProcess#', '');
+            const bareId = (s.id || '').replace('CPT#', '');
             if (bareId === targetId) return true;
             return false;
           });
@@ -398,7 +398,7 @@ export class ServiceRunService {
       return this.serviceRuns.filter(run => {
         if (!run.serviceId && !run.serviceName) return false;
         return run.serviceId === targetId ||
-          run.serviceId.replace('ScheduledProcess#', '') === targetId ||
+          run.serviceId.replace('CPT#', '') === targetId ||
           this.toSlug(run.serviceName) === targetSlug;
       });
     }

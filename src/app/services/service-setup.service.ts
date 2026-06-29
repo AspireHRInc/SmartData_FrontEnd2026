@@ -399,7 +399,7 @@ loadServiceSetup(processItem: any): void {
     console.log('currentServiceSetup values:', this.currentServiceSetup.map(f => ({ name: f.ParameterName, value: f.value })));
 
     return this.http.post<any>(
-      `${this.apiBase}/ScheduledProcess/${uuid}/executeProcess`,
+      `${this.apiBase}/CPT/${uuid}/executeProcess`,
       body,
       { headers }
     );

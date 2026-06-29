@@ -168,13 +168,13 @@ export class ServicesService {
   private loadProcessTypes(): void {
     const headers = this.getHeaders();
 
-    this.http.get<any>(`${this.baseUrl}/ScheduledProcess/list`, { headers }).subscribe(
+    this.http.get<any>(`${this.baseUrl}/CPT/list`, { headers }).subscribe(
       (response) => {
         console.log('Process list response:', response);
 
         const items = (response.Items || []).filter((item: any) => {
           const sk = item.SK || '';
-          return sk !== 'ScheduledProcess#ScheduledProcess' && item.name;
+          return sk !== 'CPT#CPT' && item.name;
         });
 
         const services: Service[] = items.map((item: any) => ({
@@ -321,7 +321,7 @@ export class ServicesService {
     }
 
     return this.http.put<any>(
-      `${this.baseUrl}/ScheduledProcess/${serviceId}`,
+      `${this.baseUrl}/CPT/${serviceId}`,
       { tags: tags },
       { headers: this.getHeaders() }
     );
@@ -340,7 +340,7 @@ export class ServicesService {
   }
 
   getProcessDetails(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/ScheduledProcess/${id}`, { headers: this.getHeaders() });
+    return this.http.get(`${this.baseUrl}/CPT/${id}`, { headers: this.getHeaders() });
   }
 
   getProcessTypeVersion(ssObjectKey: string): Observable<any> {
