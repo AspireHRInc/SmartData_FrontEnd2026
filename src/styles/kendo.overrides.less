@@ -203,18 +203,20 @@ body kendo-calendar,
     color: white !important;
   }
 
-  .k-calendar-weekdays,
-  .k-calendar-thead,
-  thead,
-  th {
-    background: transparent !important;
-    color: rgba(255, 255, 255, 0.6) !important;
-    padding: 1rem 1rem !important;
+.k-calendar-weekdays,
+.k-calendar-thead {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.6) !important;
 
-      th, td {
-      padding: 0.5rem !important;
-    }
+  th, td {
+    padding: 0.5rem !important;
   }
+}
+
+thead, th {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
 
   .k-calendar-header, .k-calendar-title, .k-title { color: white !important; }
   .k-calendar-td, td { color: white !important; &:hover { background: rgba(255, 255, 255, 0.15) !important; } &.k-selected, &.k-state-selected { background: var(--color-cta-lighter) !important; color: white !important; } }
