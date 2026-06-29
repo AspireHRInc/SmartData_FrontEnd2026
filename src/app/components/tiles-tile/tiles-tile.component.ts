@@ -21,6 +21,7 @@ export class TilesTileComponent implements OnInit {
   imagePath = '';
 
   private readonly tileImageMap: Record<string, string> = {
+    /*
     'Template Script': 'assets/images/tiles/template_script.jpg',
     'EC Diamond Data Capture': 'assets/images/tiles/default.png',
     'HeartBeat': 'assets/images/tiles/heartbeat.jpg',
@@ -34,6 +35,7 @@ export class TilesTileComponent implements OnInit {
     'UAT Conversion': 'assets/images/tiles/uat_conversion.jpg',
     'LMS History Conversion': 'assets/images/tiles/lms_history.jpg',
     'Summit Report': 'assets/images/tiles/summit_report.jpg',
+    */
   };
 
   private readonly defaultImage = 'assets/images/tiles/default.jpg';
@@ -41,9 +43,16 @@ export class TilesTileComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.favorite = this.data.metaTags.find(tag => tag.name === 'Favorites') === undefined ? false : true;
-    this.imagePath = this.getDefaultImage(this.data.name);
+  this.favorite = this.data.metaTags.find(tag => tag.name === 'Favorites') !== undefined;
+  this.imagePath = this.getTileImage();
+}
+
+getTileImage(): string {
+  if (this.data.imageJpgBase64) {
+    return `data:image/jpeg;base64,${this.data.imageJpgBase64}`;
   }
+  return this.tileImageMap[this.data.name] || this.defaultImage;
+}
 
   getDefaultImage(serviceName: string): string {
     return this.tileImageMap[serviceName] || this.defaultImage;

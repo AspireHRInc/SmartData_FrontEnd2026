@@ -179,7 +179,7 @@ loadServiceSetup(processItem: any): void {
   console.log('loadServiceSetup called with:', processItem);
 
   this.currentProcessItem = processItem;
-
+  
   const inputParams = processItem.inputParameters || processItem.InputParameters || [];
   console.log('Input parameters found:', inputParams);
 
@@ -387,10 +387,13 @@ loadServiceSetup(processItem: any): void {
     const headers = this.getHeaders();
 
     const body = {
-      inputParameters: filledParams,
-      myTag: processItem.myTags || processItem.tags || '',
-      name: taskName || processItem.name || ''
-    };
+  inputParameters: filledParams,
+  myTag: processItem.myTags || processItem.tags || '',
+  name: taskName || processItem.name || '',
+  imageJpgBase64: processItem.imageJpgBase64 || '',
+  start: processItem.start || '',
+  finish: processItem.finish || ''
+};
 
     console.log('Executing process:', processItem.name);
     console.log('Task name:', taskName);
