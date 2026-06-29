@@ -174,7 +174,7 @@ export class ServicesService {
 
         const items = (response.Items || []).filter((item: any) => {
           const sk = item.SK || '';
-          return sk !== 'CPT#CPT' && item.name;
+          return sk !== 'CPT#CPT' && item.name && (item.status || '').toLowerCase() != 'inactive';
         });
 
         const services: Service[] = items.map((item: any) => ({
