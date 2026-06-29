@@ -11,7 +11,7 @@
 >
   <kendo-label class="label" [text]="parameters.Caption" [formGroup]="formGroup">
     <span class="required" *ngIf="parameters.Required">*</span>
-    <button
+    <!--<button
       class="info"
       [tabindex]="0"
       (click)="toggleToolTip(anchor)"
@@ -19,7 +19,7 @@
       type="button"
     >
       ?
-    </button>
+    </button>-->
     <kendo-datepicker
       [(value)]="value"
       [format]="localizationService.dateFormat"
