@@ -181,9 +181,10 @@ export class ServicesService {
         this.defaultServices = [category];
         this.loading = false;
 
-        // The /CPT/list response is thin and does NOT include imageJpgBase64.
-        // Fetch each CPT's detail to pull in its base64 image, then let the tile re-render.
-        this.enrichImages(services);
+        // The /CPT/list response is thin: no imageJpgBase64 and no start/finish.
+        // Fetch each CPT's detail to (a) pull in its base64 image and
+        // (b) hide tiles that aren't currently active (start <= now <= finish).
+        this.enrichTiles(services, category);
       },
       (error) => {
         console.error('Error loading process types:', error);
@@ -197,9 +198,11 @@ export class ServicesService {
     );
   }
 
-  // Lazily enrich each service tile with its base64 image from the CPT detail endpoint.
-  // /CPT/{id} returns the full item (incl. imageJpgBase64) under response.Items[0].
-  private enrichImages(services: Service[]): void {
+  // Lazily enrich each tile from the CPT detail endpoint (/CPT/{id} -> Items[0]):
+  //   - set imageJpgBase64 so the tile renders its real image
+  //   - drop the tile if it is not currently active (start <= now <= finish)
+  // Tiles render immediately from the list, then update/remove as detail calls return.
+  private enrichTiles(services: Service[], category: ServiceCategory): void {
     services.forEach((svc) => {
       const uuid = (svc.id || '').includes('#') ? svc.id.split('#')[1] : svc.id;
       if (!uuid || uuid === '0') return;
@@ -207,14 +210,37 @@ export class ServicesService {
       this.http.get<any>(`${this.baseUrl}/CPT/${uuid}`, { headers: this.getHeaders() }).subscribe(
         (detail) => {
           const item = detail?.Items?.[0] || detail;
-          if (item?.imageJpgBase64) {
-            // Mutating the same object the tile is bound to triggers a re-render.
+          if (!item) return;
+
+          // image
+          if (item.imageJpgBase64) {
             svc.imageJpgBase64 = item.imageJpgBase64;
           }
+
+          // currently-active check: start <= now <= finish
+          const now = Date.now();
+          const start = item.start ? new Date(item.start).getTime() : NaN;
+          const finish = item.finish ? new Date(item.finish).getTime() : NaN;
+          const active = !isNaN(start) && !isNaN(finish) && start <= now && now <= finish;
+
+          if (!active) {
+            this.removeService(svc, category);
+          }
         },
-        (err) => console.warn(`Could not load image for ${svc.name}:`, err?.status || err)
+        (err) => console.warn(`Could not load detail for ${svc.name}:`, err?.status || err)
       );
     });
+  }
+
+  // Remove a service from the live category and the cached list/default arrays.
+  private removeService(svc: Service, category: ServiceCategory): void {
+    category.services = category.services.filter(s => s.id !== svc.id);
+    if (this.allServices[0]) {
+      this.allServices[0].services = this.allServices[0].services.filter(s => s.id !== svc.id);
+    }
+    if (this.defaultServices[0]) {
+      this.defaultServices[0].services = this.defaultServices[0].services.filter(s => s.id !== svc.id);
+    }
   }
 
   getServices() {
