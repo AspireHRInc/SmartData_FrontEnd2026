@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop
     paths-ignore:
       - '*.md'
       - '.devcontainer/**'
@@ -32,14 +33,14 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ github.ref == 'refs/heads/main' && secrets.AWS_ACCESS_KEY_ID_PROD || secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ github.ref == 'refs/heads/main' && secrets.AWS_SECRET_ACCESS_KEY_PROD || secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
       - name: Sync to S3
-        run: aws s3 sync dist/smart-suite/ s3://smartdata-frontend-nonprod/ --delete
+        run: aws s3 sync dist/smart-suite/ s3://${{ github.ref == 'refs/heads/main' && 'smartdata-frontend-prod' || 'smartdata-frontend-nonprod' }}/ --delete
 
       - name: Invalidate CloudFront cache
-        run: aws cloudfront create-invalidation --distribution-id ELZ7Z4MD60FWW --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id ${{ github.ref == 'refs/heads/main' && 'E3HQYZ7L17LXV1' || 'ELZ7Z4MD60FWW' }} --paths "/*"
         env:
           AWS_DEFAULT_REGION: us-east-1
