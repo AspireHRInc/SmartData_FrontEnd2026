@@ -17,6 +17,10 @@
     position: relative;
     background: none;
 
+    > .panel .title {
+      color: #434345;
+    }
+
     > .panel .title em {
       background: linear-gradient(
         135deg,
@@ -83,6 +87,7 @@
       .detail {
         font-size: 1.05rem;
         color: #6b7280;
+        margin-top: -1rem;
         text-shadow: 0 1px 3px rgba(255, 0, 242, 0.1);
       }
     }
@@ -125,7 +130,7 @@
         text-align: center;
         padding: 2rem;
         border-radius: 12px;
-        box-shadow: 0 0 40px rgba(var(--color-cta-rgb), 1), 0 0 80px rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 40px rgba(rgb(0, 0, 0), .5), 0 0 80px rgba(255, 255, 255, 0.2);
         z-index: 1;
 
         .panel {
@@ -137,8 +142,8 @@
 
           .title {
             margin-bottom: 0.5rem;
-            color: white;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            color: rgb(67, 67, 69);
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0);
           }
 
           .k-floating-label-container {
@@ -148,8 +153,8 @@
 
           kendo-floatinglabel {
             overflow: visible;
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow: 0 1px 3px rgba(255, 0, 0, 0.2);
+            color: rgba(67, 67, 69, 0.8);
+            text-shadow: 0 1px 3px rgba(67, 67, 69, 0.2);
           }
 
           kendo-formfield {
@@ -159,11 +164,11 @@
           .k-textbox,
           .k-input {
             overflow: visible;
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            background: rgba(67, 67, 69, 0.05) !important;
+            border: 1px solid rgba(67, 67, 69, 0.3) !important;
             border-radius: 3rem !important;
-            color: white !important;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            color: rgb(67, 67, 69) !important;
+            text-shadow: 0 1px 3px rgba(67, 67, 69, 0.2);
 
             &::placeholder {
               color: rgba(255, 255, 255, 0.6);
@@ -197,15 +202,15 @@
                 padding-right: clamp(1rem, 5vw, 4.5rem);
                 padding-left: clamp(1rem, 5vw, 4.5rem);
                 background: rgba(255, 255, 255, 0.15);
-                border: 1px solid rgba(255, 255, 255, 0.4);
+                border: 1px solid rgba(67, 67, 69, 0.4);
                 border-radius: 3rem;
-                color: white;
+                color: rgb(67, 67, 69);
                 font-weight: 600;
                 cursor: pointer;
                 box-shadow: none !important;
 
                 &:hover {
-                  background: rgba(255, 255, 255, 0.25);
+                  background: white;
                 }
 
                 &.disabled {
@@ -222,9 +227,9 @@
                 align-items: stretch;
 
                 .back {
-                  background: rgba(255, 255, 255, 0.05);
+                  background: rgba(67, 67, 69, 0.05);
                   border: 1px solid rgba(255, 255, 255, 0.3);
-                  color: white;
+                  color: #434345;
                   cursor: pointer;
                   padding: 0.5rem 1.25rem;
                   border-radius: 3rem;
@@ -245,16 +250,17 @@
                   align-self: auto;
                   padding-right: clamp(1rem, 5vw, 4.5rem);
                   padding-left: clamp(1rem, 5vw, 4.5rem);
-                  background: rgba(255, 255, 255, 0.15);
+                  background: rgba(67, 67, 69, 0.15);
                   border: 1px solid rgba(255, 255, 255, 0.4);
                   border-radius: 3rem;
-                  color: white;
+                  color: #434345;
                   font-weight: 600;
                   cursor: pointer;
                   box-shadow: none !important;
 
                   &:hover {
-                    background: rgba(255, 255, 255, 0.25);
+                    border-color: rgba(255, 255, 255, 0.6);
+                    background: rgba(255, 255, 255, 0.15);
                   }
 
                   &.disabled {
