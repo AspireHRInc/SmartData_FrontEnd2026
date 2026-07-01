@@ -1,6 +1,6 @@
 
 <div class="image-wrapper">
-  <img class="image" [src]="imagePath" [alt]="data.name + ' tile image'" />
+  <img class="image" [src]="imagePath" [alt]="data.name + ' tile image'" (error)="onImageError($event)" />
 </div>
 <div class="text">
   <div class="status-badges">
