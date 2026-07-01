@@ -38,7 +38,7 @@ export class TilesTileComponent implements OnInit {
     */
   };
 
-  private readonly defaultImage = 'assets/images/tiles/default.jpg';
+  private readonly defaultImage = 'assets/images/tiles/test_pt.jpg';
 
   constructor(private router: Router) {}
 
@@ -85,5 +85,9 @@ getTileImage(): string {
         this.router.navigate(['/services', slug, 'detail', 'setup']);
       }
     }
+  }
+
+  onImageError(event: Event): void {
+    (event.target as HTMLImageElement).src = this.defaultImage;
   }
 }
