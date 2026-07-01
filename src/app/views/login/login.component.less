@@ -17,6 +17,20 @@
     position: relative;
     background: none;
 
+    > .panel .title em {
+      background: linear-gradient(
+        135deg,
+        #FFB259 0%,
+        #BB83CA 30%,
+        #6786B8 55%,
+        rgb(171, 211, 110) 100%,
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
     ss-icon-logo-dark {
       position: absolute;
       top: max(1rem, 4vh);
@@ -78,7 +92,7 @@
       overflow: visible;
 
       .background {
-        width: 90vw;
+        width: 50vw;
         position: absolute;
         z-index: 0;
         left: 50%;
@@ -100,7 +114,7 @@
       }
 
       .login {
-        background: rgba(0, 127, 255, 0.75);
+        background: rgba(var(--color-cta-rgb), .85);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -111,7 +125,7 @@
         text-align: center;
         padding: 2rem;
         border-radius: 12px;
-        box-shadow: 0 0 40px rgba(0, 127, 255, 0.8), 0 0 80px rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 40px rgba(var(--color-cta-rgb), 1), 0 0 80px rgba(255, 255, 255, 0.2);
         z-index: 1;
 
         .panel {
