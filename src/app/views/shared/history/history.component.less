@@ -1,3 +1,13 @@
+::ng-deep kendo-chunkprogressbar .k-progressbar-chunk {
+  border-color: rgb(67, 67, 69) !important;
+  border-width: 1px !important;
+}
+
+::ng-deep .k-chunk-progressbar .k-progressbar-chunk {
+  border-color: rgb(67, 67, 69) !important;
+  border-width: 1px !important;
+}
+
 :host {
   display: block;
   min-height: 100vh;
@@ -473,7 +483,7 @@
 
       .arrow {
         &.active {
-          color: rgba(154, 154, 154, 0.623);
+          color: rgb(67, 67, 69);
         }
       }
     }
@@ -586,16 +596,26 @@
       justify-content: center;
     }
 
-    .status {
+       .status {
       .label {
         margin: 0;
         font-size: 0.875rem;
         color: rgb(67, 67, 69);
-        //text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
       }
       kendo-chunkprogressbar {
         max-width: 6.25rem;
         height: 0.8rem;
+        border: 0.1px solid rgb(67, 67, 69);
+       border-radius: 0.1px;
+       overflow: hidden;
+
+        ::ng-deep {
+          .k-chunk-progressbar-pieces,
+          .k-progressbar-chunk {
+            border-color: rgb(67, 67, 69) !important;
+            border-radius: 0.1px !important;
+          }
+        }
       }
     }
 
