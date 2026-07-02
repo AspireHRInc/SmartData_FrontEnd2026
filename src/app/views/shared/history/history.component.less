@@ -162,7 +162,7 @@
       color: rgb(67, 67, 69);
       outline: none;
       height: 2rem;
-      transition: border-color 0.2s ease;
+      transition: color 0.1s ease;
 
       &::placeholder {
         color: rgba(67, 67, 69, 0.4);
@@ -190,8 +190,9 @@
       box-shadow: none !important;
 
       &:hover {
-        border-color: rgba(255, 255, 255, 0.6);
-        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(67,67,69,0.5);
+        color: rgba(255, 255, 255, 1);
+        background:rgba(255, 255, 255, 0.3);
       }
     }
   }
@@ -514,23 +515,23 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white !important;
+        color: black !important;
 
         ::ng-deep {
           svg,
           path {
-            fill: white !important;
-            stroke: white !important;
+            fill: black !important;
+            //stroke: black !important;
           }
 
           mat-icon,
           .material-icons,
           i {
-            color: white !important;
+            color: black !important;
           }
 
           img {
-            filter: brightness(0) invert(1) opacity(0.3);
+            //filter: brightness(0) invert(1) opacity(0.3);
           }
         }
       }
