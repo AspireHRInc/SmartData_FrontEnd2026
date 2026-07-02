@@ -198,7 +198,7 @@
 
   .filter-popup {
     padding: 1rem;
-    background: rgba(0, 127, 255, 0.75) !important;
+    background: rgba(67, 67, 69, 0.75) !important;
     border: none !important;
     border-radius: 8px !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
@@ -308,7 +308,7 @@
         flex-wrap: wrap;
         flex: 1 50%;
         max-width: calc(50% - 0.5rem);
-        color: white;
+        color: rgb(0, 0, 0);
       }
 
       ::ng-deep {
@@ -324,7 +324,7 @@
           color: white !important;
 
           .k-input-inner {
-            color: white !important;
+            color: rgb(0, 0, 0) !important;
             max-width: 6rem;
             max-height: 2.125rem;
           }
@@ -373,9 +373,11 @@
     ::ng-deep {
       kendo-multiviewcalendar,
       .k-calendar {
+        background: rgba(67, 67, 69, 0.5) !important;
+        color: rgb(67, 67, 69) !important;
         .k-calendar-td .k-link,
-       .k-calendar-td > span,
-       .k-calendar-td > a {
+        .k-calendar-td > span,
+        .k-calendar-td > a {
           display: flex !important;
           align-items: center !important;
           justify-content: center !important;
@@ -795,6 +797,26 @@
 ::ng-deep .buttons-container {
   background: transparent !important;
   background-color: transparent !important;
+}
+
+::ng-deep .filter-popup {
+  .k-checkbox,
+  input[type="checkbox"] {
+    border: 2px solid rgba(67, 67, 69, 0.5) !important;
+    background: rgba(67, 67, 69, 0.08) !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 3px !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    cursor: pointer;
+
+    &:checked,
+    &.k-checked {
+      background: rgb(67, 67, 69) !important;
+      border-color: rgb(67, 67, 69) !important;
+    }
+  }
 }
 
 ::ng-deep ss-header {
