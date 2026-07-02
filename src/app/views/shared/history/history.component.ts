@@ -234,7 +234,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
         cbEl.style.setProperty('appearance', 'none', 'important');
         cbEl.style.setProperty('-webkit-appearance', 'none', 'important');
         if ((cbEl as HTMLInputElement).checked || cbEl.classList.contains('k-checked')) {
-          cbEl.style.setProperty('background', 'rgb(67, 67, 69)', 'important');
+          cbEl.style.setProperty('background', 'rgba(160, 160, 161, 0.7)', 'important');
           cbEl.style.setProperty('border', '2px solid rgba(67, 67, 69, 0.4)', 'important');
         } else {
           cbEl.style.setProperty('background', 'rgb(255, 255, 255)', 'important');
@@ -243,7 +243,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
       });
 
       el.querySelectorAll('.k-calendar-td, .k-calendar th, .k-calendar-title, .k-nav-today, .k-calendar-header, thead th').forEach(cell => {
-        (cell as HTMLElement).style.setProperty('color', 'rgb(67, 67, 69)', 'important');
+        (cell as HTMLElement).style.setProperty('color', 'rgb(69, 67, 67)', 'important');
       });
 
       el.querySelectorAll('.k-calendar, .k-calendar-view, kendo-multiviewcalendar').forEach(cal => {
@@ -521,7 +521,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
         userObject: this.userService.getUserById(serviceRun.userId) || new User(),
         scheduled: serviceRun.status.includes(ServiceRunStatus.Scheduled),
         statusColor: filteredStatus.includes(ServiceRunStatus.Completed)
-          ? 'var(--color-cta)'
+          ? 'var(--color-cta-progress)'
           : filteredStatus.includes(ServiceRunStatus.Processing)
           ? 'var(--color-accent-6)'
           : filteredStatus.includes(ServiceRunStatus['Processed with Errors'])
