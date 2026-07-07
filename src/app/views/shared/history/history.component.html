@@ -142,16 +142,12 @@
               {{ dataItem.statusString }}
             </h3>
 
-            <kendo-chunkprogressbar
+            <img
               *ngIf="dataItem.statusString === 'Processing'"
-              [value]="processingStatusBarValue"
-              [chunkCount]="16"
-              [max]="16"
-              [min]="0"
-              [reverse]="processingStatusBarDirection"
-              [progressCssStyle]="{ background: dataItem.statusColor, 'border-color': 'rgb(67, 67, 69)' }"
-              [emptyCssStyle]="{ background: 'rgb(67, 67, 69)' }"
-            ></kendo-chunkprogressbar>
+              src="../../../assets/images/icons/statusbar_icon.gif"
+              alt="Processing"
+              class="progress-gif"
+            />
 
             <kendo-chunkprogressbar
               *ngIf="dataItem.statusString === 'Completed'"
