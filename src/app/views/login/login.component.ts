@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
 
   step = 0;
   isEmailFieldVisible = true;
+  @ViewChild('passwordInput') passwordInput!: ElementRef<HTMLInputElement>;
 
   logoState: 'idle' | 'slow' | 'fast' | 'reverse' = 'idle';
 
@@ -92,6 +93,7 @@ export class LoginComponent implements OnInit {
       } else {
         this.step++;
         this.logoState = 'slow';
+        setTimeout(() => this.passwordInput?.nativeElement?.focus(), 300);
       }
     }, 300);
   }

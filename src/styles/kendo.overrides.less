@@ -50,18 +50,18 @@ ss-field-group .k-dateinput {
     color: white !important;
     background: rgba(255, 255, 255, 0.08) !important;
     border-color: rgba(255, 255, 255, 0.3) !important;
-    .k-icon { color: white !important; }
+    .k-icon { color: rgb(67,67,69) !important; }
   }
 }
 
 .k-animation-container {
   .k-popup {
-    background: rgba(20, 40, 80, 0.95) !important;
+    background: rgba(247, 243, 243, 0.95) !important;
     backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(208, 223, 252, 0.3) !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid rgba(67, 67, 69, 0.3) !important;
     border-radius: 8px !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
     overflow: hidden !important;
   }
 
@@ -103,14 +103,14 @@ ss-field-group .k-dateinput {
 
   .k-checkbox,
   .k-checkbox-wrapper {
-    border-color: rgba(255, 255, 255, 0.5) !important;
-    background: transparent !important;
+    border-color: rgba(67, 67, 69, 0.5) !important;
+    background: rgba(67, 67, 69, .08) !important;
 
     &:checked,
     &.k-checked,
     &.k-state-checked {
-      background: var(--color-cta-lighter) !important;
-      border-color: var(--color-cta-lighter) !important;
+      background: rgb(67, 67, 69) !important;
+      border-color: rgb(67, 67, 69) !important;
     }
   }
 
@@ -146,17 +146,17 @@ ss-field-group .k-dateinput {
   }
 
   .k-calendar {
-    background: rgba(20, 40, 80, 0.95) !important;
-    color: white !important;
+    background: rgba(247,243,243) !important;
+    color: rgb(67,67,69) !important;
     border: none !important;
 
     .k-calendar-header,
     .k-calendar-title {
-      color: white !important;
+      color: rgb(67,67,69) !important;
     }
 
     .k-calendar-td {
-      color: white !important;
+      color: rgb(67,67,69) !important;
 
       &:hover {
         background: rgba(255, 255, 255, 0.15) !important;
@@ -170,14 +170,14 @@ ss-field-group .k-dateinput {
     }
 
     .k-today {
-      color: var(--color-cta-lighter) !important;
+      color: rgb(0,127,255) !important;
       font-weight: 700;
     }
 
     .k-nav-prev,
     .k-nav-next,
     .k-button {
-      color: white !important;
+      color: rgb(67,67,69) !important;
     }
   }
 }
@@ -189,9 +189,9 @@ body .k-calendar,
 body kendo-calendar,
 .k-animation-container .k-calendar,
 .k-animation-container kendo-calendar {
-  background: rgba(20, 40, 80, 0.95) !important;
-  background-color: rgba(20, 40, 80, 0.95) !important;
-  color: white !important;
+  background: rgba(247,243,243) !important;
+  background-color: rgba(247,243,243) !important;
+  color: rgb(67,67,69) !important;
   border: none !important;
   border-radius: 8px !important;
 
@@ -200,13 +200,13 @@ body kendo-calendar,
   .k-content {
     background: transparent !important;
     background-color: transparent !important;
-    color: white !important;
+    color: rgb(67,67,69) !important;
   }
 
 .k-calendar-weekdays,
 .k-calendar-thead {
   background: transparent !important;
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(67,67,69, 0.6) !important;
 
   th, td {
     padding: 0.5rem !important;
@@ -215,22 +215,22 @@ body kendo-calendar,
 
 thead, th {
   background: transparent !important;
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(67,67,69, 0.6) !important;
 }
 
-  .k-calendar-header, .k-calendar-title, .k-title { color: white !important; }
-  .k-calendar-td, td { color: white !important; &:hover { background: rgba(255, 255, 255, 0.15) !important; } &.k-selected, &.k-state-selected { background: var(--color-cta-lighter) !important; color: white !important; } }
+  .k-calendar-header, .k-calendar-title, .k-title { color: rgb(67,67,69) !important; }
+  .k-calendar-td, td { color: rgb(67,67,69) !important; &:hover { background: rgba(255, 255, 255, 0.15) !important; } &.k-selected, &.k-state-selected { background: rgb(0,127,255) !important; color: white !important; } }
   .k-today { color: var(--color-cta-lighter) !important; font-weight: 700; }
-  .k-nav-prev, .k-nav-next, .k-button { color: white !important; background: transparent !important; }
-  .k-weekend { color: rgba(0, 127, 255, 1) !important; }
-  .k-other-month { color: rgba(0, 127, 255, 1) !important; }
+  .k-nav-prev, .k-nav-next, .k-button { color: rgb(67,67,69) !important; background: transparent !important; }
+  .k-weekend { color: rgba(67, 67, 69, .6) !important; }
+  .k-other-month { color: rgba(67,67,69,.35) !important; }
 }
 .k-calendar-navigation,
 .k-calendar-navigation-highlight {
-  background: rgba(0, 127, 255, 1) !important;
-  background-color: rgba(0, 127, 255, 1) !important;
+  background: rgba(247,243,243) !important;
+  background-color: rgba(67, 67, 69, .5) !important;
   color: white !important;
-  border-color: rgba(0, 127, 255, 1) !important;
+  border-color: rgba(247, 243, 243, 1) !important;
   border: none !important;
   box-shadow: none !important;
 
@@ -256,7 +256,7 @@ thead, th {
 
   li,
   span {
-    color: white !important;
+    color: rgb(67,67,69) !important;
   }
 }
 .k-calendar-footer,
@@ -308,13 +308,13 @@ thead, th {
   }
 
   .k-checkbox {
-    border-color: rgba(255, 255, 255, 0.5) !important;
-    background: transparent !important;
+    border-color: rgba(67, 67, 69, 0.5) !important;
+    background: rgba(67, 67, 69, .08) !important;
 
     &:checked,
     &.k-checked {
-      background: var(--color-cta-lighter) !important;
-      border-color: var(--color-cta-lighter) !important;
+      background: rgb(67, 67, 69) !important;
+      border-color: rgb(67, 67, 69) !important;
     }
   }
 
@@ -352,4 +352,45 @@ kendo-popup,
 }
 
 
+// Progress bar chunk borders
+.k-chunk-progressbar .k-progressbar-chunk,
+.k-progressbar-chunk {
+  border-color: rgb(67, 67, 69) !important;
+  border-width: 1px !important;
+}
 
+//border color
+.k-calendar.k-calendar,
+body .k-calendar,
+body .k-animation-container .k-calendar {
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+
+// Calendar background
+.k-calendar,
+kendo-calendar,
+.k-animation-container .k-calendar {
+  background: rgba(67, 67, 69, 0.5) !important;
+  background-color: rgba(67, 67, 69, 0.5) !important;
+}
+
+// Today highlight
+.k-calendar .k-today .k-link,
+.k-calendar td.k-today .k-link,
+.k-calendar .k-calendar-td.k-today .k-link {
+  color: rgb(0, 0, 0) !important;
+  font-weight: 700;
+}
+
+// Navigation sidebar
+.k-calendar-navigation {
+  background: rgba(67, 67, 69, 0.3) !important;
+  li, span, .k-calendar-navigation-marker {
+    color: rgb(67, 67, 69) !important;
+  }
+}

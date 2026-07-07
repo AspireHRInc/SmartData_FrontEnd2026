@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil, filter, debounceTime } from 'rxjs/operators';
 
 import { ServiceSetupService, Field, Fields } from 'src/app/services/service-setup.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
@@ -12,7 +12,7 @@ import { UiStateService } from 'src/app/services/ui-state.service';
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.less'],
 })
-export class SetupComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class SetupComponent implements OnInit, OnDestroy {
   serviceSetupFields: Fields = new Fields();
 
   serviceId = '';
@@ -35,6 +35,8 @@ export class SetupComponent implements OnInit, OnDestroy, AfterViewChecked {
     private router: Router
   ) {}
 
+  isReady = false;
+
   ngOnInit(): void {
     // Unlock setup and reset field values to defaults when entering the form
     this.serviceSetup.unlockSetup();
@@ -47,10 +49,14 @@ export class SetupComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     // Subscribe to reactive field updates from the service
     this.serviceSetup.serviceFields$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroy$), filter(fields => fields.Parameters.length > 0), debounceTime(50),)
       .subscribe(fields => {
         this.serviceSetupFields = fields;
-        this.changeDetectorRef.markForCheck();
+        //this.changeDetectorRef.markForCheck();
+        setTimeout(() => {
+          this.isReady = true;
+          this.changeDetectorRef.markForCheck();
+        }, 50);
       });
 
     // Safety net: if service already has data, use it directly
@@ -59,9 +65,9 @@ export class SetupComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  ngAfterViewChecked(): void {
+  /*ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
-  }
+  }*/
 
   ngOnDestroy(): void {
     this.destroy$.next();

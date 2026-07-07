@@ -149,8 +149,8 @@
               [max]="16"
               [min]="0"
               [reverse]="processingStatusBarDirection"
-              [progressCssStyle]="{ background: dataItem.statusColor }"
-              [emptyCssStyle]="{ background: 'rgba(var(--color-text-secondary-rgb),0.5)' }"
+              [progressCssStyle]="{ background: dataItem.statusColor, 'border-color': 'rgb(67, 67, 69)' }"
+              [emptyCssStyle]="{ background: 'rgb(67, 67, 69)' }"
             ></kendo-chunkprogressbar>
 
             <kendo-chunkprogressbar
@@ -159,8 +159,8 @@
               [chunkCount]="16"
               [max]="16"
               [min]="0"
-              [progressCssStyle]="{ background: dataItem.statusColor }"
-              [emptyCssStyle]="{ background: 'rgba(var(--color-text-secondary-rgb),0.5)' }"
+              [progressCssStyle]="{ background: dataItem.statusColor, 'border-color': 'rgb(67, 67, 69)' }"
+              [emptyCssStyle]="{ background: 'rgb(67, 67, 69)' }"
             ></kendo-chunkprogressbar>
 
             <kendo-chunkprogressbar
