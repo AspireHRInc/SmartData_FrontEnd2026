@@ -396,6 +396,21 @@
           width: 100% !important;
           height: 100% !important;
         }
+        .k-calendar-td {
+          &.k-selected,
+          &.k-state-selected,
+          &.k-range-start,
+          &.k-range-end {
+            .k-link {
+              background: rgb(250, 168, 98) !important;
+              color: white !important;
+              //border-radius: 50% !important;
+            }
+          }
+          &.k-range-mid {
+            background: rgba(255, 255, 255, .3) !important;
+          }
+        }
       }
     }
   }
