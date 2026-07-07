@@ -57,7 +57,7 @@ ss-field-group .k-dateinput {
 .k-animation-container {
   .k-popup {
     background: rgba(247, 243, 243, 0.95) !important;
-    backdrop-filter: none !important;
+    backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: none !important;
     border: 1px solid rgba(67, 67, 69, 0.3) !important;
     border-radius: 8px !important;
@@ -170,7 +170,7 @@ ss-field-group .k-dateinput {
     }
 
     .k-today {
-      color: rbg(0,127,255) !important;
+      color: rgb(0,127,255) !important;
       font-weight: 700;
     }
 
@@ -219,7 +219,7 @@ thead, th {
 }
 
   .k-calendar-header, .k-calendar-title, .k-title { color: rgb(67,67,69) !important; }
-  .k-calendar-td, td { color: rgb(67,67,69) !important; &:hover { background: rgba(255, 255, 255, 0.15) !important; } &.k-selected, &.k-state-selected { background: var(--color-cta-lighter) !important; color: white !important; } }
+  .k-calendar-td, td { color: rgb(67,67,69) !important; &:hover { background: rgba(255, 255, 255, 0.15) !important; } &.k-selected, &.k-state-selected { background: rgb(0,127,255) !important; color: white !important; } }
   .k-today { color: var(--color-cta-lighter) !important; font-weight: 700; }
   .k-nav-prev, .k-nav-next, .k-button { color: rgb(67,67,69) !important; background: transparent !important; }
   .k-weekend { color: rgba(67, 67, 69, .6) !important; }
@@ -359,4 +359,38 @@ kendo-popup,
   border-width: 1px !important;
 }
 
+//border color
+.k-calendar.k-calendar,
+body .k-calendar,
+body .k-animation-container .k-calendar {
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 
+
+// Calendar background
+.k-calendar,
+kendo-calendar,
+.k-animation-container .k-calendar {
+  background: rgba(67, 67, 69, 0.5) !important;
+  background-color: rgba(67, 67, 69, 0.5) !important;
+}
+
+// Today highlight
+.k-calendar .k-today .k-link,
+.k-calendar td.k-today .k-link,
+.k-calendar .k-calendar-td.k-today .k-link {
+  color: rgb(0, 0, 0) !important;
+  font-weight: 700;
+}
+
+// Navigation sidebar
+.k-calendar-navigation {
+  background: rgba(67, 67, 69, 0.3) !important;
+  li, span, .k-calendar-navigation-marker {
+    color: rgb(67, 67, 69) !important;
+  }
+}
