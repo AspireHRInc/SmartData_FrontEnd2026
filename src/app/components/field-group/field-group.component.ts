@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -11,7 +11,7 @@ import { UiStateService } from 'src/app/services/ui-state.service';
   styleUrls: ['./field-group.component.less'],
   host: { class: 'field-group' },
 })
-export class FieldGroupComponent implements OnInit, AfterViewChecked {
+export class FieldGroupComponent implements OnInit {
   @Input() fields: Field[] = [];
   @Input() formGroup: FormGroup = this.fb.group({});
   @Output() submit = new EventEmitter<FormGroup>();
@@ -29,7 +29,7 @@ export class FieldGroupComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private fb: FormBuilder,
-    private readonly changeDetectorRef: ChangeDetectorRef,
+    //private readonly changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private uiState: UiStateService
   ) {}
@@ -43,9 +43,9 @@ export class FieldGroupComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  ngAfterViewChecked(): void {
+  /*ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
-  }
+  }*/
 
   save(valid: boolean): void {
     if (valid) {
