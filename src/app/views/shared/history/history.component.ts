@@ -523,7 +523,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
         statusColor: filteredStatus.includes(ServiceRunStatus.Completed)
           ? 'var(--color-cta-progress)'
           : filteredStatus.includes(ServiceRunStatus.Processing)
-          ? 'var(--color-accent-6)'
+          ? 'rgb(0,127,255)'
           : filteredStatus.includes(ServiceRunStatus['Processed with Errors'])
           ? 'var(--color-accent-2)'
           : filteredStatus.includes(ServiceRunStatus.Error)
