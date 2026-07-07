@@ -145,13 +145,13 @@ export class ServicesService {
   private loadProcessTypes(): void {
     const headers = this.getHeaders();
 
-    this.http.get<any>(`${this.baseUrl}/ScheduledProcess/list`, { headers }).subscribe(
+    this.http.get<any>(`${this.baseUrl}/CPT/list`, { headers }).subscribe(
       (response) => {
         console.log('Process list response:', response);
 
         const items = (response.Items || []).filter((item: any) => {
           const sk = item.SK || '';
-          return sk !== 'ScheduledProcess#ScheduledProcess' && item.name && (item.status || '').toLowerCase() !== 'inactive';
+          return sk !== 'CPT#CPT' && item.name && (item.status || '').toLowerCase() !== 'inactive';
         });
 
         const services: Service[] = items.map((item: any) => ({
@@ -181,8 +181,8 @@ export class ServicesService {
         this.defaultServices = [category];
         this.loading = false;
 
-        // The /ScheduledProcess/list response is thin: no imageJpgBase64 and no start/finish.
-        // Fetch each ScheduledProcess's detail to (a) pull in its base64 image and
+        // The /CPT/list response is thin: no imageJpgBase64 and no start/finish.
+        // Fetch each CPT's detail to (a) pull in its base64 image and
         // (b) hide tiles that aren't currently active (start <= now <= finish).
         this.enrichTiles(services, category);
       },
@@ -198,7 +198,7 @@ export class ServicesService {
     );
   }
 
-  // Lazily enrich each tile from the ScheduledProcess detail endpoint (/ScheduledProcess/{id} -> Items[0]):
+  // Lazily enrich each tile from the CPT detail endpoint (/CPT/{id} -> Items[0]):
   //   - set imageJpgBase64 so the tile renders its real image
   //   - drop the tile if it is not currently active (start <= now <= finish)
   // Tiles render immediately from the list, then update/remove as detail calls return.
@@ -207,7 +207,7 @@ export class ServicesService {
       const uuid = (svc.id || '').includes('#') ? svc.id.split('#')[1] : svc.id;
       if (!uuid || uuid === '0') return;
 
-      this.http.get<any>(`${this.baseUrl}/ScheduledProcess/${uuid}`, { headers: this.getHeaders() }).subscribe(
+      this.http.get<any>(`${this.baseUrl}/CPT/${uuid}`, { headers: this.getHeaders() }).subscribe(
         (detail) => {
           const item = detail?.Items?.[0] || detail;
           if (!item) return;
@@ -349,7 +349,7 @@ export class ServicesService {
     }
 
     return this.http.put<any>(
-      `${this.baseUrl}/ScheduledProcess/${serviceId}`,
+      `${this.baseUrl}/CPT/${serviceId}`,
       { tags: tags },
       { headers: this.getHeaders() }
     );
@@ -368,7 +368,7 @@ export class ServicesService {
   }
 
   getProcessDetails(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/ScheduledProcess/${id}`, { headers: this.getHeaders() });
+    return this.http.get(`${this.baseUrl}/CPT/${id}`, { headers: this.getHeaders() });
   }
 
   getProcessTypeVersion(ssObjectKey: string): Observable<any> {
