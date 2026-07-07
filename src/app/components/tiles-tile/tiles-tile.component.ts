@@ -38,7 +38,7 @@ export class TilesTileComponent implements OnInit {
     */
   };
 
-  private readonly defaultImage = 'assets/images/tiles/default.png';
+  private readonly defaultImage = 'assets/images/tiles/test_pt.png';
 
   constructor(private router: Router) {}
 

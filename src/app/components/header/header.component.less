@@ -156,6 +156,12 @@
           font-size: 1.4rem;
         }
 
+         .user-icon-img {
+    width: 1.4rem;
+    height: 1.4rem;
+    object-fit: contain;
+    display: block;
+  }
         &:hover {
           background-color: rgba(255, 255, 255, 0.15);
           box-shadow: none;
@@ -168,6 +174,29 @@
           outline: none;
         }
       }
+
+      .back-button {
+  background: none;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  padding: 0;
+
+  img {
+    width: 1.4rem;
+    height: 1.4rem;
+    object-fit: contain;
+    display: block;
+  }
+}
 
       .user-badge {
         position: absolute;
@@ -207,7 +236,7 @@
             font-weight: 700;
             font-size: 1.5625rem;
             line-height: 125%;
-            //text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             margin: 0;
           }
         }
