@@ -137,10 +137,16 @@ export class HistoryComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.updatesSub = this.serviceRunService.serviceRunsUpdated$.pipe(
+    /*this.updatesSub = this.serviceRunService.serviceRunsUpdated$.pipe(
       take(1)
     ).subscribe(() => {
       this.loadDataFromService();
+    });*/
+    //persistent subscription, updates on every refresh
+    this.updatesSub = this.serviceRunService.serviceRunsUpdated$.subscribe(() => {
+      this.loadDataFromService();
+      this.onServiceFilter();
+      this.reapplySort();
     });
 
     this.loadDataFromService();
@@ -254,7 +260,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   }
 
   refreshHistory(): void {
-    if (this.refreshSub) {
+    /*if (this.refreshSub) {
       this.refreshSub.unsubscribe();
     }
 
@@ -264,7 +270,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
       this.loadDataFromService();
       this.onServiceFilter();
       this.reapplySort();
-    });
+    });*/
 
     this.serviceRunService.refresh();
   }
@@ -414,7 +420,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
       this.filtersObj.dateRange = { start: new Date(0), end: new Date(0) };
       this.showFilterPopupIndex = -1;
 
-      if (this.refreshSub) {
+      /*if (this.refreshSub) {
         this.refreshSub.unsubscribe();
       }
       this.refreshSub = this.serviceRunService.serviceRunsUpdated$.pipe(
@@ -423,7 +429,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
         this.loadDataFromService();
         this.onServiceFilter();
         this.reapplySort();
-      });
+      });*/
 
       this.serviceRunService.clearDateFilter();
     } else if (range && range.start && range.end) {
@@ -431,7 +437,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
       this.filtersObj.dateRange = range;
       this.showFilterPopupIndex = -1;
 
-      if (this.refreshSub) {
+      /*if (this.refreshSub) {
         this.refreshSub.unsubscribe();
       }
       this.refreshSub = this.serviceRunService.serviceRunsUpdated$.pipe(
@@ -440,7 +446,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
         this.loadDataFromService();
         this.onServiceFilter();
         this.reapplySort();
-      });
+      });*/
 
       this.serviceRunService.refreshWithDateRange(range.start, range.end);
     }
@@ -601,7 +607,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.selectedDateRangeFilter = { start: new Date(), end: new Date() };
     this.serviceRunService.filtersActive = false;
 
-    if (this.refreshSub) {
+    /*if (this.refreshSub) {
       this.refreshSub.unsubscribe();
     }
     this.refreshSub = this.serviceRunService.serviceRunsUpdated$.pipe(
@@ -610,7 +616,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
       this.loadDataFromService();
       this.onServiceFilter();
       this.reapplySort();
-    });
+    });*/
 
     const today = new Date();
     this.serviceRunService.refreshWithDateRange(today, today);

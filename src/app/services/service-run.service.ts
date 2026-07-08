@@ -317,7 +317,7 @@ export class ServiceRunService {
     if (!referencedObjects?.ssObjectKey) return '';
 
     const ssObjectKey = referencedObjects.ssObjectKey;
-    const spMatch = ssObjectKey.match(/CPT#[a-f0-9-]+/);
+    const spMatch = ssObjectKey.match(/(?:ScheduledProcess|CPT)#[a-fA-F0-9-]+/i);
     if (!spMatch) return '';
 
     const spKey = spMatch[0];
@@ -338,7 +338,7 @@ export class ServiceRunService {
     if (!referencedObjects?.ssObjectKey) return '';
 
     const ssObjectKey = referencedObjects.ssObjectKey;
-    const spMatch = ssObjectKey.match(/CPT#[a-f0-9-]+/);
+    const spMatch = ssObjectKey.match(/(?:ScheduledProcess|CPT)#[a-fA-F0-9-]+/i);
     if (!spMatch) return '';
 
     return spMatch[0];
