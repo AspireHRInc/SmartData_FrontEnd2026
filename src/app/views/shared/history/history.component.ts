@@ -137,17 +137,17 @@ export class HistoryComponent implements OnInit, OnDestroy {
       }
     });
 
-    /*this.updatesSub = this.serviceRunService.serviceRunsUpdated$.pipe(
+    this.updatesSub = this.serviceRunService.serviceRunsUpdated$.pipe(
       take(1)
     ).subscribe(() => {
       this.loadDataFromService();
-    });*/
+    });
     //persistent subscription, updates on every refresh
-    this.updatesSub = this.serviceRunService.serviceRunsUpdated$.subscribe(() => {
+    /*this.updatesSub = this.serviceRunService.serviceRunsUpdated$.subscribe(() => {
       this.loadDataFromService();
       this.onServiceFilter();
       this.reapplySort();
-    });
+    });*/
 
     this.loadDataFromService();
 
