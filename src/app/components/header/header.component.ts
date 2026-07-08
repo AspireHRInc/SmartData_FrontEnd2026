@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/services/user.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ServiceSetupService } from 'src/app/services/service-setup.service';
 
 @Component({
   selector: 'ss-header',
@@ -29,6 +30,7 @@ export class HeaderComponent implements OnInit {
   @Input() headerUserId = 1;
   @Input() headerUserObject = new User();
   @Input() type = 'dashboard';
+  @Input() onBack: (() => void) | null = null;
   menuOpenState = false;
 
   logoAnimationDelay: string = '0ms';
@@ -37,7 +39,8 @@ export class HeaderComponent implements OnInit {
     private location: Location,
     public uiState: UiStateService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private serviceSetup: ServiceSetupService,
   ) {}
 
   ngOnInit(): void {
@@ -51,9 +54,22 @@ export class HeaderComponent implements OnInit {
       event.type === 'keyup' &&
       ((event as KeyboardEvent).code === 'Space' || (event as KeyboardEvent).code === 'Enter')
     ) {
-      this.router.navigate(['/services/dashboard']);
+      this.handleBack();
     }
     if (event.type === 'click') {
+      this.handleBack();
+    }
+  }
+
+  //handles going back logic when setting up a run/task
+  private handleBack(): void {
+    const url = this.router.url;
+    if(url.includes('/confirm')) {
+      this.serviceSetup.unlockSetup();
+      const setupUrl = url.replace('/confirm', '/setup');
+      this.router.navigateByUrl(setupUrl);
+    } 
+    else {
       this.router.navigate(['/services/dashboard']);
     }
   }
@@ -65,12 +81,18 @@ export class HeaderComponent implements OnInit {
 
   goHome(event: Event) {
     event.preventDefault();
+    this.serviceSetup.unlockSetup();
+    this.serviceSetup.resetFieldValuesToDefaults();
+    this.serviceSetup.currentServiceSetup = [];
     this.router.navigate(['/services/dashboard']);
   }
 
   keyGoHome(event: KeyboardEvent) {
     if (event.key === ' ' || event.key === 'Enter') {
       event.preventDefault();
+      this.serviceSetup.unlockSetup();
+      this.serviceSetup.resetFieldValuesToDefaults();
+      this.serviceSetup.currentServiceSetup = [];
       this.router.navigate(['/services/dashboard']);
     }
   }
