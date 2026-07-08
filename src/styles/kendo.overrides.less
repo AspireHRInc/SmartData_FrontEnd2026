@@ -73,20 +73,20 @@ ss-field-group .k-dateinput {
 
   .k-list-item,
   .k-item {
-    color: white !important;
+    color: rgb(67,67,69) !important;
     background: transparent !important;
 
     &:hover,
     &.k-hover,
     &.k-state-focused,
     &.k-focus {
-      background: rgba(255, 255, 255, 0.15) !important;
+      background: rgba(0, 0, 0, 0.15) !important;
       color: white !important;
     }
 
     &.k-selected,
     &.k-state-selected {
-      background: rgba(255, 255, 255, 0.25) !important;
+      background: rgba(0, 0, 0, 0.25) !important;
       color: white !important;
     }
   }
@@ -117,7 +117,7 @@ ss-field-group .k-dateinput {
   label,
   .k-label,
   .k-list-item-text {
-    color: white !important;
+    color: rgb(67,67,69) !important;
   }
 
   .k-textbox,
@@ -375,8 +375,8 @@ body .k-animation-container .k-calendar {
 .k-calendar,
 kendo-calendar,
 .k-animation-container .k-calendar {
-  background: rgba(67, 67, 69, 0.5) !important;
-  background-color: rgba(67, 67, 69, 0.5) !important;
+  background: rgba(247, 243, 243) !important;
+  background-color: rgba(247, 243, 243) !important;
 }
 
 // Today highlight
@@ -393,4 +393,19 @@ kendo-calendar,
   li, span, .k-calendar-navigation-marker {
     color: rgb(67, 67, 69) !important;
   }
+}
+
+// Beats kendo default theme's .k-calendar .k-calendar-navigation (2 classes)
+body > kendo-popup .k-calendar .k-calendar-navigation,
+body > .k-animation-container .k-calendar .k-calendar-navigation {
+  background-color: rgb(247, 243, 243) !important;
+  box-shadow: none !important;
+}
+
+// Also kill the calendar's own border that draws the gray rectangle
+body > kendo-popup .k-calendar,
+body > .k-animation-container .k-calendar {
+  border: none !important;
+  box-shadow: none !important;
+  background-color: rgb(247, 243, 243) !important;
 }
