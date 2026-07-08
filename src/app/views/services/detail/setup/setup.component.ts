@@ -38,9 +38,23 @@ export class SetupComponent implements OnInit, OnDestroy {
   isReady = false;
 
   ngOnInit(): void {
-    // Unlock setup and reset field values to defaults when entering the form
+    // Unlock setup so the form can render
     this.serviceSetup.unlockSetup();
-    this.serviceSetup.resetFieldValuesToDefaults();
+    // Only reset to defaults if entering fresh (no prior user values saved)
+    /*const hasSavedValues = this.serviceSetup.currentServiceSetup.some(f => f.value !== undefined && f.value !== '');
+    if (!hasSavedValues) {
+      this.serviceSetup.resetFieldValuesToDefaults();
+    }*/
+    //if user has previously entered values we restore them if they hit the back arrow
+    if(this.serviceSetup.currentServiceSetup.length > 0){
+      this.serviceSetup.currentServiceSetup.forEach(saved => {
+        const match = this.serviceSetup.currentServiceFields.Parameters.find(p => p.ParameterName === saved.ParameterName);
+        if (match) match.value = saved.value;
+      });
+    } 
+    else {
+      this.serviceSetup.resetFieldValuesToDefaults();
+    }
 
     this.route.parent!.params.subscribe(params => {
       this.serviceId = params['id'];
