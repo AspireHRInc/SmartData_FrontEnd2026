@@ -300,15 +300,23 @@ export class ServiceRunService {
     run.inputParameters = item.inputParameters || [];
     run.comment = item.comment || '';
 
-    const inputParams = item.inputParameters || [];
-    run.results = inputParams
-      .filter((p: any) => p.name !== 'Comment')
-      .map((p: any) => ({
-        id: p.name,
-        type: 'parameter',
-        label: p.parameterMetadata?.caption || p.name,
-        textResult: p.value || p.defaultValue || ''
-      }));
+    
+const inputParams = item.inputParameters || [];
+
+run.inputParameters = inputParams.filter((p: any) => {
+  return p.parameterMetadata?.visibility === true;
+});
+
+run.results = inputParams
+  .filter((p: any) => p.name !== 'Comment' && p.parameterMetadata?.visibility === true)
+  .map((p: any) => ({
+    id: p.name,
+    type: 'parameter',
+    label: p.parameterMetadata?.caption || p.name,
+    textResult: p.value || p.defaultValue || ''
+  }));
+
+
 
     return run;
   }
