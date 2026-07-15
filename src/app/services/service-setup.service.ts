@@ -180,7 +180,11 @@ loadServiceSetup(processItem: any): void {
 
   this.currentProcessItem = processItem;
   
-  const inputParams = processItem.inputParameters || processItem.InputParameters || [];
+  const allParams = processItem.inputParameters || processItem.InputParameters || [];
+const inputParams = allParams.filter((param: any) => {
+  const metadata = param.parameterMetadata || {};
+  return metadata.visibility === true || metadata.visibility === 'true';
+});
   console.log('Input parameters found:', inputParams);
 
   if (inputParams.length === 0) {
