@@ -33,7 +33,7 @@ import { AuthService } from 'src/app/services/auth.service';
       border-radius: 12px;
       padding: 2.5rem;
       text-align: center;
-      box-shadow: var(--drop-shadow);
+      box-shadow: none;
       max-width: 24rem;
       width: 90%;
     }
@@ -59,7 +59,7 @@ import { AuthService } from 'src/app/services/auth.service';
       padding: 0.6rem 2rem;
       border-radius: 4px;
       border: none;
-      background: var(--color-cta);
+      background: #1976d2;
       color: white;
       font-size: 1rem;
       font-weight: 500;

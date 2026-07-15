@@ -412,6 +412,11 @@ loadServiceSetup(processItem: any): void {
     console.log('current form abandoned');
     // FIX 8: Reset the loaded flag so next load works cleanly
     this.setupLoaded = false;
+    /*this.currentServiceSetup = [];
+    this.currentServiceFields.Parameters.forEach(field => {
+      field.value = field.DefaultValue || '';
+    });
+    this.emitUpdate();*/
   }
 
   getServiceSetup(id: string): Fields {
