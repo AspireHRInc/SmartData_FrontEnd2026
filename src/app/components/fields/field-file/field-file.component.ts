@@ -22,6 +22,7 @@ export class FieldFileComponent implements OnInit {
 
   @ViewChild(TooltipDirective)
   tooltipDir!: TooltipDirective;
+  selectedFile: File | null = null;
 
   constructor(private fb: FormBuilder) {}
 
@@ -43,7 +44,13 @@ export class FieldFileComponent implements OnInit {
       });
     }
   }
-
+  onFileSelect(event: any) {
+  if (event.files && event.files.length > 0) {
+    this.selectedFile = event.files[0].rawFile;
+    this.parameters.rawFile = event.files[0].rawFile;
+    this.formGroup.get(this.parameters.ParameterName)?.setValue(event.files[0].name);
+  }
+}
   toggleToolTip(eventTarget: Element): void {
     this.tooltipDir.toggle(eventTarget);
   }
@@ -59,13 +66,27 @@ export class FieldFileComponent implements OnInit {
     }
   }
 
+  // Also update onFileAbort to clear the stored file:
   onFileAbort(event: any) {
+  this.selectedFile = null;
+  this.parameters.rawFile = null;
+  this.formGroup.get(this.parameters.ParameterName)?.setValue('');
+  if (event?.files && event.files.length > 0) {
     this.fileAbort.emit(event.files[0].name);
   }
+}
 
   uploadEventHandler(event: any) {
-    let fileNames = event.files.map((files: any) => files.name);
-    console.log(fileNames);
+    // Prevent Kendo from auto-uploading
+    event.preventDefault();
+    
+    // Store the raw file object
+    if (event.files && event.files.length > 0) {
+      this.selectedFile = event.files[0].rawFile;
+      this.parameters.rawFile = event.files[0].rawFile;
+      // Update the form control value with the filename (so validation passes)
+      this.formGroup.get(this.parameters.ParameterName)?.setValue(event.files[0].name);
+    }
   }
 }
 
