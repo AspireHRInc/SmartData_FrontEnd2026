@@ -32,31 +32,29 @@ export class ConfirmComponent implements OnInit {
   }
 
   onSubmit(event: any) {
-    const taskName = this.formGroup.get('taskName')?.value || '';
+  const taskName = this.formGroup.get('taskName')?.value || '';
 
-    // Set the last executed service name for history display
-    this.serviceRunService.lastExecutedServiceName = this.serviceSetup.currentProcessItem?.name || '';
+  this.serviceRunService.lastExecutedServiceName = this.serviceSetup.currentProcessItem?.name || '';
 
-    // Execute the process
-    this.serviceSetup.executeProcess(taskName).subscribe({
-      next: (data) => {
-        console.log('Execution response:', data);
-        this.serviceSetup.unlockSetup();
-        this.serviceRunService.refresh();
-        setTimeout(() => this.serviceRunService.refresh(), 5000);
-        setTimeout(() => this.serviceRunService.refresh(), 10000);
-        setTimeout(() => this.serviceRunService.refresh(), 20000);
-      },
-      error: (error) => {
-        console.error('Execution error:', error);
-        this.serviceSetup.unlockSetup();
-        this.uiState.setErrorNotification(String(error.message));
-        this.serviceRunService.refresh();
-      },
-    });
+  this.serviceSetup.executeProcess(taskName).subscribe({
+    next: (data) => {
+      console.log('Execution response:', data);
+      this.serviceSetup.unlockSetup();
+      this.serviceRunService.refresh();
+      setTimeout(() => this.serviceRunService.refresh(), 5000);
+      setTimeout(() => this.serviceRunService.refresh(), 10000);
+      setTimeout(() => this.serviceRunService.refresh(), 20000);
 
-    // Navigate to history immediately
-    this.router.navigate(['history'], { relativeTo: this.route.parent });
-  }
+      // Navigate AFTER execution completes
+      this.router.navigate(['history'], { relativeTo: this.route.parent });
+    },
+    error: (error) => {
+      console.error('Execution error:', error);
+      this.serviceSetup.unlockSetup();
+      this.uiState.setErrorNotification(String(error.message));
+      this.serviceRunService.refresh();
+    },
+  });
+}
 }
 

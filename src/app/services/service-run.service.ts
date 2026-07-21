@@ -250,6 +250,7 @@ export class ServiceRunService {
 
         console.log('Loaded process runs:', this.serviceRuns.length);
         this.serviceRuns$.next(this.serviceRuns);
+        console.log('Process objects:', this.serviceRuns);
         this.loading = false;
         this.initialized = true;
         this.serviceRunsUpdated$.next();
