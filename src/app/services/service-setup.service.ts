@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 import { UiStateService } from './ui-state.service';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
+
+
 
 export class Field {
   ParameterName = '';
@@ -343,7 +345,13 @@ const inputParams = allParams.filter((param: any) => {
   ));
 }
 
-
+setRawFile(parameterName: string, file: File | null): void {
+  const field = this.currentServiceSetup.find(f => f.ParameterName === parameterName);
+  if (field) {
+    field.rawFile = file;
+    console.log('rawFile set on field:', parameterName, file?.name);
+  }
+}
 
   // Central emit method to push state to subscribers
   private emitUpdate(): void {
@@ -362,6 +370,7 @@ const inputParams = allParams.filter((param: any) => {
     const processItem = this.currentProcessItem;
 
     //check if the process exists
+    
     if (!processItem) {
       console.error('No process item available for execution');
       this.uiState.setErrorNotification('Unable to execute: no process loaded');
@@ -408,6 +417,15 @@ const inputParams = allParams.filter((param: any) => {
     const fileField = this.currentServiceSetup.find(
       f => f.ParameterType === 'file' && f.rawFile
     );
+
+    // Debug logs go HERE
+console.log('fileField:', fileField);
+console.log('fileField?.rawFile:', fileField?.rawFile);
+console.log('All file fields:', this.currentServiceSetup.filter(f => f.ParameterType === 'file'));
+
+if (fileField && fileField.rawFile) {
+  console.log('ENTERING UPLOAD PATH');
+}
 
     //now create the process
     /*return this.http.post<any>(
@@ -458,7 +476,7 @@ const inputParams = allParams.filter((param: any) => {
                 }));
               return this.http.post<any>(
                 `${this.apiBase}/Process/${processUuid}/execute`,
-                null,
+                { inputParameters: updatedParams },
                 { headers }
               );
             })
@@ -565,19 +583,29 @@ const inputParams = allParams.filter((param: any) => {
       { headers, responseType: 'text' }
     ).pipe(
       switchMap((presignedUrl: string) => {
-        const cleanUrl = presignedUrl.replace(/^"|"$/g, '').trim();
-        console.log('Presigned URL:', cleanUrl);
+  const cleanUrl = presignedUrl.replace(/^"|"$/g, '').trim();
+  console.log('Presigned URL:', cleanUrl);
+  console.log('File to upload:', file);
+  console.log('File name:', file?.name);
+  console.log('File size:', file?.size);
+  console.log('File type:', file?.type);
+  console.log('File instanceof File:', file instanceof File);
 
         const uploadHeaders = new HttpHeaders({
           'Content-Type': file.type || 'application/octet-stream'
         });
 
         return this.http.put(cleanUrl, file, { headers: uploadHeaders, responseType: 'text' }).pipe(
-          map(() => {
-            const partition = headers.get('Partition') || '';
-            return `${partition}/Process_${processUuid}/File`;
-          })
-        );
+  map((response) => {
+    console.log('S3 PUT response:', response);
+    const partition = headers.get('Partition') || '';
+    return `${partition}/Process_${processUuid}/File`;
+  }),
+  catchError((err) => {
+    console.error('S3 PUT FAILED:', err);
+    return of('');
+  })
+);
       })
     );
   }

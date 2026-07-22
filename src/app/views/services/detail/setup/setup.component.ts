@@ -82,6 +82,18 @@ export class SetupComponent implements OnInit, OnDestroy {
   /*ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
   }*/
+  onFileSelect(event: any, field: Field): void {
+  // Handle native <input type="file"> or Kendo Upload
+  const file = event.target?.files?.[0]
+    || event.files?.[0]?.rawFile
+    || event.files?.[0];
+
+  if (file) {
+    this.serviceSetup.setRawFile(field.ParameterName, file);
+    field.value = file.name;
+    console.log('File selected:', field.ParameterName, file.name);
+  }
+}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -110,15 +122,21 @@ export class SetupComponent implements OnInit, OnDestroy {
     }
 
     this.fieldsWithValues = this.serviceSetupFields.Parameters.map((field, index) => {
-      const value = formValues[field.ParameterName]
-        ?? formValues[field.Caption]
-        ?? formValues[index]
-        ?? formValues[`field_${index}`]
-        ?? field.value
-        ?? field.DefaultValue
-        ?? '';
-      return { ...field, value };
-    });
+  const value = formValues[field.ParameterName]
+    ?? formValues[field.Caption]
+    ?? formValues[index]
+    ?? formValues[`field_${index}`]
+    ?? field.value
+    ?? field.DefaultValue
+    ?? '';
+
+  // Preserve rawFile from the service's source of truth
+  const serviceField = this.serviceSetup.currentServiceSetup.find(
+    f => f.ParameterName === field.ParameterName
+  );
+
+  return { ...field, value, rawFile: serviceField?.rawFile || field.rawFile };
+});
 
     this.changesSaved = true;
     this.serviceSetup.currentServiceSetup = this.fieldsWithValues;
