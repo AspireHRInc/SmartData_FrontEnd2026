@@ -40,5 +40,5 @@
 
 <li class="item" *ngIf="static">
   <p class="label">{{ parameters.Caption }}</p>
-  <p class="details">{{ parameters.value[0].name }}</p>
+  <p class="details">{{ parameters.value?.[0]?.name ?? parameters.value ?? '' }}</p>
 </li>
