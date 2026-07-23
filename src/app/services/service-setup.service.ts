@@ -2,11 +2,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 import { UiStateService } from './ui-state.service';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 import { BlobReader, BlobWriter, ZipWriter, ZipReader, Uint8ArrayWriter } from '@zip.js/zip.js';
+
+
 
 export class Field {
   ParameterName = '';
@@ -22,6 +24,7 @@ export class Field {
   HelpText?: string = '';
   value?: any;
   ShowHelpOnFocus?: boolean;
+  rawFile?: any; // Holds the File object before upload
 
   constructor() {}
 }
@@ -542,6 +545,13 @@ export class ServiceSetupService {
       `${f.ParameterName}: type="${f.ParameterType}" value="${f.value}" default="${f.DefaultValue}" options=${f.Options?.length || 0}`
     ));
   }
+setRawFile(parameterName: string, file: File | null): void {
+  const field = this.currentServiceSetup.find(f => f.ParameterName === parameterName);
+  if (field) {
+    field.rawFile = file;
+    console.log('rawFile set on field:', parameterName, file?.name);
+  }
+}
 
   // Central emit method to push state to subscribers
   private emitUpdate(): void {
@@ -559,12 +569,132 @@ export class ServiceSetupService {
   executeProcess(taskName: string): Observable<any> {
     const processItem = this.currentProcessItem;
 
+    //check if the process exists
+    
     if (!processItem) {
       console.error('No process item available for execution');
       this.uiState.setErrorNotification('Unable to execute: no process loaded');
       return of(null);
     }
 
+    //get the key
+    const sk = processItem.SK || '';
+    const cptUuid = sk.includes('#') ? sk.split('#')[1] : sk;
+
+    //check if the UUID key was pulled
+    if (!cptUuid) {
+      console.error('No CPT UUID available');
+      this.uiState.setErrorNotification('Unable to execute: missing process type ID');
+      return of(null);
+    }
+
+    //input parameters
+    const headers = this.getHeaders();
+
+    const filledParams = this.currentServiceSetup.map(field => ({
+      name: field.ParameterName,
+      value: field.value !== undefined && field.value !== null ? field.value : (field.DefaultValue || ''),
+      defaultValue: field.DefaultValue || '',
+      parameterMetadata: {
+        caption: field.Caption,
+        parameterType: field.ParameterType,
+        required: field.Required,
+        displayOrder: field.DisplayOrder,
+        additionalMetadata: field.HelpText || ''
+      }
+    }));
+
+    const body = {
+      inputParameters: filledParams,
+      myTag: processItem.myTags || processItem.tags || '',
+      name: processItem.name || '',
+      imageJpgBase64: processItem.imageJpgBase64 || '',
+      start: processItem.start || '',
+      finish: processItem.finish || ''
+    };
+
+    //check if a file was uploaded, can proceed without one
+    const fileField = this.currentServiceSetup.find(
+      f => f.ParameterType === 'file' && f.rawFile
+    );
+
+    // Debug logs go HERE
+console.log('fileField:', fileField);
+console.log('fileField?.rawFile:', fileField?.rawFile);
+console.log('All file fields:', this.currentServiceSetup.filter(f => f.ParameterType === 'file'));
+
+if (fileField && fileField.rawFile) {
+  console.log('ENTERING UPLOAD PATH');
+}
+
+    //now create the process
+    /*return this.http.post<any>(
+      `${this.apiBase}/CPT/${cptUuid}/CreateProcess`,
+      body,
+      { headers }
+    ).pipe(*/
+
+    //Get Process UUID from CPT
+    return this.http.post(
+      `${this.apiBase}/CPT/${cptUuid}/createProcess`,
+      body,
+      { headers , responseType: 'text' }
+    ).pipe(
+      switchMap((createResponse: any) => {
+        console.log('CreateProcess response:', createResponse);
+
+        //process ID comes here, MAY NEED ADJUST
+        let processUuid = '';
+        if (typeof createResponse === 'string') {
+          processUuid = createResponse.replace(/^"|"$/g, '').replace('Process#', '').trim();
+        } else {
+          processUuid = (createResponse?.SK || '').replace('Process#', '')
+            || (createResponse?.ProcessSK || '').replace('Process#', '')
+            || createResponse?.processId
+            || createResponse?.id
+            || '';
+        }
+
+        console.log('(ricky) Process UUID:', processUuid);
+
+        if (!processUuid) {
+          console.error('(rocky) No Process UUID returned from CreateProcess');
+          this.uiState.setErrorNotification('(rocky) Unable to proceed: no process ID returned');
+          return of(null);
+        }
+
+        //if file was uploaded, now upload with the process UUID
+        if (fileField && fileField.rawFile) {
+          return this.uploadFileToS3(fileField.rawFile, processUuid).pipe(
+            switchMap((s3Key: string) => {
+              fileField.rawFile = null;
+              fileField.value = s3Key;
+              //execute
+               const updatedParams = this.currentServiceSetup.map(field => ({
+                name: field.ParameterName,
+                value: field.value
+                }));
+              return this.http.post<any>(
+                `${this.apiBase}/Process/${processUuid}/execute`,
+                { inputParameters: updatedParams },
+                { headers }
+              );
+            })
+          );
+        }
+
+        //if no file, bypass if statement and just execute process
+        return this.http.post<any>(
+          `${this.apiBase}/Process/${processUuid}/execute`,
+          null,
+          { headers }
+        );
+      })
+    );
+  }
+
+  // Extract the existing execute logic into a private method:
+  /*private _doExecute(processItem: any, taskName: string): Observable<any> {
     const filledParams = this.currentServiceSetup.map(field => ({
       name: field.ParameterName,
       value: field.value !== undefined && field.value !== null ? field.value : (field.DefaultValue || ''),
@@ -602,18 +732,22 @@ export class ServiceSetupService {
     console.log('Task name:', taskName);
     console.log('UUID:', uuid);
     console.log('Request body:', body);
-    console.log('currentServiceSetup values:', this.currentServiceSetup.map(f => ({ name: f.ParameterName, value: f.value })));
 
     return this.http.post<any>(
       `${this.apiBase}/CPT/${uuid}/executeProcess`,
       body,
       { headers }
     );
-  }
+  }*/
 
   currentFormAbandoned() {
     console.log('current form abandoned');
     this.setupLoaded = false;
+    /*this.currentServiceSetup = [];
+    this.currentServiceFields.Parameters.forEach(field => {
+      field.value = field.DefaultValue || '';
+    });
+    this.emitUpdate();*/
   }
 
   getServiceSetup(id: string): Fields {
@@ -633,5 +767,57 @@ export class ServiceSetupService {
 
     this.emitUpdate();
   }
+
+    /**
+   * Uploads a file to S3 via presigned URL.
+   * Step 1: POST to API to get presigned URL
+   * Step 2: PUT raw file to that presigned URL
+   * Returns the S3 key on success.
+   */
+  uploadFileToS3(file: File, processUuid: string): Observable<string> {
+    const headers = this.getHeaders();
+
+    return this.http.post(
+      `${this.apiBase}/Process/${processUuid}/Document/File`,
+      null,
+      { headers, responseType: 'text' }
+    ).pipe(
+      switchMap((presignedUrl: string) => {
+  const cleanUrl = presignedUrl.replace(/^"|"$/g, '').trim();
+  console.log('Presigned URL:', cleanUrl);
+  console.log('File to upload:', file);
+  console.log('File name:', file?.name);
+  console.log('File size:', file?.size);
+  console.log('File type:', file?.type);
+  console.log('File instanceof File:', file instanceof File);
+
+        const uploadHeaders = new HttpHeaders({
+          'Content-Type': file.type || 'application/octet-stream'
+        });
+
+        return this.http.put(cleanUrl, file, { headers: uploadHeaders, responseType: 'text' }).pipe(
+  map((response) => {
+    console.log('S3 PUT response:', response);
+    const partition = headers.get('Partition') || '';
+    return `${partition}/Process_${processUuid}/File`;
+  }),
+  catchError((err) => {
+    console.error('S3 PUT FAILED:', err);
+    return of('');
+  })
+);
+      })
+    );
+  }
 }
 
+/*
+switchMap((presignedUrl: string) => {
+  // Strip any surrounding quotes from the response
+  const cleanUrl = presignedUrl.replace(/^"|"$/g, '').trim();
+
+  const uploadHeaders = new HttpHeaders({
+    'Content-Type': file.type || 'application/octet-stream'
+  });
+
+  return this.http.put(cleanUrl, file, { headers: uploadHeaders, responseType: 'text' }).pipe( */ 
