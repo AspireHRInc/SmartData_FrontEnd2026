@@ -1,7 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of, from, BehaviorSubject } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import { UiStateService } from './ui-state.service';
 import { environment } from '../../environments/environment';
@@ -157,7 +157,7 @@ export class ServiceSetupService {
    * @returns Promise<Blob> - The encrypted ZIP blob
    */
   async encryptFile(file: File, password?: string): Promise<Blob> {
-    const encryptionPassword = password || this.getEncryptionPassword();
+    const encryptionPassword = 'DX';
 
     if (!encryptionPassword) {
       throw new Error('No encryption password available. Cannot encrypt file.');
@@ -187,7 +187,7 @@ export class ServiceSetupService {
    * Mirrors .NET CompressFolder behavior for multiple files.
    */
   async encryptFiles(files: File[], password?: string): Promise<Blob> {
-    const encryptionPassword = password || this.getEncryptionPassword();
+    const encryptionPassword = 'DX';
 
     if (!encryptionPassword) {
       throw new Error('No encryption password available. Cannot encrypt files.');
@@ -218,7 +218,7 @@ export class ServiceSetupService {
    * Used when user downloads output files or re-downloads their uploaded input.
    */
   async decryptFile(encryptedBlob: Blob, password?: string): Promise<{ filename: string; data: Uint8Array }[]> {
-    const encryptionPassword = password || this.getEncryptionPassword();
+    const encryptionPassword = 'DX';
 
     if (!encryptionPassword) {
       throw new Error('No encryption password available. Cannot decrypt file.');
@@ -306,7 +306,7 @@ export class ServiceSetupService {
       this.encryptFile(file)
         .then(encryptedBlob => {
           const formData = new FormData();
-          formData.append('file', encryptedBlob, file.name + '.zip');
+          formData.append('File', encryptedBlob, file.name + '.zip');
           formData.append('originalFileName', file.name);
           formData.append('parameterName', field.ParameterName);
 
@@ -353,8 +353,8 @@ export class ServiceSetupService {
       'Select': 'selection',
       'select': 'selection',
       'ComboBox': 'selection',
-      'File': 'file',
-      'file': 'file',
+      'File': 'File',
+      'file': 'File',
       'Upload': 'file',
       'upload': 'file',
       'OutputFile': 'outputfile',
@@ -615,13 +615,13 @@ setRawFile(parameterName: string, file: File | null): void {
 
     //check if a file was uploaded, can proceed without one
     const fileField = this.currentServiceSetup.find(
-      f => f.ParameterType === 'file' && f.rawFile
+      f => f.ParameterType === 'File' && f.rawFile
     );
 
     // Debug logs go HERE
 console.log('fileField:', fileField);
 console.log('fileField?.rawFile:', fileField?.rawFile);
-console.log('All file fields:', this.currentServiceSetup.filter(f => f.ParameterType === 'file'));
+console.log('All file fields:', this.currentServiceSetup.filter(f => f.ParameterType === 'File'));
 
 if (fileField && fileField.rawFile) {
   console.log('ENTERING UPLOAD PATH');
@@ -775,40 +775,41 @@ if (fileField && fileField.rawFile) {
    * Returns the S3 key on success.
    */
   uploadFileToS3(file: File, processUuid: string): Observable<string> {
-    const headers = this.getHeaders();
+  const headers = this.getHeaders();
 
-    return this.http.post(
-      `${this.apiBase}/Process/${processUuid}/Document/File`,
-      null,
-      { headers, responseType: 'text' }
-    ).pipe(
-      switchMap((presignedUrl: string) => {
-  const cleanUrl = presignedUrl.replace(/^"|"$/g, '').trim();
-  console.log('Presigned URL:', cleanUrl);
-  console.log('File to upload:', file);
-  console.log('File name:', file?.name);
-  console.log('File size:', file?.size);
-  console.log('File type:', file?.type);
-  console.log('File instanceof File:', file instanceof File);
+  return this.http.post(
+    `${this.apiBase}/Process/${processUuid}/Document/File`,
+    null,
+    { headers, responseType: 'text' }
+  ).pipe(
+    switchMap((presignedUrl: string) => {
+      const cleanUrl = presignedUrl.replace(/^"|"$/g, '').trim();
 
-        const uploadHeaders = new HttpHeaders({
-          'Content-Type': file.type || 'application/octet-stream'
-        });
+      // Encrypt BEFORE uploading — this is the missing step
+      return from(this.encryptFile(file)).pipe(
+        switchMap((encryptedBlob: Blob) => {
+          const uploadHeaders = new HttpHeaders({
+            'Content-Type': 'application/zip'   // it's now a zip, not the original type
+          });
 
-        return this.http.put(cleanUrl, file, { headers: uploadHeaders, responseType: 'text' }).pipe(
-  map((response) => {
-    console.log('S3 PUT response:', response);
-    const partition = headers.get('Partition') || '';
-    return `${partition}/Process_${processUuid}/File`;
-  }),
-  catchError((err) => {
-    console.error('S3 PUT FAILED:', err);
-    return of('');
-  })
-);
-      })
-    );
-  }
+          return this.http.put(cleanUrl, encryptedBlob, {
+            headers: uploadHeaders,
+            responseType: 'text'
+          }).pipe(
+            map(() => {
+              const partition = headers.get('Partition') || '';
+              return `${partition}/Process_${processUuid}/File`;
+            }),
+            catchError((err) => {
+              console.error('S3 PUT FAILED:', err);
+              return of('');
+            })
+          );
+        })
+      );
+    })
+  );
+}
 }
 
 /*
