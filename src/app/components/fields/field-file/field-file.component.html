@@ -21,8 +21,7 @@
       ?
     </button>-->
     <kendo-upload
-      [saveUrl]="parameters.UploadSaveUrl!"
-      [removeUrl]="parameters.UploadRemoveUrl!"
+      [autoUpload]="false"
       [formControlName]="parameters.ParameterName"
       [multiple]="false"
       [tabindex]="0"
@@ -30,6 +29,7 @@
       (blur)="hideToolTip(anchor)"
       (remove)="onFileAbort($event)"
       (cancel)="onFileAbort($event)"
+      (select)="onFileSelect($event)"
       (upload)="uploadEventHandler($event)"
     ></kendo-upload>
   </kendo-label>
@@ -40,5 +40,5 @@
 
 <li class="item" *ngIf="static">
   <p class="label">{{ parameters.Caption }}</p>
-  <p class="details">{{ parameters.value[0].name }}</p>
+  <p class="details">{{ parameters.value?.[0]?.name ?? parameters.value ?? '' }}</p>
 </li>

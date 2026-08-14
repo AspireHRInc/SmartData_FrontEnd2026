@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil, filter, debounceTime } from 'rxjs/operators';
 
 import { ServiceSetupService, Field, Fields } from 'src/app/services/service-setup.service';
 import { UiStateService } from 'src/app/services/ui-state.service';
@@ -12,7 +12,7 @@ import { UiStateService } from 'src/app/services/ui-state.service';
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.less'],
 })
-export class SetupComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class SetupComponent implements OnInit, OnDestroy {
   serviceSetupFields: Fields = new Fields();
 
   serviceId = '';
@@ -35,10 +35,26 @@ export class SetupComponent implements OnInit, OnDestroy, AfterViewChecked {
     private router: Router
   ) {}
 
+  isReady = false;
+
   ngOnInit(): void {
-    // Unlock setup and reset field values to defaults when entering the form
+    // Unlock setup so the form can render
     this.serviceSetup.unlockSetup();
-    this.serviceSetup.resetFieldValuesToDefaults();
+    // Only reset to defaults if entering fresh (no prior user values saved)
+    /*const hasSavedValues = this.serviceSetup.currentServiceSetup.some(f => f.value !== undefined && f.value !== '');
+    if (!hasSavedValues) {
+      this.serviceSetup.resetFieldValuesToDefaults();
+    }*/
+    //if user has previously entered values we restore them if they hit the back arrow
+    if(this.serviceSetup.currentServiceSetup.length > 0){
+      this.serviceSetup.currentServiceSetup.forEach(saved => {
+        const match = this.serviceSetup.currentServiceFields.Parameters.find(p => p.ParameterName === saved.ParameterName);
+        if (match) match.value = saved.value;
+      });
+    } 
+    else {
+      this.serviceSetup.resetFieldValuesToDefaults();
+    }
 
     this.route.parent!.params.subscribe(params => {
       this.serviceId = params['id'];
@@ -47,10 +63,14 @@ export class SetupComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     // Subscribe to reactive field updates from the service
     this.serviceSetup.serviceFields$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroy$), filter(fields => fields.Parameters.length > 0), debounceTime(50),)
       .subscribe(fields => {
         this.serviceSetupFields = fields;
-        this.changeDetectorRef.markForCheck();
+        //this.changeDetectorRef.markForCheck();
+        setTimeout(() => {
+          this.isReady = true;
+          this.changeDetectorRef.markForCheck();
+        }, 50);
       });
 
     // Safety net: if service already has data, use it directly
@@ -59,9 +79,21 @@ export class SetupComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  ngAfterViewChecked(): void {
+  /*ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
+  }*/
+  onFileSelect(event: any, field: Field): void {
+  // Handle native <input type="file"> or Kendo Upload
+  const file = event.target?.files?.[0]
+    || event.files?.[0]?.rawFile
+    || event.files?.[0];
+
+  if (file) {
+    this.serviceSetup.setRawFile(field.ParameterName, file);
+    field.value = file.name;
+    console.log('File selected:', field.ParameterName, file.name);
   }
+}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -90,15 +122,21 @@ export class SetupComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     this.fieldsWithValues = this.serviceSetupFields.Parameters.map((field, index) => {
-      const value = formValues[field.ParameterName]
-        ?? formValues[field.Caption]
-        ?? formValues[index]
-        ?? formValues[`field_${index}`]
-        ?? field.value
-        ?? field.DefaultValue
-        ?? '';
-      return { ...field, value };
-    });
+  const value = formValues[field.ParameterName]
+    ?? formValues[field.Caption]
+    ?? formValues[index]
+    ?? formValues[`field_${index}`]
+    ?? field.value
+    ?? field.DefaultValue
+    ?? '';
+
+  // Preserve rawFile from the service's source of truth
+  const serviceField = this.serviceSetup.currentServiceSetup.find(
+    f => f.ParameterName === field.ParameterName
+  );
+
+  return { ...field, value, rawFile: serviceField?.rawFile || field.rawFile };
+});
 
     this.changesSaved = true;
     this.serviceSetup.currentServiceSetup = this.fieldsWithValues;

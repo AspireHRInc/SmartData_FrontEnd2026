@@ -20,7 +20,7 @@ ss-card .k-floating-label-container.k-empty .k-label,
 ss-card .k-floating-label-container.k-state-empty .k-label,
 ss-card .k-floating-label-container.k-focus .k-label,
 ss-card .k-floating-label-container.k-state-focused .k-label {
-  color: white !important;
+  color: rgb(67,67,69) !important;
 }
 
 h1 { font-size: clamp(2rem, 4vw, 3.125rem); }
@@ -29,7 +29,7 @@ em { color: var(--color-cta); font-style: normal; }
 p { color: var(--color-text-secondary); font-weight: 400; font-size: 16px; line-height: 24px; }
 
 button {
-  box-shadow: 0px 4px 12px var(--color-shadow);
+  //box-shadow: 0px 4px 12px var(--color-shadow);
   cursor: pointer;
   &.disabled { opacity: 0.5; cursor: default; }
   &.primary {
@@ -161,15 +161,15 @@ kendo-popup.k-animation-container .k-popup,
 .k-child-animation-container .filter-popup.k-popup,
 .k-child-animation-container .k-popup.filter-popup,
 .k-animation-container > .k-child-animation-container > .k-popup {
-  background: rgba(0, 127, 255, 0.75) !important;
-  background-color: rgba(0, 127, 255, 0.75) !important;
+  background: rgba(247,243,243) !important;
+  background-color: rgba(247,243,243) !important;
   border: none !important;
   outline: none !important;
   border-radius: 8px !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
-  padding: 1rem !important;
+  padding: 0rem !important;
   overflow: visible !important;
-  color: white !important;
+  color: rgb(0, 0, 0) !important;
 
   .content {
     background: transparent !important;
@@ -261,33 +261,33 @@ kendo-popup.k-animation-container .k-popup,
 
   kendo-multiviewcalendar,
   .k-calendar {
-    background: rgba(0, 127, 255, 0.75) !important;
+    background: rgb(247,243,243) !important;
     border: none !important;
     border-radius: 8px !important;
     color: white !important;
 
     .k-header, .k-calendar-header {
       background: transparent !important;
-      color: white !important;
+      color: rgb(67,67,69) !important;
     }
 
     .k-button {
-      color: white !important;
+      color: rgb(67,67,69) !important;
       background: transparent !important;
     }
 
     .k-content, .k-calendar-view {
       background: transparent !important;
-      color: white !important;
+      color: rgb(67,67,69) !important;
     }
 
     .k-today {
-      color: white !important;
+      color: rgb(67,67,69) !important;
       font-weight: 700 !important;
     }
 
     td, .k-calendar-td {
-      color: white !important;
+      color: rgb(67,67,69) !important;
 
       &:hover {
         background: rgba(255, 255, 255, 0.15) !important;
@@ -295,7 +295,7 @@ kendo-popup.k-animation-container .k-popup,
 
       &.k-selected, &.k-range-start, &.k-range-end {
         background: rgba(255, 255, 255, 0.3) !important;
-        color: white !important;
+        color: rgb(67,67,69) !important;
       }
 
       &.k-range-mid {
@@ -327,7 +327,7 @@ body > .k-overlay,
 .k-dialog-wrapper {
   z-index: 10001 !important;
   .k-window {
-    background: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(247, 243, 243, 1) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
     border: 1px solid rgba(208, 223, 252, 0.3) !important;
@@ -340,8 +340,8 @@ body > .k-overlay,
     border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
     color: white !important;
     .k-window-title, .k-dialog-title {
-      color: white !important; font-weight: 700 !important;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+      color: rgba(67,67,69,1) !important; font-weight: 700 !important;
+      //text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
     }
     .k-button {
       color: white !important;

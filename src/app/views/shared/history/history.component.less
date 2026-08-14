@@ -1,3 +1,13 @@
+::ng-deep kendo-chunkprogressbar .k-progressbar-chunk {
+  border-color: rgb(67, 67, 69) !important;
+  border-width: 1px !important;
+}
+
+::ng-deep .k-chunk-progressbar .k-progressbar-chunk {
+  border-color: rgb(67, 67, 69) !important;
+  border-width: 1px !important;
+}
+
 :host {
   display: block;
   min-height: 100vh;
@@ -7,7 +17,7 @@
   position: relative;
 
   &.standalone {
-    background: linear-gradient(180deg, var(--color-cta-lighter) 0%, #d0dffc 100%) !important;
+    background: linear-gradient(180deg, var(--color-cta-lighter) 0%, var(--color-cta-lighter) 100%) !important;
     background-attachment: fixed !important;
   }
 
@@ -40,9 +50,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.05);
-      color: white;
+      border: 1px solid rgba(0, 127, 255, .75);
+      background: rgba(67, 67, 69, 0.05);
+      color: rgb(0, 127, 255);
       cursor: pointer;
       transition: background-color 0.2s ease;
       box-shadow: none !important;
@@ -73,10 +83,10 @@
     margin-right: auto;
     margin-left: auto;
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(67, 67, 69, .25);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(208, 223, 252, 0.3);
+    border: 1px solid rgba(0, 127, 255, .75);
     border-radius: 12px;
     box-shadow: 0 0 40px rgba(208, 223, 252, 0.4), 0 0 80px rgba(208, 223, 252, 0.2);
     position: relative;
@@ -100,11 +110,11 @@
     align-items: center;
 
     .filter-button {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgb(247, 243, 243);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
+      border: 1px solid rgba(67, 67, 69, 0.3);
+      color: rgba(0, 127, 255, 0.75);
       text-transform: uppercase;
       border-radius: 3rem;
       padding: 0.5rem 1rem;
@@ -113,32 +123,32 @@
       align-items: center;
 
       &.active {
-        background: rgba(255, 255, 255, 0.2);
-        border-color: rgba(255, 255, 255, 0.5);
+        background: rgb(247, 243, 243);
+        border-color: rgba(67, 67, 69, 0.5);
         .name,
         .arrow {
-          color: white;
+          color: rgba(0, 127, 255, 0.75);
         }
       }
 
       &:hover {
-        background: rgba(255, 255, 255, 0.15);
+        background: rgba(67, 67, 69, 0.15);
 
         .name,
         .arrow {
-          color: white;
+          color: black;
         }
       }
 
       .name {
-        color: white;
+        color: rgb(67, 67, 69);
         font-weight: 700;
         font-size: 0.75rem;
         line-height: 0.875rem;
       }
       .arrow {
         font-size: 0.75rem;
-        color: white;
+        color: rgb(67, 67, 69);
         margin-left: 0.4rem;
       }
     }
@@ -155,22 +165,22 @@
       padding: 0.4rem 0.75rem;
       font-size: 0.75rem;
       border-radius: 3rem;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(247, 243, 243);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
+      border: 1px solid rgba(0, 127, 255, 0.75);
+      color: rgba(0, 127, 255, 0.75);
       outline: none;
       height: 2rem;
-      transition: border-color 0.2s ease;
+      transition: color 0.1s ease;
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(67, 67, 69);
       }
 
       &:focus {
-        border-color: rgba(255, 255, 255, 0.6);
-        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(67, 67, 69, 0.6);
+        background: rgba(67, 67, 69, 0.08);
       }
     }
 
@@ -183,22 +193,23 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
+      background: rgba(247, 243, 243);
+      border: 1px solid rgba(0, 127, 255, .75);
+      color: rgb(67, 67, 69);
       cursor: pointer;
       box-shadow: none !important;
 
       &:hover {
-        border-color: rgba(255, 255, 255, 0.6);
-        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(67,67,69,0.5);
+        color: rgba(255, 255, 255, 1);
+        background:rgba(255, 255, 255, 0.3);
       }
     }
   }
 
   .filter-popup {
     padding: 1rem;
-    background: rgba(0, 127, 255, 0.75) !important;
+    background: rgba(67, 67, 69, 0.75) !important;
     border: none !important;
     border-radius: 8px !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
@@ -287,11 +298,26 @@
       appearance: none !important;
       -webkit-appearance: none !important;
       cursor: pointer;
+      position: relative !important;
 
       &:checked,
-      &.k-checked {
+      &.k-checked { //controls the check boxes under Status, being overriden by something else
         background: white !important;
         border-color: white !important;
+
+        &::after {
+          content: '' !important;
+          display: block !important;
+          position: absolute !important;
+          top: 1px !important;
+          left: 4px !important;
+          width: 5px !important;
+          height: 9px !important;
+          border: 2px solid rgba(67, 67, 69, 0.85) !important;
+          border-top: none !important;
+          border-left: none !important;
+          transform: rotate(45deg) !important;
+        }
       }
     }
 
@@ -308,7 +334,7 @@
         flex-wrap: wrap;
         flex: 1 50%;
         max-width: calc(50% - 0.5rem);
-        color: white;
+        color: rgb(0, 0, 0);
       }
 
       ::ng-deep {
@@ -319,12 +345,12 @@
           background: rgba(255, 255, 255, 0.05) !important;
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.3) !important;
+          border: 1px solid rgba(0, 127, 255) !important;
           border-radius: 3rem !important;
           color: white !important;
 
           .k-input-inner {
-            color: white !important;
+            color: rgb(0, 0, 0) !important;
             max-width: 6rem;
             max-height: 2.125rem;
           }
@@ -373,15 +399,32 @@
     ::ng-deep {
       kendo-multiviewcalendar,
       .k-calendar {
+        background: rgba(67, 67, 69, 0.5) !important;
+        color: rgb(67, 67, 69) !important;
         .k-calendar-td .k-link,
-       .k-calendar-td > span,
-       .k-calendar-td > a {
+        .k-calendar-td > span,
+        .k-calendar-td > a {
           display: flex !important;
           align-items: center !important;
           justify-content: center !important;
           padding: 0 !important;
           width: 100% !important;
           height: 100% !important;
+        }
+        .k-calendar-td {
+          &.k-selected,
+          &.k-state-selected,
+          &.k-range-start,
+          &.k-range-end {
+            .k-link {
+              background: rgb(250, 168, 98) !important;
+              color: white !important;
+              //border-radius: 50% !important;
+            }
+          }
+          &.k-range-mid {
+            background: rgba(255, 255, 255, .3) !important;
+          }
         }
       }
     }
@@ -391,7 +434,7 @@
     font-weight: 400;
     font-size: 0.875rem;
     line-height: 1rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 127, 255, 0.75);
     padding: 0.5rem 1.5rem;
 
     .actions,
@@ -463,14 +506,15 @@
       display: inline;
       border: none;
       box-shadow: none;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(67, 67, 69);
       text-align: left;
       cursor: pointer;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      //text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 
       .arrow {
         &.active {
-          color: white;
+          //color: rgb(67, 67, 69);
+          color: rgb(67, 67, 69);
         }
       }
     }
@@ -493,10 +537,10 @@
   }
 
   .history-item {
-    background: rgba(0, 127, 255, 0.75);
+    background: rgb(247, 243, 243);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(208, 223, 252, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 6px;
     padding: 1rem 1.5rem;
     margin: 0.4rem 0;
@@ -512,23 +556,19 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white !important;
+        color: black !important;
 
         ::ng-deep {
           svg,
           path {
-            fill: white !important;
-            stroke: white !important;
+            fill: black !important;
+            //stroke: black !important;
           }
 
           mat-icon,
           .material-icons,
           i {
-            color: white !important;
-          }
-
-          img {
-            filter: brightness(0) invert(1) opacity(0.3);
+            color: black !important;
           }
         }
       }
@@ -544,8 +584,8 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: white;
-        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        color: rgb(67, 67, 69);
+        //text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
       }
 
       .process-type {
@@ -553,7 +593,7 @@
         font-weight: 400;
         font-size: 0.75rem;
         line-height: 1rem;
-        color: rgba(255, 255, 255, 0.85);
+        color: rgb(67, 67, 69);
         font-style: italic;
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       }
@@ -563,7 +603,7 @@
         font-weight: 400;
         font-size: 0.75rem;
         line-height: 1rem;
-        color: rgba(255, 255, 255, 0.85);
+        color: rgb(67, 67, 69);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -583,26 +623,49 @@
       justify-content: center;
     }
 
-    .status {
+       .status {
       .label {
         margin: 0;
         font-size: 0.875rem;
-        color: white;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        color: rgb(67, 67, 69);
       }
+
+      
+.progress-gif {
+  display: block;
+  width: 100px;   
+  max-width: 100px;
+  height: 20px;
+  object-fit: contain;
+  margin-left: -3px;
+  margin-right: auto;
+}
+
+
       kendo-chunkprogressbar {
         max-width: 6.25rem;
         height: 0.8rem;
+        border: 0.1px solid rgb(67, 67, 69);
+       border-radius: 0.1px;
+       overflow: hidden;
+
+        ::ng-deep {
+          .k-chunk-progressbar-pieces,
+          .k-progressbar-chunk {
+            border-color: rgb(67, 67, 69) !important;
+            border-radius: 0.1px !important;
+          }
+        }
       }
     }
 
     .owner {
       font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgb(67, 67, 69);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      //text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       display: none;
       @media screen and (min-width: 54rem) {
         display: block;
@@ -611,8 +674,8 @@
 
     .last-updated {
       font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.7);
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      color: rgb(67, 67, 69);
+      //text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       display: none;
       @media screen and (min-width: 54rem) {
         display: block;
@@ -746,9 +809,9 @@
 
   .button {
     &.cancel {
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
-      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 127, 255, 0.6);
+      color: rgb(67, 67, 69);
+      background: rgba(0, 127, 255, 0.08);
       border-radius: 3rem;
       padding: 0.4rem 1rem;
       font-weight: 600;
@@ -762,19 +825,19 @@
       }
     }
     &.complete {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
+      background: rgba(67, 67, 69, 0.15);
+      border: 1px solid rgba(67, 67, 69, 0.3);
+      color: rgb(67, 67, 69);
       border-radius: 3rem;
       padding: 0.4rem 1rem;
       font-weight: 600;
       font-size: 0.8rem;
       cursor: pointer;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      //text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       box-shadow: none !important;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.25);
+        background: rgba(255, 100, 100, 0.25);
       }
     }
   }
@@ -796,6 +859,26 @@
   background: transparent !important;
   background-color: transparent !important;
 }
+
+/*::ng-deep .filter-popup {
+  .k-checkbox,
+  input[type="checkbox"] {
+    border: 2px solid rgba(67, 67, 69, 0.5) !important;
+    background: rgba(67, 67, 69, 0.08) !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 3px !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    cursor: pointer;
+
+    &:checked,
+    &.k-checked {
+      background: rgb(67, 67, 69) !important;
+      border-color: rgb(67, 67, 69) !important;
+    }
+  }
+}*/
 
 ::ng-deep ss-header {
   .header.detail .content-wrapper {

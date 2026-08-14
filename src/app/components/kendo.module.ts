@@ -15,7 +15,7 @@ import { ProgressBarModule } from '@progress/kendo-angular-progressbar';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { TooltipsModule } from '@progress/kendo-angular-tooltip';
-
+//Hola
 @NgModule({
   imports: [
     CommonModule,

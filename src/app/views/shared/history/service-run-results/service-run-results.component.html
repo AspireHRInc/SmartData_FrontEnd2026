@@ -1,3 +1,4 @@
+
 <kendo-dialog title="Results" (close)="close()" [minWidth]="250" [width]="600">
   <div *ngIf="loading" class="loading">Loading...</div>
   <div *ngIf="error" class="error">{{ error }}</div>
@@ -49,7 +50,7 @@
     </div>
 
     <div class="results-section" *ngIf="results && results.length > 0">
-      <h3 class="section-title">Parameters</h3>
+      <h3 class="section-title">Input Parameters</h3>
       <div class="section-content">
         <div class="result-row" *ngFor="let result of results">
           <label>{{ result.label }}</label>
@@ -69,6 +70,33 @@
       </div>
     </div>
 
-    <p *ngIf="!results || results.length === 0" class="no-params">No parameters available.</p>
+    <div class="results-section" *ngIf="outputResults && outputResults.length > 0">
+      <h3 class="section-title">Output Parameters</h3>
+      <div class="section-content">
+        <div class="result-row" *ngFor="let result of outputResults">
+          <label>{{ result.label }}</label>
+
+          <!-- File type: show download button -->
+          <button
+            *ngIf="result.type === 'file'"
+            kendoButton
+            icon="download"
+            [disabled]="result.downloading"
+            (click)="downloadOutputFile(result)"
+            class="button primary result-button"
+          >
+            {{ result.downloading ? 'Downloading...' : 'Download' }}
+          </button>
+
+          <!-- Text type: show value -->
+          <p *ngIf="result.type === 'parameter'" class="result-text">
+            {{ result.textResult }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <p *ngIf="(!results || results.length === 0) && (!outputResults || outputResults.length === 0)" class="no-params">No parameters available.</p>
   </div>
 </kendo-dialog>
+

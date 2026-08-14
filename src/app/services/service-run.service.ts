@@ -250,6 +250,7 @@ export class ServiceRunService {
 
         console.log('Loaded process runs:', this.serviceRuns.length);
         this.serviceRuns$.next(this.serviceRuns);
+        console.log('Process objects:', this.serviceRuns);
         this.loading = false;
         this.initialized = true;
         this.serviceRunsUpdated$.next();
@@ -300,15 +301,23 @@ export class ServiceRunService {
     run.inputParameters = item.inputParameters || [];
     run.comment = item.comment || '';
 
-    const inputParams = item.inputParameters || [];
-    run.results = inputParams
-      .filter((p: any) => p.name !== 'Comment')
-      .map((p: any) => ({
-        id: p.name,
-        type: 'parameter',
-        label: p.parameterMetadata?.caption || p.name,
-        textResult: p.value || p.defaultValue || ''
-      }));
+    
+const inputParams = item.inputParameters || [];
+
+run.inputParameters = inputParams.filter((p: any) => {
+  return p.parameterMetadata?.visibility === true;
+});
+
+run.results = inputParams
+  .filter((p: any) => p.name !== 'Comment' && p.parameterMetadata?.visibility === true)
+  .map((p: any) => ({
+    id: p.name,
+    type: 'parameter',
+    label: p.parameterMetadata?.caption || p.name,
+    textResult: p.value || p.defaultValue || ''
+  }));
+
+
 
     return run;
   }
@@ -317,7 +326,7 @@ export class ServiceRunService {
     if (!referencedObjects?.ssObjectKey) return '';
 
     const ssObjectKey = referencedObjects.ssObjectKey;
-    const spMatch = ssObjectKey.match(/CPT#[a-f0-9-]+/);
+    const spMatch = ssObjectKey.match(/(?:ScheduledProcess|CPT)#[a-fA-F0-9-]+/i);
     if (!spMatch) return '';
 
     const spKey = spMatch[0];
@@ -338,7 +347,7 @@ export class ServiceRunService {
     if (!referencedObjects?.ssObjectKey) return '';
 
     const ssObjectKey = referencedObjects.ssObjectKey;
-    const spMatch = ssObjectKey.match(/CPT#[a-f0-9-]+/);
+    const spMatch = ssObjectKey.match(/(?:ScheduledProcess|CPT)#[a-fA-F0-9-]+/i);
     if (!spMatch) return '';
 
     return spMatch[0];

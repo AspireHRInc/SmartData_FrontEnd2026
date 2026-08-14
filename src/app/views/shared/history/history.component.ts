@@ -137,11 +137,18 @@ export class HistoryComponent implements OnInit, OnDestroy {
       }
     });
 
+    //static refresh, requires user (NOTE: Ctrl+F "take(1)" and uncomment each instance if you want static refreshing)
     this.updatesSub = this.serviceRunService.serviceRunsUpdated$.pipe(
       take(1)
     ).subscribe(() => {
       this.loadDataFromService();
     });
+    //persistent subscription, updates on every refresh
+    /*this.updatesSub = this.serviceRunService.serviceRunsUpdated$.subscribe(() => {
+      this.loadDataFromService();
+      this.onServiceFilter();
+      this.reapplySort();
+    });*/
 
     this.loadDataFromService();
 
@@ -192,21 +199,21 @@ export class HistoryComponent implements OnInit, OnDestroy {
       el.style.setProperty('border', 'none', 'important');
       el.style.setProperty('outline', 'none', 'important');
       el.style.setProperty('box-shadow', 'none', 'important');
-      el.style.setProperty('background', 'transparent', 'important');
-      el.style.setProperty('background-color', 'transparent', 'important');
+      el.style.setProperty('background', 'rgb(247, 243, 243)', 'important');
+      el.style.setProperty('background-color', 'rgb(247, 243, 243)', 'important');
     });
 
     const popups = document.querySelectorAll('.k-popup');
     popups.forEach(popup => {
       const el = popup as HTMLElement;
-      el.style.setProperty('background', 'linear-gradient(180deg, var(--color-cta-lighter) 0%, #d0dffc 100%)', 'important');
-      el.style.setProperty('border', 'none', 'important');
-      el.style.setProperty('border-radius', '8px', 'important');
-      el.style.setProperty('box-shadow', '0 4px 20px rgba(0, 0, 0, 0.15)', 'important');
-      el.style.setProperty('outline', 'none', 'important');
+      el.style.setProperty('background', 'rgba(255, 255, 255, 0.05)', 'important');
+      el.style.setProperty('border', '1px solid rgba(67, 67, 69, 0.5)', 'important');
+      el.style.setProperty('border-radius', '0px', 'important');
+      el.style.setProperty('box-shadow', '0 2px 8px rgba(0, 0, 0, 0.08)', 'important');
+      el.style.setProperty('outline', 'rgba(67, 67, 69, 0.5)', 'important');
       el.style.setProperty('padding', '1rem', 'important');
-      el.style.setProperty('overflow', 'visible', 'important');
-      el.style.setProperty('color', 'white', 'important');
+      el.style.setProperty('overflow', 'hidden', 'important');
+      el.style.setProperty('color', 'rgb(67, 67, 69)', 'important');
 
       el.querySelectorAll('.content, .filter-list, .filter-item, ul, li, div').forEach(child => {
         const childEl = child as HTMLElement;
@@ -215,6 +222,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
         childEl.style.setProperty('border', 'none', 'important');
         childEl.style.setProperty('outline', 'none', 'important');
         childEl.style.setProperty('box-shadow', 'none', 'important');
+        childEl.style.setProperty('color', 'rgba(67, 67, 69, .05)', 'important');
+      });
+
+      el.querySelectorAll('label, .k-checkbox-label, span').forEach(lbl => {
+        (lbl as HTMLElement).style.setProperty('color', 'rgb(67, 67, 69)', 'important');
       });
 
       el.querySelectorAll('input[type="checkbox"], .k-checkbox').forEach(cb => {
@@ -229,12 +241,21 @@ export class HistoryComponent implements OnInit, OnDestroy {
         cbEl.style.setProperty('appearance', 'none', 'important');
         cbEl.style.setProperty('-webkit-appearance', 'none', 'important');
         if ((cbEl as HTMLInputElement).checked || cbEl.classList.contains('k-checked')) {
-          cbEl.style.setProperty('background', 'white', 'important');
-          cbEl.style.setProperty('border', '2px solid white', 'important');
+          cbEl.style.setProperty('background', 'rgba(160, 160, 161, 0.7)', 'important');
+          cbEl.style.setProperty('border', '2px solid rgba(67, 67, 69, 0.4)', 'important');
         } else {
-          cbEl.style.setProperty('background', 'rgba(255, 255, 255, 0.2)', 'important');
-          cbEl.style.setProperty('border', '2px solid white', 'important');
+          cbEl.style.setProperty('background', 'rgb(255, 255, 255)', 'important');
+          cbEl.style.setProperty('border', '2px solid rgba(67, 67, 69, .5)', 'important');
         }
+      });
+
+      el.querySelectorAll('.k-calendar-td, .k-calendar th, .k-calendar-title, .k-nav-today, .k-calendar-header, thead th').forEach(cell => {
+        (cell as HTMLElement).style.setProperty('color', 'rgb(69, 67, 67)', 'important');
+      });
+
+      el.querySelectorAll('.k-calendar, .k-calendar-view, kendo-multiviewcalendar').forEach(cal => {
+        (cal as HTMLElement).style.setProperty('background', 'rgba(0, 0, 0, 0.05)', 'important');
+        (cal as HTMLElement).style.setProperty('color', 'rgb(67, 67, 69)', 'important');
       });
     });
   }
@@ -507,9 +528,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
         userObject: this.userService.getUserById(serviceRun.userId) || new User(),
         scheduled: serviceRun.status.includes(ServiceRunStatus.Scheduled),
         statusColor: filteredStatus.includes(ServiceRunStatus.Completed)
-          ? 'var(--color-cta)'
+          ? 'var(--color-cta-progress)'
           : filteredStatus.includes(ServiceRunStatus.Processing)
-          ? 'var(--color-accent-6)'
+          ? 'rgb(0,127,255)'
           : filteredStatus.includes(ServiceRunStatus['Processed with Errors'])
           ? 'var(--color-accent-2)'
           : filteredStatus.includes(ServiceRunStatus.Error)

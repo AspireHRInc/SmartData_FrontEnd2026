@@ -142,25 +142,21 @@
               {{ dataItem.statusString }}
             </h3>
 
-            <kendo-chunkprogressbar
+            <img
               *ngIf="dataItem.statusString === 'Processing'"
-              [value]="processingStatusBarValue"
-              [chunkCount]="16"
-              [max]="16"
-              [min]="0"
-              [reverse]="processingStatusBarDirection"
-              [progressCssStyle]="{ background: dataItem.statusColor }"
-              [emptyCssStyle]="{ background: 'rgba(var(--color-text-secondary-rgb),0.5)' }"
-            ></kendo-chunkprogressbar>
+              src="../../../assets/images/icons/statusbar_icon.gif"
+              alt="Processing"
+              class="progress-gif"
+            />
 
-            <kendo-chunkprogressbar
+            <!--<kendo-chunkprogressbar
               *ngIf="dataItem.statusString === 'Completed'"
               [value]="16"
               [chunkCount]="16"
               [max]="16"
               [min]="0"
-              [progressCssStyle]="{ background: dataItem.statusColor }"
-              [emptyCssStyle]="{ background: 'rgba(var(--color-text-secondary-rgb),0.5)' }"
+              [progressCssStyle]="{ background: dataItem.statusColor, 'border-color': 'rgb(67, 67, 69)' }"
+              [emptyCssStyle]="{ background: 'rgb(67, 67, 69)' }"
             ></kendo-chunkprogressbar>
 
             <kendo-chunkprogressbar
@@ -169,7 +165,7 @@
               [chunkCount]="16"
               [max]="16"
               [min]="0"
-            ></kendo-chunkprogressbar>
+            ></kendo-chunkprogressbar> -->
           </div>
           <div class="actions">
             <button
