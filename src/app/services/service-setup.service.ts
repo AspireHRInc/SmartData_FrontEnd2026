@@ -148,6 +148,7 @@ export class ServiceSetupService {
     return '';
   }
 
+  
   /**
    * Encrypts a file using AES-256 ZIP compression with password.
    * Mirrors the .NET CreateZip with EnumCompressionType.ZipAES256CompressionWithPassword
@@ -163,6 +164,11 @@ export class ServiceSetupService {
       throw new Error('No encryption password available. Cannot encrypt file.');
     }
 
+    // Preserve the original file extension
+    const lastDot = file.name.lastIndexOf('.');
+    const extension = lastDot !== -1 ? file.name.substring(lastDot) : '';
+    const entryName = 'InputFile' + extension;
+
     const blobWriter = new BlobWriter('application/zip');
 
     const zipWriter = new ZipWriter(blobWriter, {
@@ -171,8 +177,8 @@ export class ServiceSetupService {
       level: 3,              // Compression level (matches zipStream.SetLevel(3))
     });
 
-    // Add the file to the ZIP archive
-    await zipWriter.add(file.name, new BlobReader(file), {
+    // Add the file to the ZIP archive as "InputFile.{ext}"
+    await zipWriter.add(entryName, new BlobReader(file), {
       password: encryptionPassword,
       encryptionStrength: 3,
       lastModDate: new Date(file.lastModified),
@@ -181,6 +187,8 @@ export class ServiceSetupService {
     await zipWriter.close();
     return blobWriter.getData();
   }
+
+
 
   /**
    * Encrypts multiple files into a single AES-256 encrypted ZIP.
@@ -306,7 +314,7 @@ export class ServiceSetupService {
       this.encryptFile(file)
         .then(encryptedBlob => {
           const formData = new FormData();
-          formData.append('File', encryptedBlob, file.name + '.zip');
+          formData.append('File', encryptedBlob, 'InputFile.zip');
           formData.append('originalFileName', file.name);
           formData.append('parameterName', field.ParameterName);
 
@@ -774,22 +782,28 @@ if (fileField && fileField.rawFile) {
    * Step 2: PUT raw file to that presigned URL
    * Returns the S3 key on success.
    */
-  uploadFileToS3(file: File, processUuid: string): Observable<string> {
+  
+/**
+ * Uploads a file to S3 via presigned URL.
+ * Zips the file (no encryption) before uploading.
+ * Returns the S3 key on success.
+ */
+uploadFileToS3(file: File, processUuid: string): Observable<string> {
   const headers = this.getHeaders();
 
   return this.http.post(
-    `${this.apiBase}/Process/${processUuid}/Document/File`,
+    `${this.apiBase}/Process/${processUuid}/Document/InputFile`,
     null,
     { headers, responseType: 'text' }
   ).pipe(
     switchMap((presignedUrl: string) => {
       const cleanUrl = presignedUrl.replace(/^"|"$/g, '').trim();
 
-      // Encrypt BEFORE uploading — this is the missing step
+      // Encrypt with AES-256 using hardcoded 'DX' password
       return from(this.encryptFile(file)).pipe(
         switchMap((encryptedBlob: Blob) => {
           const uploadHeaders = new HttpHeaders({
-            'Content-Type': 'application/zip'   // it's now a zip, not the original type
+            'Content-Type': 'application/zip'
           });
 
           return this.http.put(cleanUrl, encryptedBlob, {
@@ -798,7 +812,7 @@ if (fileField && fileField.rawFile) {
           }).pipe(
             map(() => {
               const partition = headers.get('Partition') || '';
-              return `${partition}/Process_${processUuid}/File`;
+              return `${partition}/Process_${processUuid}/InputFile`;
             }),
             catchError((err) => {
               console.error('S3 PUT FAILED:', err);
@@ -810,6 +824,27 @@ if (fileField && fileField.rawFile) {
     })
   );
 }
+
+/**
+ * Zips a file WITHOUT encryption/password.
+ * Just plain ZIP compression for transport.
+ */
+async zipFileNoEncryption(file: File): Promise<Blob> {
+  const blobWriter = new BlobWriter('application/zip');
+
+  const zipWriter = new ZipWriter(blobWriter, {
+    level: 3, // Compression level only, no password
+  });
+
+  await zipWriter.add(file.name, new BlobReader(file), {
+    lastModDate: new Date(file.lastModified),
+  });
+
+  await zipWriter.close();
+  return blobWriter.getData();
+}
+
+
 }
 
 /*

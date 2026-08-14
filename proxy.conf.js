@@ -4,7 +4,7 @@ const PROXY_CONFIG = [
     target: 'https' + '://' + 'xgwuaf9642.execute-api.us-east-2.amazonaws.com',
     secure: true,
     changeOrigin: true,
-    pathRewrite: { '^/api': '/default' },
+    pathRewrite: { '^/api': '/test' },
     onProxyReq: function(proxyReq, req, res) {
       if (req.headers['partition']) {
         proxyReq.setHeader('Partition', req.headers['partition']);
