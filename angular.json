@@ -132,7 +132,9 @@
               {
                 "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
               },
-              "src/styles.less"
+              "src/styles/normalize.css",
+              "src/styles/global.less",
+              "src/styles/kendo.overrides.less"
             ],
             "scripts": []
           }

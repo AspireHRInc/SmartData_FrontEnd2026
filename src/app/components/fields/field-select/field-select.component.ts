@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { Field, fieldOptions } from 'src/app/services/service-setup.service';
+import { initialFieldOption } from '../field-initial-value';
 
 @Component({
   selector: 'ss-field-select',
@@ -33,17 +34,11 @@ export class FieldSelectComponent implements OnInit, AfterViewInit {
         this.formGroup.get(this.parameters.ParameterName)!.clearValidators();
       }
 
-      // set default value
-      if (this.parameters.DefaultValue !== undefined) {
-        this.formGroup
-          .get(this.parameters.ParameterName)!
-          .setValue({ Pvalue: this.parameters.DefaultValue, Plabel: this.parameters.DefaultValue });
-        this.currentValue = { Pvalue: this.parameters.DefaultValue, Plabel: this.parameters.DefaultValue };
-        this.parameters.value = this.parameters.DefaultValue;
-      } else {
-        this.formGroup.get(this.parameters.ParameterName)!.setValue({ Pvalue: '', Plabel: '' });
-        this.currentValue = { Pvalue: '', Plabel: '' };
-      }
+      // start from the saved selection, or the default when nothing was chosen yet
+      const selected = initialFieldOption(this.parameters);
+      this.formGroup.get(this.parameters.ParameterName)!.setValue(selected);
+      this.currentValue = selected;
+      this.parameters.value = selected.Pvalue;
 
       // Sync form control value back to parameters.value
       this.formGroup.get(this.parameters.ParameterName)!.valueChanges.subscribe(result => {
