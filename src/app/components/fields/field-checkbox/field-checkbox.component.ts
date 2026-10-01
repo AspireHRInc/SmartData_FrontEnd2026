@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Field, fieldOptions } from 'src/app/services/service-setup.service';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+import { initialFieldValue, toCheckboxValue } from '../field-initial-value';
 
 @Component({
   selector: 'ss-field-checkbox',
@@ -24,14 +25,9 @@ export class FieldCheckboxComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.static) {
-      if (this.parameters.DefaultValue !== undefined) {
-        this.selectedItem = { Pvalue: this.parameters.DefaultValue, Plabel: this.parameters.DefaultValue };
-        this.parameters.value = this.parameters.DefaultValue;
-      }
-      this.formGroup.addControl(
-        this.parameters.ParameterName,
-        this.fb.control(this.parameters.value || this.parameters.DefaultValue || false)
-      );
+      const checked = toCheckboxValue(initialFieldValue(this.parameters));
+      this.parameters.value = checked;
+      this.formGroup.addControl(this.parameters.ParameterName, this.fb.control(checked));
       if (this.parameters.Required) {
         this.formGroup.get(this.parameters.ParameterName)!.addValidators(Validators.required);
       } else {

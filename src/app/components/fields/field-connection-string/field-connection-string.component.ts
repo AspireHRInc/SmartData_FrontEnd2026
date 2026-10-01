@@ -6,6 +6,7 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { Field, fieldOptions } from 'src/app/services/service-setup.service';
 import { LocalizationService } from 'src/app/services/localization.service';
+import { initialFieldOption } from '../field-initial-value';
 
 @Component({
   selector: 'ss-field-connection-string',
@@ -27,14 +28,10 @@ export class FieldConnectionStringComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.static) {
-      if (this.parameters.DefaultValue !== undefined) {
-        this.selectedItem = { Pvalue: this.parameters.DefaultValue, Plabel: this.parameters.DefaultValue };
-        this.parameters.value = this.parameters.DefaultValue;
-      }
-      this.formGroup.addControl(
-        this.parameters.ParameterName,
-        this.fb.control(this.parameters.value || this.parameters.DefaultValue || '')
-      );
+      // start from the saved selection, or the default when nothing was chosen yet
+      this.selectedItem = initialFieldOption(this.parameters);
+      this.parameters.value = this.selectedItem.Pvalue;
+      this.formGroup.addControl(this.parameters.ParameterName, this.fb.control(this.selectedItem));
       if (this.parameters.Required) {
         this.formGroup.get(this.parameters.ParameterName)!.addValidators(Validators.required);
       } else {
